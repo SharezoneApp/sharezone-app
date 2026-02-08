@@ -16,6 +16,7 @@ import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_event_details.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../../../timetable_permissions.dart';
@@ -116,28 +117,31 @@ Future<void> onEventLongPress(
   final isExam = event.eventType == EventType.exam;
   final result = await showLongPressAdaptiveDialog<_EventLongPressResult>(
     context: context,
-    title: "${isExam ? "Prüfung" : "Termin"}: ${event.title}",
+    title:
+        isExam
+            ? context.l10n.timetableEventCardExamTitle(event.title)
+            : context.l10n.timetableEventCardEventTitle(event.title),
     longPressList: [
-      const LongPress(
-        title: "Farbe ändern",
+      LongPress(
+        title: context.l10n.timetableEventCardChangeColorAction,
         popResult: _EventLongPressResult.changeDesign,
-        icon: Icon(Icons.color_lens),
+        icon: const Icon(Icons.color_lens),
       ),
-      const LongPress(
-        title: "Melden",
+      LongPress(
+        title: context.l10n.commonActionsReport,
         popResult: _EventLongPressResult.report,
         icon: reportIcon,
       ),
-      if (hasPermissionsToManageEvents) ...const [
+      if (hasPermissionsToManageEvents) ...[
         LongPress(
-          title: "Bearbeiten",
+          title: context.l10n.commonActionsEdit,
           popResult: _EventLongPressResult.edit,
-          icon: Icon(Icons.edit),
+          icon: const Icon(Icons.edit),
         ),
         LongPress(
-          title: "Löschen",
+          title: context.l10n.commonActionsDelete,
           popResult: _EventLongPressResult.delete,
-          icon: Icon(Icons.delete),
+          icon: const Icon(Icons.delete),
         ),
       ],
     ],

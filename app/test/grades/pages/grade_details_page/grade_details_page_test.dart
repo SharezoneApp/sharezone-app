@@ -16,6 +16,7 @@ import 'package:sharezone/grades/pages/grades_details_page/grade_details_page.da
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_view.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'grade_details_page_test.mocks.dart';
 
@@ -64,6 +65,8 @@ void main() {
     Future<void> pushGradeDetailsPage(WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+          supportedLocales: SharezoneLocalizations.supportedLocales,
           home: MultiProvider(
             providers: [
               Provider<GradeDetailsPageControllerFactory>.value(

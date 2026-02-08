@@ -17,6 +17,7 @@ import 'package:sharezone/widgets/list_with_bottom_threshold.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ChangelogPage extends StatelessWidget {
@@ -36,7 +37,7 @@ class ChangelogPage extends StatelessWidget {
         builder: (context) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text("Was ist neu?"),
+              title: Text(context.l10n.changelogPageTitle),
               centerTitle: true,
             ),
             body: const _ChangeList(),
@@ -137,13 +138,16 @@ class _VersionSection extends StatelessWidget {
               const SizedBox(height: 8),
               _ChangeParagraph(
                 list: change.newFeatures,
-                title: "Neue Funktionen:",
+                title: context.l10n.changelogSectionNewFeatures,
               ),
               _ChangeParagraph(
                 list: change.improvements,
-                title: "Verbesserungen:",
+                title: context.l10n.changelogSectionImprovements,
               ),
-              _ChangeParagraph(list: change.fixes, title: "Fehlerbehebungen:"),
+              _ChangeParagraph(
+                list: change.fixes,
+                title: context.l10n.changelogSectionBugFixes,
+              ),
             ],
           ),
           if (showBottomDivider) const Divider(),
@@ -198,12 +202,14 @@ class _ChangeParagraph extends StatelessWidget {
 class UpdatePromptCard extends StatelessWidget {
   const UpdatePromptCard({super.key});
 
-  String _getText() {
+  String _getText(BuildContext context) {
     if (PlatformCheck.isWeb) {
-      return "Wir haben bemerkt, dass du eine veraltete Version der App verwendest. Lade die Seite neu, um die neuste Version zu erhalten! 👍";
+      return context.l10n.changelogUpdatePromptWeb;
     }
 
-    return "Wir haben bemerkt, dass du eine veraltete Version der App installiert hast. Lade dir deswegen jetzt die Version im ${PlatformCheck.isMacOsOrIOS ? "App Store" : "Play Store"} herunter! 👍";
+    return context.l10n.changelogUpdatePromptStore(
+      PlatformCheck.isMacOsOrIOS ? "App Store" : "Play Store",
+    );
   }
 
   @override
@@ -214,11 +220,14 @@ class UpdatePromptCard extends StatelessWidget {
           PlatformCheck.isWeb
               ? null
               : () => launchURL(getStoreLink(), context: context),
-      title: "Neues Update verfügbar!",
+      title: context.l10n.changelogUpdatePromptTitle,
       padding: const EdgeInsets.all(0),
       titleColor: Colors.white,
       color: Colors.orange,
-      content: Text(_getText(), style: const TextStyle(color: Colors.white)),
+      content: Text(
+        _getText(context),
+        style: const TextStyle(color: Colors.white),
+      ),
     );
   }
 

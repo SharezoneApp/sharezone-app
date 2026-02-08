@@ -13,6 +13,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GroupQrCode extends StatelessWidget {
@@ -81,8 +82,8 @@ class QRCodeButton extends StatelessWidget {
             width: 23.5,
             height: 23.5,
           ),
-          title: "QR-Code",
-          subtitle: "anzeigen",
+          title: context.l10n.groupsQrCodeTitle,
+          subtitle: context.l10n.groupsQrCodeSubtitle,
           color: color,
           onTap: isEnabled ? () => showQRCode(context) : null,
         ),

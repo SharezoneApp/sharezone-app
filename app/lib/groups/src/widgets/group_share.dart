@@ -15,6 +15,7 @@ import 'package:platform_check/platform_check.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'group_qr_code.dart';
@@ -105,12 +106,12 @@ class LinkSharingButton extends StatelessWidget {
 
   void _copyLink(BuildContext context, String link) {
     _copyToClipboard(link);
-    showSnackSec(context: context, text: "Link wurde kopiert");
+    showSnackSec(context: context, text: context.l10n.groupsLinkCopied);
   }
 
   void _copySharecode(BuildContext context, String sharecode) {
     _copyToClipboard(sharecode);
-    showSnackSec(context: context, text: "Sharecode wurde kopiert");
+    showSnackSec(context: context, text: context.l10n.groupsSharecodeCopied);
   }
 
   void _copyToClipboard(String data) {

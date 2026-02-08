@@ -14,6 +14,7 @@ import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
@@ -112,7 +113,7 @@ class _StudentDialogState extends State<_StudentDialog> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('Sharezone v2.0'),
+          title: Text(context.l10n.sharezoneV2DialogTitle),
           elevation: 0,
           automaticallyImplyLeading: false,
         ),
@@ -207,9 +208,12 @@ class _StudentDialogState extends State<_StudentDialog> {
                                   if (context.mounted) {
                                     await showLeftRightAdaptiveDialog(
                                       context: context,
-                                      title: 'Fehler',
+                                      title: context.l10n.commonErrorTitle,
                                       content: Text(
-                                        'Es ist ein Fehler aufgetreten: $e. Falls dieser bestehen bleibt, dann schreibe uns unter support@sharezone.net',
+                                        context.l10n
+                                            .sharezoneV2DialogSubmitError(
+                                              e.toString(),
+                                            ),
                                       ),
                                     );
                                   }
@@ -223,7 +227,9 @@ class _StudentDialogState extends State<_StudentDialog> {
                             }
                             : null,
                     child: Text(
-                      isLastPage ? 'Fertig' : 'Weiter',
+                      isLastPage
+                          ? context.l10n.activationCodeResultDoneAction
+                          : context.l10n.commonActionsContinue,
                       style: TextStyle(
                         color: context.isDarkThemeEnabled ? null : Colors.white,
                       ),
@@ -282,8 +288,10 @@ Hallo, hier ist das Sharezone Team :) Wir haben ein paar wichtige Änderungen, d
               ),
             ],
             const SizedBox(height: 10),
-            const _Card(
-              header: Text('Geänderte Rechtsform'),
+            _Card(
+              header: Text(
+                context.l10n.sharezoneV2DialogChangedLegalFormHeader,
+              ),
               body: MarkdownBody(
                 data:
                     'Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.',
@@ -291,7 +299,9 @@ Hallo, hier ist das Sharezone Team :) Wir haben ein paar wichtige Änderungen, d
             ),
             const SizedBox(height: 12),
             _Card(
-              header: const Text('Überarbeitung der Datenschutzerklärung'),
+              header: Text(
+                context.l10n.sharezoneV2DialogPrivacyPolicyRevisionHeader,
+              ),
               body: MarkdownBody(
                 data:
                     'Wir haben die [Datenschutzerklärung](privacy-policy) einmal ganz neu überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden.${isStudent ? ' Für Sharezone Plus mussten wir außerdem neue externe Dienste einbinden (z.B. für die Zahlungsabwicklung oder verschicken von Emails).' : ''}',
@@ -302,7 +312,7 @@ Hallo, hier ist das Sharezone Team :) Wir haben ein paar wichtige Änderungen, d
             ),
             const SizedBox(height: 12),
             _Card(
-              header: const Text('Allgemeine Nutzungsbedingungen (ANB)'),
+              header: Text(context.l10n.sharezoneV2DialogTermsHeader),
               body: MarkdownBody(
                 data:
                     'Wir haben neue [allgemeine Nutzungsbedingungen (“ANB”)](terms-of-service), die für die zukünftige Nutzung von Sharezone akzeptiert werden müssen.',
@@ -405,7 +415,7 @@ ${widget.isStudent ? '\n\nWir danken dir, uns bis hierhin begleitet zu haben.' :
             ),
             const SizedBox(height: 30),
             _Checkbox(
-              text: 'Ich habe [die ANB](anb) gelesen und akzeptiere diese.',
+              text: context.l10n.sharezoneV2DialogAnbAcceptanceCheckbox,
               value: _box1Checked,
               onChanged: (newVal) {
                 setState(() {
@@ -447,7 +457,7 @@ ${widget.isStudent ? '\n\nWir danken dir, uns bis hierhin begleitet zu haben.' :
                       .setInt(_skipKey, clock.now().millisecondsSinceEpoch);
                   Navigator.of(context).popAndPushNamed(DashboardPage.tag);
                 },
-                child: const Text('Überspringen'),
+                child: Text(context.l10n.commonActionsSkip),
               ),
           ],
         ),

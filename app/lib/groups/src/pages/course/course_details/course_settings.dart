@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/write_permission_options.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void showExplanation(BuildContext context, String text) {
@@ -56,7 +57,7 @@ class _IsPublic extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CourseDetailsBloc>(context);
     return ListTile(
-      title: const Text("Beitreten erlauben"),
+      title: Text(context.l10n.groupsAllowJoinTitle),
       leading: const Icon(Icons.lock),
       onTap: () {
         Future<AppFunctionsResult<bool>> setFuture = bloc.setIsPublic(
@@ -65,10 +66,8 @@ class _IsPublic extends StatelessWidget {
         showAppFunctionStateDialog(context, setFuture);
       },
       onLongPress:
-          () => showExplanation(
-            context,
-            "Über diese Einstellungen kannst du regulieren, ob neue Mitglieder dem Kurs beitreten dürfen.",
-          ),
+          () =>
+              showExplanation(context, context.l10n.courseAllowJoinExplanation),
       trailing: Switch.adaptive(
         value: isPublic,
         onChanged: (newValue) {

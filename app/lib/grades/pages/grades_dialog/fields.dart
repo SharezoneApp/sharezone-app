@@ -23,7 +23,7 @@ class _GradeValue extends StatelessWidget {
       title:
           hasDistinctValues
               ? Text(
-                view.selectedGrade ?? 'Keine Note ausgewählt',
+                view.selectedGrade ?? context.l10n.gradesDialogNoGradeSelected,
                 style: TextStyle(
                   color:
                       view.isGradeMissing
@@ -34,16 +34,20 @@ class _GradeValue extends StatelessWidget {
               : TextField(
                 controller: view.gradeFieldController,
                 decoration: InputDecoration(
-                  label: const Text('Note'),
+                  label: Text(context.l10n.gradesDialogGradeLabel),
                   hintText: switch (gradingSystem) {
-                    GradingSystem.oneToFiveWithDecimals => 'z.B. 1.3',
-                    GradingSystem.oneToSixWithDecimals => 'z.B. 1.3',
-                    GradingSystem.oneToSixWithPlusAndMinus => 'z.B. 1+',
-                    GradingSystem.sixToOneWithDecimals => 'z.B. 6.0',
+                    GradingSystem.oneToFiveWithDecimals =>
+                      context.l10n.gradesDialogHintOneThree,
+                    GradingSystem.oneToSixWithDecimals =>
+                      context.l10n.gradesDialogHintOneThree,
+                    GradingSystem.oneToSixWithPlusAndMinus =>
+                      context.l10n.gradesDialogHintOnePlus,
+                    GradingSystem.sixToOneWithDecimals =>
+                      context.l10n.gradesDialogHintSixZero,
                     GradingSystem.zeroToFifteenPointsWithDecimals =>
-                      'z.B. 15.0',
+                      context.l10n.gradesDialogHintFifteenZero,
                     GradingSystem.zeroToHundredPercentWithDecimals =>
-                      'z.B. 78.8',
+                      context.l10n.gradesDialogHintSeventyEightEight,
                     _ => null,
                   },
                   errorText: view.selectedGradeErrorText,
@@ -63,7 +67,7 @@ class _GradeValue extends StatelessWidget {
                   context: context,
                   builder:
                       (context) => SimpleDialog(
-                        title: const Text("Note auswählen"),
+                        title: Text(context.l10n.gradesDialogSelectGrade),
                         contentPadding: const EdgeInsets.all(12),
                         children: [
                           if (selectableGrades.distinctGrades != null)
@@ -97,7 +101,7 @@ class _GradingSystem extends StatelessWidget {
     final view = controller.view;
     return ListTile(
       leading: SavedGradeIcons.gradingSystem,
-      title: const Text("Notensystem"),
+      title: Text(context.l10n.gradesDialogGradingSystemLabel),
       subtitle: Text(view.selectedGradingSystem.displayName),
       onTap: () async {
         final res = await showDialog<GradingSystem?>(
@@ -124,13 +128,13 @@ class _SelectGradeSystemDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: SimpleDialog(
-        title: const Text("Notensystem auswählen"),
+        title: Text(context.l10n.gradesDialogSelectGradingSystem),
         contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
             child: Text(
-              'Der erste Wert entspricht der besten Noten, z.B. bei dem Notensystem "1 - 6" ist "1" die beste Note.',
+              context.l10n.gradesDialogSelectGradingSystemHint,
               style: TextStyle(fontSize: 12, color: greyColor),
             ),
           ),
@@ -143,9 +147,11 @@ class _SelectGradeSystemDialog extends StatelessWidget {
             ),
           const Divider(),
           ListTile(
-            title: const Text("Weiteres Notensystem anfragen"),
+            title: Text(
+              context.l10n.gradesDialogRequestAdditionalGradingSystem,
+            ),
             subtitle: Text(
-              "Notensystem nicht dabei? Schreib uns, welches Notensystem du gerne hättest!",
+              context.l10n.gradesDialogRequestAdditionalGradingSystemSubtitle,
               style: TextStyle(color: greyColor),
             ),
             onTap: () => Navigator.of(context).pushNamed(SupportPage.tag),
@@ -165,10 +171,10 @@ class _Subject extends StatelessWidget {
     final view = controller.view;
     return ListTile(
       leading: SavedGradeIcons.subject,
-      title: const Text("Fach"),
+      title: Text(context.l10n.gradesDialogSubjectLabel),
       subtitle: Text(
         view.selectedSubject == null
-            ? 'Kein Fach ausgewählt'
+            ? context.l10n.gradesDialogNoSubjectSelected
             : view.selectedSubject!.name,
         style: TextStyle(
           color:
@@ -181,11 +187,8 @@ class _Subject extends StatelessWidget {
           view.isSubjectFieldDisabled
               ? () async => await showLeftRightAdaptiveDialog(
                 context: context,
-                title: "Fach ändern",
-                content: const Text(
-                  "Du kannst das Fach von bereits erstellten Noten nicht nachträglich ändern.\n\n"
-                  "Lösche diese Note und erstelle sie erneut, um ein anderes Fach auszuwählen.",
-                ),
+                title: context.l10n.gradesDialogEditSubjectTitle,
+                content: Text(context.l10n.gradesDialogEditSubjectDescription),
                 left: null,
                 right: AdaptiveDialogAction.ok(context),
               )
@@ -224,7 +227,7 @@ class _SelectSubjectDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: SimpleDialog(
-        title: const Text("Fach auswählen"),
+        title: Text(context.l10n.gradesDialogSelectSubject),
         contentPadding: const EdgeInsets.all(12),
         children: [
           if (!hasPlus) ...[
@@ -264,11 +267,11 @@ class _CanOnlyUseThreeSubjectsWarning extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                 child: Text(
-                  'Du kannst zum Testen der Notenfunktion maximal 3 Fächer benutzen. Um alle Fächer zu benutzen, kaufe Sharezone Plus.',
-                  style: TextStyle(color: Colors.white),
+                  context.l10n.gradesDialogPlusSubjectsLimitInfo,
+                  style: const TextStyle(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -280,7 +283,7 @@ class _CanOnlyUseThreeSubjectsWarning extends StatelessWidget {
                   backgroundColor: Colors.white,
                   foregroundColor: color,
                 ),
-                child: const Text('Zu Sharezone Plus'),
+                child: Text(context.l10n.gradesDialogGoToSharezonePlus),
               ),
               const SizedBox(height: 5),
             ],
@@ -350,10 +353,9 @@ class _DateHelpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _HelpDialogButton(
-      title: 'Wozu dient das Datum?',
-      text:
-          'Das Datum stellt das Datum dar, an dem du die Note erhalten hast. Falls du das Datum nicht mehr genau weißt, kannst du einfach ein ungefähres Datum von dem Tag angeben, an dem du die Note erhalten hast.',
+    return _HelpDialogButton(
+      title: context.l10n.gradesDialogDateHelpTitle,
+      text: context.l10n.gradesDialogDateHelpDescription,
     );
   }
 }
@@ -367,10 +369,10 @@ class _GradingType extends StatelessWidget {
     final view = controller.view;
     return ListTile(
       leading: SavedGradeIcons.gradingType,
-      title: const Text("Notentyp"),
+      title: Text(context.l10n.gradesDialogGradeTypeLabel),
       subtitle: Text(
         view.selectedGradingType.predefinedType?.toUiString() ??
-            'Benutzerdefinierter Notentyp',
+            context.l10n.gradesDialogCustomGradeType,
       ),
       onTap: () async {
         final res = await SelectGradeTypeDialog.show(
@@ -396,9 +398,9 @@ class _Term extends StatelessWidget {
 
     return ListTile(
       leading: SavedGradeIcons.term,
-      title: const Text("Halbjahr"),
+      title: Text(context.l10n.gradesDialogTermLabel),
       subtitle: Text(
-        view.selectedTerm?.name ?? 'Kein Halbjahr ausgewählt',
+        view.selectedTerm?.name ?? context.l10n.gradesDialogNoTermSelected,
         style: TextStyle(
           color:
               view.isTermMissing ? Theme.of(context).colorScheme.error : null,
@@ -409,11 +411,8 @@ class _Term extends StatelessWidget {
               ? () async {
                 await showLeftRightAdaptiveDialog(
                   context: context,
-                  title: "Halbjahr ändern",
-                  content: const Text(
-                    "Du kannst das Halbjahr von bereits erstellten Noten nicht nachträglich ändern.\n\n"
-                    "Lösche diese Note und erstelle sie erneut, um ein anderes Halbjahr auszuwählen.",
-                  ),
+                  title: context.l10n.gradesDialogEditTermTitle,
+                  content: Text(context.l10n.gradesDialogEditTermDescription),
                   left: null,
                   right: AdaptiveDialogAction.ok(context),
                 );
@@ -449,14 +448,12 @@ class _SelectTermDialog extends StatelessWidget {
       maxWidth: 450,
       child: SimpleDialog(
         contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
-        title: const Text("Halbjahr auswählen"),
+        title: Text(context.l10n.gradesDialogSelectTerm),
         children: [
           if (terms.isEmpty)
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 12, right: 12, bottom: 12),
-              child: Text(
-                "Bisher hast du keine Halbjahre erstellt. Bitte erstelle ein Halbjahr, um eine Note einzutragen.",
-              ),
+              child: Text(context.l10n.gradesDialogNoTermsYetInfo),
             ),
           for (final term in terms)
             ListTile(
@@ -479,7 +476,7 @@ class _CreateTermTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.add),
-      title: const Text("Halbjahr erstellen"),
+      title: Text(context.l10n.gradesDialogCreateTerm),
       onTap: () => Navigator.of(context).pushNamed(CreateTermPage.tag),
     );
   }
@@ -500,7 +497,7 @@ class _TakeIntoAccountSwitch extends StatelessWidget {
         ListTile(
           enabled: isEnabled,
           leading: SavedGradeIcons.integrateGradeIntoSubjectGrade,
-          title: const Text("Note in Schnitt einbringen"),
+          title: Text(context.l10n.gradesDialogIncludeGradeInAverage),
           onTap: () {
             controller.setIntegrateGradeIntoSubjectGrade(!view.takeIntoAccount);
           },
@@ -517,7 +514,7 @@ class _TakeIntoAccountSwitch extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 58, bottom: 12),
             child: Text(
-              'Das Notensystem, welches du ausgewählt hast, ist nicht dasselbe wie das Notensystem deines Halbjahres. Du kannst die Note weiterhin eintragen, aber sie wird nicht in den Schnitt deines Halbjahres einfließen.',
+              context.l10n.gradesDialogDifferentGradingSystemInfo,
               style: TextStyle(
                 color: Theme.of(
                   context,
@@ -529,7 +526,7 @@ class _TakeIntoAccountSwitch extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 58, bottom: 12),
             child: Text(
-              'Der ausgewählte Notentyp hat aktuell eine Gewichtung von 0. Du kannst die Note weiterhin eintragen, aber sie wird den Schnitt der Fachnote nicht beeinflussen. Du kannst die Gewichtung nach Speichern der Note im Fach oder im Halbjahr anpassen, damit die Note in den Schnitt einfließt.',
+              context.l10n.gradesDialogZeroWeightGradeTypeInfo,
               style: TextStyle(
                 color: Theme.of(
                   context,
@@ -554,8 +551,8 @@ class _Title extends StatelessWidget {
         controller: controller.view.titleController,
         onChanged: controller.setTitle,
         decoration: InputDecoration(
-          labelText: "Titel",
-          hintText: "z.B. Lineare Funktionen",
+          labelText: context.l10n.gradesDialogTitleLabel,
+          hintText: context.l10n.gradesDialogTitleHint,
           suffixIcon: const _TitleHelpButton(),
           errorText: context.select<GradesDialogController, String?>(
             (controller) => controller.view.titleErrorText,
@@ -571,10 +568,9 @@ class _TitleHelpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _HelpDialogButton(
-      title: 'Wozu dient der Titel?',
-      text:
-          'Falls die Note beispielsweise zu einer Klausur gehört, kannst du das Thema / den Titel der Klausur angeben, um die Note später besser zuordnen zu können.',
+    return _HelpDialogButton(
+      title: context.l10n.gradesDialogTitleHelpTitle,
+      text: context.l10n.gradesDialogTitleHelpDescription,
     );
   }
 }
@@ -602,7 +598,7 @@ class _HelpDialogButton extends StatelessWidget {
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text("Schließen"),
+                    child: Text(context.l10n.commonActionsClose),
                   ),
                 ],
               ),
@@ -624,7 +620,9 @@ class _Details extends StatelessWidget {
       controller: controller.view.detailsController,
       icon: SavedGradeIcons.details,
       onChanged: controller.setDetails,
-      inputDecoration: const InputDecoration(labelText: "Notizen"),
+      inputDecoration: InputDecoration(
+        labelText: context.l10n.gradesDialogNotesLabel,
+      ),
     );
   }
 }

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,15 +19,16 @@ import '../privacy_policy_src.dart';
 import 'ui.dart';
 
 class PrivacyPolicyHeading extends StatelessWidget {
-  const PrivacyPolicyHeading({
-    super.key,
-    this.headingText = 'Datenschutzerklärung',
-  });
+  const PrivacyPolicyHeading({super.key, this.headingText = ''});
 
   final String headingText;
 
   @override
   Widget build(BuildContext context) {
+    final headingText =
+        this.headingText.isEmpty
+            ? context.l10n.privacyPolicyPageTitle
+            : this.headingText;
     return Text(
       headingText,
       style: Theme.of(context).textTheme.headlineSmall!.copyWith(
@@ -50,13 +52,15 @@ class PrivacyPolicySubheading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text.rich(
       TextSpan(
-        text: 'Diese aktualisierte Datenschutzerklärung tritt am',
+        text: context.l10n.privacyPolicyPageUpdatedEffectiveDatePrefix,
         children: [
           TextSpan(
             text: ' ${DateFormat('dd.MM.yyyy').format(entersIntoForceOn!)} ',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          const TextSpan(text: 'in Kraft.'),
+          TextSpan(
+            text: context.l10n.privacyPolicyPageUpdatedEffectiveDateSuffix,
+          ),
         ],
       ),
       textAlign: TextAlign.center,
@@ -74,7 +78,7 @@ class ChangeAppearanceButton extends StatelessWidget {
         showDisplaySettingsDialog(context);
       },
       icon: const Icon(Icons.display_settings),
-      label: const Text('Darstellung ändern'),
+      label: Text(context.l10n.privacyPolicyChangeAppearance),
     );
   }
 }
@@ -117,7 +121,7 @@ class DownloadAsPDFButton extends StatelessWidget {
         : TextButton.icon(
           onPressed: enabled ? () => downloadPdf(context) : null,
           icon: const Icon(Icons.download),
-          label: const Text('Als PDF herunterladen'),
+          label: Text(context.l10n.privacyPolicyDownloadPdf),
         );
   }
 }
@@ -291,10 +295,13 @@ class OpenTocBottomSheetButton extends StatelessWidget {
                   showTableOfContentsBottomSheet(context);
                 }
                 : null,
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          children: [Text('Inhaltsverzeichnis'), Icon(Icons.expand_less)],
+          children: [
+            Text(context.l10n.privacyPolicyTableOfContents),
+            const Icon(Icons.expand_less),
+          ],
         ),
       ),
     );

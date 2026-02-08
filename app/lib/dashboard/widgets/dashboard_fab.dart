@@ -58,8 +58,8 @@ class _DashboardPageFAB extends StatelessWidget {
       matchesTypeOfUserWidget: Container(),
       notMatchingWidget: ModalFloatingActionButton(
         heroTag: 'sharezone-fab',
-        tooltip: 'Neue Elemente hinzufügen',
-        label: 'Hinzufügen',
+        tooltip: context.l10n.dashboardFabTooltip,
+        label: context.l10n.commonActionsAdd,
         icon: const Icon(Icons.add),
         onPressed: () => openDashboardFabSheet(context),
       ),
@@ -78,7 +78,7 @@ class _DashboardFabSheet extends StatelessWidget {
           children: <Widget>[
             const SizedBox(height: 20),
             Text(
-              "Neu erstellen",
+              context.l10n.calendricalEventsCreateNew,
               style: TextStyle(
                 color:
                     Theme.of(context).isDarkTheme
@@ -94,61 +94,61 @@ class _DashboardFabSheet extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 195, bottom: 120),
                     child: ModalBottomSheetBigIconButton<_DashboardFabResult>(
-                      title: "Termin",
+                      title: context.l10n.calendricalEventsAddEvent,
                       iconData: themeIconData(
                         Icons.event,
                         cupertinoIcon: CupertinoIcons.clock,
                       ),
                       popValue: _DashboardFabResult.event,
-                      tooltip: "Neuen Termin erstellen",
+                      tooltip: context.l10n.calendricalEventsCreateEventTooltip,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 120),
                     child: ModalBottomSheetBigIconButton<_DashboardFabResult>(
-                      title: "Prüfung",
+                      title: context.l10n.calendricalEventsAddExam,
                       iconData: themeIconData(
                         Icons.school,
                         cupertinoIcon: CupertinoIcons.bookmark,
                       ),
                       popValue: _DashboardFabResult.exam,
-                      tooltip: "Neue Prüfung erstellen",
+                      tooltip: context.l10n.calendricalEventsCreateExamTooltip,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 195, bottom: 120),
                     child: ModalBottomSheetBigIconButton<_DashboardFabResult>(
-                      title: "Schulstunde",
+                      title: context.l10n.timetableAddLessonTitle,
                       iconData: themeIconData(
                         Icons.access_time,
                         cupertinoIcon: CupertinoIcons.time,
                       ),
                       popValue: _DashboardFabResult.lesson,
-                      tooltip: "Neue Schulstunde erstellen",
+                      tooltip: context.l10n.dashboardFabCreateLessonTooltip,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 110, top: 100),
                     child: ModalBottomSheetBigIconButton<_DashboardFabResult>(
-                      title: "Hausaufgabe",
+                      title: context.l10n.dashboardFabAddHomeworkTitle,
                       iconData: themeIconData(
                         Icons.book,
                         cupertinoIcon: CupertinoIcons.book,
                       ),
                       popValue: _DashboardFabResult.homework,
-                      tooltip: "Neue Hausaufgabe erstellen",
+                      tooltip: context.l10n.dashboardFabCreateHomeworkTooltip,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 110, top: 100),
                     child: ModalBottomSheetBigIconButton<_DashboardFabResult>(
-                      title: "Infozettel",
+                      title: context.l10n.dashboardFabAddBlackboardTitle,
                       iconData: themeIconData(
                         Icons.new_releases,
                         cupertinoIcon: CupertinoIcons.info,
                       ),
                       popValue: _DashboardFabResult.blackboard,
-                      tooltip: "Neuen Infozettel erstellen",
+                      tooltip: context.l10n.blackboardPageFabTooltip,
                     ),
                   ),
                   if (kDebugMode)
@@ -162,7 +162,7 @@ class _DashboardFabSheet extends StatelessWidget {
                                   context,
                                 ).colorScheme.error, // foreground
                           ),
-                          child: const Text("[DEBUG] Cache löschen"),
+                          child: Text(context.l10n.dashboardDebugClearCache),
                           onPressed: () async {
                             final prefs = await SharedPreferences.getInstance();
                             final cache = FlutterKeyValueStore(prefs);

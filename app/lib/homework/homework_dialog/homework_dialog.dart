@@ -39,6 +39,7 @@ import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/util/next_schoolday_calculator/next_schoolday_calculator.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
@@ -230,16 +231,14 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
             break;
           case RequiredFieldsNotFilledOut():
             showSnackSec(
-              text: "Bitte fülle alle erforderlichen Felder aus!",
+              text: context.l10n.homeworkDialogRequiredFieldsMissing,
               context: context,
               seconds: 2,
             );
           case SavingFailed(error: var error):
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             showLeftRightAdaptiveDialog(
-              content: Text(
-                'Hausaufgabe konnte nicht gespeichert werden.\n\n$error\n\nFalls der Fehler weiterhin auftritt, kontaktiere bitte den Support.',
-              ),
+              content: Text(context.l10n.homeworkDialogSavingFailed(error)),
               left: null,
               right: AdaptiveDialogAction.ok(context),
               context: context,
@@ -346,16 +345,6 @@ class _MobileDivider extends StatelessWidget {
   }
 }
 
-class HwDialogErrorStrings {
-  static const String emptyTitle =
-      "Bitte gib einen Titel für die Hausaufgabe an!";
-  static const String emptyCourseSnackbar =
-      "Bitte gib einen Kurs für die Hausaufgabe an!";
-  static const String emptyCourse = "Keinen Kurs ausgewählt";
-  static const String emptyTodoUntil =
-      "Bitte gib ein Fälligkeitsdatum für die Hausaufgabe an!";
-}
-
 class _SaveButton extends StatelessWidget {
   const _SaveButton({this.editMode = false});
 
@@ -368,8 +357,7 @@ class _SaveButton extends StatelessWidget {
     } on Exception catch (e) {
       log("Exception when submitting: $e", error: e);
       showSnackSec(
-        text:
-            "Es gab einen unbekannten Fehler (${e.toString()}) 😖 Bitte kontaktiere den Support!",
+        text: context.l10n.homeworkDialogUnknownError(e.toString()),
         context: context,
         seconds: 5,
       );
@@ -387,7 +375,7 @@ class _SaveButton extends StatelessWidget {
       builder: (context, setState) {
         return SaveButton(
           key: HwDialogKeys.saveButton,
-          tooltip: "Hausaufgabe speichern",
+          tooltip: context.l10n.homeworkDialogSaveTooltip,
           onPressed:
               isSaving
                   ? null
@@ -482,8 +470,8 @@ class _DueDateChipsLockedPlus extends StatelessWidget {
           context: context,
           navigateToPlusPage:
               () => openSharezonePlusPageAsFullscreenDialog(context),
-          description: const Text(
-            'Mit Sharezone Plus kannst du Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.',
+          description: Text(
+            context.l10n.homeworkDialogDueDateChipsPlusDescription,
           ),
         );
       },
@@ -539,26 +527,22 @@ class _DueDateChipsLockedPlus extends StatelessWidget {
 }
 
 class _DueDateChip {
-  final String label;
   final bool isSelected;
   final bool isDeletable;
   final DueDateSelection dueDate;
 
   const _DueDateChip({
-    required this.label,
     required this.dueDate,
     this.isSelected = false,
     this.isDeletable = false,
   });
 
   _DueDateChip copyWith({
-    String? label,
     bool? isSelected,
     bool? isDeletable,
     DueDateSelection? dueDate,
   }) {
     return _DueDateChip(
-      label: label ?? this.label,
       isSelected: isSelected ?? this.isSelected,
       isDeletable: isDeletable ?? this.isDeletable,
       dueDate: dueDate ?? this.dueDate,
@@ -567,7 +551,7 @@ class _DueDateChip {
 
   @override
   String toString() {
-    return '_LessonChip(label: $label, isSelected: $isSelected, isDeletable: $isDeletable, dueDate: $dueDate)';
+    return '_LessonChip(isSelected: $isSelected, isDeletable: $isDeletable, dueDate: $dueDate)';
   }
 }
 
@@ -583,7 +567,6 @@ class _DueDateChipsController extends ChangeNotifier {
         initialChips
             .map(
               (config) => _DueDateChip(
-                label: _getName(config),
                 dueDate: config,
                 isSelected: false,
                 isDeletable: false,
@@ -591,21 +574,6 @@ class _DueDateChipsController extends ChangeNotifier {
             )
             .toIList();
     notifyListeners();
-  }
-
-  String _getName(DueDateSelection dueDate) {
-    switch (dueDate) {
-      case NextSchooldayDueDateSelection _:
-        return 'Nächster Schultag';
-      case InXLessonsDueDateSelection due:
-        return switch (due.inXLessons) {
-          1 => 'Nächste Stunde',
-          2 => 'Übernächste Stunde',
-          _ => '${due.inXLessons}.-nächste Stunde',
-        };
-      case DateDueDateSelection _:
-        throw Error();
-    }
   }
 
   /// Updates the selection of the chips to the given [selection].
@@ -645,13 +613,7 @@ class _DueDateChipsController extends ChangeNotifier {
     final alreadyExists =
         chips.firstWhereOrNull((chip) => chip.dueDate == inXLessons) != null;
     if (!alreadyExists) {
-      chips = chips.add(
-        _DueDateChip(
-          label: '${inXLessons.inXLessons}.-nächste Stunde',
-          dueDate: inXLessons,
-          isDeletable: true,
-        ),
-      );
+      chips = chips.add(_DueDateChip(dueDate: inXLessons, isDeletable: true));
     }
     selectChip(inXLessons);
     notifyListeners();
@@ -664,6 +626,21 @@ class _DueDateChipsController extends ChangeNotifier {
       onChanged(null);
     }
     notifyListeners();
+  }
+}
+
+String _formatDueDateChipLabel(BuildContext context, DueDateSelection dueDate) {
+  switch (dueDate) {
+    case NextSchooldayDueDateSelection _:
+      return context.l10n.homeworkDialogDueDateNextSchoolday;
+    case InXLessonsDueDateSelection due:
+      return switch (due.inXLessons) {
+        1 => context.l10n.homeworkDialogDueDateNextLesson,
+        2 => context.l10n.homeworkDialogDueDateAfterNextLesson,
+        _ => context.l10n.homeworkDialogDueDateInXLessons(due.inXLessons),
+      };
+    case DateDueDateSelection _:
+      throw Error();
   }
 }
 
@@ -759,7 +736,9 @@ class _DueDateChipsState extends State<_DueDateChips> {
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: InputChip(
-                        label: Text(chip.label),
+                        label: Text(
+                          _formatDueDateChipLabel(context, chip.dueDate),
+                        ),
                         selected: chip.isSelected,
                         // Copied from source code of InputChip, we need to add
                         // our key here for tests.
@@ -816,7 +795,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
                       Icons.edit,
                       color: Theme.of(context).iconTheme.color,
                     ),
-                    label: const Text('In X Stunden'),
+                    label: Text(context.l10n.homeworkDialogDueDateInXHours),
                     onPressed:
                         lessonChipsSelectable
                             ? () async {
@@ -842,10 +821,10 @@ class _DueDateChipsState extends State<_DueDateChips> {
     int? inXHours;
     final newInXHours = await showLeftRightAdaptiveDialog<dynamic>(
       context: context,
-      title: 'Stundenzeit auswählen',
+      title: context.l10n.homeworkDialogSelectLessonOffsetTitle,
       right: AdaptiveDialogAction(
         key: HwDialogKeys.customLessonChipDialogOkButton,
-        title: 'OK',
+        title: context.l10n.commonActionsOk,
         onPressed: () {
           Navigator.pop(context, inXHours);
         },
@@ -856,7 +835,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
           MaxWidthConstraintBox(
             maxWidth: 270,
             child: Text(
-              'Wähle aus, in wie vielen Stunden die Hausaufgabe fällig ist.',
+              context.l10n.homeworkDialogSelectLessonOffsetDescription,
               style: Theme.of(context).textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),
@@ -887,9 +866,9 @@ class _DueDateChipsState extends State<_DueDateChips> {
                   keyboardType: TextInputType.number,
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(bottom: 18),
-                child: Text('.-nächste Stunde'),
+                child: Text(context.l10n.homeworkDialogNextLessonSuffix),
               ),
             ],
           ),
@@ -945,7 +924,7 @@ class _AppBar extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.close, color: Colors.white),
                     onPressed: onCloseTap,
-                    tooltip: "Schließen",
+                    tooltip: context.l10n.commonActionsClose,
                   ),
                   _SaveButton(editMode: editMode),
                 ],
@@ -977,7 +956,7 @@ class _TitleField extends StatelessWidget {
         },
         errorText:
             state.title.error is EmptyTitleException
-                ? HwDialogErrorStrings.emptyTitle
+                ? context.l10n.homeworkDialogEmptyTitleError
                 : state.title.error?.toString(),
       ),
     );
@@ -1031,9 +1010,9 @@ class _TitleFieldBase extends StatelessWidget {
                     fontSize: 22,
                     fontWeight: FontWeight.w400,
                   ),
-                  decoration: const InputDecoration(
-                    hintText: "Titel eingeben (z.B. AB Nr. 1 - 3)",
-                    hintStyle: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: context.l10n.homeworkDialogTitleHint,
+                    hintStyle: const TextStyle(color: Colors.white),
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
@@ -1071,7 +1050,7 @@ class _CourseTile extends StatelessWidget {
     if (courseState is NoCourseChosen && courseState.error != null) {
       errorText =
           courseState.error is NoCourseChosenException
-              ? HwDialogErrorStrings.emptyCourse
+              ? context.l10n.homeworkDialogNoCourseSelected
               : courseState.error.toString();
     }
 
@@ -1084,8 +1063,7 @@ class _CourseTile extends StatelessWidget {
           courseName:
               courseState is CourseChosen ? courseState.courseName : null,
           errorText: errorText,
-          onDisabledTapText:
-              'Der Kurs kann nachträglich nicht mehr geändert werden. Bitte lösche die Hausaufgabe und erstelle eine neue, falls du den Kurs ändern möchtest.',
+          onDisabledTapText: context.l10n.homeworkDialogCourseChangeDisabled,
           onTap:
               isDisabled
                   ? null
@@ -1116,14 +1094,16 @@ class _SendNotification extends StatelessWidget {
         child: SendNotificationBase(
           listTileKey: HwDialogKeys.notifyCourseMembersTile,
           title:
-              "Kursmitglieder ${state.isEditing ? "über die Änderungen " : ""}benachrichtigen",
+              state.isEditing
+                  ? context.l10n.homeworkDialogNotifyCourseMembersEditing
+                  : context.l10n.homeworkDialogNotifyCourseMembers,
           onChanged:
               (newValue) => bloc.add(NotifyCourseMembersChanged(newValue)),
           sendNotification: state.notifyCourseMembers,
           description:
               state.isEditing
                   ? null
-                  : "Kursmitglieder über neue Hausaufgabe benachrichtigen.",
+                  : context.l10n.homeworkDialogNotifyCourseMembersDescription,
         ),
       ),
     );
@@ -1140,7 +1120,7 @@ class _DescriptionField extends StatelessWidget {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     return DescriptionFieldBase(
       textFieldKey: HwDialogKeys.descriptionField,
-      hintText: 'Zusatzinformationen eingeben',
+      hintText: context.l10n.homeworkDialogDescriptionHint,
       onChanged:
           (newDescription) => bloc.add(DescriptionChanged(newDescription)),
       prefilledDescription: state.description,
@@ -1242,7 +1222,7 @@ class _SubmissionsSwitchBase extends StatelessWidget {
       children: <Widget>[
         ListTile(
           leading: const Icon(Icons.folder_open),
-          title: const Text("Mit Abgabe"),
+          title: Text(context.l10n.homeworkDialogWithSubmissionTitle),
           enabled: isWidgetEnabled,
           onTap: isWidgetEnabled ? () => onChanged(!submissionsEnabled) : null,
           trailing: Switch.adaptive(
@@ -1256,7 +1236,7 @@ class _SubmissionsSwitchBase extends StatelessWidget {
               submissionsEnabled
                   ? ListTile(
                     key: HwDialogKeys.submissionTimeTile,
-                    title: const Text("Abgabe-Uhrzeit"),
+                    title: Text(context.l10n.homeworkDialogSubmissionTimeTitle),
                     onTap: () async {
                       await hideKeyboardWithDelay(context: context);
                       if (!context.mounted) return;
@@ -1333,8 +1313,8 @@ class _PrivateHomeworkSwitchBase extends StatelessWidget {
     return ListTile(
       contentPadding: const EdgeInsets.only(left: 18, right: 24),
       leading: const Icon(Icons.security),
-      title: const Text("Privat"),
-      subtitle: const Text("Hausaufgabe nicht mit dem Kurs teilen."),
+      title: Text(context.l10n.homeworkDialogPrivateTitle),
+      subtitle: Text(context.l10n.homeworkDialogPrivateSubtitle),
       enabled: isEnabled,
       trailing: Switch.adaptive(
         value: isPrivate,

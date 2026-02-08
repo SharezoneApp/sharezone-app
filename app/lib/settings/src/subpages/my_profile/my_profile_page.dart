@@ -488,7 +488,10 @@ class _DeleteAccountDialogContentState
                         onEditingComplete: () async => tryToDeleteUser(context),
                         autofocus: false,
                         decoration: InputDecoration(
-                          labelText: 'Passwort',
+                          labelText:
+                              context
+                                  .l10n
+                                  .changeEmailAddressPasswordTextfieldLabel,
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {

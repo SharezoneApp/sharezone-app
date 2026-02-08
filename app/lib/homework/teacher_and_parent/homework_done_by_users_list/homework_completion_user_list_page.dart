@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'homework_completion_user_list_bloc.dart';
@@ -50,7 +51,10 @@ class _HomeworkCompletionUserListPageState
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
-        appBar: AppBar(title: const Text("Erledigt von"), centerTitle: true),
+        appBar: AppBar(
+          title: Text(context.l10n.homeworkCompletionReadByTitle),
+          centerTitle: true,
+        ),
         body: const HomeworkCompletionUserListPageBody(),
       ),
     );
@@ -148,9 +152,7 @@ class _FreeUsersLockScreen extends StatelessWidget {
                 withLearnMoreButton: true,
                 onLearnMorePressed: () => navigateToSharezonePlusPage(context),
                 underlayColor: Theme.of(context).scaffoldBackgroundColor,
-                child: const Text(
-                  'Erwerbe Sharezone Plus, um nachzuvollziehen, wer bereits die Hausaufgabe als erledigt markiert hat.',
-                ),
+                child: Text(context.l10n.homeworkCompletionPlusDescription),
               ),
             ),
           ),
@@ -202,9 +204,7 @@ class _List extends StatelessWidget {
 class _EmptyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Es befinden sich keine Teilnehmer in dieser Gruppe 😭"),
-    );
+    return Center(child: Text(context.l10n.groupParticipantsEmpty));
   }
 }
 

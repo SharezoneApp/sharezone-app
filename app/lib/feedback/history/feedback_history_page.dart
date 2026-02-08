@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
 import 'package:sharezone/support/support_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FeedbackHistoryPage extends StatefulWidget {
@@ -35,7 +36,7 @@ class _FeedbackHistoryPageState extends State<FeedbackHistoryPage> {
   Widget build(BuildContext context) {
     final state = context.select((FeedbackHistoryPageController c) => c.state);
     return Scaffold(
-      appBar: AppBar(title: const Text('Meine Feedbacks')),
+      appBar: AppBar(title: Text(context.l10n.feedbackHistoryPageTitle)),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: switch (state) {
@@ -161,13 +162,13 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.sentiment_dissatisfied, size: 48),
-          SizedBox(height: 12),
-          Text('Du hast bisher kein Feedback gegeben 😢'),
+          const Icon(Icons.sentiment_dissatisfied, size: 48),
+          const SizedBox(height: 12),
+          Text(context.l10n.feedbackHistoryPageEmpty),
         ],
       ),
     );

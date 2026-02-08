@@ -15,6 +15,7 @@ import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class DashboardAds extends StatefulWidget {
@@ -116,13 +117,15 @@ class _DashboardAdsState extends State<DashboardAds> {
                   style: const TextStyle(fontSize: 10, color: Colors.grey),
                   children: [
                     TextSpan(
-                      text: 'Sharezone Plus',
+                      text: context.l10n.dashboardAdSectionSharezonePlusLabel,
                       style: TextStyle(
                         fontSize: 10,
                         color: Theme.of(context).primaryColor,
                       ),
                     ),
-                    const TextSpan(text: ' erwerben.'),
+                    TextSpan(
+                      text: context.l10n.dashboardAdSectionAcquireSuffix,
+                    ),
                   ],
                 ),
               ),
@@ -161,7 +164,7 @@ class _Placeholder extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color:
             Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100],
-        child: const Center(child: Text('Anzeige lädt...')),
+        child: Center(child: Text(context.l10n.adsLoading)),
       ),
     );
   }

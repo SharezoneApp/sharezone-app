@@ -18,6 +18,7 @@ import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_details.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/course_edit_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -30,17 +31,22 @@ Future<bool?> showCourseLeaveDialog(
     right:
         isLastMember
             ? AdaptiveDialogAction.delete(context)
-            : const AdaptiveDialogAction(
-              title: "Verlassen",
+            : AdaptiveDialogAction(
+              title: context.l10n.commonActionsLeave,
               isDefaultAction: true,
               isDestructiveAction: true,
               popResult: true,
               textColor: Colors.red,
             ),
     defaultValue: false,
-    title: "Kurs verlassen${isLastMember ? " und löschen?" : "?"}",
+    title:
+        isLastMember
+            ? context.l10n.courseLeaveAndDeleteDialogTitle
+            : context.l10n.courseLeaveDialogTitle,
     content: Text(
-      "Möchtest du den Kurs wirklich verlassen? ${isLastMember ? "Da du der letzte Teilnehmer im Kurs bist, wird der Kurs gelöscht." : ""}",
+      isLastMember
+          ? context.l10n.courseLeaveAndDeleteDialogDescription
+          : context.l10n.courseLeaveDialogDescription,
     ),
   );
 }
@@ -53,10 +59,8 @@ Future<bool?> showDeleteCourseDialog(
     context: context,
     right: AdaptiveDialogAction.delete(context),
     defaultValue: false,
-    title: "Kurs löschen?",
-    content: Text(
-      'Möchtest du den Kurs "$courseName" wirklich endgültig löschen?\n\nEs werden alle Stunden & Termine aus dem Stundenplan, Hausaufgaben und Infozettel gelöscht.\n\nAuf den Kurs kann von niemanden mehr zugegriffen werden!',
-    ),
+    title: context.l10n.courseDeleteDialogTitle,
+    content: Text(context.l10n.courseDeleteDialogDescription(courseName)),
   );
 }
 
@@ -72,30 +76,30 @@ class CourseCardRedesign extends StatelessWidget {
     final result =
         await showLongPressAdaptiveDialog<_CourseCardLongPressResult>(
           context: context,
-          title: "Kurs: ${course.name}",
+          title: context.l10n.courseLongPressTitle(course.name),
           longPressList: [
             LongPress(
               popResult: _CourseCardLongPressResult.share,
-              title: "Teilen",
+              title: context.l10n.commonActionsShare,
               icon: Icon(
                 themeIconData(Icons.share, cupertinoIcon: CupertinoIcons.share),
               ),
             ),
             if (isAdmin)
-              const LongPress(
+              LongPress(
                 popResult: _CourseCardLongPressResult.edit,
-                title: "Bearbeiten",
+                title: context.l10n.commonActionsEdit,
                 icon: Icon(Icons.edit),
               ),
-            const LongPress(
+            LongPress(
               popResult: _CourseCardLongPressResult.leave,
-              title: "Verlassen",
+              title: context.l10n.commonActionsLeave,
               icon: Icon(Icons.cancel),
             ),
             if (isAdmin)
-              const LongPress(
+              LongPress(
                 popResult: _CourseCardLongPressResult.delete,
-                title: "Löschen",
+                title: context.l10n.commonActionsDelete,
                 icon: Icon(Icons.delete),
               ),
           ],
@@ -253,37 +257,37 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
     final result =
         await showLongPressAdaptiveDialog<_CourseCardLongPressResult>(
           context: context,
-          title: "Kurs: ${course.name}",
+          title: context.l10n.courseLongPressTitle(course.name),
           longPressList: [
             LongPress(
               popResult: _CourseCardLongPressResult.share,
-              title: "Teilen",
+              title: context.l10n.commonActionsShare,
               icon: Icon(
                 themeIconData(Icons.share, cupertinoIcon: CupertinoIcons.share),
               ),
             ),
             if (isMember && isAdmin)
-              const LongPress(
+              LongPress(
                 popResult: _CourseCardLongPressResult.edit,
-                title: "Bearbeiten",
+                title: context.l10n.commonActionsEdit,
                 icon: Icon(Icons.edit),
               ),
             if (!isMember)
-              const LongPress(
+              LongPress(
                 popResult: _CourseCardLongPressResult.join,
-                title: "Beitreten",
+                title: context.l10n.commonActionsJoin,
                 icon: Icon(Icons.add_circle_outline),
               ),
             if (isMember)
-              const LongPress(
+              LongPress(
                 popResult: _CourseCardLongPressResult.leave,
-                title: "Verlassen",
+                title: context.l10n.commonActionsLeave,
                 icon: Icon(Icons.cancel),
               ),
             if (isMember && isAdmin)
-              const LongPress(
+              LongPress(
                 popResult: _CourseCardLongPressResult.delete,
-                title: "Löschen",
+                title: context.l10n.commonActionsDelete,
                 icon: Icon(Icons.delete),
               ),
           ],
@@ -393,7 +397,7 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
           trailing:
               courseFromOwn == null
                   ? MaterialButton(
-                    child: const Text('Beitreten'),
+                    child: Text(context.l10n.commonActionsJoin),
                     onPressed: () async {
                       final analytics =
                           BlocProvider.of<SharezoneContext>(context).analytics;

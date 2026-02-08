@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:key_value_store/key_value_store.dart';
@@ -208,7 +209,7 @@ class Comment extends StatelessWidget {
       onDelete();
       showSnack(
         duration: const Duration(milliseconds: 1600),
-        text: 'Kommentar wurde gelöscht.',
+        text: context.l10n.commentDeletedConfirmation,
         context: context,
       );
     }
@@ -218,7 +219,7 @@ class Comment extends StatelessWidget {
     Clipboard.setData(ClipboardData(text: userComment));
     showSnack(
       duration: const Duration(milliseconds: 1600),
-      text: 'Text wurde in die Zwischenablage kopiert',
+      text: context.l10n.commonTextCopiedToClipboard,
       context: context,
     );
   }
@@ -285,18 +286,18 @@ class _CommentSheet extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            title: const Text("Text kopieren"),
+            title: Text(context.l10n.commentActionsCopyText),
             leading: const Icon(Icons.content_copy),
             onTap: () => Navigator.pop(context, _CommentSheetAction.copy),
           ),
           ListTile(
-            title: const Text("Kommentar melden"),
+            title: Text(context.l10n.commentActionsReport),
             leading: reportIcon,
             onTap: () => Navigator.pop(context, _CommentSheetAction.report),
           ),
           if (hasPermissionsToMangeComments)
             ListTile(
-              title: const Text("Löschen"),
+              title: Text(context.l10n.commonActionsDelete),
               leading: const Icon(Icons.delete),
               onTap: () => Navigator.pop(context, _CommentSheetAction.delete),
             ),

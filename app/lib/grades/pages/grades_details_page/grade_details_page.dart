@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/models/grade_id.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller.dart';
@@ -52,7 +53,7 @@ class _DeleteIconButton extends StatelessWidget {
   }
 
   void showGradeDeletedSnackBar(BuildContext context) {
-    showSnackSec(context: context, text: 'Note gelöscht.');
+    showSnackSec(context: context, text: context.l10n.gradesDetailsDeleted);
   }
 
   void deleteGrade(BuildContext context) {
@@ -64,7 +65,7 @@ class _DeleteIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       key: const Key('delete-grade-icon-button'),
-      tooltip: 'Note löschen',
+      tooltip: context.l10n.gradesDetailsDeleteTooltip,
       onPressed: () async {
         final shouldDelete = await _showDeleteConfirmationDialog(context);
         if (shouldDelete != true || !context.mounted) return;
@@ -85,19 +86,19 @@ class _DeleteConfirmationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       key: const Key('delete-grade-confirmation-dialog'),
-      title: const Text('Note löschen'),
-      content: const Text('Möchtest du diese Note wirklich löschen?'),
+      title: Text(context.l10n.gradesDetailsDeleteTitle),
+      content: Text(context.l10n.gradesDetailsDeletePrompt),
       actions: [
         TextButton(
           key: const Key('delete-grade-confirmation-dialog-cancel-button'),
           onPressed: () => Navigator.pop(context),
-          child: const Text('Abbrechen'),
+          child: Text(context.l10n.commonActionsCancel),
         ),
         FilledButton(
           key: const Key('delete-grade-confirmation-dialog-delete-button'),
           onPressed: () => Navigator.pop(context, true),
           style: FilledButton.styleFrom(backgroundColor: Colors.red),
-          child: const Text('Löschen'),
+          child: Text(context.l10n.commonActionsDelete),
         ),
       ],
     );
@@ -111,7 +112,7 @@ class _EditIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       key: const Key('edit-grade-icon-button'),
-      tooltip: 'Note bearbeiten',
+      tooltip: context.l10n.gradesDetailsEditTooltip,
       onPressed: () async {
         await Navigator.pushNamed(
           context,
@@ -164,7 +165,7 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const dummyView = GradeDetailsView(
+    final dummyView = GradeDetailsView(
       gradeValue: '5',
       gradingSystem: '5-Point',
       subjectDisplayName: 'Math',
@@ -172,10 +173,10 @@ class _Loading extends StatelessWidget {
       gradeType: 'Test',
       termDisplayName: '1st Term',
       integrateGradeIntoSubjectGrade: true,
-      title: 'Algebra',
-      details: 'This is a test grade for algebra.',
+      title: context.l10n.gradesDetailsDummyTopic,
+      details: context.l10n.gradesDetailsDummyDetails,
     );
-    return const _Items(view: dummyView, isLoading: true);
+    return _Items(view: dummyView, isLoading: true);
   }
 }
 
@@ -234,7 +235,7 @@ class _GradingSystem extends StatelessWidget {
   Widget build(BuildContext context) {
     return _GradeDetailsTile(
       leading: SavedGradeIcons.gradingSystem,
-      title: const Text("Notensystem"),
+      title: Text(context.l10n.gradesDialogGradingSystemLabel),
       subtitle: Text(gradingSystemDisplayName),
     );
   }
@@ -249,7 +250,7 @@ class _Subject extends StatelessWidget {
   Widget build(BuildContext context) {
     return _GradeDetailsTile(
       leading: SavedGradeIcons.subject,
-      title: const Text("Fach"),
+      title: Text(context.l10n.gradesDialogSubjectLabel),
       subtitle: Text(subjectDisplayName),
     );
   }
@@ -275,7 +276,7 @@ class _GradingType extends StatelessWidget {
   Widget build(BuildContext context) {
     return _GradeDetailsTile(
       leading: SavedGradeIcons.gradingType,
-      title: const Text("Notentyp"),
+      title: Text(context.l10n.gradesDialogGradeTypeLabel),
       subtitle: Text(gradeType),
     );
   }
@@ -290,7 +291,7 @@ class _Term extends StatelessWidget {
   Widget build(BuildContext context) {
     return _GradeDetailsTile(
       leading: SavedGradeIcons.term,
-      title: const Text("Halbjahr"),
+      title: Text(context.l10n.gradesDialogTermLabel),
       subtitle: Text(termDisplayName),
     );
   }
@@ -306,7 +307,7 @@ class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
     if (value == null) return const SizedBox();
     return _GradeDetailsTile(
       leading: SavedGradeIcons.integrateGradeIntoSubjectGrade,
-      title: const Text("In Schnitt einbringen"),
+      title: Text(context.l10n.gradesDialogIncludeGradeInAverage),
       trailing: Icon(value! ? Icons.check : Icons.close),
     );
   }

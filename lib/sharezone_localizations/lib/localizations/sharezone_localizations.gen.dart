@@ -223,6 +223,54 @@ abstract class SharezoneLocalizations {
   /// **'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.'**
   String get activationCodeCacheCleared;
 
+  /// No description provided for @activationCodeErrorInvalidDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Entweder wurde dieser Code schon aufgebracht oder er ist außerhalb des Gültigkeitszeitraumes.'**
+  String get activationCodeErrorInvalidDescription;
+
+  /// No description provided for @activationCodeErrorInvalidTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Fehler ist aufgetreten: Dieser Code ist nicht gültig 🤨'**
+  String get activationCodeErrorInvalidTitle;
+
+  /// No description provided for @activationCodeErrorNoInternetDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir konnten nicht versuchen, den Code einzulösen, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunkdaten.'**
+  String get activationCodeErrorNoInternetDescription;
+
+  /// No description provided for @activationCodeErrorNoInternetTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Fehler ist aufgetreten: Keine Internetverbindung ☠️'**
+  String get activationCodeErrorNoInternetTitle;
+
+  /// No description provided for @activationCodeErrorNotFoundDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir konnten den eingegebenen Aktivierungscode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Aktivierungscode noch gültig ist.'**
+  String get activationCodeErrorNotFoundDescription;
+
+  /// No description provided for @activationCodeErrorNotFoundTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Fehler ist aufgetreten: Aktivierungscode nicht gefunden ❌'**
+  String get activationCodeErrorNotFoundTitle;
+
+  /// No description provided for @activationCodeErrorUnknownDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Dies könnte eventuell an deiner Internetverbindung liegen. Bitte überprüfe diese!'**
+  String get activationCodeErrorUnknownDescription;
+
+  /// No description provided for @activationCodeErrorUnknownTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein unbekannter Fehler ist aufgetreten 😭'**
+  String get activationCodeErrorUnknownTitle;
+
   /// No description provided for @activationCodeFeatureAdsLabel.
   ///
   /// In de, this message translates to:
@@ -234,6 +282,30 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'l10n'**
   String get activationCodeFeatureL10nLabel;
+
+  /// No description provided for @activationCodeFieldHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. NavigationV2'**
+  String get activationCodeFieldHint;
+
+  /// No description provided for @activationCodeFieldLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Aktivierungscode'**
+  String get activationCodeFieldLabel;
+
+  /// No description provided for @activationCodeResultDoneAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Activation Code Result Done Action'**
+  String get activationCodeResultDoneAction;
+
+  /// No description provided for @activationCodeSuccessTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Erfolgreich aktiviert: {value} 🎉'**
+  String activationCodeSuccessTitle(Object value);
 
   /// No description provided for @activationCodeToggleDisabled.
   ///
@@ -253,17 +325,71 @@ abstract class SharezoneLocalizations {
   /// **'{feature} wurde {state}. Starte die App neu, um die Änderungen zu sehen.'**
   String activationCodeToggleResult(String feature, String state);
 
+  /// No description provided for @adInfoDialogBodyPrefix.
+  ///
+  /// In de, this message translates to:
+  /// **'Innerhalb der nächsten Wochen führen wir ein Experiment mit Werbung in Sharezone durch. Wenn du keine Werbung sehen möchten, kannst du '**
+  String get adInfoDialogBodyPrefix;
+
+  /// No description provided for @adInfoDialogBodySuffix.
+  ///
+  /// In de, this message translates to:
+  /// **' erwerben.'**
+  String get adInfoDialogBodySuffix;
+
+  /// No description provided for @adInfoDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Werbung in Sharezone'**
+  String get adInfoDialogTitle;
+
+  /// No description provided for @adsLoading.
+  ///
+  /// In de, this message translates to:
+  /// **'Anzeige lädt...'**
+  String get adsLoading;
+
   /// No description provided for @appName.
   ///
   /// In de, this message translates to:
   /// **'Sharezone'**
   String get appName;
 
+  /// No description provided for @attachFileCameraPermissionError.
+  ///
+  /// In de, this message translates to:
+  /// **'Die App hat leider keinen Zugang zur Kamera...'**
+  String get attachFileCameraPermissionError;
+
+  /// No description provided for @attachFileDocumentTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Dokument'**
+  String get attachFileDocumentTitle;
+
   /// Display name template for users without a chosen name.
   ///
   /// In de, this message translates to:
   /// **'Anonymer {animalName}'**
   String authAnonymousDisplayName(Object animalName);
+
+  /// No description provided for @authEmailAndPasswordLinkFillFormComplete.
+  ///
+  /// In de, this message translates to:
+  /// **'Auth Email And Password Link Fill Form Complete'**
+  String get authEmailAndPasswordLinkFillFormComplete;
+
+  /// No description provided for @authEmailAndPasswordLinkNicknameHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Auth Email And Password Link Nickname Hint'**
+  String get authEmailAndPasswordLinkNicknameHint;
+
+  /// No description provided for @authEmailAndPasswordLinkNicknameLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Auth Email And Password Link Nickname Label'**
+  String get authEmailAndPasswordLinkNicknameLabel;
 
   /// No description provided for @authProviderAnonymous.
   ///
@@ -307,6 +433,78 @@ abstract class SharezoneLocalizations {
   /// **'Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein'**
   String get authValidationInvalidPasswordTooShort;
 
+  /// No description provided for @blackboardCardAttachmentTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Blackboard Card Attachment Tooltip'**
+  String get blackboardCardAttachmentTooltip;
+
+  /// No description provided for @blackboardCardMyEntryTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Blackboard Card My Entry Tooltip'**
+  String get blackboardCardMyEntryTooltip;
+
+  /// No description provided for @blackboardComposeMessageHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Nachricht verfassen'**
+  String get blackboardComposeMessageHint;
+
+  /// No description provided for @blackboardCustomImageUnavailableMessage.
+  ///
+  /// In de, this message translates to:
+  /// **'Bisher können keine eigenen Bilder aufgenommen/hochgeladen werden 😔\n\nDiese Funktion wird sehr bald verfügbar sein!'**
+  String get blackboardCustomImageUnavailableMessage;
+
+  /// No description provided for @blackboardDeleteAttachmentsDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Sollen die Anhänge des Eintrags aus der Dateiablage gelöscht oder die Verknüpfung zwischen beiden aufgehoben werden?'**
+  String get blackboardDeleteAttachmentsDialogDescription;
+
+  /// No description provided for @blackboardDeleteDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich diesen Eintrag für den kompletten Kurs löschen?'**
+  String get blackboardDeleteDialogDescription;
+
+  /// No description provided for @blackboardDeleteDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Eintrag löschen?'**
+  String get blackboardDeleteDialogTitle;
+
+  /// No description provided for @blackboardDetailsAttachmentsCount.
+  ///
+  /// In de, this message translates to:
+  /// **'Anhänge: {value}'**
+  String blackboardDetailsAttachmentsCount(Object value);
+
+  /// No description provided for @blackboardDetailsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Details'**
+  String get blackboardDetailsTitle;
+
+  /// No description provided for @blackboardDialogSaveTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Blackboard Dialog Save Tooltip'**
+  String get blackboardDialogSaveTooltip;
+
+  /// No description provided for @blackboardDialogTitleHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Blackboard Dialog Title Hint'**
+  String get blackboardDialogTitleHint;
+
+  /// No description provided for @blackboardEntryDeleted.
+  ///
+  /// In de, this message translates to:
+  /// **'Eintrag wurde gelöscht.'**
+  String get blackboardEntryDeleted;
+
   /// Error message shown when a blackboard entry is missing a course.
   ///
   /// In de, this message translates to:
@@ -318,6 +516,132 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Bitte gib einen Titel für den Eintrag an!'**
   String get blackboardErrorTitleMissing;
+
+  /// No description provided for @blackboardMarkAsRead.
+  ///
+  /// In de, this message translates to:
+  /// **'Als gelesen markieren'**
+  String get blackboardMarkAsRead;
+
+  /// No description provided for @blackboardMarkAsUnread.
+  ///
+  /// In de, this message translates to:
+  /// **'Als ungelesen markieren'**
+  String get blackboardMarkAsUnread;
+
+  /// No description provided for @blackboardPageAddInfoSheet.
+  ///
+  /// In de, this message translates to:
+  /// **'Infozettel hinzufügen'**
+  String get blackboardPageAddInfoSheet;
+
+  /// No description provided for @blackboardPageEmptyDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Hier können wichtige Ankündigungen in Form eines digitalen Zettels an Schüler, Lehrkräfte und Eltern ausgeteilt werden. Ideal für beispielsweise den Elternsprechtag, den Wandertag, das Sportfest, usw.'**
+  String get blackboardPageEmptyDescription;
+
+  /// No description provided for @blackboardPageEmptyTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast alle Infozettel gelesen 👍'**
+  String get blackboardPageEmptyTitle;
+
+  /// No description provided for @blackboardPageFabTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuen Infozettel'**
+  String get blackboardPageFabTooltip;
+
+  /// No description provided for @blackboardReadByUsersPlusDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'**
+  String get blackboardReadByUsersPlusDescription;
+
+  /// No description provided for @blackboardReadByUsersTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gelesen von'**
+  String get blackboardReadByUsersTitle;
+
+  /// No description provided for @blackboardRemoveAttachment.
+  ///
+  /// In de, this message translates to:
+  /// **'Anhang entfernen'**
+  String get blackboardRemoveAttachment;
+
+  /// No description provided for @blackboardSelectCoverImage.
+  ///
+  /// In de, this message translates to:
+  /// **'Titelbild auswählen'**
+  String get blackboardSelectCoverImage;
+
+  /// No description provided for @blackboardSendNotificationDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Sende eine Benachrichtigung an deine Kursmitglieder, dass du einen neuen Eintrag erstellt hast.'**
+  String get blackboardSendNotificationDescription;
+
+  /// No description provided for @bnbTutorialDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Ziehe die untere Navigationsleiste nach oben, um auf weitere Funktionen zuzugreifen.'**
+  String get bnbTutorialDescription;
+
+  /// No description provided for @calendricalEventsAddEvent.
+  ///
+  /// In de, this message translates to:
+  /// **'Termin eintragen'**
+  String get calendricalEventsAddEvent;
+
+  /// No description provided for @calendricalEventsAddExam.
+  ///
+  /// In de, this message translates to:
+  /// **'Prüfung eintragen'**
+  String get calendricalEventsAddExam;
+
+  /// No description provided for @calendricalEventsCreateEventTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuen Termin erstellen'**
+  String get calendricalEventsCreateEventTooltip;
+
+  /// No description provided for @calendricalEventsCreateExamTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Prüfung erstellen'**
+  String get calendricalEventsCreateExamTooltip;
+
+  /// No description provided for @calendricalEventsCreateNew.
+  ///
+  /// In de, this message translates to:
+  /// **'Neu erstellen'**
+  String get calendricalEventsCreateNew;
+
+  /// No description provided for @calendricalEventsEmptyTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Es stehen keine Termine und Prüfungen in der Zukunft an.'**
+  String get calendricalEventsEmptyTitle;
+
+  /// No description provided for @calendricalEventsFabTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Prüfung oder Termin'**
+  String get calendricalEventsFabTooltip;
+
+  /// No description provided for @calendricalEventsSwitchToGrid.
+  ///
+  /// In de, this message translates to:
+  /// **'Auf Kacheln umschalten'**
+  String get calendricalEventsSwitchToGrid;
+
+  /// No description provided for @calendricalEventsSwitchToList.
+  ///
+  /// In de, this message translates to:
+  /// **'Auf Liste umschalten'**
+  String get calendricalEventsSwitchToList;
 
   /// The label for the text field which is used for the current email address
   ///
@@ -366,6 +690,42 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Wozu brauchen wir deine E-Mail?'**
   String get changeEmailAddressWhyWeNeedTheEmailInfoTitle;
+
+  /// No description provided for @changeEmailReauthenticationDialogBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Change Email Reauthentication Dialog Body'**
+  String get changeEmailReauthenticationDialogBody;
+
+  /// No description provided for @changeEmailReauthenticationDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Change Email Reauthentication Dialog Title'**
+  String get changeEmailReauthenticationDialogTitle;
+
+  /// No description provided for @changeEmailVerifyDialogAfterWord.
+  ///
+  /// In de, this message translates to:
+  /// **'Change Email Verify Dialog After Word'**
+  String get changeEmailVerifyDialogAfterWord;
+
+  /// No description provided for @changeEmailVerifyDialogBodyPrefix.
+  ///
+  /// In de, this message translates to:
+  /// **'Change Email Verify Dialog Body Prefix'**
+  String get changeEmailVerifyDialogBodyPrefix;
+
+  /// No description provided for @changeEmailVerifyDialogBodySuffix.
+  ///
+  /// In de, this message translates to:
+  /// **'Change Email Verify Dialog Body Suffix'**
+  String get changeEmailVerifyDialogBodySuffix;
+
+  /// No description provided for @changeEmailVerifyDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Change Email Verify Dialog Title'**
+  String get changeEmailVerifyDialogTitle;
 
   /// No description provided for @changePasswordCurrentPasswordTextfieldLabel.
   ///
@@ -507,6 +867,72 @@ abstract class SharezoneLocalizations {
   /// **'Account-Typ ändern'**
   String get changeTypeOfUserTitle;
 
+  /// No description provided for @changelogPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Was ist neu?'**
+  String get changelogPageTitle;
+
+  /// No description provided for @changelogSectionBugFixes.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehlerbehebungen:'**
+  String get changelogSectionBugFixes;
+
+  /// No description provided for @changelogSectionImprovements.
+  ///
+  /// In de, this message translates to:
+  /// **'Verbesserungen:'**
+  String get changelogSectionImprovements;
+
+  /// No description provided for @changelogSectionNewFeatures.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Funktionen:'**
+  String get changelogSectionNewFeatures;
+
+  /// No description provided for @changelogUpdatePromptStore.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir haben bemerkt, dass du eine veraltete Version der App installiert hast. Lade dir deswegen jetzt die Version im {store} herunter! 👍'**
+  String changelogUpdatePromptStore(String store);
+
+  /// No description provided for @changelogUpdatePromptTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Neues Update verfügbar!'**
+  String get changelogUpdatePromptTitle;
+
+  /// No description provided for @changelogUpdatePromptWeb.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir haben bemerkt, dass du eine veraltete Version der App verwendest. Lade die Seite neu, um die neueste Version zu erhalten! 👍'**
+  String get changelogUpdatePromptWeb;
+
+  /// No description provided for @commentActionsCopyText.
+  ///
+  /// In de, this message translates to:
+  /// **'Text kopieren'**
+  String get commentActionsCopyText;
+
+  /// No description provided for @commentActionsReport.
+  ///
+  /// In de, this message translates to:
+  /// **'Kommentar melden'**
+  String get commentActionsReport;
+
+  /// No description provided for @commentDeletedConfirmation.
+  ///
+  /// In de, this message translates to:
+  /// **'Comment Deleted Confirmation'**
+  String get commentDeletedConfirmation;
+
+  /// No description provided for @commentsSectionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kommentare: {value}'**
+  String commentsSectionTitle(Object value);
+
   /// No description provided for @commonActionBack.
   ///
   /// In de, this message translates to:
@@ -519,11 +945,29 @@ abstract class SharezoneLocalizations {
   /// **'Ändern'**
   String get commonActionChange;
 
+  /// No description provided for @commonActionRename.
+  ///
+  /// In de, this message translates to:
+  /// **'Umbenennen'**
+  String get commonActionRename;
+
+  /// No description provided for @commonActionsAdd.
+  ///
+  /// In de, this message translates to:
+  /// **'Hinzufügen'**
+  String get commonActionsAdd;
+
   /// No description provided for @commonActionsAlright.
   ///
   /// In de, this message translates to:
   /// **'Alles klar'**
   String get commonActionsAlright;
+
+  /// No description provided for @commonActionsBack.
+  ///
+  /// In de, this message translates to:
+  /// **'Common Actions Back'**
+  String get commonActionsBack;
 
   /// No description provided for @commonActionsCancel.
   ///
@@ -567,6 +1011,18 @@ abstract class SharezoneLocalizations {
   /// **'Weiter'**
   String get commonActionsContinue;
 
+  /// No description provided for @commonActionsCreate.
+  ///
+  /// In de, this message translates to:
+  /// **'Erstellen'**
+  String get commonActionsCreate;
+
+  /// No description provided for @commonActionsCreateUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'ERSTELLEN'**
+  String get commonActionsCreateUppercase;
+
   /// No description provided for @commonActionsDelete.
   ///
   /// In de, this message translates to:
@@ -579,11 +1035,47 @@ abstract class SharezoneLocalizations {
   /// **'LÖSCHEN'**
   String get commonActionsDeleteUppercase;
 
+  /// No description provided for @commonActionsDone.
+  ///
+  /// In de, this message translates to:
+  /// **'Fertig'**
+  String get commonActionsDone;
+
+  /// No description provided for @commonActionsEdit.
+  ///
+  /// In de, this message translates to:
+  /// **'Bearbeiten'**
+  String get commonActionsEdit;
+
+  /// No description provided for @commonActionsHelp.
+  ///
+  /// In de, this message translates to:
+  /// **'Hilfe'**
+  String get commonActionsHelp;
+
+  /// No description provided for @commonActionsJoin.
+  ///
+  /// In de, this message translates to:
+  /// **'Beitreten'**
+  String get commonActionsJoin;
+
   /// No description provided for @commonActionsLeave.
   ///
   /// In de, this message translates to:
   /// **'Verlassen'**
   String get commonActionsLeave;
+
+  /// No description provided for @commonActionsNo.
+  ///
+  /// In de, this message translates to:
+  /// **'Nein'**
+  String get commonActionsNo;
+
+  /// No description provided for @commonActionsNotNow.
+  ///
+  /// In de, this message translates to:
+  /// **'Nicht jetzt'**
+  String get commonActionsNotNow;
 
   /// No description provided for @commonActionsOk.
   ///
@@ -591,17 +1083,59 @@ abstract class SharezoneLocalizations {
   /// **'Ok'**
   String get commonActionsOk;
 
+  /// No description provided for @commonActionsReport.
+  ///
+  /// In de, this message translates to:
+  /// **'Melden'**
+  String get commonActionsReport;
+
   /// No description provided for @commonActionsSave.
   ///
   /// In de, this message translates to:
   /// **'Speichern'**
   String get commonActionsSave;
 
+  /// No description provided for @commonActionsSend.
+  ///
+  /// In de, this message translates to:
+  /// **'Senden'**
+  String get commonActionsSend;
+
+  /// No description provided for @commonActionsShare.
+  ///
+  /// In de, this message translates to:
+  /// **'Teilen'**
+  String get commonActionsShare;
+
+  /// No description provided for @commonActionsSignOut.
+  ///
+  /// In de, this message translates to:
+  /// **'Abmelden'**
+  String get commonActionsSignOut;
+
+  /// No description provided for @commonActionsSignOutUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'ABMELDEN'**
+  String get commonActionsSignOutUppercase;
+
+  /// No description provided for @commonActionsSkip.
+  ///
+  /// In de, this message translates to:
+  /// **'Überspringen'**
+  String get commonActionsSkip;
+
   /// No description provided for @commonActionsYes.
   ///
   /// In de, this message translates to:
   /// **'Ja'**
   String get commonActionsYes;
+
+  /// No description provided for @commonDate.
+  ///
+  /// In de, this message translates to:
+  /// **'Datum'**
+  String get commonDate;
 
   /// No description provided for @commonDisplayError.
   ///
@@ -644,6 +1178,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Bitte gib deine E-Mail an.'**
   String get commonErrorEmailMissing;
+
+  /// No description provided for @commonErrorGeneric.
+  ///
+  /// In de, this message translates to:
+  /// **'Es ist ein Fehler aufgetreten.'**
+  String get commonErrorGeneric;
 
   /// Error message shown when provided data is invalid.
   ///
@@ -723,6 +1263,12 @@ abstract class SharezoneLocalizations {
   /// **'Das ist doch der selbe Name wie vorher 🙈'**
   String get commonErrorSameNameAsBefore;
 
+  /// No description provided for @commonErrorTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Common Error Title'**
+  String get commonErrorTitle;
+
   /// Error message shown when a title is missing.
   ///
   /// In de, this message translates to:
@@ -765,11 +1311,23 @@ abstract class SharezoneLocalizations {
   /// **'Das eingegebene Passwort ist falsch.'**
   String get commonErrorWrongPassword;
 
+  /// No description provided for @commonFieldName.
+  ///
+  /// In de, this message translates to:
+  /// **'Name'**
+  String get commonFieldName;
+
   /// No description provided for @commonLoadingPleaseWait.
   ///
   /// In de, this message translates to:
   /// **'Bitte warten...'**
   String get commonLoadingPleaseWait;
+
+  /// No description provided for @commonPleaseWaitMoment.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte warte einen kurzen Augenblick.'**
+  String get commonPleaseWaitMoment;
 
   /// No description provided for @commonStatusFailed.
   ///
@@ -807,11 +1365,29 @@ abstract class SharezoneLocalizations {
   /// **'Unbekannter Fehler'**
   String get commonStatusUnknownErrorTitle;
 
+  /// No description provided for @commonTextCopiedToClipboard.
+  ///
+  /// In de, this message translates to:
+  /// **'Common Text Copied To Clipboard'**
+  String get commonTextCopiedToClipboard;
+
+  /// No description provided for @commonTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Titel'**
+  String get commonTitle;
+
   /// No description provided for @commonTitleNote.
   ///
   /// In de, this message translates to:
   /// **'Hinweis'**
   String get commonTitleNote;
+
+  /// No description provided for @commonUnknownError.
+  ///
+  /// In de, this message translates to:
+  /// **'Common Unknown Error'**
+  String get commonUnknownError;
 
   /// No description provided for @contactSupportButton.
   ///
@@ -836,6 +1412,478 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Schweiz'**
   String get countrySwitzerland;
+
+  /// No description provided for @courseActionsDeleteUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'KURS LÖSCHEN'**
+  String get courseActionsDeleteUppercase;
+
+  /// No description provided for @courseActionsKickUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'AUS DEM KURS KICKEN'**
+  String get courseActionsKickUppercase;
+
+  /// No description provided for @courseActionsLeaveUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'KURS VERLASSEN'**
+  String get courseActionsLeaveUppercase;
+
+  /// No description provided for @courseAllowJoinExplanation.
+  ///
+  /// In de, this message translates to:
+  /// **'Über diese Einstellungen kannst du regulieren, ob neue Mitglieder dem Kurs beitreten dürfen.'**
+  String get courseAllowJoinExplanation;
+
+  /// No description provided for @courseCreateAbbreviationHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. M'**
+  String get courseCreateAbbreviationHint;
+
+  /// No description provided for @courseCreateAbbreviationLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Kürzel des Kurses'**
+  String get courseCreateAbbreviationLabel;
+
+  /// No description provided for @courseCreateNameDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Kursname dient hauptsächlich für die Lehrkräfte, damit diese Kurse mit dem gleichen Fach unterscheiden können (z.B. \'Mathematik Klasse 8A\' und \'Mathematik Klasse 8B\').'**
+  String get courseCreateNameDescription;
+
+  /// No description provided for @courseCreateNameHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. Mathematik GK Q2'**
+  String get courseCreateNameHint;
+
+  /// No description provided for @courseCreateSubjectHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. Mathematik'**
+  String get courseCreateSubjectHint;
+
+  /// No description provided for @courseCreateSubjectRequiredLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Fach des Kurses (erforderlich)'**
+  String get courseCreateSubjectRequiredLabel;
+
+  /// No description provided for @courseCreateTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs erstellen'**
+  String get courseCreateTitle;
+
+  /// No description provided for @courseDeleteDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du den Kurs \"{courseName}\" wirklich endgültig löschen?\n\nEs werden alle Stunden & Termine aus dem Stundenplan, Hausaufgaben und Infozettel gelöscht.\n\nAuf den Kurs kann von niemandem mehr zugegriffen werden!'**
+  String courseDeleteDialogDescription(String courseName);
+
+  /// No description provided for @courseDeleteDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs löschen?'**
+  String get courseDeleteDialogTitle;
+
+  /// No description provided for @courseDeleteSuccess.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast erfolgreich den Kurs gelöscht.'**
+  String get courseDeleteSuccess;
+
+  /// No description provided for @courseDesignColorChangeFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Farbe konnte nicht geändert werden.'**
+  String get courseDesignColorChangeFailed;
+
+  /// No description provided for @courseDesignCourseColorChanged.
+  ///
+  /// In de, this message translates to:
+  /// **'Farbe wurde erfolgreich für den gesamten Kurs geändert.'**
+  String get courseDesignCourseColorChanged;
+
+  /// No description provided for @courseDesignPersonalColorRemoved.
+  ///
+  /// In de, this message translates to:
+  /// **'Persönliche Farbe wurde entfernt.'**
+  String get courseDesignPersonalColorRemoved;
+
+  /// No description provided for @courseDesignPersonalColorSet.
+  ///
+  /// In de, this message translates to:
+  /// **'Persönliche Farbe wurde gesetzt.'**
+  String get courseDesignPersonalColorSet;
+
+  /// No description provided for @courseDesignPlusColorsHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Nicht genug Farben? Schalte mit Sharezone Plus +200 zusätzliche Farben frei.'**
+  String get courseDesignPlusColorsHint;
+
+  /// No description provided for @courseDesignRemovePersonalColor.
+  ///
+  /// In de, this message translates to:
+  /// **'Persönliche Farbe entfernen'**
+  String get courseDesignRemovePersonalColor;
+
+  /// No description provided for @courseDesignTypeCourseSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Farbe gilt für den gesamten Kurs'**
+  String get courseDesignTypeCourseSubtitle;
+
+  /// No description provided for @courseDesignTypeCourseTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs'**
+  String get courseDesignTypeCourseTitle;
+
+  /// No description provided for @courseDesignTypePersonalSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gilt nur für dich und liegt über der Kursfarbe'**
+  String get courseDesignTypePersonalSubtitle;
+
+  /// No description provided for @courseDesignTypePersonalTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Persönlich'**
+  String get courseDesignTypePersonalTitle;
+
+  /// No description provided for @courseEditSuccess.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Kurs wurde erfolgreich bearbeitet!'**
+  String get courseEditSuccess;
+
+  /// No description provided for @courseEditTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs bearbeiten'**
+  String get courseEditTitle;
+
+  /// No description provided for @courseFieldsAbbreviationLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Kürzel des Fachs'**
+  String get courseFieldsAbbreviationLabel;
+
+  /// No description provided for @courseFieldsNameLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Name des Kurses'**
+  String get courseFieldsNameLabel;
+
+  /// No description provided for @courseFieldsSubjectLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Fach'**
+  String get courseFieldsSubjectLabel;
+
+  /// No description provided for @courseLeaveAndDeleteDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du den Kurs wirklich verlassen? Da du der letzte Teilnehmer im Kurs bist, wird der Kurs gelöscht.'**
+  String get courseLeaveAndDeleteDialogDescription;
+
+  /// No description provided for @courseLeaveAndDeleteDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs verlassen und löschen?'**
+  String get courseLeaveAndDeleteDialogTitle;
+
+  /// No description provided for @courseLeaveDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du den Kurs wirklich verlassen?'**
+  String get courseLeaveDialogDescription;
+
+  /// No description provided for @courseLeaveDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs verlassen?'**
+  String get courseLeaveDialogTitle;
+
+  /// No description provided for @courseLeaveSuccess.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast erfolgreich den Kurs verlassen.'**
+  String get courseLeaveSuccess;
+
+  /// No description provided for @courseLongPressTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs: {courseName}'**
+  String courseLongPressTitle(String courseName);
+
+  /// No description provided for @courseMemberOptionsAloneHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Da du der einzige im Kurs bist, kannst du deine Rolle nicht bearbeiten.'**
+  String get courseMemberOptionsAloneHint;
+
+  /// No description provided for @courseMemberOptionsOnlyAdminHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist der einzige Admin in diesem Kurs. Daher kannst du dir keine Rechte entziehen.'**
+  String get courseMemberOptionsOnlyAdminHint;
+
+  /// No description provided for @courseSelectColorsTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Farben auswählen'**
+  String get courseSelectColorsTooltip;
+
+  /// No description provided for @courseTemplateAlreadyExistsDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast bereits einen Kurs für das Fach {subject} erstellt. Möchtest du einen weiteren Kurs erstellen?'**
+  String courseTemplateAlreadyExistsDescription(String subject);
+
+  /// No description provided for @courseTemplateAlreadyExistsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs bereits vorhanden'**
+  String get courseTemplateAlreadyExistsTitle;
+
+  /// No description provided for @courseTemplateCourseCreated.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs \"{courseName}\" wurde erstellt.'**
+  String courseTemplateCourseCreated(String courseName);
+
+  /// No description provided for @courseTemplateCreateCustomCourseUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'EIGENEN KURS ERSTELLEN'**
+  String get courseTemplateCreateCustomCourseUppercase;
+
+  /// No description provided for @courseTemplateCustomCourseMissingPrompt.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Kurs ist nicht dabei?'**
+  String get courseTemplateCustomCourseMissingPrompt;
+
+  /// No description provided for @courseTemplateDeletedCourse.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs wurde gelöscht.'**
+  String get courseTemplateDeletedCourse;
+
+  /// No description provided for @courseTemplateDeletingCourse.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs wird wieder gelöscht...'**
+  String get courseTemplateDeletingCourse;
+
+  /// No description provided for @courseTemplateSchoolClassSelectionDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist in einer oder mehreren Schulklasse(n) Administrator. Wähle eine Schulklasse aus, um festzulegen, zu welcher Schulklasse die Kurse verknüpft werden sollen.'**
+  String get courseTemplateSchoolClassSelectionDescription;
+
+  /// No description provided for @courseTemplateSchoolClassSelectionInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurse, die ab jetzt erstellt werden, werden mit der Schulklasse \"{name}\" verknüpft.'**
+  String courseTemplateSchoolClassSelectionInfo(String name);
+
+  /// No description provided for @courseTemplateSchoolClassSelectionNoneInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurse, die ab jetzt erstellt werden, werden mit keiner Schulklasse verknüpft.'**
+  String get courseTemplateSchoolClassSelectionNoneInfo;
+
+  /// No description provided for @courseTemplateSchoolClassSelectionNoneOption.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit keiner Schulklasse verknüpfen'**
+  String get courseTemplateSchoolClassSelectionNoneOption;
+
+  /// No description provided for @courseTemplateSchoolClassSelectionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulklasse auswählen'**
+  String get courseTemplateSchoolClassSelectionTitle;
+
+  /// No description provided for @courseTemplateTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vorlagen'**
+  String get courseTemplateTitle;
+
+  /// No description provided for @courseTemplateUndoUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'RÜCKGÄNGIG MACHEN'**
+  String get courseTemplateUndoUppercase;
+
+  /// No description provided for @dashboardAdSectionAcquireSuffix.
+  ///
+  /// In de, this message translates to:
+  /// **'Dashboard Ad Section Acquire Suffix'**
+  String get dashboardAdSectionAcquireSuffix;
+
+  /// No description provided for @dashboardAdSectionSharezonePlusLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Dashboard Ad Section Sharezone Plus Label'**
+  String get dashboardAdSectionSharezonePlusLabel;
+
+  /// No description provided for @dashboardDebugClearCache.
+  ///
+  /// In de, this message translates to:
+  /// **'[DEBUG] Cache löschen'**
+  String get dashboardDebugClearCache;
+
+  /// No description provided for @dashboardDebugOpenV2Dialog.
+  ///
+  /// In de, this message translates to:
+  /// **'V2 Dialog öffnen'**
+  String get dashboardDebugOpenV2Dialog;
+
+  /// No description provided for @dashboardFabAddBlackboardTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Infozettel'**
+  String get dashboardFabAddBlackboardTitle;
+
+  /// No description provided for @dashboardFabAddHomeworkTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Hausaufgabe'**
+  String get dashboardFabAddHomeworkTitle;
+
+  /// No description provided for @dashboardFabCreateHomeworkTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Hausaufgabe erstellen'**
+  String get dashboardFabCreateHomeworkTooltip;
+
+  /// No description provided for @dashboardFabCreateLessonTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Schulstunde erstellen'**
+  String get dashboardFabCreateLessonTooltip;
+
+  /// No description provided for @dashboardFabTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Elemente hinzufügen'**
+  String get dashboardFabTooltip;
+
+  /// No description provided for @dashboardHolidayCountdownDayUnitDay.
+  ///
+  /// In de, this message translates to:
+  /// **'Tag'**
+  String get dashboardHolidayCountdownDayUnitDay;
+
+  /// No description provided for @dashboardHolidayCountdownDayUnitDays.
+  ///
+  /// In de, this message translates to:
+  /// **'Tage'**
+  String get dashboardHolidayCountdownDayUnitDays;
+
+  /// No description provided for @dashboardHolidayCountdownDisplayError.
+  ///
+  /// In de, this message translates to:
+  /// **'Es gab einen Fehler beim Anzeigen von den Ferien.\nFalls dieser Fehler öfter auftaucht, kontaktiere uns bitte.'**
+  String get dashboardHolidayCountdownDisplayError;
+
+  /// No description provided for @dashboardHolidayCountdownGeneralError.
+  ///
+  /// In de, this message translates to:
+  /// **'💣 Boooomm.... Etwas ist kaputt gegangen. Starte am besten die App einmal neu 👍'**
+  String get dashboardHolidayCountdownGeneralError;
+
+  /// No description provided for @dashboardHolidayCountdownHolidayLine.
+  ///
+  /// In de, this message translates to:
+  /// **'{title}: {text}'**
+  String dashboardHolidayCountdownHolidayLine(String text, String title);
+
+  /// No description provided for @dashboardHolidayCountdownInDays.
+  ///
+  /// In de, this message translates to:
+  /// **'In {days} Tagen {emoji}'**
+  String dashboardHolidayCountdownInDays(int days, String emoji);
+
+  /// No description provided for @dashboardHolidayCountdownLastDay.
+  ///
+  /// In de, this message translates to:
+  /// **'Letzter Tag 😱'**
+  String get dashboardHolidayCountdownLastDay;
+
+  /// No description provided for @dashboardHolidayCountdownNow.
+  ///
+  /// In de, this message translates to:
+  /// **'JETZT, WOOOOOOO! {emoji}'**
+  String dashboardHolidayCountdownNow(String emoji);
+
+  /// No description provided for @dashboardHolidayCountdownRemaining.
+  ///
+  /// In de, this message translates to:
+  /// **'Noch {days} {dayUnit} {emoji}'**
+  String dashboardHolidayCountdownRemaining(
+    String dayUnit,
+    int days,
+    String emoji,
+  );
+
+  /// No description provided for @dashboardHolidayCountdownSelectStateHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Durch das Auswählen deiner Region können wir berechnen, wie lange du dich noch in der Schule quälen musst, bis endlich die Ferien sind 😉'**
+  String get dashboardHolidayCountdownSelectStateHint;
+
+  /// No description provided for @dashboardHolidayCountdownTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ferien-Countdown'**
+  String get dashboardHolidayCountdownTitle;
+
+  /// No description provided for @dashboardHolidayCountdownTomorrow.
+  ///
+  /// In de, this message translates to:
+  /// **'Morgen 😱🎉'**
+  String get dashboardHolidayCountdownTomorrow;
+
+  /// No description provided for @dashboardHolidayCountdownUnsupportedStateError.
+  ///
+  /// In de, this message translates to:
+  /// **'Ferien können für dein ausgewähltes Bundesland nicht angezeigt werden! 😫\nDu kannst das Bundesland in den Einstellungen ändern.'**
+  String get dashboardHolidayCountdownUnsupportedStateError;
+
+  /// No description provided for @dashboardHolidayCountdownUnsupportedStateShortError.
+  ///
+  /// In de, this message translates to:
+  /// **'Ferien konnten für dein Bundesland nicht angezeigt werden'**
+  String get dashboardHolidayCountdownUnsupportedStateShortError;
+
+  /// No description provided for @dashboardRateOurAppActionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Dashboard Rate Our App Action Title'**
+  String get dashboardRateOurAppActionTitle;
+
+  /// No description provided for @dashboardRateOurAppText.
+  ///
+  /// In de, this message translates to:
+  /// **'Dashboard Rate Our App Text'**
+  String get dashboardRateOurAppText;
+
+  /// No description provided for @dashboardRateOurAppTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Dashboard Rate Our App Title'**
+  String get dashboardRateOurAppTitle;
 
   /// No description provided for @dashboardSelectStateButton.
   ///
@@ -909,6 +1957,102 @@ abstract class SharezoneLocalizations {
   /// **'Gestern'**
   String get dateYesterday;
 
+  /// No description provided for @drawerAboutTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Drawer About Tooltip'**
+  String get drawerAboutTooltip;
+
+  /// No description provided for @drawerNavigationTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Drawer Navigation Tooltip'**
+  String get drawerNavigationTooltip;
+
+  /// No description provided for @drawerOpenSemanticsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Drawer Open Semantics Label'**
+  String get drawerOpenSemanticsLabel;
+
+  /// No description provided for @drawerProfileTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Drawer Profile Tooltip'**
+  String get drawerProfileTooltip;
+
+  /// No description provided for @feedbackBoxCooldownError.
+  ///
+  /// In de, this message translates to:
+  /// **'Error! Dein Cool Down ({coolDown}) ist noch nicht abgelaufen.'**
+  String feedbackBoxCooldownError(Object coolDown);
+
+  /// No description provided for @feedbackBoxDislikeLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Was gefällt Dir nicht?'**
+  String get feedbackBoxDislikeLabel;
+
+  /// No description provided for @feedbackBoxEmptyError.
+  ///
+  /// In de, this message translates to:
+  /// **'Du musst auch schon was reinschreiben 😉'**
+  String get feedbackBoxEmptyError;
+
+  /// No description provided for @feedbackBoxGeneralRatingLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Allgemeine Bewertung:'**
+  String get feedbackBoxGeneralRatingLabel;
+
+  /// No description provided for @feedbackBoxGenericError.
+  ///
+  /// In de, this message translates to:
+  /// **'Error! Versuche es nochmal oder schicke uns dein Feedback gerne auch per E-Mail! :)'**
+  String get feedbackBoxGenericError;
+
+  /// No description provided for @feedbackBoxHeardFromLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie hast Du von Sharezone erfahren?'**
+  String get feedbackBoxHeardFromLabel;
+
+  /// No description provided for @feedbackBoxLikeMostLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Was gefällt Dir am besten?'**
+  String get feedbackBoxLikeMostLabel;
+
+  /// No description provided for @feedbackBoxMissingLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Was fehlt Dir noch?'**
+  String get feedbackBoxMissingLabel;
+
+  /// No description provided for @feedbackBoxPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Feedback-Box'**
+  String get feedbackBoxPageTitle;
+
+  /// No description provided for @feedbackBoxSubmitUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'ABSCHICKEN'**
+  String get feedbackBoxSubmitUppercase;
+
+  /// No description provided for @feedbackBoxWhyWeNeedFeedbackDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir möchten die beste App zum Organisieren des Schulalltags entwickeln! Damit wir das schaffen, brauchen wir Dich! Fülle einfach das Formular aus und schick es ab.\n\nAlle Fragen sind selbstverständlich freiwillig.'**
+  String get feedbackBoxWhyWeNeedFeedbackDescription;
+
+  /// No description provided for @feedbackBoxWhyWeNeedFeedbackTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Warum wir Dein Feedback brauchen:'**
+  String get feedbackBoxWhyWeNeedFeedbackTitle;
+
   /// No description provided for @feedbackDetailsCommentsTitle.
   ///
   /// In de, this message translates to:
@@ -945,6 +2089,18 @@ abstract class SharezoneLocalizations {
   /// **'Fehler beim Senden der Nachricht: {error}'**
   String feedbackDetailsSendError(String error);
 
+  /// No description provided for @feedbackHistoryPageEmpty.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast bisher kein Feedback gegeben 😢'**
+  String get feedbackHistoryPageEmpty;
+
+  /// No description provided for @feedbackHistoryPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Meine Feedbacks'**
+  String get feedbackHistoryPageTitle;
+
   /// No description provided for @feedbackNewLineHint.
   ///
   /// In de, this message translates to:
@@ -956,6 +2112,2010 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Senden (Enter)'**
   String get feedbackSendTooltip;
+
+  /// No description provided for @feedbackThankYouRatePromptPrefix.
+  ///
+  /// In de, this message translates to:
+  /// **'Feedback Thank You Rate Prompt Prefix'**
+  String get feedbackThankYouRatePromptPrefix;
+
+  /// No description provided for @feedbackThankYouRatePromptSuffix.
+  ///
+  /// In de, this message translates to:
+  /// **'Feedback Thank You Rate Prompt Suffix'**
+  String get feedbackThankYouRatePromptSuffix;
+
+  /// No description provided for @feedbackThankYouTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Feedback Thank You Title'**
+  String get feedbackThankYouTitle;
+
+  /// No description provided for @fileSharingCourseFoldersHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing Course Folders Headline'**
+  String get fileSharingCourseFoldersHeadline;
+
+  /// No description provided for @fileSharingDeleteFolderDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich den Ordner mit dem Namen \"{value}\" löschen?'**
+  String fileSharingDeleteFolderDescription(Object value);
+
+  /// No description provided for @fileSharingDeleteFolderTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing Delete Folder Title'**
+  String get fileSharingDeleteFolderTitle;
+
+  /// No description provided for @fileSharingDownloadError.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehler: {value}'**
+  String fileSharingDownloadError(Object value);
+
+  /// No description provided for @fileSharingDownloadingFileMessage.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing Downloading File Message'**
+  String get fileSharingDownloadingFileMessage;
+
+  /// No description provided for @fileSharingFabCameraTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kamera'**
+  String get fileSharingFabCameraTitle;
+
+  /// No description provided for @fileSharingFabCameraTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Kamera öffnen'**
+  String get fileSharingFabCameraTooltip;
+
+  /// No description provided for @fileSharingFabCreateFolderTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ordner erstellen'**
+  String get fileSharingFabCreateFolderTitle;
+
+  /// No description provided for @fileSharingFabCreateFolderTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuen Ordner erstellen'**
+  String get fileSharingFabCreateFolderTooltip;
+
+  /// No description provided for @fileSharingFabCreateNewTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Neu erstellen'**
+  String get fileSharingFabCreateNewTitle;
+
+  /// No description provided for @fileSharingFabCreateNewTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Neu erstellen'**
+  String get fileSharingFabCreateNewTooltip;
+
+  /// No description provided for @fileSharingFabFilesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Dateien'**
+  String get fileSharingFabFilesTitle;
+
+  /// No description provided for @fileSharingFabFilesTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Dateien'**
+  String get fileSharingFabFilesTooltip;
+
+  /// No description provided for @fileSharingFabFolderNameHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Ordnername'**
+  String get fileSharingFabFolderNameHint;
+
+  /// No description provided for @fileSharingFabFolderTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ordner'**
+  String get fileSharingFabFolderTitle;
+
+  /// No description provided for @fileSharingFabImagesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Bilder'**
+  String get fileSharingFabImagesTitle;
+
+  /// No description provided for @fileSharingFabImagesTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Bilder'**
+  String get fileSharingFabImagesTooltip;
+
+  /// No description provided for @fileSharingFabMissingCameraPermission.
+  ///
+  /// In de, this message translates to:
+  /// **'Oh! Die Berechtigung für die Kamera fehlt!'**
+  String get fileSharingFabMissingCameraPermission;
+
+  /// No description provided for @fileSharingFabUploadTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Hochladen'**
+  String get fileSharingFabUploadTitle;
+
+  /// No description provided for @fileSharingFabUploadTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Datei hochladen'**
+  String get fileSharingFabUploadTooltip;
+
+  /// No description provided for @fileSharingFabVideosTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Videos'**
+  String get fileSharingFabVideosTitle;
+
+  /// No description provided for @fileSharingFabVideosTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Videos'**
+  String get fileSharingFabVideosTooltip;
+
+  /// No description provided for @fileSharingFoldersHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing Folders Headline'**
+  String get fileSharingFoldersHeadline;
+
+  /// No description provided for @fileSharingMoveEmptyFoldersMessage.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing Move Empty Folders Message'**
+  String get fileSharingMoveEmptyFoldersMessage;
+
+  /// No description provided for @fileSharingNewNameHint.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing New Name Hint'**
+  String get fileSharingNewNameHint;
+
+  /// No description provided for @fileSharingNoCourseFoldersFoundDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing No Course Folders Found Description'**
+  String get fileSharingNoCourseFoldersFoundDescription;
+
+  /// No description provided for @fileSharingNoFilesFoundDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing No Files Found Description'**
+  String get fileSharingNoFilesFoundDescription;
+
+  /// No description provided for @fileSharingNoFilesFoundTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing No Files Found Title'**
+  String get fileSharingNoFilesFoundTitle;
+
+  /// No description provided for @fileSharingNoFoldersFoundTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing No Folders Found Title'**
+  String get fileSharingNoFoldersFoundTitle;
+
+  /// No description provided for @fileSharingPreparingDownloadMessage.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing Preparing Download Message'**
+  String get fileSharingPreparingDownloadMessage;
+
+  /// No description provided for @fileSharingRenameActionUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing Rename Action Uppercase'**
+  String get fileSharingRenameActionUppercase;
+
+  /// No description provided for @fileSharingRenameFolderTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'File Sharing Rename Folder Title'**
+  String get fileSharingRenameFolderTitle;
+
+  /// No description provided for @filesAddAttachment.
+  ///
+  /// In de, this message translates to:
+  /// **'Anhang hinzufügen'**
+  String get filesAddAttachment;
+
+  /// No description provided for @filesCreator.
+  ///
+  /// In de, this message translates to:
+  /// **'von {value}'**
+  String filesCreator(Object value);
+
+  /// No description provided for @filesDeleteDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich die Datei mit dem Namen \"{fileName}\" löschen?'**
+  String filesDeleteDialogDescription(String fileName);
+
+  /// No description provided for @filesDeleteDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei löschen?'**
+  String get filesDeleteDialogTitle;
+
+  /// No description provided for @filesDisplayErrorTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Files Display Error Title'**
+  String get filesDisplayErrorTitle;
+
+  /// No description provided for @filesDownloadBrokenFileError.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Datei ist beschädigt und kann nicht heruntergeladen werden.'**
+  String get filesDownloadBrokenFileError;
+
+  /// No description provided for @filesDownloadStarted.
+  ///
+  /// In de, this message translates to:
+  /// **'Download wurde gestartet...'**
+  String get filesDownloadStarted;
+
+  /// No description provided for @filesLoading.
+  ///
+  /// In de, this message translates to:
+  /// **'Files Loading'**
+  String get filesLoading;
+
+  /// No description provided for @filesMoveTo.
+  ///
+  /// In de, this message translates to:
+  /// **'Verschieben nach {value}'**
+  String filesMoveTo(Object value);
+
+  /// No description provided for @filesMoveUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'Files Move Uppercase'**
+  String get filesMoveUppercase;
+
+  /// No description provided for @filesRenameDialogHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuer Name'**
+  String get filesRenameDialogHint;
+
+  /// No description provided for @filesRenameDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei umbenennen'**
+  String get filesRenameDialogTitle;
+
+  /// No description provided for @filesSelectCourseTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Files Select Course Title'**
+  String get filesSelectCourseTitle;
+
+  /// No description provided for @gradesCommonName.
+  ///
+  /// In de, this message translates to:
+  /// **'Name'**
+  String get gradesCommonName;
+
+  /// No description provided for @gradesCreateTermCurrentTerm.
+  ///
+  /// In de, this message translates to:
+  /// **'Aktuelles Halbjahr'**
+  String get gradesCreateTermCurrentTerm;
+
+  /// No description provided for @gradesCreateTermGradingSystemInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Nur Noten von dem Notensystem, welches für das Halbjahr festlegt wurde, können für den Schnitt des Halbjahres berücksichtigt werden. Solltest du beispielsweise für das Halbjahr das Notensystem \"1 - 6\" festlegen und eine Note mit dem Notensystem \"15 - 0\" eintragen, kann diese Note für den Halbjahresschnitt nicht berücksichtigt werden.'**
+  String get gradesCreateTermGradingSystemInfo;
+
+  /// No description provided for @gradesCreateTermInvalidNameError.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen gültigen Namen ein.'**
+  String get gradesCreateTermInvalidNameError;
+
+  /// No description provided for @gradesCreateTermSaveFailedError.
+  ///
+  /// In de, this message translates to:
+  /// **'Das Halbjahr konnte nicht gespeichert werden: {error}'**
+  String gradesCreateTermSaveFailedError(Object error);
+
+  /// No description provided for @gradesCreateTermSaved.
+  ///
+  /// In de, this message translates to:
+  /// **'Halbjahr gespeichert.'**
+  String get gradesCreateTermSaved;
+
+  /// No description provided for @gradesDetailsDeletePrompt.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du diese Note wirklich löschen?'**
+  String get gradesDetailsDeletePrompt;
+
+  /// No description provided for @gradesDetailsDeleteTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Note löschen'**
+  String get gradesDetailsDeleteTitle;
+
+  /// No description provided for @gradesDetailsDeleteTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Note löschen'**
+  String get gradesDetailsDeleteTooltip;
+
+  /// No description provided for @gradesDetailsDeleted.
+  ///
+  /// In de, this message translates to:
+  /// **'Note gelöscht.'**
+  String get gradesDetailsDeleted;
+
+  /// No description provided for @gradesDetailsDummyDetails.
+  ///
+  /// In de, this message translates to:
+  /// **'Grades Details Dummy Details'**
+  String get gradesDetailsDummyDetails;
+
+  /// No description provided for @gradesDetailsDummyTopic.
+  ///
+  /// In de, this message translates to:
+  /// **'Grades Details Dummy Topic'**
+  String get gradesDetailsDummyTopic;
+
+  /// No description provided for @gradesDetailsEditTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Note bearbeiten'**
+  String get gradesDetailsEditTooltip;
+
+  /// No description provided for @gradesDialogCreateTerm.
+  ///
+  /// In de, this message translates to:
+  /// **'Halbjahr erstellen'**
+  String get gradesDialogCreateTerm;
+
+  /// No description provided for @gradesDialogCustomGradeType.
+  ///
+  /// In de, this message translates to:
+  /// **'Benutzerdefinierter Notentyp'**
+  String get gradesDialogCustomGradeType;
+
+  /// No description provided for @gradesDialogDateHelpDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Das Datum stellt das Datum dar, an dem du die Note erhalten hast. Falls du das Datum nicht mehr genau weißt, kannst du einfach ein ungefähres Datum von dem Tag angeben, an dem du die Note erhalten hast.'**
+  String get gradesDialogDateHelpDescription;
+
+  /// No description provided for @gradesDialogDateHelpTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Wozu dient das Datum?'**
+  String get gradesDialogDateHelpTitle;
+
+  /// No description provided for @gradesDialogDifferentGradingSystemInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Das Notensystem, welches du ausgewählt hast, ist nicht dasselbe wie das Notensystem deines Halbjahres. Du kannst die Note weiterhin eintragen, aber sie wird nicht in den Schnitt deines Halbjahres einfließen.'**
+  String get gradesDialogDifferentGradingSystemInfo;
+
+  /// No description provided for @gradesDialogEditSubjectDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Du kannst das Fach von bereits erstellten Noten nicht nachträglich ändern.\n\nLösche diese Note und erstelle sie erneut, um ein anderes Fach auszuwählen.'**
+  String get gradesDialogEditSubjectDescription;
+
+  /// No description provided for @gradesDialogEditSubjectTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Fach ändern'**
+  String get gradesDialogEditSubjectTitle;
+
+  /// No description provided for @gradesDialogEditTermDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Du kannst das Halbjahr von bereits erstellten Noten nicht nachträglich ändern.\n\nLösche diese Note und erstelle sie erneut, um ein anderes Halbjahr auszuwählen.'**
+  String get gradesDialogEditTermDescription;
+
+  /// No description provided for @gradesDialogEditTermTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Halbjahr ändern'**
+  String get gradesDialogEditTermTitle;
+
+  /// No description provided for @gradesDialogGoToSharezonePlus.
+  ///
+  /// In de, this message translates to:
+  /// **'Zu Sharezone Plus'**
+  String get gradesDialogGoToSharezonePlus;
+
+  /// No description provided for @gradesDialogGradeLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Note'**
+  String get gradesDialogGradeLabel;
+
+  /// No description provided for @gradesDialogGradeTypeLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Notentyp'**
+  String get gradesDialogGradeTypeLabel;
+
+  /// No description provided for @gradesDialogGradingSystemLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Notensystem'**
+  String get gradesDialogGradingSystemLabel;
+
+  /// No description provided for @gradesDialogHintFifteenZero.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. 15.0'**
+  String get gradesDialogHintFifteenZero;
+
+  /// No description provided for @gradesDialogHintOnePlus.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. 1+'**
+  String get gradesDialogHintOnePlus;
+
+  /// No description provided for @gradesDialogHintOneThree.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. 1.3'**
+  String get gradesDialogHintOneThree;
+
+  /// No description provided for @gradesDialogHintSeventyEightEight.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. 78.8'**
+  String get gradesDialogHintSeventyEightEight;
+
+  /// No description provided for @gradesDialogHintSixZero.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. 6.0'**
+  String get gradesDialogHintSixZero;
+
+  /// No description provided for @gradesDialogIncludeGradeInAverage.
+  ///
+  /// In de, this message translates to:
+  /// **'Note in Schnitt einbringen'**
+  String get gradesDialogIncludeGradeInAverage;
+
+  /// No description provided for @gradesDialogInvalidFieldsCombined.
+  ///
+  /// In de, this message translates to:
+  /// **'Folgende Felder fehlen oder sind ungültig: {fieldMessages}.'**
+  String gradesDialogInvalidFieldsCombined(Object fieldMessages);
+
+  /// No description provided for @gradesDialogInvalidGradeField.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Note fehlt oder ist ungültig.'**
+  String get gradesDialogInvalidGradeField;
+
+  /// No description provided for @gradesDialogInvalidSubjectField.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib ein Fach für die Note an.'**
+  String get gradesDialogInvalidSubjectField;
+
+  /// No description provided for @gradesDialogInvalidTermField.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib ein Halbjahr für die Note an.'**
+  String get gradesDialogInvalidTermField;
+
+  /// No description provided for @gradesDialogInvalidTitleField.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Titel fehlt oder ist ungültig.'**
+  String get gradesDialogInvalidTitleField;
+
+  /// No description provided for @gradesDialogNoGradeSelected.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Note ausgewählt'**
+  String get gradesDialogNoGradeSelected;
+
+  /// No description provided for @gradesDialogNoSubjectSelected.
+  ///
+  /// In de, this message translates to:
+  /// **'Kein Fach ausgewählt'**
+  String get gradesDialogNoSubjectSelected;
+
+  /// No description provided for @gradesDialogNoTermSelected.
+  ///
+  /// In de, this message translates to:
+  /// **'Kein Halbjahr ausgewählt'**
+  String get gradesDialogNoTermSelected;
+
+  /// No description provided for @gradesDialogNoTermsYetInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Bisher hast du keine Halbjahre erstellt. Bitte erstelle ein Halbjahr, um eine Note einzutragen.'**
+  String get gradesDialogNoTermsYetInfo;
+
+  /// No description provided for @gradesDialogNotesLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Notizen'**
+  String get gradesDialogNotesLabel;
+
+  /// No description provided for @gradesDialogPlusSubjectsLimitInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Du kannst zum Testen der Notenfunktion maximal 3 Fächer benutzen. Um alle Fächer zu benutzen, kaufe Sharezone Plus.'**
+  String get gradesDialogPlusSubjectsLimitInfo;
+
+  /// No description provided for @gradesDialogRequestAdditionalGradingSystem.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiteres Notensystem anfragen'**
+  String get gradesDialogRequestAdditionalGradingSystem;
+
+  /// No description provided for @gradesDialogRequestAdditionalGradingSystemSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Notensystem nicht dabei? Schreib uns, welches Notensystem du gerne hättest!'**
+  String get gradesDialogRequestAdditionalGradingSystemSubtitle;
+
+  /// No description provided for @gradesDialogSavedSnackBar.
+  ///
+  /// In de, this message translates to:
+  /// **'Note gespeichert'**
+  String get gradesDialogSavedSnackBar;
+
+  /// No description provided for @gradesDialogSelectGrade.
+  ///
+  /// In de, this message translates to:
+  /// **'Note auswählen'**
+  String get gradesDialogSelectGrade;
+
+  /// No description provided for @gradesDialogSelectGradeType.
+  ///
+  /// In de, this message translates to:
+  /// **'Notentyp auswählen'**
+  String get gradesDialogSelectGradeType;
+
+  /// No description provided for @gradesDialogSelectGradingSystem.
+  ///
+  /// In de, this message translates to:
+  /// **'Notensystem auswählen'**
+  String get gradesDialogSelectGradingSystem;
+
+  /// No description provided for @gradesDialogSelectGradingSystemHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Der erste Wert entspricht der besten Noten, z.B. bei dem Notensystem \"1 - 6\" ist \"1\" die beste Note.'**
+  String get gradesDialogSelectGradingSystemHint;
+
+  /// No description provided for @gradesDialogSelectSubject.
+  ///
+  /// In de, this message translates to:
+  /// **'Fach auswählen'**
+  String get gradesDialogSelectSubject;
+
+  /// No description provided for @gradesDialogSelectTerm.
+  ///
+  /// In de, this message translates to:
+  /// **'Halbjahr auswählen'**
+  String get gradesDialogSelectTerm;
+
+  /// No description provided for @gradesDialogSubjectLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Fach'**
+  String get gradesDialogSubjectLabel;
+
+  /// No description provided for @gradesDialogTermLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Halbjahr'**
+  String get gradesDialogTermLabel;
+
+  /// No description provided for @gradesDialogTitleHelpDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Falls die Note beispielsweise zu einer Klausur gehört, kannst du das Thema / den Titel der Klausur angeben, um die Note später besser zuordnen zu können.'**
+  String get gradesDialogTitleHelpDescription;
+
+  /// No description provided for @gradesDialogTitleHelpTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Wozu dient der Titel?'**
+  String get gradesDialogTitleHelpTitle;
+
+  /// No description provided for @gradesDialogTitleHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. Lineare Funktionen'**
+  String get gradesDialogTitleHint;
+
+  /// No description provided for @gradesDialogTitleLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Titel'**
+  String get gradesDialogTitleLabel;
+
+  /// No description provided for @gradesDialogUnknownCustomGradeType.
+  ///
+  /// In de, this message translates to:
+  /// **'Unbekannt/Eigener Notentyp'**
+  String get gradesDialogUnknownCustomGradeType;
+
+  /// No description provided for @gradesDialogUnknownError.
+  ///
+  /// In de, this message translates to:
+  /// **'Unbekannter Fehler: {error}'**
+  String gradesDialogUnknownError(Object error);
+
+  /// No description provided for @gradesDialogZeroWeightGradeTypeInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Der ausgewählte Notentyp hat aktuell eine Gewichtung von 0. Du kannst die Note weiterhin eintragen, aber sie wird den Schnitt der Fachnote nicht beeinflussen. Du kannst die Gewichtung nach Speichern der Note im Fach oder im Halbjahr anpassen, damit die Note in den Schnitt einfließt.'**
+  String get gradesDialogZeroWeightGradeTypeInfo;
+
+  /// No description provided for @gradesFinalGradeTypeHelpDialogText.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Endnote ist die abschließende Note, die du in einem Fach bekommst, zum Beispiel die Note auf deinem Zeugnis. Manchmal berücksichtigt deine Lehrkraft zusätzliche Faktoren, die von der üblichen Berechnungsformel abweichen können – etwa 50% Prüfungen und 50% mündliche Beteiligung. In solchen Fällen kannst du die in Sharezone automatisch berechnete Note durch diese finale Note ersetzen.\n\nDiese Einstellung kann entweder für alle Fächer eines Halbjahres gleichzeitig festgelegt oder für jedes Fach individuell angepasst werden. So hast du die Flexibilität, je nach Bedarf spezifische Anpassungen vorzunehmen.'**
+  String get gradesFinalGradeTypeHelpDialogText;
+
+  /// No description provided for @gradesFinalGradeTypeHelpDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Was ist die Endnote eines Faches?'**
+  String get gradesFinalGradeTypeHelpDialogTitle;
+
+  /// No description provided for @gradesFinalGradeTypeHelpTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Was ist die Endnote?'**
+  String get gradesFinalGradeTypeHelpTooltip;
+
+  /// No description provided for @gradesFinalGradeTypeSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Die berechnete Fachnote kann von einem Notentyp überschrieben werden.'**
+  String get gradesFinalGradeTypeSubtitle;
+
+  /// No description provided for @gradesFinalGradeTypeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Endnote eines Faches'**
+  String get gradesFinalGradeTypeTitle;
+
+  /// No description provided for @gradesPageAddGrade.
+  ///
+  /// In de, this message translates to:
+  /// **'Note eintragen'**
+  String get gradesPageAddGrade;
+
+  /// No description provided for @gradesPageCurrentGradesLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Aktuelle Noten'**
+  String get gradesPageCurrentGradesLabel;
+
+  /// No description provided for @gradesPagePastTermTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vergangenes Halbjahr'**
+  String get gradesPagePastTermTitle;
+
+  /// No description provided for @gradesSettingsPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Noten-Einstellungen'**
+  String get gradesSettingsPageTitle;
+
+  /// No description provided for @gradesSettingsSubjectsSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Verwalte Fächer und verbundene Kurse'**
+  String get gradesSettingsSubjectsSubtitle;
+
+  /// No description provided for @gradesSettingsSubjectsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Fächer'**
+  String get gradesSettingsSubjectsTitle;
+
+  /// No description provided for @gradesSubjectSettingsPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Einstellungen: {subjectDisplayName}'**
+  String gradesSubjectSettingsPageTitle(Object subjectDisplayName);
+
+  /// No description provided for @gradesSubjectsPageCourseNotAssigned.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Kurs ist noch keinem Notenfach zugeordnet.'**
+  String get gradesSubjectsPageCourseNotAssigned;
+
+  /// No description provided for @gradesSubjectsPageCoursesLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurse: {courseNames}'**
+  String gradesSubjectsPageCoursesLabel(Object courseNames);
+
+  /// No description provided for @gradesSubjectsPageCoursesWithoutSubject.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurse ohne Notenfach'**
+  String get gradesSubjectsPageCoursesWithoutSubject;
+
+  /// No description provided for @gradesSubjectsPageDeleteDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Beim Löschen werden alle zugehörigen Noten dauerhaft entfernt.'**
+  String get gradesSubjectsPageDeleteDescription;
+
+  /// No description provided for @gradesSubjectsPageDeleteFailure.
+  ///
+  /// In de, this message translates to:
+  /// **'Fach konnte nicht gelöscht werden: {error}'**
+  String gradesSubjectsPageDeleteFailure(Object error);
+
+  /// No description provided for @gradesSubjectsPageDeleteSuccess.
+  ///
+  /// In de, this message translates to:
+  /// **'Fach und zugehörige Noten gelöscht.'**
+  String get gradesSubjectsPageDeleteSuccess;
+
+  /// No description provided for @gradesSubjectsPageDeleteTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'{subjectName} löschen'**
+  String gradesSubjectsPageDeleteTitle(Object subjectName);
+
+  /// No description provided for @gradesSubjectsPageDeleteTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Fach löschen'**
+  String get gradesSubjectsPageDeleteTooltip;
+
+  /// No description provided for @gradesSubjectsPageGradeSubjects.
+  ///
+  /// In de, this message translates to:
+  /// **'Notenfächer'**
+  String get gradesSubjectsPageGradeSubjects;
+
+  /// No description provided for @gradesSubjectsPageInfoBody.
+  ///
+  /// In de, this message translates to:
+  /// **'In Sharezone werden alle Inhalte (wie Hausaufgaben oder Prüfungen) einem Kurs zugeordnet. Deine Noten werden jedoch in Notenfächern gespeichert - nicht in Kursen. So bleiben sie erhalten, auch wenn du einen Kurs verlässt.\n\nDas hat noch einen Vorteil: Du kannst deine Noten nach Fächern sortieren und später deine Entwicklung in einem Fach über mehrere Jahre hinweg verfolgen (diese Funktion ist bald verfügbar).\n\nSharezone legt automatisch ein Notenfach an, sobald du eine Note in einem Kurs erstellst.'**
+  String get gradesSubjectsPageInfoBody;
+
+  /// No description provided for @gradesSubjectsPageInfoHeader.
+  ///
+  /// In de, this message translates to:
+  /// **'Notenfächer vs Kurse'**
+  String get gradesSubjectsPageInfoHeader;
+
+  /// No description provided for @gradesSubjectsPageMultipleGrades.
+  ///
+  /// In de, this message translates to:
+  /// **'{count} Noten'**
+  String gradesSubjectsPageMultipleGrades(Object count);
+
+  /// No description provided for @gradesSubjectsPageNoGrades.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Noten'**
+  String get gradesSubjectsPageNoGrades;
+
+  /// No description provided for @gradesSubjectsPageNoGradesRecorded.
+  ///
+  /// In de, this message translates to:
+  /// **'Für dieses Fach wurden noch keine Noten erfasst.'**
+  String get gradesSubjectsPageNoGradesRecorded;
+
+  /// No description provided for @gradesSubjectsPageSingleGrade.
+  ///
+  /// In de, this message translates to:
+  /// **'1 Note'**
+  String get gradesSubjectsPageSingleGrade;
+
+  /// No description provided for @gradesTermDetailsDeleteDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du das Halbjahr inkl. aller Noten wirklich löschen?\n\nDiese Aktion kann nicht rückgängig gemacht werden.'**
+  String get gradesTermDetailsDeleteDescription;
+
+  /// No description provided for @gradesTermDetailsDeleteTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Halbjahr löschen'**
+  String get gradesTermDetailsDeleteTitle;
+
+  /// No description provided for @gradesTermDetailsDeleteTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Halbjahr löschen'**
+  String get gradesTermDetailsDeleteTooltip;
+
+  /// No description provided for @gradesTermDetailsEditSubjectTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Fachnote bearbeiten'**
+  String get gradesTermDetailsEditSubjectTooltip;
+
+  /// No description provided for @gradesTermDetailsPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Halbjahresdetails'**
+  String get gradesTermDetailsPageTitle;
+
+  /// No description provided for @gradesTermDialogNameLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Name des Halbjahres'**
+  String get gradesTermDialogNameLabel;
+
+  /// No description provided for @gradesTermSettingsCourseWeightingDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Solltest du Kurse haben, die doppelt gewichtet werden, kannst du bei diesen eine 2.0 eintragen.'**
+  String get gradesTermSettingsCourseWeightingDescription;
+
+  /// No description provided for @gradesTermSettingsCourseWeightingTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewichtung der Kurse für Notenschnitt vom Halbjahr'**
+  String get gradesTermSettingsCourseWeightingTitle;
+
+  /// No description provided for @gradesTermSettingsEditNameDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Name beschreibt das Halbjahr, z.B. \'10/2\' für das zweite Halbjahr der 10. Klasse.'**
+  String get gradesTermSettingsEditNameDescription;
+
+  /// No description provided for @gradesTermSettingsEditNameTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Name ändern'**
+  String get gradesTermSettingsEditNameTitle;
+
+  /// No description provided for @gradesTermSettingsEditWeightDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Gewichtung beschreibt, wie stark die Note des Kurses in den Halbjahresschnitt einfließt.'**
+  String get gradesTermSettingsEditWeightDescription;
+
+  /// No description provided for @gradesTermSettingsEditWeightTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewichtung ändern'**
+  String get gradesTermSettingsEditWeightTitle;
+
+  /// No description provided for @gradesTermSettingsNameHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. 10/2'**
+  String get gradesTermSettingsNameHint;
+
+  /// No description provided for @gradesTermSettingsNameRequired.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Namen ein.'**
+  String get gradesTermSettingsNameRequired;
+
+  /// No description provided for @gradesTermSettingsNoSubjectsYet.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast bisher noch keine Fächer erstellt.'**
+  String get gradesTermSettingsNoSubjectsYet;
+
+  /// No description provided for @gradesTermSettingsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Einstellung: {name}'**
+  String gradesTermSettingsTitle(Object name);
+
+  /// No description provided for @gradesTermSettingsWeightDisplayTypeFactor.
+  ///
+  /// In de, this message translates to:
+  /// **'Faktor'**
+  String get gradesTermSettingsWeightDisplayTypeFactor;
+
+  /// No description provided for @gradesTermSettingsWeightDisplayTypePercent.
+  ///
+  /// In de, this message translates to:
+  /// **'Prozent'**
+  String get gradesTermSettingsWeightDisplayTypePercent;
+
+  /// No description provided for @gradesTermSettingsWeightDisplayTypeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewichtungssystem'**
+  String get gradesTermSettingsWeightDisplayTypeTitle;
+
+  /// No description provided for @gradesTermSettingsWeightHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. 1.0'**
+  String get gradesTermSettingsWeightHint;
+
+  /// No description provided for @gradesTermSettingsWeightInvalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib eine Zahl ein.'**
+  String get gradesTermSettingsWeightInvalid;
+
+  /// No description provided for @gradesTermSettingsWeightLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewichtung'**
+  String get gradesTermSettingsWeightLabel;
+
+  /// No description provided for @gradesTermTileEditTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Bearbeiten des Schnitts'**
+  String get gradesTermTileEditTooltip;
+
+  /// No description provided for @gradesWeightSettingsAddWeight.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue Gewichtung hinzufügen'**
+  String get gradesWeightSettingsAddWeight;
+
+  /// No description provided for @gradesWeightSettingsHelpDialogText.
+  ///
+  /// In de, this message translates to:
+  /// **'In Sharezone kannst du genau bestimmen, wie die Note für jedes Fach berechnet wird, indem du die Gewichtung der verschiedenen Notentypen festlegst. Zum Beispiel kannst du einstellen, dass die Gesamtnote aus 50% schriftlichen Prüfungen und 50% mündlicher Beteiligung zusammengesetzt wird.\n\nDiese Flexibilität ermöglicht es dir, die Bewertungskriterien deiner Schule genau abzubilden und sicherzustellen, dass jede Art von Leistung angemessen berücksichtigt wird.'**
+  String get gradesWeightSettingsHelpDialogText;
+
+  /// No description provided for @gradesWeightSettingsHelpDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie wird die Note eines Fachs berechnet?'**
+  String get gradesWeightSettingsHelpDialogTitle;
+
+  /// No description provided for @gradesWeightSettingsHelpTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie wird die Note berechnet?'**
+  String get gradesWeightSettingsHelpTooltip;
+
+  /// No description provided for @gradesWeightSettingsInvalidWeightInput.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gebe eine gültige Zahl (>= 0) ein.'**
+  String get gradesWeightSettingsInvalidWeightInput;
+
+  /// No description provided for @gradesWeightSettingsPercentHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. 56.5'**
+  String get gradesWeightSettingsPercentHint;
+
+  /// No description provided for @gradesWeightSettingsPercentLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewichtung in %'**
+  String get gradesWeightSettingsPercentLabel;
+
+  /// No description provided for @gradesWeightSettingsRemoveTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Entfernen'**
+  String get gradesWeightSettingsRemoveTooltip;
+
+  /// No description provided for @gradesWeightSettingsSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Lege die Gewichtung der Notentypen für die Berechnung der Fachnote fest.'**
+  String get gradesWeightSettingsSubtitle;
+
+  /// No description provided for @gradesWeightSettingsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Berechnung der Fachnote'**
+  String get gradesWeightSettingsTitle;
+
+  /// No description provided for @groupHelpDifferenceDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs: Spiegelt ein Schulfach wieder.\n\nSchulklasse: Besteht aus mehreren Kursen und ermöglicht das Beitreten all dieser Kurse mit nur einem Sharecode.\n\nGruppe: Ist der Oberbegriff für einen Kurs und eine Schulklasse.'**
+  String get groupHelpDifferenceDescription;
+
+  /// No description provided for @groupHelpDifferenceTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Was ist der Unterschied zwischen einer Gruppe, einem Kurs und einer Schulklasse?'**
+  String get groupHelpDifferenceTitle;
+
+  /// No description provided for @groupHelpHowToJoinOverview.
+  ///
+  /// In de, this message translates to:
+  /// **'Um einer Gruppe von deinen Mitschülern oder Lehrern beizutreten, gibt es zwei Möglichkeiten:\n\n1. Sharecode über einen QR-Code scannen\n2. Händisch den Sharecode eingeben'**
+  String get groupHelpHowToJoinOverview;
+
+  /// No description provided for @groupHelpHowToJoinTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie trete ich einer Gruppe bei?'**
+  String get groupHelpHowToJoinTitle;
+
+  /// No description provided for @groupHelpRolesDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Administrator:\nEin Admin verwaltet eine Gruppe. Das bedeutet, dass er diese bearbeiten, löschen und Teilnehmer rauswerfen kann. Zudem kann ein Admin alle weiteren Einstellungen für die Gruppe treffen, wie z.B. das Beitreten aktivieren/deaktivieren.\n\nAktives Mitglied:\nEin aktives Mitglied in einer Gruppe darf Inhalte erstellen und bearbeiten, sprich Hausaufgaben eintragen, Termine eintragen, Schulstunden bearbeiten, etc. Er hat somit Schreib- und Leserechte.\n\nPassives Mitglied:\nEin passives Mitglied in einer Gruppe hat ausschließlich Leserechte. Somit dürfen keine Inhalte erstellt oder bearbeitet werden.'**
+  String get groupHelpRolesDescription;
+
+  /// No description provided for @groupHelpRolesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gruppenrollen erklärt: Was ist ein passives Mitglied, aktives Mitglied, Administrator?'**
+  String get groupHelpRolesTitle;
+
+  /// No description provided for @groupHelpScanQrCodeDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'1. Eine Person, die sich schon in diesem Kurs befindet, klickt unter der Seite \"Gruppe\" auf den gewünschten Kurs.\n2. Diese Person klickt nun auf den Button \"QR-Code anzeigen\".\n3. Nun öffnet sich unten eine neue Anzeige mit einem QR-Code.\n4. Die Person, die dem Kurs beitreten möchte, klickt unten auf der Seite \"Gruppen\" auf den roten Button.\n5. Als nächstes wählt die Person \"Kurs/Klasse beitreten\".\n6. Jetzt öffnet sich ein Fenster - dort klickt der Nutzer auf die blaue Grafik, um den QR-Code zu scannen.\n7. Abschließend nur noch die Kamera auf den QR-Code der anderen Person halten.'**
+  String get groupHelpScanQrCodeDescription;
+
+  /// No description provided for @groupHelpScanQrCodeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharecode mit einem QR-Code scannen'**
+  String get groupHelpScanQrCodeTitle;
+
+  /// No description provided for @groupHelpTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Hilfe: Gruppen'**
+  String get groupHelpTitle;
+
+  /// No description provided for @groupHelpTypeSharecodeDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'1. Eine Person, die sich schon in diesem Kurs befindet, klickt unter der Seite \"Gruppen\" auf den gewünschten Kurs.\n2. Auf dieser Seite wird nun direkt unter dem Kursnamen der Sharecode angezeigt.\n3. Die Person, die dem Kurs beitreten möchte, klickt unten auf der Seite \"Gruppen\" auf den roten Button.\n4. Als nächstes wählt die Person \"Kurs/Klasse beitreten\".\n5. Jetzt öffnet sich ein Fenster - dort muss dann nur noch der Sharecode von der anderen Person in das Textfeld unten eingeben werden.'**
+  String get groupHelpTypeSharecodeDescription;
+
+  /// No description provided for @groupHelpTypeSharecodeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Händisch den Sharecode eingeben'**
+  String get groupHelpTypeSharecodeTitle;
+
+  /// No description provided for @groupHelpWhatIsSharecodeDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Sharecode ist ein Zugangsschlüssel für einen Kurs. Mit diesem können Mitschüler und Lehrer dem Kurs beitreten.\n\nDank des Sharecodes braucht es kein Austauschen persönlicher Daten, wie z.B. der E-Mail Adresse oder der privaten Handynummer, unter den Kursmitgliedern - anders als es z.B. bei WhatsApp-Gruppen oder den meisten E-Mail Verteilern der Fall ist.\n\nEin Kursmitglied sieht nur den Namen (kann auch ein Pseudonym sein) der anderen Kursmitglieder.'**
+  String get groupHelpWhatIsSharecodeDescription;
+
+  /// No description provided for @groupHelpWhatIsSharecodeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Was ist ein Sharecode?'**
+  String get groupHelpWhatIsSharecodeTitle;
+
+  /// No description provided for @groupHelpWhyDifferentSharecodesDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Jeder Teilnehmer aus einem Kurs hat einen individuellen Sharecode.\n\nDas hat den Grund, dass getrackt werden kann, welcher Nutzer wen eingeladen hat.\n\nDank dieser Funktion zählen auch Weiterempfehlungen ohne die Verwendung eines Empfehlunglinks.'**
+  String get groupHelpWhyDifferentSharecodesDescription;
+
+  /// No description provided for @groupHelpWhyDifferentSharecodesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Warum hat jeder Teilnehmer aus einer Gruppe einen anderen Sharecode?'**
+  String get groupHelpWhyDifferentSharecodesTitle;
+
+  /// No description provided for @groupJoinCourseSelectionParentHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Falls dein Kind in Wahlfächern (z.B. Französisch) ist, solltest du diese Kurse aus der Auswahl aufheben.'**
+  String get groupJoinCourseSelectionParentHint;
+
+  /// No description provided for @groupJoinCourseSelectionStudentHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Falls du in Wahlfächern (z.B. Französisch) bist, solltest du diese Kurse aus der Auswahl aufheben.'**
+  String get groupJoinCourseSelectionStudentHint;
+
+  /// No description provided for @groupJoinCourseSelectionTeacherHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle die Kurse aus, in denen du unterrichtest.'**
+  String get groupJoinCourseSelectionTeacherHint;
+
+  /// No description provided for @groupJoinCourseSelectionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Beizutretende Kurse der {groupName}'**
+  String groupJoinCourseSelectionTitle(String groupName);
+
+  /// No description provided for @groupJoinErrorAlreadyMemberDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist bereits Mitglied in dieser Gruppe, daher musst du dieser nicht mehr beitreten.'**
+  String get groupJoinErrorAlreadyMemberDescription;
+
+  /// No description provided for @groupJoinErrorAlreadyMemberTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Fehler ist aufgetreten: Bereits Mitglied 🤨'**
+  String get groupJoinErrorAlreadyMemberTitle;
+
+  /// No description provided for @groupJoinErrorNoInternetDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir konnten nicht versuchen, der Gruppe beizutreten, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunkdaten.'**
+  String get groupJoinErrorNoInternetDescription;
+
+  /// No description provided for @groupJoinErrorNoInternetTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Fehler ist aufgetreten: Keine Internetverbindung ☠️'**
+  String get groupJoinErrorNoInternetTitle;
+
+  /// No description provided for @groupJoinErrorNotPublicDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Gruppe erlaubt aktuell kein Beitreten. Dies ist in den Gruppeneinstellungen deaktiviert. Bitte wende dich an einen Admin dieser Gruppe.'**
+  String get groupJoinErrorNotPublicDescription;
+
+  /// No description provided for @groupJoinErrorNotPublicTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Fehler ist aufgetreten: Beitreten verboten ⛔️'**
+  String get groupJoinErrorNotPublicTitle;
+
+  /// No description provided for @groupJoinErrorSharecodeNotFoundDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir konnten den eingegebenen Sharecode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Sharecode noch gültig ist.'**
+  String get groupJoinErrorSharecodeNotFoundDescription;
+
+  /// No description provided for @groupJoinErrorSharecodeNotFoundTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Fehler ist aufgetreten: Sharecode nicht gefunden ❌'**
+  String get groupJoinErrorSharecodeNotFoundTitle;
+
+  /// No description provided for @groupJoinErrorUnknownDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Dies könnte eventuell an deiner Internetverbindung liegen. Bitte überprüfe diese!'**
+  String get groupJoinErrorUnknownDescription;
+
+  /// No description provided for @groupJoinErrorUnknownTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein unbekannter Fehler ist aufgetreten 😭'**
+  String get groupJoinErrorUnknownTitle;
+
+  /// No description provided for @groupJoinPasteSharecodeDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du den Sharecode \"{sharecode}\" aus deiner Zwischenablage übernehmen?'**
+  String groupJoinPasteSharecodeDescription(String sharecode);
+
+  /// No description provided for @groupJoinPasteSharecodeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharecode einfügen'**
+  String get groupJoinPasteSharecodeTitle;
+
+  /// No description provided for @groupJoinRequireCourseSelectionDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Du musst zum Beitreten die Kurse auswählen, in welchen du bist.'**
+  String get groupJoinRequireCourseSelectionDescription;
+
+  /// No description provided for @groupJoinRequireCourseSelectionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Klasse gefunden: {groupName}'**
+  String groupJoinRequireCourseSelectionTitle(String groupName);
+
+  /// No description provided for @groupJoinResultJoinMoreAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Mehr beitreten'**
+  String get groupJoinResultJoinMoreAction;
+
+  /// No description provided for @groupJoinResultRetryAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Nochmal versuchen'**
+  String get groupJoinResultRetryAction;
+
+  /// No description provided for @groupJoinResultSelectCoursesAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurse auswählen'**
+  String get groupJoinResultSelectCoursesAction;
+
+  /// No description provided for @groupJoinScanQrCodeDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Scanne einen QR-Code, um einer Gruppe beizutreten.'**
+  String get groupJoinScanQrCodeDescription;
+
+  /// No description provided for @groupJoinScanQrCodeTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'QR-Code scannen'**
+  String get groupJoinScanQrCodeTooltip;
+
+  /// No description provided for @groupJoinSharecodeHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. Qb32vF'**
+  String get groupJoinSharecodeHint;
+
+  /// No description provided for @groupJoinSharecodeLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharecode'**
+  String get groupJoinSharecodeLabel;
+
+  /// No description provided for @groupJoinSuccessDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'{groupName} wurde erfolgreich hinzugefügt. Du bist nun Mitglied.'**
+  String groupJoinSuccessDescription(String groupName);
+
+  /// No description provided for @groupJoinSuccessTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Erfolgreich beigetreten 🎉'**
+  String get groupJoinSuccessTitle;
+
+  /// No description provided for @groupOnboardingCreateNewGroupsAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding Create New Groups Action'**
+  String get groupOnboardingCreateNewGroupsAction;
+
+  /// No description provided for @groupOnboardingFirstPersonHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding First Person Hint'**
+  String get groupOnboardingFirstPersonHint;
+
+  /// No description provided for @groupOnboardingFirstPersonParentTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding First Person Parent Title'**
+  String get groupOnboardingFirstPersonParentTitle;
+
+  /// No description provided for @groupOnboardingFirstPersonStudentTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding First Person Student Title'**
+  String get groupOnboardingFirstPersonStudentTitle;
+
+  /// No description provided for @groupOnboardingFirstPersonTeacherTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding First Person Teacher Title'**
+  String get groupOnboardingFirstPersonTeacherTitle;
+
+  /// No description provided for @groupOnboardingIsClassTeacherCreateClassAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding Is Class Teacher Create Class Action'**
+  String get groupOnboardingIsClassTeacherCreateClassAction;
+
+  /// No description provided for @groupOnboardingIsClassTeacherCreateCoursesOnlyAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding Is Class Teacher Create Courses Only Action'**
+  String get groupOnboardingIsClassTeacherCreateCoursesOnlyAction;
+
+  /// No description provided for @groupOnboardingIsClassTeacherTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding Is Class Teacher Title'**
+  String get groupOnboardingIsClassTeacherTitle;
+
+  /// No description provided for @groupOnboardingJoinMultipleGroupsAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding Join Multiple Groups Action'**
+  String get groupOnboardingJoinMultipleGroupsAction;
+
+  /// No description provided for @groupOnboardingJoinSingleGroupAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding Join Single Group Action'**
+  String get groupOnboardingJoinSingleGroupAction;
+
+  /// No description provided for @groupOnboardingSchoolClassHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Group Onboarding School Class Hint'**
+  String get groupOnboardingSchoolClassHint;
+
+  /// No description provided for @groupParticipantsEmpty.
+  ///
+  /// In de, this message translates to:
+  /// **'Es befinden sich keine Teilnehmer in dieser Gruppe 😭'**
+  String get groupParticipantsEmpty;
+
+  /// No description provided for @groupsAllowJoinTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Beitreten erlauben'**
+  String get groupsAllowJoinTitle;
+
+  /// No description provided for @groupsContactSupportLinkText.
+  ///
+  /// In de, this message translates to:
+  /// **'Groups Contact Support Link Text'**
+  String get groupsContactSupportLinkText;
+
+  /// No description provided for @groupsContactSupportPrefix.
+  ///
+  /// In de, this message translates to:
+  /// **'Groups Contact Support Prefix'**
+  String get groupsContactSupportPrefix;
+
+  /// No description provided for @groupsContactSupportSuffix.
+  ///
+  /// In de, this message translates to:
+  /// **'Groups Contact Support Suffix'**
+  String get groupsContactSupportSuffix;
+
+  /// No description provided for @groupsCreateCourseDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Einen Kurs kannst du dir wie ein Schulfach vorstellen. Jedes Fach wird mit einem Kurs abgebildet.'**
+  String get groupsCreateCourseDescription;
+
+  /// No description provided for @groupsCreateSchoolClassDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Eine Klasse besteht aus mehreren Kursen. Jedes Mitglied tritt beim Betreten der Klasse automatisch allen dazugehörigen Kursen bei.'**
+  String get groupsCreateSchoolClassDescription;
+
+  /// No description provided for @groupsEmptyTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist noch keinem Kurs, bzw. keiner Klasse beigetreten!'**
+  String get groupsEmptyTitle;
+
+  /// No description provided for @groupsFabJoinOrCreateTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Gruppe beitreten/erstellen'**
+  String get groupsFabJoinOrCreateTooltip;
+
+  /// No description provided for @groupsInviteParticipants.
+  ///
+  /// In de, this message translates to:
+  /// **'Teilnehmer einladen'**
+  String get groupsInviteParticipants;
+
+  /// No description provided for @groupsJoinCourseOrClassDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Falls einer deiner Mitschüler schon eine Klasse oder einen Kurs erstellt hat, kannst du diesem einfach beitreten.'**
+  String get groupsJoinCourseOrClassDescription;
+
+  /// No description provided for @groupsJoinCourseOrClassTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs/Klasse beitreten'**
+  String get groupsJoinCourseOrClassTitle;
+
+  /// No description provided for @groupsJoinTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Beitreten'**
+  String get groupsJoinTitle;
+
+  /// No description provided for @groupsLinkCopied.
+  ///
+  /// In de, this message translates to:
+  /// **'Groups Link Copied'**
+  String get groupsLinkCopied;
+
+  /// No description provided for @groupsMemberCount.
+  ///
+  /// In de, this message translates to:
+  /// **'Anzahl der Teilnehmer: {value}'**
+  String groupsMemberCount(Object value);
+
+  /// No description provided for @groupsMemberOptionsNoAdminRightsHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Da du kein Admin bist, hast du keine Rechte, um andere Mitglieder zu verwalten.'**
+  String get groupsMemberOptionsNoAdminRightsHint;
+
+  /// No description provided for @groupsMemberYou.
+  ///
+  /// In de, this message translates to:
+  /// **'Du'**
+  String get groupsMemberYou;
+
+  /// No description provided for @groupsMembersActiveMemberTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Groups Members Active Member Title'**
+  String get groupsMembersActiveMemberTitle;
+
+  /// No description provided for @groupsMembersAdminsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Groups Members Admins Title'**
+  String get groupsMembersAdminsTitle;
+
+  /// No description provided for @groupsMembersLegendTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Legenden'**
+  String get groupsMembersLegendTitle;
+
+  /// No description provided for @groupsMembersPassiveMemberTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Groups Members Passive Member Title'**
+  String get groupsMembersPassiveMemberTitle;
+
+  /// No description provided for @groupsPageMyCourses.
+  ///
+  /// In de, this message translates to:
+  /// **'Meine Kurse:'**
+  String get groupsPageMyCourses;
+
+  /// No description provided for @groupsPageMySchoolClass.
+  ///
+  /// In de, this message translates to:
+  /// **'Meine Klasse:'**
+  String get groupsPageMySchoolClass;
+
+  /// No description provided for @groupsPageMySchoolClasses.
+  ///
+  /// In de, this message translates to:
+  /// **'Meine Klassen:'**
+  String get groupsPageMySchoolClasses;
+
+  /// No description provided for @groupsPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gruppen'**
+  String get groupsPageTitle;
+
+  /// No description provided for @groupsQrCodeSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Groups Qr Code Subtitle'**
+  String get groupsQrCodeSubtitle;
+
+  /// No description provided for @groupsQrCodeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Groups Qr Code Title'**
+  String get groupsQrCodeTitle;
+
+  /// No description provided for @groupsRoleActiveMemberDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Schreib- und Leserechte'**
+  String get groupsRoleActiveMemberDescription;
+
+  /// No description provided for @groupsRoleAdminDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Schreib- und Leserechte & Verwaltung'**
+  String get groupsRoleAdminDescription;
+
+  /// No description provided for @groupsRoleReadOnlyDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Leserechte'**
+  String get groupsRoleReadOnlyDescription;
+
+  /// No description provided for @groupsSharecodeCopied.
+  ///
+  /// In de, this message translates to:
+  /// **'Groups Sharecode Copied'**
+  String get groupsSharecodeCopied;
+
+  /// No description provided for @groupsSharecodeCopiedToClipboard.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharecode wurde in die Zwischenablage kopiert.'**
+  String get groupsSharecodeCopiedToClipboard;
+
+  /// No description provided for @groupsSharecodeLoading.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharecode wird geladen...'**
+  String get groupsSharecodeLoading;
+
+  /// No description provided for @groupsSharecodeLowercaseCharacter.
+  ///
+  /// In de, this message translates to:
+  /// **'kleines {character}'**
+  String groupsSharecodeLowercaseCharacter(String character);
+
+  /// No description provided for @groupsSharecodePrefix.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharecode: '**
+  String get groupsSharecodePrefix;
+
+  /// No description provided for @groupsSharecodeSemanticsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharecode: {sharecode}'**
+  String groupsSharecodeSemanticsLabel(String sharecode);
+
+  /// No description provided for @groupsSharecodeText.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharecode: {sharecode}'**
+  String groupsSharecodeText(String sharecode);
+
+  /// No description provided for @groupsSharecodeUppercaseCharacter.
+  ///
+  /// In de, this message translates to:
+  /// **'großes {character}'**
+  String groupsSharecodeUppercaseCharacter(String character);
+
+  /// No description provided for @groupsWritePermissionsEveryoneDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Jeder erhält die Rolle ”aktives Mitglied (Lese- und Schreibrechte)\"'**
+  String get groupsWritePermissionsEveryoneDescription;
+
+  /// No description provided for @groupsWritePermissionsExplanation.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit dieser Einstellung kann reguliert werden, welche Nutzergruppen Schreibrechte erhalten.'**
+  String get groupsWritePermissionsExplanation;
+
+  /// No description provided for @groupsWritePermissionsOnlyAdminsDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle, außer die Admins, erhalten die Rolle \"passives Mitglied (Nur Leserechte)\"'**
+  String get groupsWritePermissionsOnlyAdminsDescription;
+
+  /// No description provided for @groupsWritePermissionsSheetQuestion.
+  ///
+  /// In de, this message translates to:
+  /// **'Wer ist dazu berechtigt, neue Einträge, neue Hausaufgaben, neue Dateien, etc. zu erstellen, bzw. hochzuladen?'**
+  String get groupsWritePermissionsSheetQuestion;
+
+  /// No description provided for @groupsWritePermissionsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Schreibrechte'**
+  String get groupsWritePermissionsTitle;
+
+  /// No description provided for @homeworkAddAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Add Action'**
+  String get homeworkAddAction;
+
+  /// No description provided for @homeworkBottomBarMoreIdeas.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Bottom Bar More Ideas'**
+  String get homeworkBottomBarMoreIdeas;
+
+  /// No description provided for @homeworkCardViewCompletedByTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'\"Erledigt von\" anzeigen'**
+  String get homeworkCardViewCompletedByTooltip;
+
+  /// No description provided for @homeworkCardViewSubmissionsTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgaben anzeigen'**
+  String get homeworkCardViewSubmissionsTooltip;
+
+  /// No description provided for @homeworkCompletionPlusDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Completion Plus Description'**
+  String get homeworkCompletionPlusDescription;
+
+  /// No description provided for @homeworkCompletionReadByTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Completion Read By Title'**
+  String get homeworkCompletionReadByTitle;
+
+  /// No description provided for @homeworkDeleteAttachmentsDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Sollen die Anhänge der Hausaufgabe aus der Dateiablage gelöscht oder die Verknüpfung zwischen beiden aufgehoben werden?'**
+  String get homeworkDeleteAttachmentsDialogDescription;
+
+  /// No description provided for @homeworkDeleteAttachmentsDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Anhänge ebenfalls löschen?'**
+  String get homeworkDeleteAttachmentsDialogTitle;
+
+  /// No description provided for @homeworkDeleteAttachmentsUnlink.
+  ///
+  /// In de, this message translates to:
+  /// **'Entknüpfen'**
+  String get homeworkDeleteAttachmentsUnlink;
+
+  /// No description provided for @homeworkDeleteScopeDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Soll die Hausaufgabe nur für dich oder für den gesamten Kurs gelöscht werden?'**
+  String get homeworkDeleteScopeDialogDescription;
+
+  /// No description provided for @homeworkDeleteScopeDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Für alle löschen?'**
+  String get homeworkDeleteScopeDialogTitle;
+
+  /// No description provided for @homeworkDeleteScopeOnlyMe.
+  ///
+  /// In de, this message translates to:
+  /// **'Nur für mich'**
+  String get homeworkDeleteScopeOnlyMe;
+
+  /// No description provided for @homeworkDeleteScopeWholeCourse.
+  ///
+  /// In de, this message translates to:
+  /// **'Für gesamten Kurs'**
+  String get homeworkDeleteScopeWholeCourse;
+
+  /// No description provided for @homeworkDetailsAdditionalInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Zusatzinformationen'**
+  String get homeworkDetailsAdditionalInfo;
+
+  /// No description provided for @homeworkDetailsAttachmentsCount.
+  ///
+  /// In de, this message translates to:
+  /// **'Anhänge: {count}'**
+  String homeworkDetailsAttachmentsCount(int count);
+
+  /// No description provided for @homeworkDetailsChangeAccountTypeContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Wenn du eine Hausaufgabe abgeben möchtest, musst dein Account als Schüler registriert sein. Der Support kann deinen Account in einen Schüler-Account umwandeln, damit du Hausaufgaben abgeben darfst.'**
+  String get homeworkDetailsChangeAccountTypeContent;
+
+  /// No description provided for @homeworkDetailsChangeAccountTypeEmailBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Liebes Sharezone-Team, bitte ändert meinen Account-Typ zum Schüler ab.'**
+  String get homeworkDetailsChangeAccountTypeEmailBody;
+
+  /// No description provided for @homeworkDetailsChangeAccountTypeEmailSubject.
+  ///
+  /// In de, this message translates to:
+  /// **'Typ des Accounts zu Schüler ändern [{uid}]'**
+  String homeworkDetailsChangeAccountTypeEmailSubject(String uid);
+
+  /// No description provided for @homeworkDetailsChangeAccountTypeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Account-Typ ändern?'**
+  String get homeworkDetailsChangeAccountTypeTitle;
+
+  /// No description provided for @homeworkDetailsCourseTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs'**
+  String get homeworkDetailsCourseTitle;
+
+  /// No description provided for @homeworkDetailsCreatedBy.
+  ///
+  /// In de, this message translates to:
+  /// **'Erstellt von:'**
+  String get homeworkDetailsCreatedBy;
+
+  /// No description provided for @homeworkDetailsDoneByStudentsCount.
+  ///
+  /// In de, this message translates to:
+  /// **'Von {count} SuS erledigt'**
+  String homeworkDetailsDoneByStudentsCount(int count);
+
+  /// No description provided for @homeworkDetailsMarkAsDone.
+  ///
+  /// In de, this message translates to:
+  /// **'Als erledigt markieren'**
+  String get homeworkDetailsMarkAsDone;
+
+  /// No description provided for @homeworkDetailsMarkAsUndone.
+  ///
+  /// In de, this message translates to:
+  /// **'Als unerledigt markieren'**
+  String get homeworkDetailsMarkAsUndone;
+
+  /// No description provided for @homeworkDetailsMarkDoneAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Abhaken'**
+  String get homeworkDetailsMarkDoneAction;
+
+  /// No description provided for @homeworkDetailsMySubmission.
+  ///
+  /// In de, this message translates to:
+  /// **'Meine Abgabe'**
+  String get homeworkDetailsMySubmission;
+
+  /// No description provided for @homeworkDetailsNoPermissionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Berechtigung'**
+  String get homeworkDetailsNoPermissionTitle;
+
+  /// No description provided for @homeworkDetailsNoSubmissionContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast bisher keine Abgabe gemacht. Möchtest du wirklich die Hausaufgabe ohne Abgabe als erledigt markieren?'**
+  String get homeworkDetailsNoSubmissionContent;
+
+  /// No description provided for @homeworkDetailsNoSubmissionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Abgabe bisher'**
+  String get homeworkDetailsNoSubmissionTitle;
+
+  /// No description provided for @homeworkDetailsNoSubmissionYet.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Abgabe bisher eingereicht'**
+  String get homeworkDetailsNoSubmissionYet;
+
+  /// No description provided for @homeworkDetailsParentsCannotSubmit.
+  ///
+  /// In de, this message translates to:
+  /// **'Eltern dürfen keine Hausaufgaben abgeben'**
+  String get homeworkDetailsParentsCannotSubmit;
+
+  /// No description provided for @homeworkDetailsPrivateSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Hausaufgabe wird nicht mit dem Kurs geteilt.'**
+  String get homeworkDetailsPrivateSubtitle;
+
+  /// No description provided for @homeworkDetailsPrivateTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Privat'**
+  String get homeworkDetailsPrivateTitle;
+
+  /// No description provided for @homeworkDetailsSubmissionsCount.
+  ///
+  /// In de, this message translates to:
+  /// **'{count} Abgaben'**
+  String homeworkDetailsSubmissionsCount(int count);
+
+  /// No description provided for @homeworkDetailsViewCompletionNoPermissionContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.'**
+  String get homeworkDetailsViewCompletionNoPermissionContent;
+
+  /// No description provided for @homeworkDetailsViewSubmissionsNoPermissionContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.'**
+  String get homeworkDetailsViewSubmissionsNoPermissionContent;
+
+  /// No description provided for @homeworkDialogCourseChangeDisabled.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Kurs kann nachträglich nicht mehr geändert werden. Bitte lösche die Hausaufgabe und erstelle eine neue, falls du den Kurs ändern möchtest.'**
+  String get homeworkDialogCourseChangeDisabled;
+
+  /// No description provided for @homeworkDialogDescriptionHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Zusatzinformationen eingeben'**
+  String get homeworkDialogDescriptionHint;
+
+  /// No description provided for @homeworkDialogDueDateAfterNextLesson.
+  ///
+  /// In de, this message translates to:
+  /// **'Übernächste Stunde'**
+  String get homeworkDialogDueDateAfterNextLesson;
+
+  /// No description provided for @homeworkDialogDueDateChipsPlusDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Sharezone Plus kannst du Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.'**
+  String get homeworkDialogDueDateChipsPlusDescription;
+
+  /// No description provided for @homeworkDialogDueDateInXHours.
+  ///
+  /// In de, this message translates to:
+  /// **'In X Stunden'**
+  String get homeworkDialogDueDateInXHours;
+
+  /// No description provided for @homeworkDialogDueDateInXLessons.
+  ///
+  /// In de, this message translates to:
+  /// **'{count}.-nächste Stunde'**
+  String homeworkDialogDueDateInXLessons(int count);
+
+  /// No description provided for @homeworkDialogDueDateNextLesson.
+  ///
+  /// In de, this message translates to:
+  /// **'Nächste Stunde'**
+  String get homeworkDialogDueDateNextLesson;
+
+  /// No description provided for @homeworkDialogDueDateNextSchoolday.
+  ///
+  /// In de, this message translates to:
+  /// **'Nächster Schultag'**
+  String get homeworkDialogDueDateNextSchoolday;
+
+  /// No description provided for @homeworkDialogEmptyTitleError.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Titel für die Hausaufgabe an!'**
+  String get homeworkDialogEmptyTitleError;
+
+  /// No description provided for @homeworkDialogNextLessonSuffix.
+  ///
+  /// In de, this message translates to:
+  /// **'.-nächste Stunde'**
+  String get homeworkDialogNextLessonSuffix;
+
+  /// No description provided for @homeworkDialogNoCourseSelected.
+  ///
+  /// In de, this message translates to:
+  /// **'Keinen Kurs ausgewählt'**
+  String get homeworkDialogNoCourseSelected;
+
+  /// No description provided for @homeworkDialogNotifyCourseMembers.
+  ///
+  /// In de, this message translates to:
+  /// **'Kursmitglieder benachrichtigen'**
+  String get homeworkDialogNotifyCourseMembers;
+
+  /// No description provided for @homeworkDialogNotifyCourseMembersDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Kursmitglieder über neue Hausaufgabe benachrichtigen.'**
+  String get homeworkDialogNotifyCourseMembersDescription;
+
+  /// No description provided for @homeworkDialogNotifyCourseMembersEditing.
+  ///
+  /// In de, this message translates to:
+  /// **'Kursmitglieder über die Änderungen benachrichtigen'**
+  String get homeworkDialogNotifyCourseMembersEditing;
+
+  /// No description provided for @homeworkDialogPrivateSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Hausaufgabe nicht mit dem Kurs teilen.'**
+  String get homeworkDialogPrivateSubtitle;
+
+  /// No description provided for @homeworkDialogPrivateTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Privat'**
+  String get homeworkDialogPrivateTitle;
+
+  /// No description provided for @homeworkDialogRequiredFieldsMissing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte fülle alle erforderlichen Felder aus!'**
+  String get homeworkDialogRequiredFieldsMissing;
+
+  /// No description provided for @homeworkDialogSaveTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Hausaufgabe speichern'**
+  String get homeworkDialogSaveTooltip;
+
+  /// No description provided for @homeworkDialogSavingFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Hausaufgabe konnte nicht gespeichert werden.\n\n{error}\n\nFalls der Fehler weiterhin auftritt, kontaktiere bitte den Support.'**
+  String homeworkDialogSavingFailed(String error);
+
+  /// No description provided for @homeworkDialogSelectLessonOffsetDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle aus, in wie vielen Stunden die Hausaufgabe fällig ist.'**
+  String get homeworkDialogSelectLessonOffsetDescription;
+
+  /// No description provided for @homeworkDialogSelectLessonOffsetTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Stundenzeit auswählen'**
+  String get homeworkDialogSelectLessonOffsetTitle;
+
+  /// No description provided for @homeworkDialogSubmissionTimeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgabe-Uhrzeit'**
+  String get homeworkDialogSubmissionTimeTitle;
+
+  /// No description provided for @homeworkDialogTitleHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Titel eingeben (z.B. AB Nr. 1 - 3)'**
+  String get homeworkDialogTitleHint;
+
+  /// No description provided for @homeworkDialogUnknownError.
+  ///
+  /// In de, this message translates to:
+  /// **'Es gab einen unbekannten Fehler ({error}) 😖 Bitte kontaktiere den Support!'**
+  String homeworkDialogUnknownError(String error);
+
+  /// No description provided for @homeworkDialogWithSubmissionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Abgabe'**
+  String get homeworkDialogWithSubmissionTitle;
+
+  /// No description provided for @homeworkEmptyFireDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Empty Fire Description'**
+  String get homeworkEmptyFireDescription;
+
+  /// No description provided for @homeworkEmptyFireTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Empty Fire Title'**
+  String get homeworkEmptyFireTitle;
+
+  /// No description provided for @homeworkEmptyGameControllerDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Empty Game Controller Description'**
+  String get homeworkEmptyGameControllerDescription;
+
+  /// No description provided for @homeworkEmptyGameControllerTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Empty Game Controller Title'**
+  String get homeworkEmptyGameControllerTitle;
+
+  /// No description provided for @homeworkFabNewHomeworkTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Fab New Homework Tooltip'**
+  String get homeworkFabNewHomeworkTooltip;
+
+  /// No description provided for @homeworkLongPressTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Hausaufgabe: {homeworkTitle}'**
+  String homeworkLongPressTitle(String homeworkTitle);
+
+  /// No description provided for @homeworkMarkOverdueAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Mark Overdue Action'**
+  String get homeworkMarkOverdueAction;
+
+  /// No description provided for @homeworkMarkOverduePromptTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Mark Overdue Prompt Title'**
+  String get homeworkMarkOverduePromptTitle;
 
   /// No description provided for @homeworkSectionDayAfterTomorrow.
   ///
@@ -987,11 +4147,179 @@ abstract class SharezoneLocalizations {
   /// **'Morgen'**
   String get homeworkSectionTomorrow;
 
+  /// No description provided for @homeworkTabArchivedUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Tab Archived Uppercase'**
+  String get homeworkTabArchivedUppercase;
+
+  /// No description provided for @homeworkTabDoneUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Tab Done Uppercase'**
+  String get homeworkTabDoneUppercase;
+
+  /// No description provided for @homeworkTabOpenUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Tab Open Uppercase'**
+  String get homeworkTabOpenUppercase;
+
+  /// No description provided for @homeworkTeacherNoArchivedTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Teacher No Archived Title'**
+  String get homeworkTeacherNoArchivedTitle;
+
+  /// No description provided for @homeworkTeacherNoOpenTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Teacher No Open Title'**
+  String get homeworkTeacherNoOpenTitle;
+
+  /// No description provided for @homeworkTeacherNoPermissionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Teacher No Permission Title'**
+  String get homeworkTeacherNoPermissionTitle;
+
+  /// No description provided for @homeworkTeacherViewCompletionNoPermissionContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Teacher View Completion No Permission Content'**
+  String get homeworkTeacherViewCompletionNoPermissionContent;
+
+  /// No description provided for @homeworkTeacherViewSubmissionsNoPermissionContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Homework Teacher View Submissions No Permission Content'**
+  String get homeworkTeacherViewSubmissionsNoPermissionContent;
+
   /// No description provided for @homeworkTodoDateTime.
   ///
   /// In de, this message translates to:
   /// **'{date} - {time} Uhr'**
   String homeworkTodoDateTime(String date, String time);
+
+  /// No description provided for @icalLinksDialogExportCreated.
+  ///
+  /// In de, this message translates to:
+  /// **'Ical Links Dialog Export Created'**
+  String get icalLinksDialogExportCreated;
+
+  /// No description provided for @icalLinksDialogNameHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Ical Links Dialog Name Hint'**
+  String get icalLinksDialogNameHint;
+
+  /// No description provided for @icalLinksDialogNameMissingError.
+  ///
+  /// In de, this message translates to:
+  /// **'Ical Links Dialog Name Missing Error'**
+  String get icalLinksDialogNameMissingError;
+
+  /// No description provided for @icalLinksDialogNameMissingErrorWithPeriod.
+  ///
+  /// In de, this message translates to:
+  /// **'Ical Links Dialog Name Missing Error With Period'**
+  String get icalLinksDialogNameMissingErrorWithPeriod;
+
+  /// No description provided for @icalLinksDialogPrivateNote.
+  ///
+  /// In de, this message translates to:
+  /// **'Ical Links Dialog Private Note'**
+  String get icalLinksDialogPrivateNote;
+
+  /// No description provided for @icalLinksDialogSourceMissingError.
+  ///
+  /// In de, this message translates to:
+  /// **'Ical Links Dialog Source Missing Error'**
+  String get icalLinksDialogSourceMissingError;
+
+  /// No description provided for @icalLinksDialogSourcesQuestion.
+  ///
+  /// In de, this message translates to:
+  /// **'Ical Links Dialog Sources Question'**
+  String get icalLinksDialogSourcesQuestion;
+
+  /// No description provided for @icalLinksPageBuilding.
+  ///
+  /// In de, this message translates to:
+  /// **'Wird erstellt...'**
+  String get icalLinksPageBuilding;
+
+  /// No description provided for @icalLinksPageCopyLink.
+  ///
+  /// In de, this message translates to:
+  /// **'Link kopieren'**
+  String get icalLinksPageCopyLink;
+
+  /// No description provided for @icalLinksPageEmptyState.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast noch keine iCal-Links erstellt.'**
+  String get icalLinksPageEmptyState;
+
+  /// No description provided for @icalLinksPageErrorSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehler: {error}'**
+  String icalLinksPageErrorSubtitle(String error);
+
+  /// No description provided for @icalLinksPageHowToAddIcalLinkToCalendarBody.
+  ///
+  /// In de, this message translates to:
+  /// **'1. Kopiere den iCal-Link\n2. Öffne deinen Kalender (z.B. Google Kalender, Apple Kalender)\n3. Füge einen neuen Kalender hinzu\n4. Wähle \"Über URL hinzufügen\" oder \"Über das Internet hinzufügen\"\n5. Füge den iCal-Link ein\n6. Fertig! Dein Stundenplan und deine Termine werden nun in deinem Kalender angezeigt.'**
+  String get icalLinksPageHowToAddIcalLinkToCalendarBody;
+
+  /// No description provided for @icalLinksPageHowToAddIcalLinkToCalendarHeader.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie füge ich einen iCal-Link zu meinem Kalender hinzu?'**
+  String get icalLinksPageHowToAddIcalLinkToCalendarHeader;
+
+  /// No description provided for @icalLinksPageLinkCopied.
+  ///
+  /// In de, this message translates to:
+  /// **'Link in Zwischenablage kopiert.'**
+  String get icalLinksPageLinkCopied;
+
+  /// No description provided for @icalLinksPageLinkDeleted.
+  ///
+  /// In de, this message translates to:
+  /// **'Link gelöscht.'**
+  String get icalLinksPageLinkDeleted;
+
+  /// No description provided for @icalLinksPageLinkLoading.
+  ///
+  /// In de, this message translates to:
+  /// **'Link wird geladen...'**
+  String get icalLinksPageLinkLoading;
+
+  /// No description provided for @icalLinksPageLocked.
+  ///
+  /// In de, this message translates to:
+  /// **'Gesperrt'**
+  String get icalLinksPageLocked;
+
+  /// No description provided for @icalLinksPageNewLink.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuer Link'**
+  String get icalLinksPageNewLink;
+
+  /// No description provided for @icalLinksPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'iCal-Links'**
+  String get icalLinksPageTitle;
+
+  /// No description provided for @icalLinksPageWhatIsAnIcalLinkHeader.
+  ///
+  /// In de, this message translates to:
+  /// **'Was ist ein iCal Link?'**
+  String get icalLinksPageWhatIsAnIcalLinkHeader;
 
   /// No description provided for @imprintTitle.
   ///
@@ -1131,6 +4459,72 @@ abstract class SharezoneLocalizations {
   /// **'Allgemeine Nutzungsbedingungen'**
   String get legalTermsOfServiceTitle;
 
+  /// No description provided for @loginCreateAccount.
+  ///
+  /// In de, this message translates to:
+  /// **'Neues Konto erstellen'**
+  String get loginCreateAccount;
+
+  /// No description provided for @loginEmailLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail'**
+  String get loginEmailLabel;
+
+  /// No description provided for @loginHidePasswordTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Passwort verstecken'**
+  String get loginHidePasswordTooltip;
+
+  /// No description provided for @loginPasswordFieldSemanticsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Passwortfeld'**
+  String get loginPasswordFieldSemanticsLabel;
+
+  /// No description provided for @loginPasswordLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Passwort'**
+  String get loginPasswordLabel;
+
+  /// No description provided for @loginResetPasswordButton.
+  ///
+  /// In de, this message translates to:
+  /// **'Passwort zurücksetzen'**
+  String get loginResetPasswordButton;
+
+  /// No description provided for @loginShowPasswordTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Passwort anzeigen'**
+  String get loginShowPasswordTooltip;
+
+  /// No description provided for @loginSubmitTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Einloggen'**
+  String get loginSubmitTooltip;
+
+  /// No description provided for @loginWithAppleButton.
+  ///
+  /// In de, this message translates to:
+  /// **'Über Apple anmelden'**
+  String get loginWithAppleButton;
+
+  /// No description provided for @loginWithGoogleButton.
+  ///
+  /// In de, this message translates to:
+  /// **'Über Google einloggen'**
+  String get loginWithGoogleButton;
+
+  /// No description provided for @loginWithQrCodeButton.
+  ///
+  /// In de, this message translates to:
+  /// **'Über einen QR-Code einloggen'**
+  String get loginWithQrCodeButton;
+
   /// No description provided for @memberRoleAdmin.
   ///
   /// In de, this message translates to:
@@ -1160,6 +4554,42 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Passives Mitglied (Nur Leserechte)'**
   String get memberRoleStandard;
+
+  /// No description provided for @mobileWelcomeBackgroundImageSemanticsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Hintergrundbild der Willkommens-Seite mit 5 Handys, die die Sharezone-App zeigen.'**
+  String get mobileWelcomeBackgroundImageSemanticsLabel;
+
+  /// No description provided for @mobileWelcomeHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Gemeinsam den\nSchulalltag organisieren 🚀'**
+  String get mobileWelcomeHeadline;
+
+  /// No description provided for @mobileWelcomeNewAtSharezoneButton.
+  ///
+  /// In de, this message translates to:
+  /// **'Ich bin neu bei Sharezone 👋'**
+  String get mobileWelcomeNewAtSharezoneButton;
+
+  /// No description provided for @mobileWelcomeSignInButton.
+  ///
+  /// In de, this message translates to:
+  /// **'Anmelden'**
+  String get mobileWelcomeSignInButton;
+
+  /// No description provided for @mobileWelcomeSignInWithExistingAccount.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit existierendem Konto anmelden'**
+  String get mobileWelcomeSignInWithExistingAccount;
+
+  /// No description provided for @mobileWelcomeSubHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Optional kannst du Sharezone auch komplett alleine verwenden.'**
+  String get mobileWelcomeSubHeadline;
 
   /// No description provided for @myProfileActivationCodeTile.
   ///
@@ -1310,6 +4740,372 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Neue Navigation - Mit Mehr-Button'**
   String get navigationExperimentOptionExtendableBnbWithMoreButton;
+
+  /// No description provided for @notificationPageBlackboardDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Ersteller eines Infozettels kann regulieren, ob die Kursmitglieder darüber benachrichtigt werden sollen, dass ein neuer Infozettel erstellt wurde, bzw. es eine Änderung gab. Mit dieser Option kannst du diese Benachrichtigungen an- und ausschalten.'**
+  String get notificationPageBlackboardDescription;
+
+  /// No description provided for @notificationPageBlackboardHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Infozettel'**
+  String get notificationPageBlackboardHeadline;
+
+  /// No description provided for @notificationPageBlackboardTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Benachrichtigungen für Infozettel'**
+  String get notificationPageBlackboardTitle;
+
+  /// No description provided for @notificationPageCommentsDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Erhalte eine Push-Nachricht, sobald ein neuer Nutzer einen neuen Kommentar unter einer Hausaufgabe oder einem Infozettel verfasst hat.'**
+  String get notificationPageCommentsDescription;
+
+  /// No description provided for @notificationPageCommentsHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Kommentare'**
+  String get notificationPageCommentsHeadline;
+
+  /// No description provided for @notificationPageCommentsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Benachrichtigungen für Kommentare'**
+  String get notificationPageCommentsTitle;
+
+  /// No description provided for @notificationPageHomeworkHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Offene Hausaufgaben'**
+  String get notificationPageHomeworkHeadline;
+
+  /// No description provided for @notificationPageHomeworkReminderTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Erinnerungen für offene Hausaufgaben'**
+  String get notificationPageHomeworkReminderTitle;
+
+  /// No description provided for @notificationPageInvalidHomeworkReminderTime.
+  ///
+  /// In de, this message translates to:
+  /// **'Nur volle und halbe Stunden sind erlaubt, z.B. 18:00 oder 18:30.'**
+  String get notificationPageInvalidHomeworkReminderTime;
+
+  /// No description provided for @notificationPagePlusDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Sharezone Plus kannst du die Erinnerung für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.'**
+  String get notificationPagePlusDialogDescription;
+
+  /// No description provided for @notificationPagePlusDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Uhrzeit für Erinnerung am Vortag'**
+  String get notificationPagePlusDialogTitle;
+
+  /// No description provided for @notificationPageTimeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Uhrzeit'**
+  String get notificationPageTimeTitle;
+
+  /// No description provided for @notificationPageTimeValue.
+  ///
+  /// In de, this message translates to:
+  /// **'{time} Uhr'**
+  String notificationPageTimeValue(String time);
+
+  /// No description provided for @notificationPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Benachrichtigungen'**
+  String get notificationPageTitle;
+
+  /// No description provided for @notificationsDialogReplyAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Notifications Dialog Reply Action'**
+  String get notificationsDialogReplyAction;
+
+  /// No description provided for @notificationsErrorDialogMoreInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Notifications Error Dialog More Info'**
+  String get notificationsErrorDialogMoreInfo;
+
+  /// No description provided for @notificationsErrorDialogShortDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Notifications Error Dialog Short Description'**
+  String get notificationsErrorDialogShortDescription;
+
+  /// No description provided for @onboardingNotificationsConfirmBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Bist du dir sicher, dass du keine Benachrichtigungen erhalten möchtest?\n\nSollte jemand einen Infozettel eintragen, einen Kommentar zu einer Hausaufgabe hinzufügen oder dir eine Nachricht schreiben, würdest du keine Push-Nachrichten erhalten.'**
+  String get onboardingNotificationsConfirmBody;
+
+  /// No description provided for @onboardingNotificationsConfirmTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Push-Nachrichten? 🤨'**
+  String get onboardingNotificationsConfirmTitle;
+
+  /// No description provided for @onboardingNotificationsDescriptionGeneral.
+  ///
+  /// In de, this message translates to:
+  /// **'Wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt, erhältst du eine Benachrichtigung. Somit bleibst du immer auf dem aktuellen Stand 💪'**
+  String get onboardingNotificationsDescriptionGeneral;
+
+  /// No description provided for @onboardingNotificationsDescriptionStudent.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir können dich an offene Hausaufgaben erinnern 😉 Zudem kannst du eine Benachrichtigung erhalten, wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt.'**
+  String get onboardingNotificationsDescriptionStudent;
+
+  /// No description provided for @onboardingNotificationsEnable.
+  ///
+  /// In de, this message translates to:
+  /// **'Onboarding Notifications Enable'**
+  String get onboardingNotificationsEnable;
+
+  /// No description provided for @onboardingNotificationsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Erinnerungen und Benachrichtigungen erhalten'**
+  String get onboardingNotificationsTitle;
+
+  /// No description provided for @pastCalendricalEventsDummyTitleExam2.
+  ///
+  /// In de, this message translates to:
+  /// **'Past Calendrical Events Dummy Title Exam2'**
+  String get pastCalendricalEventsDummyTitleExam2;
+
+  /// No description provided for @pastCalendricalEventsDummyTitleExam3.
+  ///
+  /// In de, this message translates to:
+  /// **'Past Calendrical Events Dummy Title Exam3'**
+  String get pastCalendricalEventsDummyTitleExam3;
+
+  /// No description provided for @pastCalendricalEventsDummyTitleExam4.
+  ///
+  /// In de, this message translates to:
+  /// **'Past Calendrical Events Dummy Title Exam4'**
+  String get pastCalendricalEventsDummyTitleExam4;
+
+  /// No description provided for @pastCalendricalEventsDummyTitleExam5.
+  ///
+  /// In de, this message translates to:
+  /// **'Past Calendrical Events Dummy Title Exam5'**
+  String get pastCalendricalEventsDummyTitleExam5;
+
+  /// No description provided for @pastCalendricalEventsDummyTitleNoSchool.
+  ///
+  /// In de, this message translates to:
+  /// **'Past Calendrical Events Dummy Title No School'**
+  String get pastCalendricalEventsDummyTitleNoSchool;
+
+  /// No description provided for @pastCalendricalEventsDummyTitleParentTeacherDay.
+  ///
+  /// In de, this message translates to:
+  /// **'Past Calendrical Events Dummy Title Parent Teacher Day'**
+  String get pastCalendricalEventsDummyTitleParentTeacherDay;
+
+  /// No description provided for @pastCalendricalEventsDummyTitleSportsFestival.
+  ///
+  /// In de, this message translates to:
+  /// **'Past Calendrical Events Dummy Title Sports Festival'**
+  String get pastCalendricalEventsDummyTitleSportsFestival;
+
+  /// No description provided for @pastCalendricalEventsDummyTitleTest6.
+  ///
+  /// In de, this message translates to:
+  /// **'Past Calendrical Events Dummy Title Test6'**
+  String get pastCalendricalEventsDummyTitleTest6;
+
+  /// No description provided for @pastCalendricalEventsPageEmpty.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine vergangenen Termine'**
+  String get pastCalendricalEventsPageEmpty;
+
+  /// No description provided for @pastCalendricalEventsPageError.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehler beim Laden der vergangenen Termine: {error}'**
+  String pastCalendricalEventsPageError(String error);
+
+  /// No description provided for @pastCalendricalEventsPagePlusDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Erwerbe Sharezone Plus, um alle vergangenen Termine einzusehen.'**
+  String get pastCalendricalEventsPagePlusDescription;
+
+  /// No description provided for @pastCalendricalEventsPageSortAscending.
+  ///
+  /// In de, this message translates to:
+  /// **'Aufsteigend'**
+  String get pastCalendricalEventsPageSortAscending;
+
+  /// No description provided for @pastCalendricalEventsPageSortAscendingSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Älteste Termine zuerst'**
+  String get pastCalendricalEventsPageSortAscendingSubtitle;
+
+  /// No description provided for @pastCalendricalEventsPageSortDescending.
+  ///
+  /// In de, this message translates to:
+  /// **'Absteigend'**
+  String get pastCalendricalEventsPageSortDescending;
+
+  /// No description provided for @pastCalendricalEventsPageSortDescendingSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Neueste Termine zuerst'**
+  String get pastCalendricalEventsPageSortDescendingSubtitle;
+
+  /// No description provided for @pastCalendricalEventsPageSortOrderTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Sortierreihenfolge'**
+  String get pastCalendricalEventsPageSortOrderTooltip;
+
+  /// No description provided for @pastCalendricalEventsPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vergangene Termine'**
+  String get pastCalendricalEventsPageTitle;
+
+  /// No description provided for @periodsEditAddLesson.
+  ///
+  /// In de, this message translates to:
+  /// **'Stunde hinzufügen'**
+  String get periodsEditAddLesson;
+
+  /// No description provided for @periodsEditSaved.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Stundenzeiten wurden erfolgreich geändert.'**
+  String get periodsEditSaved;
+
+  /// No description provided for @periodsEditTimetableStart.
+  ///
+  /// In de, this message translates to:
+  /// **'Stundenplanbeginn'**
+  String get periodsEditTimetableStart;
+
+  /// No description provided for @privacyDisplaySettingsDensityComfortable.
+  ///
+  /// In de, this message translates to:
+  /// **'Komfortabel'**
+  String get privacyDisplaySettingsDensityComfortable;
+
+  /// No description provided for @privacyDisplaySettingsDensityCompact.
+  ///
+  /// In de, this message translates to:
+  /// **'Kompakt'**
+  String get privacyDisplaySettingsDensityCompact;
+
+  /// No description provided for @privacyDisplaySettingsDensityStandard.
+  ///
+  /// In de, this message translates to:
+  /// **'Standard'**
+  String get privacyDisplaySettingsDensityStandard;
+
+  /// No description provided for @privacyDisplaySettingsShowReadIndicator.
+  ///
+  /// In de, this message translates to:
+  /// **'\"Am Lesen\"-Indikator anzeigen'**
+  String get privacyDisplaySettingsShowReadIndicator;
+
+  /// No description provided for @privacyDisplaySettingsTextScalingFactor.
+  ///
+  /// In de, this message translates to:
+  /// **'Textskalierungsfaktor'**
+  String get privacyDisplaySettingsTextScalingFactor;
+
+  /// No description provided for @privacyDisplaySettingsThemeMode.
+  ///
+  /// In de, this message translates to:
+  /// **'Dunkel-/Hellmodus'**
+  String get privacyDisplaySettingsThemeMode;
+
+  /// No description provided for @privacyDisplaySettingsThemeModeAutomatic.
+  ///
+  /// In de, this message translates to:
+  /// **'Automatisch'**
+  String get privacyDisplaySettingsThemeModeAutomatic;
+
+  /// No description provided for @privacyDisplaySettingsThemeModeDark.
+  ///
+  /// In de, this message translates to:
+  /// **'Dunkler Modus'**
+  String get privacyDisplaySettingsThemeModeDark;
+
+  /// No description provided for @privacyDisplaySettingsThemeModeLight.
+  ///
+  /// In de, this message translates to:
+  /// **'Heller Modus'**
+  String get privacyDisplaySettingsThemeModeLight;
+
+  /// No description provided for @privacyDisplaySettingsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Anzeigeeinstellungen'**
+  String get privacyDisplaySettingsTitle;
+
+  /// No description provided for @privacyDisplaySettingsVisualDensity.
+  ///
+  /// In de, this message translates to:
+  /// **'Visuelle Kompaktheit'**
+  String get privacyDisplaySettingsVisualDensity;
+
+  /// No description provided for @privacyPolicyChangeAppearance.
+  ///
+  /// In de, this message translates to:
+  /// **'Darstellung ändern'**
+  String get privacyPolicyChangeAppearance;
+
+  /// No description provided for @privacyPolicyDownloadPdf.
+  ///
+  /// In de, this message translates to:
+  /// **'Als PDF herunterladen'**
+  String get privacyPolicyDownloadPdf;
+
+  /// No description provided for @privacyPolicyPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datenschutzerklärung'**
+  String get privacyPolicyPageTitle;
+
+  /// No description provided for @privacyPolicyPageUpdatedEffectiveDatePrefix.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese aktualisierte Datenschutzerklärung tritt am'**
+  String get privacyPolicyPageUpdatedEffectiveDatePrefix;
+
+  /// No description provided for @privacyPolicyPageUpdatedEffectiveDateSuffix.
+  ///
+  /// In de, this message translates to:
+  /// **'in Kraft.'**
+  String get privacyPolicyPageUpdatedEffectiveDateSuffix;
+
+  /// No description provided for @privacyPolicyTableOfContents.
+  ///
+  /// In de, this message translates to:
+  /// **'Inhaltsverzeichnis'**
+  String get privacyPolicyTableOfContents;
+
+  /// No description provided for @profileAvatarTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Profile Avatar Tooltip'**
+  String get profileAvatarTooltip;
 
   /// Legal notice shown below the sign-in methods for anonymous users.
   ///
@@ -1539,6 +5335,168 @@ abstract class SharezoneLocalizations {
   /// **'Gewaltsame oder abstoßende Inhalte'**
   String get reportReasonViolentContent;
 
+  /// No description provided for @resetPasswordEmailFieldLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail Adresse deines Kontos'**
+  String get resetPasswordEmailFieldLabel;
+
+  /// No description provided for @resetPasswordErrorMessage.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail konnte nicht gesendet werden. Überprüfe deine eingegebene E-Mail-Adresse!'**
+  String get resetPasswordErrorMessage;
+
+  /// No description provided for @resetPasswordSentDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail wurde verschickt'**
+  String get resetPasswordSentDialogTitle;
+
+  /// No description provided for @resetPasswordSuccessMessage.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail zum Passwort-Zurücksetzen wurde gesendet.'**
+  String get resetPasswordSuccessMessage;
+
+  /// No description provided for @schoolClassActionsDeleteUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'KLASSE LÖSCHEN'**
+  String get schoolClassActionsDeleteUppercase;
+
+  /// No description provided for @schoolClassActionsKickUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'AUS DER SCHULKLASSE KICKEN'**
+  String get schoolClassActionsKickUppercase;
+
+  /// No description provided for @schoolClassActionsLeaveUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'KLASSE VERLASSEN'**
+  String get schoolClassActionsLeaveUppercase;
+
+  /// No description provided for @schoolClassAllowJoinExplanation.
+  ///
+  /// In de, this message translates to:
+  /// **'Über diese Einstellungen kannst du regulieren, ob neue Mitglieder dem Kurs beitreten dürfen.\n\nDie Einstellung wird direkt auf alle Kurse übertragen, die mit der Schulklasse verbunden sind.'**
+  String get schoolClassAllowJoinExplanation;
+
+  /// No description provided for @schoolClassCoursesAddExisting.
+  ///
+  /// In de, this message translates to:
+  /// **'Existierenden Kurs hinzufügen'**
+  String get schoolClassCoursesAddExisting;
+
+  /// No description provided for @schoolClassCoursesAddNew.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuen Kurs hinzufügen'**
+  String get schoolClassCoursesAddNew;
+
+  /// No description provided for @schoolClassCoursesEmptyDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Es wurden noch keine Kurse zu dieser Klasse hinzugefügt.\n\nErstelle jetzt einen Kurs, der mit der Klasse verknüpft ist.'**
+  String get schoolClassCoursesEmptyDescription;
+
+  /// No description provided for @schoolClassCoursesSelectCourseDialogHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Du kannst nur Kurse hinzufügen, in denen du auch Administrator bist.'**
+  String get schoolClassCoursesSelectCourseDialogHint;
+
+  /// No description provided for @schoolClassCoursesSelectCourseDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle einen Kurs aus'**
+  String get schoolClassCoursesSelectCourseDialogTitle;
+
+  /// No description provided for @schoolClassCoursesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurse'**
+  String get schoolClassCoursesTitle;
+
+  /// No description provided for @schoolClassCreateTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulklasse erstellen'**
+  String get schoolClassCreateTitle;
+
+  /// No description provided for @schoolClassEditSuccess.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Schulklasse wurde erfolgreich bearbeitet!'**
+  String get schoolClassEditSuccess;
+
+  /// No description provided for @schoolClassEditTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulklasse bearbeiten'**
+  String get schoolClassEditTitle;
+
+  /// No description provided for @schoolClassLeaveConfirmationQuestion.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich die Schulklasse verlassen?'**
+  String get schoolClassLeaveConfirmationQuestion;
+
+  /// No description provided for @schoolClassLeaveDialogDeleteWithCourses.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Kursen löschen'**
+  String get schoolClassLeaveDialogDeleteWithCourses;
+
+  /// No description provided for @schoolClassLeaveDialogDeleteWithoutCourses.
+  ///
+  /// In de, this message translates to:
+  /// **'Ohne Kurse löschen'**
+  String get schoolClassLeaveDialogDeleteWithoutCourses;
+
+  /// No description provided for @schoolClassLeaveDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich die Klasse verlassen?\n\nDu hast noch die Option, die Kurse der Schulklasse ebenfalls zu löschen oder diese zu behalten. Werden die Kurse der Schulklasse nicht gelöscht, bleiben diese weiterhin bestehen.'**
+  String get schoolClassLeaveDialogDescription;
+
+  /// No description provided for @schoolClassLeaveDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Klasse verlassen'**
+  String get schoolClassLeaveDialogTitle;
+
+  /// No description provided for @schoolClassLoadError.
+  ///
+  /// In de, this message translates to:
+  /// **'Es ist ein Fehler beim Laden aufgetreten...'**
+  String get schoolClassLoadError;
+
+  /// No description provided for @schoolClassLongPressTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Klasse: {schoolClassName}'**
+  String schoolClassLongPressTitle(String schoolClassName);
+
+  /// No description provided for @schoolClassMemberOptionsAloneHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Da du der einzige in der Schulklasse bist, kannst du deine Rolle nicht bearbeiten.'**
+  String get schoolClassMemberOptionsAloneHint;
+
+  /// No description provided for @schoolClassMemberOptionsOnlyAdminHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist der einzige Admin in dieser Schulklasse. Daher kannst du dir keine Rechte entziehen.'**
+  String get schoolClassMemberOptionsOnlyAdminHint;
+
+  /// No description provided for @schoolClassWritePermissionsAnnotation.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Einstellung wird direkt auf alle Kurse übertragen, die mit der Schulklasse verbunden sind.'**
+  String get schoolClassWritePermissionsAnnotation;
+
   /// No description provided for @selectStateDialogConfirmationSnackBar.
   ///
   /// In de, this message translates to:
@@ -1568,6 +5526,72 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Ich möchte anonym bleiben'**
   String get selectStateDialogStayAnonymous;
+
+  /// No description provided for @settingsLegalLicensesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Lizenzen'**
+  String get settingsLegalLicensesTitle;
+
+  /// No description provided for @settingsLegalTermsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Allgemeine Nutzungsbedingungen (ANB)'**
+  String get settingsLegalTermsTitle;
+
+  /// No description provided for @settingsOptionMyAccount.
+  ///
+  /// In de, this message translates to:
+  /// **'Mein Konto'**
+  String get settingsOptionMyAccount;
+
+  /// No description provided for @settingsOptionSourceCode.
+  ///
+  /// In de, this message translates to:
+  /// **'Quellcode'**
+  String get settingsOptionSourceCode;
+
+  /// No description provided for @settingsOptionWebApp.
+  ///
+  /// In de, this message translates to:
+  /// **'Web-App'**
+  String get settingsOptionWebApp;
+
+  /// No description provided for @settingsPrivacyPolicyLinkText.
+  ///
+  /// In de, this message translates to:
+  /// **'Settings Privacy Policy Link Text'**
+  String get settingsPrivacyPolicyLinkText;
+
+  /// No description provided for @settingsPrivacyPolicySentencePrefix.
+  ///
+  /// In de, this message translates to:
+  /// **'Settings Privacy Policy Sentence Prefix'**
+  String get settingsPrivacyPolicySentencePrefix;
+
+  /// No description provided for @settingsPrivacyPolicySentenceSuffix.
+  ///
+  /// In de, this message translates to:
+  /// **'Settings Privacy Policy Sentence Suffix'**
+  String get settingsPrivacyPolicySentenceSuffix;
+
+  /// No description provided for @settingsSectionAppSettings.
+  ///
+  /// In de, this message translates to:
+  /// **'App-Einstellungen'**
+  String get settingsSectionAppSettings;
+
+  /// No description provided for @settingsSectionLegal.
+  ///
+  /// In de, this message translates to:
+  /// **'Rechtliches'**
+  String get settingsSectionLegal;
+
+  /// No description provided for @settingsSectionMore.
+  ///
+  /// In de, this message translates to:
+  /// **'Mehr'**
+  String get settingsSectionMore;
 
   /// No description provided for @sharezonePlusAdvantageAddToCalendarDescription.
   ///
@@ -2031,6 +6055,42 @@ abstract class SharezoneLocalizations {
   /// **'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!'**
   String get sharezonePlusUnsubscribeLifetimeText;
 
+  /// No description provided for @sharezoneV2DialogAnbAcceptanceCheckbox.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone V2 Dialog Anb Acceptance Checkbox'**
+  String get sharezoneV2DialogAnbAcceptanceCheckbox;
+
+  /// No description provided for @sharezoneV2DialogChangedLegalFormHeader.
+  ///
+  /// In de, this message translates to:
+  /// **'Geänderte Rechtsform'**
+  String get sharezoneV2DialogChangedLegalFormHeader;
+
+  /// No description provided for @sharezoneV2DialogPrivacyPolicyRevisionHeader.
+  ///
+  /// In de, this message translates to:
+  /// **'Überarbeitung der Datenschutzerklärung'**
+  String get sharezoneV2DialogPrivacyPolicyRevisionHeader;
+
+  /// No description provided for @sharezoneV2DialogSubmitError.
+  ///
+  /// In de, this message translates to:
+  /// **'Es ist ein Fehler aufgetreten: {value}. Falls dieser bestehen bleibt, dann schreibe uns unter support@sharezone.net'**
+  String sharezoneV2DialogSubmitError(Object value);
+
+  /// No description provided for @sharezoneV2DialogTermsHeader.
+  ///
+  /// In de, this message translates to:
+  /// **'Allgemeine Nutzungsbedingungen (ANB)'**
+  String get sharezoneV2DialogTermsHeader;
+
+  /// No description provided for @sharezoneV2DialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone v2.0'**
+  String get sharezoneV2DialogTitle;
+
   /// No description provided for @sharezoneWidgetsCenteredErrorMessage.
   ///
   /// In de, this message translates to:
@@ -2222,6 +6282,144 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Das Textfeld darf nicht leer sein!'**
   String get sharezoneWidgetsTextFieldCannotBeEmptyError;
+
+  /// No description provided for @signInWithQrCodeLoadingMessage.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Erstellung des QR-Codes kann einige Sekunden dauern...'**
+  String get signInWithQrCodeLoadingMessage;
+
+  /// No description provided for @signInWithQrCodeStep1.
+  ///
+  /// In de, this message translates to:
+  /// **'Öffne Sharezone auf deinem Handy / Tablet'**
+  String get signInWithQrCodeStep1;
+
+  /// No description provided for @signInWithQrCodeStep2.
+  ///
+  /// In de, this message translates to:
+  /// **'Öffne die Einstellungen über die seitliche Navigation'**
+  String get signInWithQrCodeStep2;
+
+  /// No description provided for @signInWithQrCodeStep3.
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe auf \"Web-App\"'**
+  String get signInWithQrCodeStep3;
+
+  /// No description provided for @signInWithQrCodeStep4.
+  ///
+  /// In de, this message translates to:
+  /// **'Tippe auf \"QR-Code scannen\" und richte die Kamera auf deinen Bildschirm'**
+  String get signInWithQrCodeStep4;
+
+  /// No description provided for @signInWithQrCodeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'So meldest du dich über einen QR-Code an:'**
+  String get signInWithQrCodeTitle;
+
+  /// No description provided for @signOutDialogConfirmation.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du dich wirklich abmelden?'**
+  String get signOutDialogConfirmation;
+
+  /// No description provided for @signUpAdvantageAllInOne.
+  ///
+  /// In de, this message translates to:
+  /// **'All-In-One-App für die Schule'**
+  String get signUpAdvantageAllInOne;
+
+  /// No description provided for @signUpAdvantageCloud.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulplaner über die Cloud mit der Klasse teilen'**
+  String get signUpAdvantageCloud;
+
+  /// No description provided for @signUpAdvantageHomeworkReminder.
+  ///
+  /// In de, this message translates to:
+  /// **'Erinnerungen an offene Hausaufgaben'**
+  String get signUpAdvantageHomeworkReminder;
+
+  /// No description provided for @signUpAdvantageSaveTime.
+  ///
+  /// In de, this message translates to:
+  /// **'Große Zeitersparnis durch gemeinsames Organisieren'**
+  String get signUpAdvantageSaveTime;
+
+  /// No description provided for @signUpAdvantagesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vorteile von Sharezone'**
+  String get signUpAdvantagesTitle;
+
+  /// No description provided for @signUpDataProtectionAesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'AES 256-Bit serverseitige Verschlüsselung'**
+  String get signUpDataProtectionAesTitle;
+
+  /// No description provided for @signUpDataProtectionAnonymousSignInSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'IP-Adresse wird zwangsläufig temporär gespeichert'**
+  String get signUpDataProtectionAnonymousSignInSubtitle;
+
+  /// No description provided for @signUpDataProtectionAnonymousSignInTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Anmeldung ohne personenbezogene Daten'**
+  String get signUpDataProtectionAnonymousSignInTitle;
+
+  /// No description provided for @signUpDataProtectionDeleteDataTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Einfaches Löschen der Daten'**
+  String get signUpDataProtectionDeleteDataTitle;
+
+  /// No description provided for @signUpDataProtectionIsoTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'ISO27001, ISO27012 & ISO27018 zertifiziert*'**
+  String get signUpDataProtectionIsoTitle;
+
+  /// No description provided for @signUpDataProtectionServerLocationSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Ausnahme des Authentifizierungs-Server'**
+  String get signUpDataProtectionServerLocationSubtitle;
+
+  /// No description provided for @signUpDataProtectionServerLocationTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Standort der Server: Frankfurt (Deutschland)'**
+  String get signUpDataProtectionServerLocationTitle;
+
+  /// No description provided for @signUpDataProtectionSocSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'* Zertifizierung von unserem Hosting-Anbieter'**
+  String get signUpDataProtectionSocSubtitle;
+
+  /// No description provided for @signUpDataProtectionSocTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'SOC1, SOC2, & SOC3 zertifiziert*'**
+  String get signUpDataProtectionSocTitle;
+
+  /// No description provided for @signUpDataProtectionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datenschutz'**
+  String get signUpDataProtectionTitle;
+
+  /// No description provided for @signUpDataProtectionTlsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'TLS-Verschlüsselung bei der Übertragung'**
+  String get signUpDataProtectionTlsTitle;
 
   /// No description provided for @socialDiscord.
   ///
@@ -2769,6 +6967,132 @@ abstract class SharezoneLocalizations {
   /// **'Abgaben'**
   String get submissionsListTitle;
 
+  /// No description provided for @supportPageBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast einen Fehler gefunden, hast Feedback oder einfach eine Frage über Sharezone? Kontaktiere uns und wir helfen dir weiter!'**
+  String get supportPageBody;
+
+  /// No description provided for @supportPageDiscordIconSemanticsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Discord Icon'**
+  String get supportPageDiscordIconSemanticsLabel;
+
+  /// No description provided for @supportPageDiscordPrivacyContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.'**
+  String get supportPageDiscordPrivacyContent;
+
+  /// No description provided for @supportPageDiscordPrivacyTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Discord Datenschutz'**
+  String get supportPageDiscordPrivacyTitle;
+
+  /// No description provided for @supportPageDiscordSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Community-Support'**
+  String get supportPageDiscordSubtitle;
+
+  /// No description provided for @supportPageDiscordTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Discord'**
+  String get supportPageDiscordTitle;
+
+  /// No description provided for @supportPageEmailAddress.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail: {email}'**
+  String supportPageEmailAddress(String email);
+
+  /// No description provided for @supportPageEmailIconSemanticsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail Icon'**
+  String get supportPageEmailIconSemanticsLabel;
+
+  /// No description provided for @supportPageEmailTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail'**
+  String get supportPageEmailTitle;
+
+  /// No description provided for @supportPageFreeSupportSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte beachte, dass die Wartezeit beim kostenfreien Support bis zu 2 Wochen betragen kann.'**
+  String get supportPageFreeSupportSubtitle;
+
+  /// No description provided for @supportPageFreeSupportTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kostenfreier Support'**
+  String get supportPageFreeSupportTitle;
+
+  /// No description provided for @supportPageHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Du brauchst Hilfe?'**
+  String get supportPageHeadline;
+
+  /// No description provided for @supportPagePlusAdvertisingBulletOne.
+  ///
+  /// In de, this message translates to:
+  /// **'Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)'**
+  String get supportPagePlusAdvertisingBulletOne;
+
+  /// No description provided for @supportPagePlusAdvertisingBulletTwo.
+  ///
+  /// In de, this message translates to:
+  /// **'Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)'**
+  String get supportPagePlusAdvertisingBulletTwo;
+
+  /// No description provided for @supportPagePlusEmailSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Erhalte eine Rückmeldung innerhalb von wenigen Stunden.'**
+  String get supportPagePlusEmailSubtitle;
+
+  /// No description provided for @supportPagePlusSupportSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Als Sharezone Plus Nutzer hast du Zugriff auf unseren Premium Support.'**
+  String get supportPagePlusSupportSubtitle;
+
+  /// No description provided for @supportPagePlusSupportTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Plus Support'**
+  String get supportPagePlusSupportTitle;
+
+  /// No description provided for @supportPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Support'**
+  String get supportPageTitle;
+
+  /// No description provided for @supportPageVideoCallRequiresSignIn.
+  ///
+  /// In de, this message translates to:
+  /// **'Du musst angemeldet sein, um einen Videocall zu vereinbaren.'**
+  String get supportPageVideoCallRequiresSignIn;
+
+  /// No description provided for @supportPageVideoCallSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Nach Terminvereinbarung, bei Bedarf kann ebenfalls der Bildschirm geteilt werden.'**
+  String get supportPageVideoCallSubtitle;
+
+  /// No description provided for @supportPageVideoCallTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Videocall-Support'**
+  String get supportPageVideoCallTitle;
+
   /// No description provided for @themeDarkMode.
   ///
   /// In de, this message translates to:
@@ -2804,6 +7128,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Experiment: Neue Navigation'**
   String get themeNavigationExperimentSectionTitle;
+
+  /// No description provided for @themeNavigationOptionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Option {number}: {optionName}'**
+  String themeNavigationOptionTitle(int number, String optionName);
 
   /// No description provided for @themeRateOurAppCardContent.
   ///
@@ -2847,6 +7177,72 @@ abstract class SharezoneLocalizations {
   /// **'Erscheinungsbild'**
   String get themeTitle;
 
+  /// No description provided for @timetableAddAbWeeksPrefix.
+  ///
+  /// In de, this message translates to:
+  /// **' A/B Wochen kannst du in den '**
+  String get timetableAddAbWeeksPrefix;
+
+  /// No description provided for @timetableAddAbWeeksSettings.
+  ///
+  /// In de, this message translates to:
+  /// **'Einstellungen'**
+  String get timetableAddAbWeeksSettings;
+
+  /// No description provided for @timetableAddAbWeeksSuffix.
+  ///
+  /// In de, this message translates to:
+  /// **' aktivieren.'**
+  String get timetableAddAbWeeksSuffix;
+
+  /// No description provided for @timetableAddAutoRecurringInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulstunden werden automatisch auch für die nächsten Wochen eingetragen.'**
+  String get timetableAddAutoRecurringInfo;
+
+  /// No description provided for @timetableAddJoinCourseAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Add Join Course Action'**
+  String get timetableAddJoinCourseAction;
+
+  /// No description provided for @timetableAddLessonTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulstunde hinzufügen'**
+  String get timetableAddLessonTitle;
+
+  /// No description provided for @timetableAddRoomAndTeacherOptionalTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Add Room And Teacher Optional Title'**
+  String get timetableAddRoomAndTeacherOptionalTitle;
+
+  /// No description provided for @timetableAddSelectCourseTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Add Select Course Title'**
+  String get timetableAddSelectCourseTitle;
+
+  /// No description provided for @timetableAddSelectWeekTypeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Add Select Week Type Title'**
+  String get timetableAddSelectWeekTypeTitle;
+
+  /// No description provided for @timetableAddSelectWeekdayTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Add Select Weekday Title'**
+  String get timetableAddSelectWeekdayTitle;
+
+  /// No description provided for @timetableAddUnknownError.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Add Unknown Error'**
+  String get timetableAddUnknownError;
+
   /// Countdown label for the delete action in the delete all lessons dialog.
   ///
   /// In de, this message translates to:
@@ -2870,6 +7266,54 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Gesamten Stundenplan löschen?'**
   String get timetableDeleteAllSuggestionTitle;
+
+  /// No description provided for @timetableEditCourseLocked.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Kurs kann nicht mehr nachträglich geändert werden.'**
+  String get timetableEditCourseLocked;
+
+  /// No description provided for @timetableEditEndTime.
+  ///
+  /// In de, this message translates to:
+  /// **'Endzeit'**
+  String get timetableEditEndTime;
+
+  /// No description provided for @timetableEditEventTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'{eventType} bearbeiten'**
+  String timetableEditEventTitle(String eventType);
+
+  /// No description provided for @timetableEditLessonTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulstunde bearbeiten'**
+  String get timetableEditLessonTitle;
+
+  /// No description provided for @timetableEditNoPeriodSelected.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Stunde ausgewählt'**
+  String get timetableEditNoPeriodSelected;
+
+  /// No description provided for @timetableEditPeriodSelected.
+  ///
+  /// In de, this message translates to:
+  /// **'{number}. Stunde'**
+  String timetableEditPeriodSelected(int number);
+
+  /// No description provided for @timetableEditStartTime.
+  ///
+  /// In de, this message translates to:
+  /// **'Startzeit'**
+  String get timetableEditStartTime;
+
+  /// No description provided for @timetableEditTeacherHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. Frau Stark'**
+  String get timetableEditTeacherHint;
 
   /// Error message shown when the end time is before the next lesson's start time.
   ///
@@ -2930,6 +7374,336 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Bitte gib einen Wochentag an!'**
   String get timetableErrorWeekdayMissing;
+
+  /// No description provided for @timetableEventCardChangeColorAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Event Card Change Color Action'**
+  String get timetableEventCardChangeColorAction;
+
+  /// No description provided for @timetableEventCardEventTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Termin: {value}'**
+  String timetableEventCardEventTitle(Object value);
+
+  /// No description provided for @timetableEventCardExamTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Prüfung: {value}'**
+  String timetableEventCardExamTitle(Object value);
+
+  /// No description provided for @timetableEventDetailsAddToCalendarButton.
+  ///
+  /// In de, this message translates to:
+  /// **'IN KALENDER EINTRAGEN'**
+  String get timetableEventDetailsAddToCalendarButton;
+
+  /// No description provided for @timetableEventDetailsAddToCalendarPlusDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Sharezone Plus kannst du kinderleicht die Termine aus Sharezone in deinen lokalen Kalender (z.B. Apple oder Google Kalender) übertragen.'**
+  String get timetableEventDetailsAddToCalendarPlusDescription;
+
+  /// No description provided for @timetableEventDetailsAddToCalendarTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Termin zum Kalender hinzufügen'**
+  String get timetableEventDetailsAddToCalendarTitle;
+
+  /// No description provided for @timetableEventDetailsDeleteDialog.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich diesen Termin löschen?'**
+  String get timetableEventDetailsDeleteDialog;
+
+  /// No description provided for @timetableEventDetailsDeletedConfirmation.
+  ///
+  /// In de, this message translates to:
+  /// **'Termin wurde gelöscht'**
+  String get timetableEventDetailsDeletedConfirmation;
+
+  /// No description provided for @timetableEventDetailsEditedConfirmation.
+  ///
+  /// In de, this message translates to:
+  /// **'Termin wurde erfolgreich bearbeitet'**
+  String get timetableEventDetailsEditedConfirmation;
+
+  /// No description provided for @timetableEventDetailsExamTopics.
+  ///
+  /// In de, this message translates to:
+  /// **'Themen der Prüfung'**
+  String get timetableEventDetailsExamTopics;
+
+  /// No description provided for @timetableEventDetailsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Details'**
+  String get timetableEventDetailsLabel;
+
+  /// No description provided for @timetableEventDetailsReport.
+  ///
+  /// In de, this message translates to:
+  /// **'{itemType} melden'**
+  String timetableEventDetailsReport(String itemType);
+
+  /// No description provided for @timetableEventDetailsRoom.
+  ///
+  /// In de, this message translates to:
+  /// **'Raum: {room}'**
+  String timetableEventDetailsRoom(String room);
+
+  /// No description provided for @timetableEventDialogDateSelectionNotPossible.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Event Dialog Date Selection Not Possible'**
+  String get timetableEventDialogDateSelectionNotPossible;
+
+  /// No description provided for @timetableEventDialogDateSelectionNotPossibleContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Aktuell ist nicht möglich, einen Termin oder eine Klausur über mehrere Tage hinweg zu haben.'**
+  String get timetableEventDialogDateSelectionNotPossibleContent;
+
+  /// No description provided for @timetableEventDialogDescriptionHintEvent.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Event Dialog Description Hint Event'**
+  String get timetableEventDialogDescriptionHintEvent;
+
+  /// No description provided for @timetableEventDialogDescriptionHintExam.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Event Dialog Description Hint Exam'**
+  String get timetableEventDialogDescriptionHintExam;
+
+  /// No description provided for @timetableEventDialogNotifyCourseMembersEvent.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Event Dialog Notify Course Members Event'**
+  String get timetableEventDialogNotifyCourseMembersEvent;
+
+  /// No description provided for @timetableEventDialogNotifyCourseMembersExam.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Event Dialog Notify Course Members Exam'**
+  String get timetableEventDialogNotifyCourseMembersExam;
+
+  /// No description provided for @timetableEventDialogNotifyCourseMembersTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Event Dialog Notify Course Members Title'**
+  String get timetableEventDialogNotifyCourseMembersTitle;
+
+  /// No description provided for @timetableFabAddTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Stunde/Termin hinzufügen'**
+  String get timetableFabAddTooltip;
+
+  /// No description provided for @timetableFabLessonAddedConfirmation.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Schulstunde wurde erfolgreich hinzugefügt'**
+  String get timetableFabLessonAddedConfirmation;
+
+  /// No description provided for @timetableFabOptionEvent.
+  ///
+  /// In de, this message translates to:
+  /// **'Termin'**
+  String get timetableFabOptionEvent;
+
+  /// No description provided for @timetableFabOptionExam.
+  ///
+  /// In de, this message translates to:
+  /// **'Prüfung'**
+  String get timetableFabOptionExam;
+
+  /// No description provided for @timetableFabOptionLesson.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulstunde'**
+  String get timetableFabOptionLesson;
+
+  /// No description provided for @timetableFabOptionSubstitutions.
+  ///
+  /// In de, this message translates to:
+  /// **'Vertretungsplan'**
+  String get timetableFabOptionSubstitutions;
+
+  /// No description provided for @timetableFabSectionCalendar.
+  ///
+  /// In de, this message translates to:
+  /// **'Kalender'**
+  String get timetableFabSectionCalendar;
+
+  /// No description provided for @timetableFabSectionTimetable.
+  ///
+  /// In de, this message translates to:
+  /// **'Stundenplan'**
+  String get timetableFabSectionTimetable;
+
+  /// No description provided for @timetableFabSubstitutionsDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vertretungsplan'**
+  String get timetableFabSubstitutionsDialogTitle;
+
+  /// No description provided for @timetableFabSubstitutionsStepOne.
+  ///
+  /// In de, this message translates to:
+  /// **'1. Navigiere zu der betroffenen Schulstunde.'**
+  String get timetableFabSubstitutionsStepOne;
+
+  /// No description provided for @timetableFabSubstitutionsStepThree.
+  ///
+  /// In de, this message translates to:
+  /// **'3. Wähle die Art der Vertretung aus.'**
+  String get timetableFabSubstitutionsStepThree;
+
+  /// No description provided for @timetableFabSubstitutionsStepTwo.
+  ///
+  /// In de, this message translates to:
+  /// **'2. Klicke auf die Schulstunde.'**
+  String get timetableFabSubstitutionsStepTwo;
+
+  /// No description provided for @timetableLessonDetailsAddHomeworkTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Hausaufgabe hinzufügen'**
+  String get timetableLessonDetailsAddHomeworkTooltip;
+
+  /// No description provided for @timetableLessonDetailsArrowLocation.
+  ///
+  /// In de, this message translates to:
+  /// **'-> {location}'**
+  String timetableLessonDetailsArrowLocation(String location);
+
+  /// No description provided for @timetableLessonDetailsChangeColor.
+  ///
+  /// In de, this message translates to:
+  /// **'Farbe ändern'**
+  String get timetableLessonDetailsChangeColor;
+
+  /// No description provided for @timetableLessonDetailsCourseName.
+  ///
+  /// In de, this message translates to:
+  /// **'Kursname: '**
+  String get timetableLessonDetailsCourseName;
+
+  /// No description provided for @timetableLessonDetailsDeleteDialogConfirm.
+  ///
+  /// In de, this message translates to:
+  /// **'Mir ist bewusst, dass die Stunde für alle Teilnehmer aus dem Kurs gelöscht wird.'**
+  String get timetableLessonDetailsDeleteDialogConfirm;
+
+  /// No description provided for @timetableLessonDetailsDeleteDialogMessage.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich die Schulstunde für den gesamten Kurs löschen?'**
+  String get timetableLessonDetailsDeleteDialogMessage;
+
+  /// No description provided for @timetableLessonDetailsDeleteTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Stunde löschen'**
+  String get timetableLessonDetailsDeleteTitle;
+
+  /// No description provided for @timetableLessonDetailsDeletedConfirmation.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulstunde wurde gelöscht'**
+  String get timetableLessonDetailsDeletedConfirmation;
+
+  /// No description provided for @timetableLessonDetailsEditedConfirmation.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulstunde wurde erfolgreich bearbeitet'**
+  String get timetableLessonDetailsEditedConfirmation;
+
+  /// No description provided for @timetableLessonDetailsRoom.
+  ///
+  /// In de, this message translates to:
+  /// **'Raum: '**
+  String get timetableLessonDetailsRoom;
+
+  /// No description provided for @timetableLessonDetailsSubstitutionPlusDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Schalte mit Sharezone Plus den Vertretungsplan frei, um z.B. den Entfall einer Schulstunden zu markieren.\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern).'**
+  String get timetableLessonDetailsSubstitutionPlusDescription;
+
+  /// No description provided for @timetableLessonDetailsTeacher.
+  ///
+  /// In de, this message translates to:
+  /// **'Lehrkraft: '**
+  String get timetableLessonDetailsTeacher;
+
+  /// No description provided for @timetableLessonDetailsTeacherInTimetableDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt.'**
+  String get timetableLessonDetailsTeacherInTimetableDescription;
+
+  /// No description provided for @timetableLessonDetailsTeacherInTimetableTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Lehrkraft im Stundenplan'**
+  String get timetableLessonDetailsTeacherInTimetableTitle;
+
+  /// No description provided for @timetableLessonDetailsTimeRange.
+  ///
+  /// In de, this message translates to:
+  /// **'{startTime} - {endTime}'**
+  String timetableLessonDetailsTimeRange(String endTime, String startTime);
+
+  /// No description provided for @timetableLessonDetailsWeekType.
+  ///
+  /// In de, this message translates to:
+  /// **'Wochentyp: {weekType}'**
+  String timetableLessonDetailsWeekType(String weekType);
+
+  /// No description provided for @timetableLessonDetailsWeekday.
+  ///
+  /// In de, this message translates to:
+  /// **'Wochentag: {weekday}'**
+  String timetableLessonDetailsWeekday(String weekday);
+
+  /// No description provided for @timetablePageSettingsTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Page Settings Tooltip'**
+  String get timetablePageSettingsTooltip;
+
+  /// No description provided for @timetableQuickCreateEmptyTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Quick Create Empty Title'**
+  String get timetableQuickCreateEmptyTitle;
+
+  /// No description provided for @timetableQuickCreateTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Timetable Quick Create Title'**
+  String get timetableQuickCreateTitle;
+
+  /// No description provided for @timetableSchoolClassFilterAllClasses.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Schulklassen'**
+  String get timetableSchoolClassFilterAllClasses;
+
+  /// No description provided for @timetableSchoolClassFilterAllShort.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle'**
+  String get timetableSchoolClassFilterAllShort;
+
+  /// No description provided for @timetableSchoolClassFilterLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulklasse: {value}'**
+  String timetableSchoolClassFilterLabel(Object value);
 
   /// No description provided for @timetableSettingsABWeekTileTitle.
   ///
@@ -3073,6 +7847,276 @@ abstract class SharezoneLocalizations {
   /// **'Stundenplan'**
   String get timetableSettingsTitle;
 
+  /// No description provided for @timetableSubstitutionCancelDialogAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Entfallen lassen'**
+  String get timetableSubstitutionCancelDialogAction;
+
+  /// No description provided for @timetableSubstitutionCancelDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich die Schulstunde für den gesamten Kurs entfallen lassen?'**
+  String get timetableSubstitutionCancelDialogDescription;
+
+  /// No description provided for @timetableSubstitutionCancelDialogNotify.
+  ///
+  /// In de, this message translates to:
+  /// **'Informiere deine Kursmitglieder, dass die Stunde entfällt.'**
+  String get timetableSubstitutionCancelDialogNotify;
+
+  /// No description provided for @timetableSubstitutionCancelDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Stunde entfallen lassen'**
+  String get timetableSubstitutionCancelDialogTitle;
+
+  /// No description provided for @timetableSubstitutionCancelLesson.
+  ///
+  /// In de, this message translates to:
+  /// **'Stunde entfallen lassen'**
+  String get timetableSubstitutionCancelLesson;
+
+  /// No description provided for @timetableSubstitutionCancelRestored.
+  ///
+  /// In de, this message translates to:
+  /// **'Entfallene Stunde wiederhergestellt'**
+  String get timetableSubstitutionCancelRestored;
+
+  /// No description provided for @timetableSubstitutionCancelSaved.
+  ///
+  /// In de, this message translates to:
+  /// **'Stunde als \"Entfällt\" markiert'**
+  String get timetableSubstitutionCancelSaved;
+
+  /// No description provided for @timetableSubstitutionCanceledTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Stunde entfällt'**
+  String get timetableSubstitutionCanceledTitle;
+
+  /// No description provided for @timetableSubstitutionChangeRoom.
+  ///
+  /// In de, this message translates to:
+  /// **'Raumänderung'**
+  String get timetableSubstitutionChangeRoom;
+
+  /// No description provided for @timetableSubstitutionChangeRoomDialogAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Raumänderung speichern'**
+  String get timetableSubstitutionChangeRoomDialogAction;
+
+  /// No description provided for @timetableSubstitutionChangeRoomDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich den Raum für die Stunde ändern?'**
+  String get timetableSubstitutionChangeRoomDialogDescription;
+
+  /// No description provided for @timetableSubstitutionChangeRoomDialogNotify.
+  ///
+  /// In de, this message translates to:
+  /// **'Informiere deine Kursmitglieder über die Raumänderung.'**
+  String get timetableSubstitutionChangeRoomDialogNotify;
+
+  /// No description provided for @timetableSubstitutionChangeRoomDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Raumänderung'**
+  String get timetableSubstitutionChangeRoomDialogTitle;
+
+  /// No description provided for @timetableSubstitutionChangeTeacher.
+  ///
+  /// In de, this message translates to:
+  /// **'Lehrkraft ändern'**
+  String get timetableSubstitutionChangeTeacher;
+
+  /// No description provided for @timetableSubstitutionChangeTeacherDialogAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Lehrkraft speichern'**
+  String get timetableSubstitutionChangeTeacherDialogAction;
+
+  /// No description provided for @timetableSubstitutionChangeTeacherDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich die Vertretungslehrkraft ändern?'**
+  String get timetableSubstitutionChangeTeacherDialogDescription;
+
+  /// No description provided for @timetableSubstitutionChangeTeacherDialogNotify.
+  ///
+  /// In de, this message translates to:
+  /// **'Informiere deine Kursmitglieder über die Lehrkraftänderung.'**
+  String get timetableSubstitutionChangeTeacherDialogNotify;
+
+  /// No description provided for @timetableSubstitutionChangeTeacherDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vertretungslehrkraft ändern'**
+  String get timetableSubstitutionChangeTeacherDialogTitle;
+
+  /// No description provided for @timetableSubstitutionEditRoomTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Raum ändern'**
+  String get timetableSubstitutionEditRoomTooltip;
+
+  /// No description provided for @timetableSubstitutionEditTeacherTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Lehrkraft ändern'**
+  String get timetableSubstitutionEditTeacherTooltip;
+
+  /// No description provided for @timetableSubstitutionEnteredBy.
+  ///
+  /// In de, this message translates to:
+  /// **'Eingetragen von: {name}'**
+  String timetableSubstitutionEnteredBy(String name);
+
+  /// No description provided for @timetableSubstitutionNewRoomHint.
+  ///
+  /// In de, this message translates to:
+  /// **'z.B. D203'**
+  String get timetableSubstitutionNewRoomHint;
+
+  /// No description provided for @timetableSubstitutionNewRoomLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuer Raum'**
+  String get timetableSubstitutionNewRoomLabel;
+
+  /// No description provided for @timetableSubstitutionNoPermissionSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte wende dich an deinen Kurs-Administrator.'**
+  String get timetableSubstitutionNoPermissionSubtitle;
+
+  /// No description provided for @timetableSubstitutionNoPermissionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast keine Berechtigung, den Vertretungsplan zu ändern.'**
+  String get timetableSubstitutionNoPermissionTitle;
+
+  /// No description provided for @timetableSubstitutionRemoveAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Entfernen'**
+  String get timetableSubstitutionRemoveAction;
+
+  /// No description provided for @timetableSubstitutionRemoveRoomDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich die Raumänderung für die Stunde entfernen?'**
+  String get timetableSubstitutionRemoveRoomDialogDescription;
+
+  /// No description provided for @timetableSubstitutionRemoveRoomDialogNotify.
+  ///
+  /// In de, this message translates to:
+  /// **'Informiere deine Kursmitglieder über die Entfernung.'**
+  String get timetableSubstitutionRemoveRoomDialogNotify;
+
+  /// No description provided for @timetableSubstitutionRemoveRoomDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Raumänderung entfernen'**
+  String get timetableSubstitutionRemoveRoomDialogTitle;
+
+  /// No description provided for @timetableSubstitutionRemoveTeacherDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich die Vertretungslehrkraft für die Stunde entfernen?'**
+  String get timetableSubstitutionRemoveTeacherDialogDescription;
+
+  /// No description provided for @timetableSubstitutionRemoveTeacherDialogNotify.
+  ///
+  /// In de, this message translates to:
+  /// **'Informiere deine Kursmitglieder über die Entfernung.'**
+  String get timetableSubstitutionRemoveTeacherDialogNotify;
+
+  /// No description provided for @timetableSubstitutionRemoveTeacherDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vertretungslehrkraft entfernen'**
+  String get timetableSubstitutionRemoveTeacherDialogTitle;
+
+  /// No description provided for @timetableSubstitutionReplacement.
+  ///
+  /// In de, this message translates to:
+  /// **'Vertretung: {teacher}'**
+  String timetableSubstitutionReplacement(String teacher);
+
+  /// No description provided for @timetableSubstitutionRestoreDialogAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Wiederherstellen'**
+  String get timetableSubstitutionRestoreDialogAction;
+
+  /// No description provided for @timetableSubstitutionRestoreDialogDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich die Stunde wieder stattfinden lassen?'**
+  String get timetableSubstitutionRestoreDialogDescription;
+
+  /// No description provided for @timetableSubstitutionRestoreDialogNotify.
+  ///
+  /// In de, this message translates to:
+  /// **'Informiere deine Kursmitglieder, dass die Stunde stattfindet.'**
+  String get timetableSubstitutionRestoreDialogNotify;
+
+  /// No description provided for @timetableSubstitutionRestoreDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Entfallene Stunde wiederherstellen'**
+  String get timetableSubstitutionRestoreDialogTitle;
+
+  /// No description provided for @timetableSubstitutionRoomChanged.
+  ///
+  /// In de, this message translates to:
+  /// **'Raumänderung: {room}'**
+  String timetableSubstitutionRoomChanged(String room);
+
+  /// No description provided for @timetableSubstitutionRoomRemoved.
+  ///
+  /// In de, this message translates to:
+  /// **'Raumänderung entfernt'**
+  String get timetableSubstitutionRoomRemoved;
+
+  /// No description provided for @timetableSubstitutionRoomSaved.
+  ///
+  /// In de, this message translates to:
+  /// **'Raumänderung eingetragen'**
+  String get timetableSubstitutionRoomSaved;
+
+  /// No description provided for @timetableSubstitutionSectionForDate.
+  ///
+  /// In de, this message translates to:
+  /// **'Für {date}'**
+  String timetableSubstitutionSectionForDate(String date);
+
+  /// No description provided for @timetableSubstitutionSectionTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vertretungsplan'**
+  String get timetableSubstitutionSectionTitle;
+
+  /// No description provided for @timetableSubstitutionTeacherRemoved.
+  ///
+  /// In de, this message translates to:
+  /// **'Vertretungslehrkraft entfernt'**
+  String get timetableSubstitutionTeacherRemoved;
+
+  /// No description provided for @timetableSubstitutionTeacherSaved.
+  ///
+  /// In de, this message translates to:
+  /// **'Vertretungslehrkraft eingetragen'**
+  String get timetableSubstitutionTeacherSaved;
+
+  /// No description provided for @timetableSubstitutionUndoTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Rückgängig machen'**
+  String get timetableSubstitutionUndoTooltip;
+
   /// Label for the type of user parent.
   ///
   /// In de, this message translates to:
@@ -3127,6 +8171,18 @@ abstract class SharezoneLocalizations {
   /// **'Video:'**
   String get useAccountInstructionsVideoTitle;
 
+  /// No description provided for @userCommentFieldEmptyError.
+  ///
+  /// In de, this message translates to:
+  /// **'User Comment Field Empty Error'**
+  String get userCommentFieldEmptyError;
+
+  /// No description provided for @userCommentFieldHint.
+  ///
+  /// In de, this message translates to:
+  /// **'User Comment Field Hint'**
+  String get userCommentFieldHint;
+
   /// Snackbar text while waiting for the user data to load before opening the edit screen.
   ///
   /// In de, this message translates to:
@@ -3156,6 +8212,36 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Daten werden nach Frankfurt transportiert...'**
   String get userEditSubmittingSnackbar;
+
+  /// No description provided for @webAppSettingsDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Besuche für weitere Informationen einfach https://web.sharezone.net.'**
+  String get webAppSettingsDescription;
+
+  /// No description provided for @webAppSettingsHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone für\'s Web!'**
+  String get webAppSettingsHeadline;
+
+  /// No description provided for @webAppSettingsQrCodeHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.'**
+  String get webAppSettingsQrCodeHint;
+
+  /// No description provided for @webAppSettingsScanQrCodeDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Geh auf web.sharezone.net und scanne den QR-Code.'**
+  String get webAppSettingsScanQrCodeDescription;
+
+  /// No description provided for @webAppSettingsScanQrCodeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'QR-Code scannen'**
+  String get webAppSettingsScanQrCodeTitle;
 
   /// No description provided for @websiteAllInOneFeatureImageLabel.
   ///
@@ -3738,6 +8824,18 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Überschrift der Sharezone App'**
   String get websiteWelcomeHeadlineSemanticLabel;
+
+  /// No description provided for @weekdaysEditSaved.
+  ///
+  /// In de, this message translates to:
+  /// **'Die aktivierten Wochentage wurden erfolgreich geändert.'**
+  String get weekdaysEditSaved;
+
+  /// No description provided for @weekdaysEditTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Schultage'**
+  String get weekdaysEditTitle;
 
   /// No description provided for @writePermissionEveryone.
   ///

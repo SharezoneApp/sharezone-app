@@ -18,6 +18,7 @@ import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_page.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../my_school_class_bloc.dart';
@@ -55,23 +56,23 @@ class SchoolClassCard extends StatelessWidget {
         onLongPress: () async {
           final result =
               await showLongPressAdaptiveDialog<_SchoolClassLongPressResult>(
-                title: "Klasse: ${schoolClass.name}",
+                title: context.l10n.schoolClassLongPressTitle(schoolClass.name),
                 context: context,
                 longPressList: [
                   if (isAdmin)
-                    const LongPress(
-                      title: "Bearbeiten",
+                    LongPress(
+                      title: context.l10n.commonActionsEdit,
                       popResult: _SchoolClassLongPressResult.edit,
                       icon: Icon(Icons.edit),
                     ),
-                  const LongPress(
-                    title: "Verlassen",
+                  LongPress(
+                    title: context.l10n.commonActionsLeave,
                     popResult: _SchoolClassLongPressResult.leave,
                     icon: Icon(Icons.cancel),
                   ),
                   if (isAdmin)
-                    const LongPress(
-                      title: "Löschen",
+                    LongPress(
+                      title: context.l10n.commonActionsDelete,
                       popResult: _SchoolClassLongPressResult.delete,
                       icon: Icon(Icons.delete),
                     ),

@@ -17,6 +17,7 @@ import 'package:sharezone/notifications/notifications_bloc.dart';
 import 'package:sharezone/notifications/notifications_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/notification.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -57,7 +58,12 @@ void main() {
           ],
           child: BlocProvider<NotificationsBlocFactory>(
             bloc: mockNotificationsBlocFactory,
-            child: const MaterialApp(home: NotificationPage()),
+            child: MaterialApp(
+              localizationsDelegates:
+                  SharezoneLocalizations.localizationsDelegates,
+              supportedLocales: SharezoneLocalizations.supportedLocales,
+              home: const NotificationPage(),
+            ),
           ),
         ),
       );

@@ -18,6 +18,7 @@ import 'package:sharezone/filesharing/logic/select_folder_action.dart';
 import 'package:sharezone/filesharing/models/sheet_option.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_actions.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'cloud_file_icon.dart';
@@ -153,7 +154,10 @@ class FileSheet extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Ersteller: $creatorName", style: greyTextStyle),
+                        Text(
+                          context.l10n.filesCreator(creatorName ?? ""),
+                          style: greyTextStyle,
+                        ),
                         if (createdOn != null)
                           Text(
                             "Hochgeladen am: ${DateFormat('dd.MM.yyyy HH:mm').format(createdOn!)}",

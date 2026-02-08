@@ -14,6 +14,7 @@ import 'package:sharezone/groups/group_join/group_join_page.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -66,7 +67,7 @@ class CourseTile extends StatelessWidget {
             final courseList = snapshot.data ?? [];
             _sortCourseListByAlphabet(courseList);
             return SimpleDialog(
-              title: const Text('Wähle einen Kurs aus'),
+              title: Text(context.l10n.filesSelectCourseTitle),
               children: <Widget>[
                 _CourseList(courseList: courseList, onChanged: onChanged),
                 const Divider(),
@@ -165,13 +166,13 @@ class JoinCreateCourseFooter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         DialogTile(
-          text: "Kurs beitreten",
+          text: context.l10n.timetableAddJoinCourseAction,
           symbolIconData: Icons.vpn_key,
           onPressed: () => openGroupJoinPage(context),
         ),
         DialogTile(
           symbolIconData: Icons.add,
-          text: "Kurs erstellen",
+          text: context.l10n.courseCreateTitle,
           onPressed: () => Navigator.pushNamed(context, CourseTemplatePage.tag),
         ),
       ],

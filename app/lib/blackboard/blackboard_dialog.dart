@@ -259,7 +259,7 @@ class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<BlackboardDialogBloc>(context);
     return SaveButton(
-      tooltip: "Eintrag speichern",
+      tooltip: context.l10n.blackboardDialogSaveTooltip,
       onPressed: () => onPressed(context, bloc),
     );
   }
@@ -303,7 +303,7 @@ class _AppBar extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.close, color: Colors.white),
                     onPressed: onCloseTap,
-                    tooltip: "Schließen",
+                    tooltip: context.l10n.commonActionsClose,
                   ),
                   _SaveButton(
                     oldBlackboardItem: oldBlackboardItem,
@@ -369,9 +369,9 @@ class _TitleField extends StatelessWidget {
                           fontSize: 20.0,
                           fontWeight: FontWeight.w400,
                         ),
-                        decoration: const InputDecoration(
-                          hintText: "Titel eingeben",
-                          hintStyle: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: context.l10n.blackboardDialogTitleHint,
+                          hintStyle: const TextStyle(color: Colors.white),
                           border: InputBorder.none,
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
@@ -452,7 +452,9 @@ class _PictureTile extends StatelessWidget {
             title: StreamBuilder<String>(
               stream: bloc.pictureURL,
               builder: (context, snapshot) {
-                if (!hasData) return const Text("Titelbild auswählen");
+                if (!hasData) {
+                  return Text(context.l10n.blackboardSelectCoverImage);
+                }
                 return InkWell(
                   child: Image.asset(
                     snapshot.data!,
@@ -484,8 +486,8 @@ class _TextField extends StatelessWidget {
       child: MarkdownField(
         icon: const Icon(Icons.subject),
         prefilledText: initialText,
-        inputDecoration: const InputDecoration(
-          hintText: "Nachricht verfassen",
+        inputDecoration: InputDecoration(
+          hintText: context.l10n.blackboardComposeMessageHint,
           border: InputBorder.none,
         ),
         onChanged: bloc.changeText,
@@ -526,7 +528,9 @@ class _SendNotification extends StatelessWidget {
           onTap: () => bloc.changeSendNotification(!sendNotification),
           leading: const Icon(Icons.notifications_active),
           title: Text(
-            "Kursmitglieder ${editMode ? "über die Änderungen " : ""}benachrichtigen",
+            editMode
+                ? context.l10n.homeworkDialogNotifyCourseMembersEditing
+                : context.l10n.homeworkDialogNotifyCourseMembers,
           ),
           trailing: Switch.adaptive(
             onChanged: bloc.changeSendNotification,
@@ -535,9 +539,7 @@ class _SendNotification extends StatelessWidget {
           description:
               editMode
                   ? null
-                  : const Text(
-                    "Sende eine Benachrichtigung an deine Kursmitglieder, dass du einen neuen Eintrag erstellt hast.",
-                  ),
+                  : Text(context.l10n.blackboardSendNotificationDescription),
         );
       },
     );
@@ -556,7 +558,7 @@ class _RemovePictureDialogContent extends StatelessWidget {
             vertical: 4,
           ),
           leading: const Icon(Icons.delete),
-          title: const Text("Anhang entfernen"),
+          title: Text(context.l10n.blackboardRemoveAttachment),
           onTap: () => Navigator.pop(context, true),
         ),
       ],

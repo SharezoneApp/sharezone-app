@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/activation_code/src/models/enter_activation_code_result.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SuccessfulEnterActivationCodeResultDialog extends StatelessWidget {
@@ -21,7 +22,7 @@ class SuccessfulEnterActivationCodeResultDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateSheetSimpleBody(
-      title: "Erfolgreich aktiviert: ${result.codeName} 🎉",
+      title: context.l10n.activationCodeSuccessTitle(result.codeName),
       iconData: Icons.done,
       iconColor: Colors.green,
       description: result.codeDescription,

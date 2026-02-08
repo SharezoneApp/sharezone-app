@@ -112,7 +112,7 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text("Kurs erstellen"),
+            title: Text(context.l10n.courseCreateTitle),
             centerTitle: true,
           ),
           body: SingleChildScrollView(
@@ -146,7 +146,7 @@ class _CreateCourseFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => submit(context),
-      tooltip: 'Erstellen',
+      tooltip: context.l10n.commonActionsCreate,
       child: const Icon(Icons.check),
     );
   }
@@ -169,8 +169,8 @@ class _Subject extends StatelessWidget {
           child: PrefilledTextField(
             prefilledText: subject,
             decoration: InputDecoration(
-              labelText: "Fach des Kurses (erforderlich)",
-              hintText: "z.B. Mathematik",
+              labelText: context.l10n.courseCreateSubjectRequiredLabel,
+              hintText: context.l10n.courseCreateSubjectHint,
               errorText: snapshot.error?.toString(),
             ),
             autofocus: true,
@@ -206,9 +206,9 @@ class _Abbreviation extends StatelessWidget {
       onEditingComplete: () => FocusManager.instance.primaryFocus?.unfocus(),
       textInputAction: TextInputAction.next,
       onChanged: bloc.changeAbbreviation,
-      decoration: const InputDecoration(
-        labelText: "Kürzel des Kurses",
-        hintText: "z.B. M",
+      decoration: InputDecoration(
+        labelText: context.l10n.courseCreateAbbreviationLabel,
+        hintText: context.l10n.courseCreateAbbreviationHint,
       ),
       maxLength: 3,
       textCapitalization: TextCapitalization.characters,
@@ -229,14 +229,13 @@ class _CourseName extends StatelessWidget {
         focusNode: focusNode,
         onChanged: bloc.changeName,
         onEditingComplete: () => submit(context),
-        decoration: const InputDecoration(
-          labelText: "Name des Kurses",
-          hintText: "z.B. Mathematik GK Q2",
+        decoration: InputDecoration(
+          labelText: context.l10n.courseFieldsNameLabel,
+          hintText: context.l10n.courseCreateNameHint,
         ),
         textCapitalization: TextCapitalization.sentences,
       ),
-      description:
-          "Der Kursname dient hauptsächlich für die Lehrkräfte damit diese Kurse mit dem gleichen Fach unterscheiden können (z.B. 'Mathematik Klasse 8A' und 'Mathematik Klasse 8B').",
+      description: context.l10n.courseCreateNameDescription,
     );
   }
 }

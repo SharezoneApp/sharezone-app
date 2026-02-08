@@ -22,6 +22,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/bottom_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/completed_homework_list.dart';
@@ -63,9 +64,12 @@ class StudentHomeworkPage extends StatelessWidget {
           length: 2,
           child: SharezoneMainScaffold(
             colorBehindBNB: bottomBarBackgroundColor,
-            appBarConfiguration: const AppBarConfiguration(
+            appBarConfiguration: AppBarConfiguration(
               bottom: HomeworkTabBar(
-                tabs: [Tab(text: 'OFFEN'), Tab(text: 'ERLEDIGT')],
+                tabs: [
+                  Tab(text: context.l10n.homeworkTabOpenUppercase),
+                  Tab(text: context.l10n.homeworkTabDoneUppercase),
+                ],
               ),
               actions: <Widget>[],
             ),

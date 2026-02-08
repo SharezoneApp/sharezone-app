@@ -15,14 +15,17 @@ import 'package:platform_check/platform_check.dart';
 
 class RateOurAppTip implements DashboardTip {
   static const _showedDashboardRatingCardKey = "dashboard-showed-rating-card";
+  static const _fallbackActionTitle = "Rate app";
 
   final DashboardTipCache cache;
 
   RateOurAppTip(this.cache);
 
   @override
-  Action get action =>
-      Action(title: "App bewerten", onTap: (_) => launchURL(_getStoreLink()));
+  Action get action => Action(
+    title: _fallbackActionTitle,
+    onTap: (_) => launchURL(_getStoreLink()),
+  );
 
   String _getStoreLink() {
     const sharezoneLink = 'https://sharezone.net';

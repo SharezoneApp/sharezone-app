@@ -14,6 +14,7 @@ import 'package:sharezone/comments/widgets/comment_widget.dart';
 import 'package:sharezone/comments/widgets/user_comment_field.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_item.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CommentSection extends StatelessWidget {
@@ -88,6 +89,9 @@ class _CommentSectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DividerWithText(text: 'Kommentare: $numberOfComments', fontSize: 16);
+    return DividerWithText(
+      text: context.l10n.commentsSectionTitle(numberOfComments),
+      fontSize: 16,
+    );
   }
 }

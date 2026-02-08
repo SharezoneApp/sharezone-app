@@ -18,7 +18,7 @@ class _RoomAndTeachersTab extends StatelessWidget {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     return _TimetableAddSection(
       index: index,
-      title: 'Gib einen Raum & eine Lehrkraft an (optional)',
+      title: context.l10n.timetableAddRoomAndTeacherOptionalTitle,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(

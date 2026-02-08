@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/homework/shared/shared.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Show animated Game Controller
@@ -16,14 +17,14 @@ class GameController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const PlaceholderWidgetWithAnimation(
+    return PlaceholderWidgetWithAnimation(
       iconSize: Size(175, 175),
-      title: "Jetzt ist Zeit für die wirklich wichtigen Dinge im Leben! 🤘💪",
+      title: context.l10n.homeworkEmptyGameControllerTitle,
       description: Column(
         children: <Widget>[
-          Text("Sehr gut! Du hast keine Hausaufgaben zu erledigen"),
-          SizedBox(height: 12),
-          AddHomeworkCard(),
+          Text(context.l10n.homeworkEmptyGameControllerDescription),
+          const SizedBox(height: 12),
+          const AddHomeworkCard(),
         ],
       ),
       svgPath: 'assets/icons/game-controller.svg',
@@ -38,12 +39,10 @@ class FireMotivation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const PlaceholderWidgetWithAnimation(
+    return PlaceholderWidgetWithAnimation(
       iconSize: Size(175, 175),
-      title: "AUF GEHT'S! 💥👊",
-      description: Text(
-        "Du musst noch die Hausaufgaben erledigen! Also schau mich nicht weiter an und erledige die Aufgaben! Do it!",
-      ),
+      title: context.l10n.homeworkEmptyFireTitle,
+      description: Text(context.l10n.homeworkEmptyFireDescription),
       svgPath: 'assets/icons/fire.svg',
       animateSVG: true,
     );

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/title.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -89,7 +90,7 @@ class _SkipButton extends StatelessWidget {
       style: TextButton.styleFrom(
         foregroundColor: Theme.of(context).primaryColor,
       ),
-      child: Text("Überspringen".toUpperCase()),
+      child: Text(context.l10n.commonActionsSkip.toUpperCase()),
     );
   }
 }

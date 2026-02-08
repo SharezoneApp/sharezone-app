@@ -14,7 +14,7 @@ class _CourseTab extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return _TimetableAddSection(
       index: 1,
-      title: 'Wähle einen Kurs aus',
+      title: context.l10n.timetableAddSelectCourseTitle,
       child: StreamBuilder<List<Course>>(
         stream: api.course.streamCourses(),
         builder: (context, snapshot) => _CourseList(snapshot.data),
@@ -160,7 +160,7 @@ class _JoinCourse extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     return CourseManagementButton(
-      title: "Kurs beitreten",
+      title: context.l10n.timetableAddJoinCourseAction,
       iconData: Icons.vpn_key,
       onTap: () async {
         final course = await handleCourseDialogOption(
@@ -180,7 +180,7 @@ class _CreateCourse extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     return CourseManagementButton(
-      title: "Kurs erstellen",
+      title: context.l10n.courseCreateTitle,
       iconData: Icons.add,
       onTap: () async {
         final course = await handleCourseDialogOption(

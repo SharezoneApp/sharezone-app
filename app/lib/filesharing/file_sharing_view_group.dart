@@ -20,6 +20,7 @@ import 'package:sharezone/filesharing/widgets/file_grid_card.dart';
 import 'package:sharezone/filesharing/widgets/file_list_card.dart';
 import 'package:sharezone/filesharing/widgets/filesharing_headline.dart';
 import 'package:sharezone/filesharing/widgets/sheet.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FileSharingViewGroup extends StatelessWidget {
@@ -103,7 +104,7 @@ class _FolderGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const FileSharingHeadline(title: "Ordner"),
+        FileSharingHeadline(title: context.l10n.fileSharingFoldersHeadline),
         WrappableList(
           minWidth: 150.0,
           maxElementsPerSection: 3,
@@ -264,15 +265,13 @@ class _NoFilesFound extends StatelessWidget {
       height:
           MediaQuery.of(context).size.height -
           (dimensions.isDesktopModus ? 100 : 200),
-      child: const Padding(
+      child: Padding(
         padding: EdgeInsets.only(bottom: 48),
         child: PlaceholderWidgetWithAnimation(
           svgPath: "assets/icons/folder.svg",
           animateSVG: true,
-          title: "Keine Dateien gefunden 😶",
-          description: Text(
-            "Lade jetzt einfach eine Datei hoch, um diese mit deinem Kurs zu teilen 👍",
-          ),
+          title: context.l10n.fileSharingNoFilesFoundTitle,
+          description: Text(context.l10n.fileSharingNoFilesFoundDescription),
         ),
       ),
     );

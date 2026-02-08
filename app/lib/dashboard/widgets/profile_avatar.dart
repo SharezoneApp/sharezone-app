@@ -22,7 +22,7 @@ class _ProfileAvatar extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8),
       child: IconButton(
         key: const ValueKey('my-profile-button-E2E'),
-        tooltip: 'Mein Profil',
+        tooltip: context.l10n.profileAvatarTooltip,
         onPressed: () {
           cache.setProfilePageHintAsClicked();
           final navigation = BlocProvider.of<NavigationBloc>(context);

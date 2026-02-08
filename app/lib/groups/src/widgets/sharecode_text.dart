@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharecodeText extends StatelessWidget {
@@ -30,12 +31,14 @@ class SharecodeText extends StatelessWidget {
     );
     if (isEmptyOrNull(sharecode)) {
       return GrayShimmer(
-        child: Text("Sharecode wird geladen...", style: style),
+        child: Text(context.l10n.groupsSharecodeLoading, style: style),
       );
     }
 
     return Semantics(
-      label: 'Sharecode: $_screenReadableSharecode',
+      label: context.l10n.groupsSharecodeSemanticsLabel(
+        _screenReadableSharecode(context),
+      ),
       child: InkWell(
         onTap: () => _handle(context),
         onLongPress: () => _handle(context),
@@ -44,12 +47,15 @@ class SharecodeText extends StatelessWidget {
           // aktuell zu einem Crash kommt, wenn das Widget gebuildet wird.
           child:
               PlatformCheck.isWeb
-                  ? Text("Sharecode: $sharecode", style: style)
+                  ? Text(
+                    context.l10n.groupsSharecodeText(sharecode!),
+                    style: style,
+                  )
                   : Text.rich(
                     TextSpan(
                       style: style,
                       children: [
-                        const TextSpan(text: "Sharecode: "),
+                        TextSpan(text: context.l10n.groupsSharecodePrefix),
                         TextSpan(
                           text: "$sharecode",
                           style: TextStyle(
@@ -75,7 +81,7 @@ class SharecodeText extends StatelessWidget {
     showSnackSec(
       context: context,
       seconds: 2,
-      text: 'Sharecode wurde in die Zwischenablage kopiert.',
+      text: context.l10n.groupsSharecodeCopiedToClipboard,
     );
     if (onCopied != null) {
       onCopied!();
@@ -88,17 +94,17 @@ class SharecodeText extends StatelessWidget {
   /// sharecode which can be read aloud by screen readers.
   ///
   /// Example: "X6wK" --> "großes X, 6, kleines w, großes K"
-  String get _screenReadableSharecode {
+  String _screenReadableSharecode(BuildContext context) {
     return sharecode!.characters
-        .map(_spellOutCharacter)
+        .map((char) => _spellOutCharacter(char, context))
         .reduce((a, b) => '$a, $b');
   }
 
-  String _spellOutCharacter(String char) {
+  String _spellOutCharacter(String char, BuildContext context) {
     if (_isNonNumberLowercase(char)) {
-      return 'kleines $char';
+      return context.l10n.groupsSharecodeLowercaseCharacter(char);
     } else if (_isNonNumberUppercase(char)) {
-      return 'großes $char';
+      return context.l10n.groupsSharecodeUppercaseCharacter(char);
     }
     return char;
   }

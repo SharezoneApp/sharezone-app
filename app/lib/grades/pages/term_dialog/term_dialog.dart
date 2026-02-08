@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
@@ -34,8 +35,8 @@ class TermDialog extends StatelessWidget {
               children: [
                 PrefilledTextField(
                   key: const ValueKey('term-name-field'),
-                  decoration: const InputDecoration(
-                    labelText: 'Name des Halbjahres',
+                  decoration: InputDecoration(
+                    labelText: context.l10n.gradesTermDialogNameLabel,
                   ),
                   prefilledText: controller.termName,
                   onChanged: (value) {
@@ -45,14 +46,14 @@ class TermDialog extends StatelessWidget {
                 const SizedBox(height: 20),
                 ListTile(
                   leading: SavedGradeIcons.gradingSystem,
-                  title: const Text("Notensystem"),
+                  title: Text(context.l10n.gradesDialogGradingSystemLabel),
                   subtitle: Text(controller.gradingSystem.displayName),
                   onTap: () async {
                     final res = await showDialog<GradingSystem?>(
                       context: context,
                       builder:
                           (context) => SimpleDialog(
-                            title: const Text("Note auswählen"),
+                            title: Text(context.l10n.gradesDialogSelectGrade),
                             children: [
                               for (final gradingSystem in GradingSystem.values)
                                 ListTile(
@@ -81,7 +82,7 @@ class TermDialog extends StatelessWidget {
                       Navigator.of(context).pop();
                     }
                   },
-                  child: const Text('Halbjahr erstellen'),
+                  child: Text(context.l10n.gradesDialogCreateTerm),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
@@ -89,7 +90,7 @@ class TermDialog extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Abbrechen'),
+                  child: Text(context.l10n.commonActionsCancel),
                 ),
               ],
             ),

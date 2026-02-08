@@ -155,7 +155,7 @@ class _SkipTutorialButton extends StatelessWidget {
           foregroundColor: context.primaryColor,
           backgroundColor: Colors.white,
         ),
-        child: Text("Überspringen".toUpperCase()),
+        child: Text(context.l10n.commonActionsSkip.toUpperCase()),
       ),
     );
   }
@@ -171,11 +171,11 @@ class _BnBTutorialDescription extends StatelessWidget {
       child: Material(
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
-        child: const Padding(
-          padding: EdgeInsets.all(12),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
           child: Text(
-            "Ziehe die untere Navigationsleiste nach oben, um auf weitere Funktionen zuzugreifen.",
-            style: TextStyle(color: Colors.black, fontSize: 16),
+            context.l10n.bnbTutorialDescription,
+            style: const TextStyle(color: Colors.black, fontSize: 16),
             textAlign: TextAlign.center,
           ),
         ),

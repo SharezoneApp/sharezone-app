@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class HomeworkBottomActionBar extends StatelessWidget {
@@ -106,7 +107,7 @@ class _CompleteOverdue extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.hourglass_full),
-      title: const Text("Überfällige Hausaufgaben abhaken"),
+      title: Text(context.l10n.homeworkMarkOverdueAction),
       onTap: () => Navigator.pop(context, _BottomSheetAction.completeOverdue),
     );
   }
@@ -125,7 +126,7 @@ class _MoreIdeas extends StatelessWidget {
         color: Theme.of(context).iconTheme.color!.withValues(alpha: opacity),
       ),
       title: Text(
-        "Noch Ideen?",
+        context.l10n.homeworkBottomBarMoreIdeas,
         style: TextStyle(
           color: Theme.of(
             context,

@@ -16,6 +16,7 @@ import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -60,7 +61,10 @@ class _BlackboardItemReadByUsersListPageState
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
-        appBar: AppBar(title: const Text("Gelesen von"), centerTitle: true),
+        appBar: AppBar(
+          title: Text(context.l10n.blackboardReadByUsersTitle),
+          centerTitle: true,
+        ),
         body: const BlackboardItemReadByUsersListPageBody(),
       ),
     );
@@ -155,9 +159,7 @@ class _FreeUsersLockScreen extends StatelessWidget {
                 withLearnMoreButton: true,
                 onLearnMorePressed: () => navigateToSharezonePlusPage(context),
                 underlayColor: Theme.of(context).scaffoldBackgroundColor,
-                child: const Text(
-                  'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.',
-                ),
+                child: Text(context.l10n.blackboardReadByUsersPlusDescription),
               ),
             ),
           ),
@@ -209,9 +211,7 @@ class _List extends StatelessWidget {
 class _EmptyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Es befinden sich keine Teilnehmer in dieser Gruppe 😭"),
-    );
+    return Center(child: Text(context.l10n.groupParticipantsEmpty));
   }
 }
 

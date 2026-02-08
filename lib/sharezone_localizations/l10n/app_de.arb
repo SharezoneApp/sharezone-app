@@ -57,8 +57,20 @@
     "description": "Title for the tile that shows the user's state on the account page."
   },
   "activationCodeCacheCleared": "Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.",
+  "activationCodeErrorInvalidDescription": "Entweder wurde dieser Code schon aufgebracht oder er ist außerhalb des Gültigkeitszeitraumes.",
+  "activationCodeErrorInvalidTitle": "Ein Fehler ist aufgetreten: Dieser Code ist nicht gültig 🤨",
+  "activationCodeErrorNoInternetDescription": "Wir konnten nicht versuchen, den Code einzulösen, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunkdaten.",
+  "activationCodeErrorNoInternetTitle": "Ein Fehler ist aufgetreten: Keine Internetverbindung ☠️",
+  "activationCodeErrorNotFoundDescription": "Wir konnten den eingegebenen Aktivierungscode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Aktivierungscode noch gültig ist.",
+  "activationCodeErrorNotFoundTitle": "Ein Fehler ist aufgetreten: Aktivierungscode nicht gefunden ❌",
+  "activationCodeErrorUnknownDescription": "Dies könnte eventuell an deiner Internetverbindung liegen. Bitte überprüfe diese!",
+  "activationCodeErrorUnknownTitle": "Ein unbekannter Fehler ist aufgetreten 😭",
   "activationCodeFeatureAdsLabel": "Ads",
   "activationCodeFeatureL10nLabel": "l10n",
+  "activationCodeFieldHint": "z.B. NavigationV2",
+  "activationCodeFieldLabel": "Aktivierungscode",
+  "activationCodeResultDoneAction": "Activation Code Result Done Action",
+  "activationCodeSuccessTitle": "Erfolgreich aktiviert: {value} 🎉",
   "activationCodeToggleDisabled": "deaktiviert",
   "activationCodeToggleEnabled": "aktiviert",
   "activationCodeToggleResult": "{feature} wurde {state}. Starte die App neu, um die Änderungen zu sehen.",
@@ -72,7 +84,13 @@
       }
     }
   },
+  "adInfoDialogBodyPrefix": "Innerhalb der nächsten Wochen führen wir ein Experiment mit Werbung in Sharezone durch. Wenn du keine Werbung sehen möchten, kannst du ",
+  "adInfoDialogBodySuffix": " erwerben.",
+  "adInfoDialogTitle": "Werbung in Sharezone",
+  "adsLoading": "Anzeige lädt...",
   "appName": "Sharezone",
+  "attachFileCameraPermissionError": "Die App hat leider keinen Zugang zur Kamera...",
+  "attachFileDocumentTitle": "Dokument",
   "authAnonymousDisplayName": "Anonymer {animalName}",
   "@authAnonymousDisplayName": {
     "description": "Display name template for users without a chosen name.",
@@ -80,6 +98,9 @@
       "animalName": {}
     }
   },
+  "authEmailAndPasswordLinkFillFormComplete": "Auth Email And Password Link Fill Form Complete",
+  "authEmailAndPasswordLinkNicknameHint": "Auth Email And Password Link Nickname Hint",
+  "authEmailAndPasswordLinkNicknameLabel": "Auth Email And Password Link Nickname Label",
   "authProviderAnonymous": "Anonyme Anmeldung",
   "authProviderApple": "Apple Sign In",
   "authProviderEmailAndPassword": "E-Mail und Passwort",
@@ -87,6 +108,18 @@
   "authValidationInvalidEmail": "Gib eine gueltige E-Mail ein",
   "authValidationInvalidName": "Ungueltiger Name",
   "authValidationInvalidPasswordTooShort": "Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein",
+  "blackboardCardAttachmentTooltip": "Blackboard Card Attachment Tooltip",
+  "blackboardCardMyEntryTooltip": "Blackboard Card My Entry Tooltip",
+  "blackboardComposeMessageHint": "Nachricht verfassen",
+  "blackboardCustomImageUnavailableMessage": "Bisher können keine eigenen Bilder aufgenommen/hochgeladen werden 😔\n\nDiese Funktion wird sehr bald verfügbar sein!",
+  "blackboardDeleteAttachmentsDialogDescription": "Sollen die Anhänge des Eintrags aus der Dateiablage gelöscht oder die Verknüpfung zwischen beiden aufgehoben werden?",
+  "blackboardDeleteDialogDescription": "Möchtest du wirklich diesen Eintrag für den kompletten Kurs löschen?",
+  "blackboardDeleteDialogTitle": "Eintrag löschen?",
+  "blackboardDetailsAttachmentsCount": "Anhänge: {value}",
+  "blackboardDetailsTitle": "Details",
+  "blackboardDialogSaveTooltip": "Blackboard Dialog Save Tooltip",
+  "blackboardDialogTitleHint": "Blackboard Dialog Title Hint",
+  "blackboardEntryDeleted": "Eintrag wurde gelöscht.",
   "blackboardErrorCourseMissing": "Bitte gib einen Kurs an!",
   "@blackboardErrorCourseMissing": {
     "description": "Error message shown when a blackboard entry is missing a course."
@@ -95,6 +128,27 @@
   "@blackboardErrorTitleMissing": {
     "description": "Error message shown when a blackboard entry title is missing."
   },
+  "blackboardMarkAsRead": "Als gelesen markieren",
+  "blackboardMarkAsUnread": "Als ungelesen markieren",
+  "blackboardPageAddInfoSheet": "Infozettel hinzufügen",
+  "blackboardPageEmptyDescription": "Hier können wichtige Ankündigungen in Form eines digitalen Zettels an Schüler, Lehrkräfte und Eltern ausgeteilt werden. Ideal für beispielsweise den Elternsprechtag, den Wandertag, das Sportfest, usw.",
+  "blackboardPageEmptyTitle": "Du hast alle Infozettel gelesen 👍",
+  "blackboardPageFabTooltip": "Neuen Infozettel",
+  "blackboardReadByUsersPlusDescription": "Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.",
+  "blackboardReadByUsersTitle": "Gelesen von",
+  "blackboardRemoveAttachment": "Anhang entfernen",
+  "blackboardSelectCoverImage": "Titelbild auswählen",
+  "blackboardSendNotificationDescription": "Sende eine Benachrichtigung an deine Kursmitglieder, dass du einen neuen Eintrag erstellt hast.",
+  "bnbTutorialDescription": "Ziehe die untere Navigationsleiste nach oben, um auf weitere Funktionen zuzugreifen.",
+  "calendricalEventsAddEvent": "Termin eintragen",
+  "calendricalEventsAddExam": "Prüfung eintragen",
+  "calendricalEventsCreateEventTooltip": "Neuen Termin erstellen",
+  "calendricalEventsCreateExamTooltip": "Neue Prüfung erstellen",
+  "calendricalEventsCreateNew": "Neu erstellen",
+  "calendricalEventsEmptyTitle": "Es stehen keine Termine und Prüfungen in der Zukunft an.",
+  "calendricalEventsFabTooltip": "Neue Prüfung oder Termin",
+  "calendricalEventsSwitchToGrid": "Auf Kacheln umschalten",
+  "calendricalEventsSwitchToList": "Auf Liste umschalten",
   "changeEmailAddressCurrentEmailTextfieldLabel": "Aktuell",
   "@changeEmailAddressCurrentEmailTextfieldLabel": {
     "description": "The label for the text field which is used for the current email address"
@@ -115,6 +169,12 @@
   "changeEmailAddressTitle": "E-Mail ändern",
   "changeEmailAddressWhyWeNeedTheEmailInfoContent": "Die E-Mail benötigst du um dich anzumelden. Solltest du zufällig mal dein Passwort vergessen haben, können wir dir an diese E-Mail-Adresse einen Link zum Zurücksetzen des Passworts schicken. Deine E-Mail Adresse ist nur für dich sichtbar, und sonst niemanden.",
   "changeEmailAddressWhyWeNeedTheEmailInfoTitle": "Wozu brauchen wir deine E-Mail?",
+  "changeEmailReauthenticationDialogBody": "Change Email Reauthentication Dialog Body",
+  "changeEmailReauthenticationDialogTitle": "Change Email Reauthentication Dialog Title",
+  "changeEmailVerifyDialogAfterWord": "Change Email Verify Dialog After Word",
+  "changeEmailVerifyDialogBodyPrefix": "Change Email Verify Dialog Body Prefix",
+  "changeEmailVerifyDialogBodySuffix": "Change Email Verify Dialog Body Suffix",
+  "changeEmailVerifyDialogTitle": "Change Email Verify Dialog Title",
   "changePasswordCurrentPasswordTextfieldLabel": "Aktuelles Passwort",
   "changePasswordLoadingSnackbarText": "Neues Password wird an die Zentrale geschickt...",
   "@changePasswordLoadingSnackbarText": {
@@ -168,9 +228,30 @@
     "description": "The title of the dialog which will be displayed after a successful type of user change to explain that a restart is required."
   },
   "changeTypeOfUserTitle": "Account-Typ ändern",
+  "changelogPageTitle": "Was ist neu?",
+  "changelogSectionBugFixes": "Fehlerbehebungen:",
+  "changelogSectionImprovements": "Verbesserungen:",
+  "changelogSectionNewFeatures": "Neue Funktionen:",
+  "changelogUpdatePromptStore": "Wir haben bemerkt, dass du eine veraltete Version der App installiert hast. Lade dir deswegen jetzt die Version im {store} herunter! 👍",
+  "@changelogUpdatePromptStore": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "changelogUpdatePromptTitle": "Neues Update verfügbar!",
+  "changelogUpdatePromptWeb": "Wir haben bemerkt, dass du eine veraltete Version der App verwendest. Lade die Seite neu, um die neueste Version zu erhalten! 👍",
+  "commentActionsCopyText": "Text kopieren",
+  "commentActionsReport": "Kommentar melden",
+  "commentDeletedConfirmation": "Comment Deleted Confirmation",
+  "commentsSectionTitle": "Kommentare: {value}",
   "commonActionBack": "Zurück",
   "commonActionChange": "Ändern",
+  "commonActionRename": "Umbenennen",
+  "commonActionsAdd": "Hinzufügen",
   "commonActionsAlright": "Alles klar",
+  "commonActionsBack": "Common Actions Back",
   "commonActionsCancel": "Abbrechen",
   "commonActionsCancelUppercase": "ABBRECHEN",
   "commonActionsClose": "Schließen",
@@ -178,12 +259,27 @@
   "commonActionsConfirm": "Bestätigen",
   "commonActionsContactSupport": "Support kontaktieren",
   "commonActionsContinue": "Weiter",
+  "commonActionsCreate": "Erstellen",
+  "commonActionsCreateUppercase": "ERSTELLEN",
   "commonActionsDelete": "Löschen",
   "commonActionsDeleteUppercase": "LÖSCHEN",
+  "commonActionsDone": "Fertig",
+  "commonActionsEdit": "Bearbeiten",
+  "commonActionsHelp": "Hilfe",
+  "commonActionsJoin": "Beitreten",
   "commonActionsLeave": "Verlassen",
+  "commonActionsNo": "Nein",
+  "commonActionsNotNow": "Nicht jetzt",
   "commonActionsOk": "Ok",
+  "commonActionsReport": "Melden",
   "commonActionsSave": "Speichern",
+  "commonActionsSend": "Senden",
+  "commonActionsShare": "Teilen",
+  "commonActionsSignOut": "Abmelden",
+  "commonActionsSignOutUppercase": "ABMELDEN",
+  "commonActionsSkip": "Überspringen",
   "commonActionsYes": "Ja",
+  "commonDate": "Datum",
   "commonDisplayError": "Fehler: {error}",
   "@commonDisplayError": {
     "placeholders": {
@@ -217,6 +313,7 @@
   "@commonErrorEmailMissing": {
     "description": "Error message shown when the email field is missing."
   },
+  "commonErrorGeneric": "Es ist ein Fehler aufgetreten.",
   "commonErrorIncorrectData": "Bitte gib die Daten korrekt an!",
   "@commonErrorIncorrectData": {
     "description": "Error message shown when provided data is invalid."
@@ -269,6 +366,7 @@
   "@commonErrorSameNameAsBefore": {
     "description": "Error message shown when the entered name matches the previous one."
   },
+  "commonErrorTitle": "Common Error Title",
   "commonErrorTitleMissing": "Bitte gib einen Titel an!",
   "@commonErrorTitleMissing": {
     "description": "Error message shown when a title is missing."
@@ -302,18 +400,176 @@
   "@commonErrorWrongPassword": {
     "description": "Error message shown when the entered password is incorrect."
   },
+  "commonFieldName": "Name",
   "commonLoadingPleaseWait": "Bitte warten...",
+  "commonPleaseWaitMoment": "Bitte warte einen kurzen Augenblick.",
   "commonStatusFailed": "Fehlgeschlagen",
   "commonStatusNoInternetDescription": "Bitte überprüfen Sie die Internetverbindung.",
   "commonStatusNoInternetTitle": "Fehler: Keine Internetverbindung",
   "commonStatusSuccessful": "Erfolgreich",
   "commonStatusUnknownErrorDescription": "Ein unbekannter Fehler ist aufgetreten! 😭",
   "commonStatusUnknownErrorTitle": "Unbekannter Fehler",
+  "commonTextCopiedToClipboard": "Common Text Copied To Clipboard",
+  "commonTitle": "Titel",
   "commonTitleNote": "Hinweis",
+  "commonUnknownError": "Common Unknown Error",
   "contactSupportButton": "Support kontaktieren",
   "countryAustria": "Österreich",
   "countryGermany": "Deutschland",
   "countrySwitzerland": "Schweiz",
+  "courseActionsDeleteUppercase": "KURS LÖSCHEN",
+  "courseActionsKickUppercase": "AUS DEM KURS KICKEN",
+  "courseActionsLeaveUppercase": "KURS VERLASSEN",
+  "courseAllowJoinExplanation": "Über diese Einstellungen kannst du regulieren, ob neue Mitglieder dem Kurs beitreten dürfen.",
+  "courseCreateAbbreviationHint": "z.B. M",
+  "courseCreateAbbreviationLabel": "Kürzel des Kurses",
+  "courseCreateNameDescription": "Der Kursname dient hauptsächlich für die Lehrkräfte, damit diese Kurse mit dem gleichen Fach unterscheiden können (z.B. 'Mathematik Klasse 8A' und 'Mathematik Klasse 8B').",
+  "courseCreateNameHint": "z.B. Mathematik GK Q2",
+  "courseCreateSubjectHint": "z.B. Mathematik",
+  "courseCreateSubjectRequiredLabel": "Fach des Kurses (erforderlich)",
+  "courseCreateTitle": "Kurs erstellen",
+  "courseDeleteDialogDescription": "Möchtest du den Kurs \"{courseName}\" wirklich endgültig löschen?\n\nEs werden alle Stunden \u0026 Termine aus dem Stundenplan, Hausaufgaben und Infozettel gelöscht.\n\nAuf den Kurs kann von niemandem mehr zugegriffen werden!",
+  "@courseDeleteDialogDescription": {
+    "placeholders": {
+      "courseName": {
+        "type": "String"
+      }
+    }
+  },
+  "courseDeleteDialogTitle": "Kurs löschen?",
+  "courseDeleteSuccess": "Du hast erfolgreich den Kurs gelöscht.",
+  "courseDesignColorChangeFailed": "Farbe konnte nicht geändert werden.",
+  "courseDesignCourseColorChanged": "Farbe wurde erfolgreich für den gesamten Kurs geändert.",
+  "courseDesignPersonalColorRemoved": "Persönliche Farbe wurde entfernt.",
+  "courseDesignPersonalColorSet": "Persönliche Farbe wurde gesetzt.",
+  "courseDesignPlusColorsHint": "Nicht genug Farben? Schalte mit Sharezone Plus +200 zusätzliche Farben frei.",
+  "courseDesignRemovePersonalColor": "Persönliche Farbe entfernen",
+  "courseDesignTypeCourseSubtitle": "Farbe gilt für den gesamten Kurs",
+  "courseDesignTypeCourseTitle": "Kurs",
+  "courseDesignTypePersonalSubtitle": "Gilt nur für dich und liegt über der Kursfarbe",
+  "courseDesignTypePersonalTitle": "Persönlich",
+  "courseEditSuccess": "Der Kurs wurde erfolgreich bearbeitet!",
+  "courseEditTitle": "Kurs bearbeiten",
+  "courseFieldsAbbreviationLabel": "Kürzel des Fachs",
+  "courseFieldsNameLabel": "Name des Kurses",
+  "courseFieldsSubjectLabel": "Fach",
+  "courseLeaveAndDeleteDialogDescription": "Möchtest du den Kurs wirklich verlassen? Da du der letzte Teilnehmer im Kurs bist, wird der Kurs gelöscht.",
+  "courseLeaveAndDeleteDialogTitle": "Kurs verlassen und löschen?",
+  "courseLeaveDialogDescription": "Möchtest du den Kurs wirklich verlassen?",
+  "courseLeaveDialogTitle": "Kurs verlassen?",
+  "courseLeaveSuccess": "Du hast erfolgreich den Kurs verlassen.",
+  "courseLongPressTitle": "Kurs: {courseName}",
+  "@courseLongPressTitle": {
+    "placeholders": {
+      "courseName": {
+        "type": "String"
+      }
+    }
+  },
+  "courseMemberOptionsAloneHint": "Da du der einzige im Kurs bist, kannst du deine Rolle nicht bearbeiten.",
+  "courseMemberOptionsOnlyAdminHint": "Du bist der einzige Admin in diesem Kurs. Daher kannst du dir keine Rechte entziehen.",
+  "courseSelectColorsTooltip": "Farben auswählen",
+  "courseTemplateAlreadyExistsDescription": "Du hast bereits einen Kurs für das Fach {subject} erstellt. Möchtest du einen weiteren Kurs erstellen?",
+  "@courseTemplateAlreadyExistsDescription": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "courseTemplateAlreadyExistsTitle": "Kurs bereits vorhanden",
+  "courseTemplateCourseCreated": "Kurs \"{courseName}\" wurde erstellt.",
+  "@courseTemplateCourseCreated": {
+    "placeholders": {
+      "courseName": {
+        "type": "String"
+      }
+    }
+  },
+  "courseTemplateCreateCustomCourseUppercase": "EIGENEN KURS ERSTELLEN",
+  "courseTemplateCustomCourseMissingPrompt": "Dein Kurs ist nicht dabei?",
+  "courseTemplateDeletedCourse": "Kurs wurde gelöscht.",
+  "courseTemplateDeletingCourse": "Kurs wird wieder gelöscht...",
+  "courseTemplateSchoolClassSelectionDescription": "Du bist in einer oder mehreren Schulklasse(n) Administrator. Wähle eine Schulklasse aus, um festzulegen, zu welcher Schulklasse die Kurse verknüpft werden sollen.",
+  "courseTemplateSchoolClassSelectionInfo": "Kurse, die ab jetzt erstellt werden, werden mit der Schulklasse \"{name}\" verknüpft.",
+  "@courseTemplateSchoolClassSelectionInfo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "courseTemplateSchoolClassSelectionNoneInfo": "Kurse, die ab jetzt erstellt werden, werden mit keiner Schulklasse verknüpft.",
+  "courseTemplateSchoolClassSelectionNoneOption": "Mit keiner Schulklasse verknüpfen",
+  "courseTemplateSchoolClassSelectionTitle": "Schulklasse auswählen",
+  "courseTemplateTitle": "Vorlagen",
+  "courseTemplateUndoUppercase": "RÜCKGÄNGIG MACHEN",
+  "dashboardAdSectionAcquireSuffix": "Dashboard Ad Section Acquire Suffix",
+  "dashboardAdSectionSharezonePlusLabel": "Dashboard Ad Section Sharezone Plus Label",
+  "dashboardDebugClearCache": "[DEBUG] Cache löschen",
+  "dashboardDebugOpenV2Dialog": "V2 Dialog öffnen",
+  "dashboardFabAddBlackboardTitle": "Infozettel",
+  "dashboardFabAddHomeworkTitle": "Hausaufgabe",
+  "dashboardFabCreateHomeworkTooltip": "Neue Hausaufgabe erstellen",
+  "dashboardFabCreateLessonTooltip": "Neue Schulstunde erstellen",
+  "dashboardFabTooltip": "Neue Elemente hinzufügen",
+  "dashboardHolidayCountdownDayUnitDay": "Tag",
+  "dashboardHolidayCountdownDayUnitDays": "Tage",
+  "dashboardHolidayCountdownDisplayError": "Es gab einen Fehler beim Anzeigen von den Ferien.\nFalls dieser Fehler öfter auftaucht, kontaktiere uns bitte.",
+  "dashboardHolidayCountdownGeneralError": "💣 Boooomm.... Etwas ist kaputt gegangen. Starte am besten die App einmal neu 👍",
+  "dashboardHolidayCountdownHolidayLine": "{title}: {text}",
+  "@dashboardHolidayCountdownHolidayLine": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardHolidayCountdownInDays": "In {days} Tagen {emoji}",
+  "@dashboardHolidayCountdownInDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "emoji": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardHolidayCountdownLastDay": "Letzter Tag 😱",
+  "dashboardHolidayCountdownNow": "JETZT, WOOOOOOO! {emoji}",
+  "@dashboardHolidayCountdownNow": {
+    "placeholders": {
+      "emoji": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardHolidayCountdownRemaining": "Noch {days} {dayUnit} {emoji}",
+  "@dashboardHolidayCountdownRemaining": {
+    "placeholders": {
+      "dayUnit": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "emoji": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardHolidayCountdownSelectStateHint": "Durch das Auswählen deiner Region können wir berechnen, wie lange du dich noch in der Schule quälen musst, bis endlich die Ferien sind 😉",
+  "dashboardHolidayCountdownTitle": "Ferien-Countdown",
+  "dashboardHolidayCountdownTomorrow": "Morgen 😱🎉",
+  "dashboardHolidayCountdownUnsupportedStateError": "Ferien können für dein ausgewähltes Bundesland nicht angezeigt werden! 😫\nDu kannst das Bundesland in den Einstellungen ändern.",
+  "dashboardHolidayCountdownUnsupportedStateShortError": "Ferien konnten für dein Bundesland nicht angezeigt werden",
+  "dashboardRateOurAppActionTitle": "Dashboard Rate Our App Action Title",
+  "dashboardRateOurAppText": "Dashboard Rate Our App Text",
+  "dashboardRateOurAppTitle": "Dashboard Rate Our App Title",
   "dashboardSelectStateButton": "Bundesland / Kanton auswählen",
   "dateWeekTypeA": "A-Woche",
   "@dateWeekTypeA": {
@@ -359,6 +615,29 @@
   "@dateYesterday": {
     "description": "Label for yesterday in fuzzy date strings."
   },
+  "drawerAboutTooltip": "Drawer About Tooltip",
+  "drawerNavigationTooltip": "Drawer Navigation Tooltip",
+  "drawerOpenSemanticsLabel": "Drawer Open Semantics Label",
+  "drawerProfileTooltip": "Drawer Profile Tooltip",
+  "feedbackBoxCooldownError": "Error! Dein Cool Down ({coolDown}) ist noch nicht abgelaufen.",
+  "@feedbackBoxCooldownError": {
+    "placeholders": {
+      "coolDown": {
+        "type": "Object"
+      }
+    }
+  },
+  "feedbackBoxDislikeLabel": "Was gefällt Dir nicht?",
+  "feedbackBoxEmptyError": "Du musst auch schon was reinschreiben 😉",
+  "feedbackBoxGeneralRatingLabel": "Allgemeine Bewertung:",
+  "feedbackBoxGenericError": "Error! Versuche es nochmal oder schicke uns dein Feedback gerne auch per E-Mail! :)",
+  "feedbackBoxHeardFromLabel": "Wie hast Du von Sharezone erfahren?",
+  "feedbackBoxLikeMostLabel": "Was gefällt Dir am besten?",
+  "feedbackBoxMissingLabel": "Was fehlt Dir noch?",
+  "feedbackBoxPageTitle": "Feedback-Box",
+  "feedbackBoxSubmitUppercase": "ABSCHICKEN",
+  "feedbackBoxWhyWeNeedFeedbackDescription": "Wir möchten die beste App zum Organisieren des Schulalltags entwickeln! Damit wir das schaffen, brauchen wir Dich! Fülle einfach das Formular aus und schick es ab.\n\nAlle Fragen sind selbstverständlich freiwillig.",
+  "feedbackBoxWhyWeNeedFeedbackTitle": "Warum wir Dein Feedback brauchen:",
   "feedbackDetailsCommentsTitle": "Kommentare:",
   "feedbackDetailsLoadingHeardFrom": "Freund",
   "feedbackDetailsLoadingMissing": "Tolle App!",
@@ -372,13 +651,476 @@
       }
     }
   },
+  "feedbackHistoryPageEmpty": "Du hast bisher kein Feedback gegeben 😢",
+  "feedbackHistoryPageTitle": "Meine Feedbacks",
   "feedbackNewLineHint": "Shift + Enter für neue Zeile",
   "feedbackSendTooltip": "Senden (Enter)",
+  "feedbackThankYouRatePromptPrefix": "Feedback Thank You Rate Prompt Prefix",
+  "feedbackThankYouRatePromptSuffix": "Feedback Thank You Rate Prompt Suffix",
+  "feedbackThankYouTitle": "Feedback Thank You Title",
+  "fileSharingCourseFoldersHeadline": "File Sharing Course Folders Headline",
+  "fileSharingDeleteFolderDescription": "Möchtest du wirklich den Ordner mit dem Namen \"{value}\" löschen?",
+  "fileSharingDeleteFolderTitle": "File Sharing Delete Folder Title",
+  "fileSharingDownloadError": "Fehler: {value}",
+  "fileSharingDownloadingFileMessage": "File Sharing Downloading File Message",
+  "fileSharingFabCameraTitle": "Kamera",
+  "fileSharingFabCameraTooltip": "Kamera öffnen",
+  "fileSharingFabCreateFolderTitle": "Ordner erstellen",
+  "fileSharingFabCreateFolderTooltip": "Neuen Ordner erstellen",
+  "fileSharingFabCreateNewTitle": "Neu erstellen",
+  "fileSharingFabCreateNewTooltip": "Neu erstellen",
+  "fileSharingFabFilesTitle": "Dateien",
+  "fileSharingFabFilesTooltip": "Dateien",
+  "fileSharingFabFolderNameHint": "Ordnername",
+  "fileSharingFabFolderTitle": "Ordner",
+  "fileSharingFabImagesTitle": "Bilder",
+  "fileSharingFabImagesTooltip": "Bilder",
+  "fileSharingFabMissingCameraPermission": "Oh! Die Berechtigung für die Kamera fehlt!",
+  "fileSharingFabUploadTitle": "Hochladen",
+  "fileSharingFabUploadTooltip": "Neue Datei hochladen",
+  "fileSharingFabVideosTitle": "Videos",
+  "fileSharingFabVideosTooltip": "Videos",
+  "fileSharingFoldersHeadline": "File Sharing Folders Headline",
+  "fileSharingMoveEmptyFoldersMessage": "File Sharing Move Empty Folders Message",
+  "fileSharingNewNameHint": "File Sharing New Name Hint",
+  "fileSharingNoCourseFoldersFoundDescription": "File Sharing No Course Folders Found Description",
+  "fileSharingNoFilesFoundDescription": "File Sharing No Files Found Description",
+  "fileSharingNoFilesFoundTitle": "File Sharing No Files Found Title",
+  "fileSharingNoFoldersFoundTitle": "File Sharing No Folders Found Title",
+  "fileSharingPreparingDownloadMessage": "File Sharing Preparing Download Message",
+  "fileSharingRenameActionUppercase": "File Sharing Rename Action Uppercase",
+  "fileSharingRenameFolderTitle": "File Sharing Rename Folder Title",
+  "filesAddAttachment": "Anhang hinzufügen",
+  "filesCreator": "von {value}",
+  "filesDeleteDialogDescription": "Möchtest du wirklich die Datei mit dem Namen \"{fileName}\" löschen?",
+  "@filesDeleteDialogDescription": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "filesDeleteDialogTitle": "Datei löschen?",
+  "filesDisplayErrorTitle": "Files Display Error Title",
+  "filesDownloadBrokenFileError": "Die Datei ist beschädigt und kann nicht heruntergeladen werden.",
+  "filesDownloadStarted": "Download wurde gestartet...",
+  "filesLoading": "Files Loading",
+  "filesMoveTo": "Verschieben nach {value}",
+  "filesMoveUppercase": "Files Move Uppercase",
+  "filesRenameDialogHint": "Neuer Name",
+  "filesRenameDialogTitle": "Datei umbenennen",
+  "filesSelectCourseTitle": "Files Select Course Title",
+  "gradesCommonName": "Name",
+  "gradesCreateTermCurrentTerm": "Aktuelles Halbjahr",
+  "gradesCreateTermGradingSystemInfo": "Nur Noten von dem Notensystem, welches für das Halbjahr festlegt wurde, können für den Schnitt des Halbjahres berücksichtigt werden. Solltest du beispielsweise für das Halbjahr das Notensystem \"1 - 6\" festlegen und eine Note mit dem Notensystem \"15 - 0\" eintragen, kann diese Note für den Halbjahresschnitt nicht berücksichtigt werden.",
+  "gradesCreateTermInvalidNameError": "Bitte gib einen gültigen Namen ein.",
+  "gradesCreateTermSaveFailedError": "Das Halbjahr konnte nicht gespeichert werden: {error}",
+  "gradesCreateTermSaved": "Halbjahr gespeichert.",
+  "gradesDetailsDeletePrompt": "Möchtest du diese Note wirklich löschen?",
+  "gradesDetailsDeleteTitle": "Note löschen",
+  "gradesDetailsDeleteTooltip": "Note löschen",
+  "gradesDetailsDeleted": "Note gelöscht.",
+  "gradesDetailsDummyDetails": "Grades Details Dummy Details",
+  "gradesDetailsDummyTopic": "Grades Details Dummy Topic",
+  "gradesDetailsEditTooltip": "Note bearbeiten",
+  "gradesDialogCreateTerm": "Halbjahr erstellen",
+  "gradesDialogCustomGradeType": "Benutzerdefinierter Notentyp",
+  "gradesDialogDateHelpDescription": "Das Datum stellt das Datum dar, an dem du die Note erhalten hast. Falls du das Datum nicht mehr genau weißt, kannst du einfach ein ungefähres Datum von dem Tag angeben, an dem du die Note erhalten hast.",
+  "gradesDialogDateHelpTitle": "Wozu dient das Datum?",
+  "gradesDialogDifferentGradingSystemInfo": "Das Notensystem, welches du ausgewählt hast, ist nicht dasselbe wie das Notensystem deines Halbjahres. Du kannst die Note weiterhin eintragen, aber sie wird nicht in den Schnitt deines Halbjahres einfließen.",
+  "gradesDialogEditSubjectDescription": "Du kannst das Fach von bereits erstellten Noten nicht nachträglich ändern.\n\nLösche diese Note und erstelle sie erneut, um ein anderes Fach auszuwählen.",
+  "gradesDialogEditSubjectTitle": "Fach ändern",
+  "gradesDialogEditTermDescription": "Du kannst das Halbjahr von bereits erstellten Noten nicht nachträglich ändern.\n\nLösche diese Note und erstelle sie erneut, um ein anderes Halbjahr auszuwählen.",
+  "gradesDialogEditTermTitle": "Halbjahr ändern",
+  "gradesDialogGoToSharezonePlus": "Zu Sharezone Plus",
+  "gradesDialogGradeLabel": "Note",
+  "gradesDialogGradeTypeLabel": "Notentyp",
+  "gradesDialogGradingSystemLabel": "Notensystem",
+  "gradesDialogHintFifteenZero": "z.B. 15.0",
+  "gradesDialogHintOnePlus": "z.B. 1+",
+  "gradesDialogHintOneThree": "z.B. 1.3",
+  "gradesDialogHintSeventyEightEight": "z.B. 78.8",
+  "gradesDialogHintSixZero": "z.B. 6.0",
+  "gradesDialogIncludeGradeInAverage": "Note in Schnitt einbringen",
+  "gradesDialogInvalidFieldsCombined": "Folgende Felder fehlen oder sind ungültig: {fieldMessages}.",
+  "gradesDialogInvalidGradeField": "Die Note fehlt oder ist ungültig.",
+  "gradesDialogInvalidSubjectField": "Bitte gib ein Fach für die Note an.",
+  "gradesDialogInvalidTermField": "Bitte gib ein Halbjahr für die Note an.",
+  "gradesDialogInvalidTitleField": "Der Titel fehlt oder ist ungültig.",
+  "gradesDialogNoGradeSelected": "Keine Note ausgewählt",
+  "gradesDialogNoSubjectSelected": "Kein Fach ausgewählt",
+  "gradesDialogNoTermSelected": "Kein Halbjahr ausgewählt",
+  "gradesDialogNoTermsYetInfo": "Bisher hast du keine Halbjahre erstellt. Bitte erstelle ein Halbjahr, um eine Note einzutragen.",
+  "gradesDialogNotesLabel": "Notizen",
+  "gradesDialogPlusSubjectsLimitInfo": "Du kannst zum Testen der Notenfunktion maximal 3 Fächer benutzen. Um alle Fächer zu benutzen, kaufe Sharezone Plus.",
+  "gradesDialogRequestAdditionalGradingSystem": "Weiteres Notensystem anfragen",
+  "gradesDialogRequestAdditionalGradingSystemSubtitle": "Notensystem nicht dabei? Schreib uns, welches Notensystem du gerne hättest!",
+  "gradesDialogSavedSnackBar": "Note gespeichert",
+  "gradesDialogSelectGrade": "Note auswählen",
+  "gradesDialogSelectGradeType": "Notentyp auswählen",
+  "gradesDialogSelectGradingSystem": "Notensystem auswählen",
+  "gradesDialogSelectGradingSystemHint": "Der erste Wert entspricht der besten Noten, z.B. bei dem Notensystem \"1 - 6\" ist \"1\" die beste Note.",
+  "gradesDialogSelectSubject": "Fach auswählen",
+  "gradesDialogSelectTerm": "Halbjahr auswählen",
+  "gradesDialogSubjectLabel": "Fach",
+  "gradesDialogTermLabel": "Halbjahr",
+  "gradesDialogTitleHelpDescription": "Falls die Note beispielsweise zu einer Klausur gehört, kannst du das Thema / den Titel der Klausur angeben, um die Note später besser zuordnen zu können.",
+  "gradesDialogTitleHelpTitle": "Wozu dient der Titel?",
+  "gradesDialogTitleHint": "z.B. Lineare Funktionen",
+  "gradesDialogTitleLabel": "Titel",
+  "gradesDialogUnknownCustomGradeType": "Unbekannt/Eigener Notentyp",
+  "gradesDialogUnknownError": "Unbekannter Fehler: {error}",
+  "gradesDialogZeroWeightGradeTypeInfo": "Der ausgewählte Notentyp hat aktuell eine Gewichtung von 0. Du kannst die Note weiterhin eintragen, aber sie wird den Schnitt der Fachnote nicht beeinflussen. Du kannst die Gewichtung nach Speichern der Note im Fach oder im Halbjahr anpassen, damit die Note in den Schnitt einfließt.",
+  "gradesFinalGradeTypeHelpDialogText": "Die Endnote ist die abschließende Note, die du in einem Fach bekommst, zum Beispiel die Note auf deinem Zeugnis. Manchmal berücksichtigt deine Lehrkraft zusätzliche Faktoren, die von der üblichen Berechnungsformel abweichen können – etwa 50% Prüfungen und 50% mündliche Beteiligung. In solchen Fällen kannst du die in Sharezone automatisch berechnete Note durch diese finale Note ersetzen.\n\nDiese Einstellung kann entweder für alle Fächer eines Halbjahres gleichzeitig festgelegt oder für jedes Fach individuell angepasst werden. So hast du die Flexibilität, je nach Bedarf spezifische Anpassungen vorzunehmen.",
+  "gradesFinalGradeTypeHelpDialogTitle": "Was ist die Endnote eines Faches?",
+  "gradesFinalGradeTypeHelpTooltip": "Was ist die Endnote?",
+  "gradesFinalGradeTypeSubtitle": "Die berechnete Fachnote kann von einem Notentyp überschrieben werden.",
+  "gradesFinalGradeTypeTitle": "Endnote eines Faches",
+  "gradesPageAddGrade": "Note eintragen",
+  "gradesPageCurrentGradesLabel": "Aktuelle Noten",
+  "gradesPagePastTermTitle": "Vergangenes Halbjahr",
+  "gradesSettingsPageTitle": "Noten-Einstellungen",
+  "gradesSettingsSubjectsSubtitle": "Verwalte Fächer und verbundene Kurse",
+  "gradesSettingsSubjectsTitle": "Fächer",
+  "gradesSubjectSettingsPageTitle": "Einstellungen: {subjectDisplayName}",
+  "gradesSubjectsPageCourseNotAssigned": "Dieser Kurs ist noch keinem Notenfach zugeordnet.",
+  "gradesSubjectsPageCoursesLabel": "Kurse: {courseNames}",
+  "gradesSubjectsPageCoursesWithoutSubject": "Kurse ohne Notenfach",
+  "gradesSubjectsPageDeleteDescription": "Beim Löschen werden alle zugehörigen Noten dauerhaft entfernt.",
+  "gradesSubjectsPageDeleteFailure": "Fach konnte nicht gelöscht werden: {error}",
+  "gradesSubjectsPageDeleteSuccess": "Fach und zugehörige Noten gelöscht.",
+  "gradesSubjectsPageDeleteTitle": "{subjectName} löschen",
+  "gradesSubjectsPageDeleteTooltip": "Fach löschen",
+  "gradesSubjectsPageGradeSubjects": "Notenfächer",
+  "gradesSubjectsPageInfoBody": "In Sharezone werden alle Inhalte (wie Hausaufgaben oder Prüfungen) einem Kurs zugeordnet. Deine Noten werden jedoch in Notenfächern gespeichert - nicht in Kursen. So bleiben sie erhalten, auch wenn du einen Kurs verlässt.\n\nDas hat noch einen Vorteil: Du kannst deine Noten nach Fächern sortieren und später deine Entwicklung in einem Fach über mehrere Jahre hinweg verfolgen (diese Funktion ist bald verfügbar).\n\nSharezone legt automatisch ein Notenfach an, sobald du eine Note in einem Kurs erstellst.",
+  "gradesSubjectsPageInfoHeader": "Notenfächer vs Kurse",
+  "gradesSubjectsPageMultipleGrades": "{count} Noten",
+  "gradesSubjectsPageNoGrades": "Keine Noten",
+  "gradesSubjectsPageNoGradesRecorded": "Für dieses Fach wurden noch keine Noten erfasst.",
+  "gradesSubjectsPageSingleGrade": "1 Note",
+  "gradesTermDetailsDeleteDescription": "Möchtest du das Halbjahr inkl. aller Noten wirklich löschen?\n\nDiese Aktion kann nicht rückgängig gemacht werden.",
+  "gradesTermDetailsDeleteTitle": "Halbjahr löschen",
+  "gradesTermDetailsDeleteTooltip": "Halbjahr löschen",
+  "gradesTermDetailsEditSubjectTooltip": "Fachnote bearbeiten",
+  "gradesTermDetailsPageTitle": "Halbjahresdetails",
+  "gradesTermDialogNameLabel": "Name des Halbjahres",
+  "gradesTermSettingsCourseWeightingDescription": "Solltest du Kurse haben, die doppelt gewichtet werden, kannst du bei diesen eine 2.0 eintragen.",
+  "gradesTermSettingsCourseWeightingTitle": "Gewichtung der Kurse für Notenschnitt vom Halbjahr",
+  "gradesTermSettingsEditNameDescription": "Der Name beschreibt das Halbjahr, z.B. '10/2' für das zweite Halbjahr der 10. Klasse.",
+  "gradesTermSettingsEditNameTitle": "Name ändern",
+  "gradesTermSettingsEditWeightDescription": "Die Gewichtung beschreibt, wie stark die Note des Kurses in den Halbjahresschnitt einfließt.",
+  "gradesTermSettingsEditWeightTitle": "Gewichtung ändern",
+  "gradesTermSettingsNameHint": "z.B. 10/2",
+  "gradesTermSettingsNameRequired": "Bitte gib einen Namen ein.",
+  "gradesTermSettingsNoSubjectsYet": "Du hast bisher noch keine Fächer erstellt.",
+  "gradesTermSettingsTitle": "Einstellung: {name}",
+  "gradesTermSettingsWeightDisplayTypeFactor": "Faktor",
+  "gradesTermSettingsWeightDisplayTypePercent": "Prozent",
+  "gradesTermSettingsWeightDisplayTypeTitle": "Gewichtungssystem",
+  "gradesTermSettingsWeightHint": "z.B. 1.0",
+  "gradesTermSettingsWeightInvalid": "Bitte gib eine Zahl ein.",
+  "gradesTermSettingsWeightLabel": "Gewichtung",
+  "gradesTermTileEditTooltip": "Bearbeiten des Schnitts",
+  "gradesWeightSettingsAddWeight": "Neue Gewichtung hinzufügen",
+  "gradesWeightSettingsHelpDialogText": "In Sharezone kannst du genau bestimmen, wie die Note für jedes Fach berechnet wird, indem du die Gewichtung der verschiedenen Notentypen festlegst. Zum Beispiel kannst du einstellen, dass die Gesamtnote aus 50% schriftlichen Prüfungen und 50% mündlicher Beteiligung zusammengesetzt wird.\n\nDiese Flexibilität ermöglicht es dir, die Bewertungskriterien deiner Schule genau abzubilden und sicherzustellen, dass jede Art von Leistung angemessen berücksichtigt wird.",
+  "gradesWeightSettingsHelpDialogTitle": "Wie wird die Note eines Fachs berechnet?",
+  "gradesWeightSettingsHelpTooltip": "Wie wird die Note berechnet?",
+  "gradesWeightSettingsInvalidWeightInput": "Bitte gebe eine gültige Zahl (\u003e= 0) ein.",
+  "gradesWeightSettingsPercentHint": "z.B. 56.5",
+  "gradesWeightSettingsPercentLabel": "Gewichtung in %",
+  "gradesWeightSettingsRemoveTooltip": "Entfernen",
+  "gradesWeightSettingsSubtitle": "Lege die Gewichtung der Notentypen für die Berechnung der Fachnote fest.",
+  "gradesWeightSettingsTitle": "Berechnung der Fachnote",
+  "groupHelpDifferenceDescription": "Kurs: Spiegelt ein Schulfach wieder.\n\nSchulklasse: Besteht aus mehreren Kursen und ermöglicht das Beitreten all dieser Kurse mit nur einem Sharecode.\n\nGruppe: Ist der Oberbegriff für einen Kurs und eine Schulklasse.",
+  "groupHelpDifferenceTitle": "Was ist der Unterschied zwischen einer Gruppe, einem Kurs und einer Schulklasse?",
+  "groupHelpHowToJoinOverview": "Um einer Gruppe von deinen Mitschülern oder Lehrern beizutreten, gibt es zwei Möglichkeiten:\n\n1. Sharecode über einen QR-Code scannen\n2. Händisch den Sharecode eingeben",
+  "groupHelpHowToJoinTitle": "Wie trete ich einer Gruppe bei?",
+  "groupHelpRolesDescription": "Administrator:\nEin Admin verwaltet eine Gruppe. Das bedeutet, dass er diese bearbeiten, löschen und Teilnehmer rauswerfen kann. Zudem kann ein Admin alle weiteren Einstellungen für die Gruppe treffen, wie z.B. das Beitreten aktivieren/deaktivieren.\n\nAktives Mitglied:\nEin aktives Mitglied in einer Gruppe darf Inhalte erstellen und bearbeiten, sprich Hausaufgaben eintragen, Termine eintragen, Schulstunden bearbeiten, etc. Er hat somit Schreib- und Leserechte.\n\nPassives Mitglied:\nEin passives Mitglied in einer Gruppe hat ausschließlich Leserechte. Somit dürfen keine Inhalte erstellt oder bearbeitet werden.",
+  "groupHelpRolesTitle": "Gruppenrollen erklärt: Was ist ein passives Mitglied, aktives Mitglied, Administrator?",
+  "groupHelpScanQrCodeDescription": "1. Eine Person, die sich schon in diesem Kurs befindet, klickt unter der Seite \"Gruppe\" auf den gewünschten Kurs.\n2. Diese Person klickt nun auf den Button \"QR-Code anzeigen\".\n3. Nun öffnet sich unten eine neue Anzeige mit einem QR-Code.\n4. Die Person, die dem Kurs beitreten möchte, klickt unten auf der Seite \"Gruppen\" auf den roten Button.\n5. Als nächstes wählt die Person \"Kurs/Klasse beitreten\".\n6. Jetzt öffnet sich ein Fenster - dort klickt der Nutzer auf die blaue Grafik, um den QR-Code zu scannen.\n7. Abschließend nur noch die Kamera auf den QR-Code der anderen Person halten.",
+  "groupHelpScanQrCodeTitle": "Sharecode mit einem QR-Code scannen",
+  "groupHelpTitle": "Hilfe: Gruppen",
+  "groupHelpTypeSharecodeDescription": "1. Eine Person, die sich schon in diesem Kurs befindet, klickt unter der Seite \"Gruppen\" auf den gewünschten Kurs.\n2. Auf dieser Seite wird nun direkt unter dem Kursnamen der Sharecode angezeigt.\n3. Die Person, die dem Kurs beitreten möchte, klickt unten auf der Seite \"Gruppen\" auf den roten Button.\n4. Als nächstes wählt die Person \"Kurs/Klasse beitreten\".\n5. Jetzt öffnet sich ein Fenster - dort muss dann nur noch der Sharecode von der anderen Person in das Textfeld unten eingeben werden.",
+  "groupHelpTypeSharecodeTitle": "Händisch den Sharecode eingeben",
+  "groupHelpWhatIsSharecodeDescription": "Der Sharecode ist ein Zugangsschlüssel für einen Kurs. Mit diesem können Mitschüler und Lehrer dem Kurs beitreten.\n\nDank des Sharecodes braucht es kein Austauschen persönlicher Daten, wie z.B. der E-Mail Adresse oder der privaten Handynummer, unter den Kursmitgliedern - anders als es z.B. bei WhatsApp-Gruppen oder den meisten E-Mail Verteilern der Fall ist.\n\nEin Kursmitglied sieht nur den Namen (kann auch ein Pseudonym sein) der anderen Kursmitglieder.",
+  "groupHelpWhatIsSharecodeTitle": "Was ist ein Sharecode?",
+  "groupHelpWhyDifferentSharecodesDescription": "Jeder Teilnehmer aus einem Kurs hat einen individuellen Sharecode.\n\nDas hat den Grund, dass getrackt werden kann, welcher Nutzer wen eingeladen hat.\n\nDank dieser Funktion zählen auch Weiterempfehlungen ohne die Verwendung eines Empfehlunglinks.",
+  "groupHelpWhyDifferentSharecodesTitle": "Warum hat jeder Teilnehmer aus einer Gruppe einen anderen Sharecode?",
+  "groupJoinCourseSelectionParentHint": "Falls dein Kind in Wahlfächern (z.B. Französisch) ist, solltest du diese Kurse aus der Auswahl aufheben.",
+  "groupJoinCourseSelectionStudentHint": "Falls du in Wahlfächern (z.B. Französisch) bist, solltest du diese Kurse aus der Auswahl aufheben.",
+  "groupJoinCourseSelectionTeacherHint": "Wähle die Kurse aus, in denen du unterrichtest.",
+  "groupJoinCourseSelectionTitle": "Beizutretende Kurse der {groupName}",
+  "@groupJoinCourseSelectionTitle": {
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "groupJoinErrorAlreadyMemberDescription": "Du bist bereits Mitglied in dieser Gruppe, daher musst du dieser nicht mehr beitreten.",
+  "groupJoinErrorAlreadyMemberTitle": "Ein Fehler ist aufgetreten: Bereits Mitglied 🤨",
+  "groupJoinErrorNoInternetDescription": "Wir konnten nicht versuchen, der Gruppe beizutreten, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunkdaten.",
+  "groupJoinErrorNoInternetTitle": "Ein Fehler ist aufgetreten: Keine Internetverbindung ☠️",
+  "groupJoinErrorNotPublicDescription": "Die Gruppe erlaubt aktuell kein Beitreten. Dies ist in den Gruppeneinstellungen deaktiviert. Bitte wende dich an einen Admin dieser Gruppe.",
+  "groupJoinErrorNotPublicTitle": "Ein Fehler ist aufgetreten: Beitreten verboten ⛔️",
+  "groupJoinErrorSharecodeNotFoundDescription": "Wir konnten den eingegebenen Sharecode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Sharecode noch gültig ist.",
+  "groupJoinErrorSharecodeNotFoundTitle": "Ein Fehler ist aufgetreten: Sharecode nicht gefunden ❌",
+  "groupJoinErrorUnknownDescription": "Dies könnte eventuell an deiner Internetverbindung liegen. Bitte überprüfe diese!",
+  "groupJoinErrorUnknownTitle": "Ein unbekannter Fehler ist aufgetreten 😭",
+  "groupJoinPasteSharecodeDescription": "Möchtest du den Sharecode \"{sharecode}\" aus deiner Zwischenablage übernehmen?",
+  "@groupJoinPasteSharecodeDescription": {
+    "placeholders": {
+      "sharecode": {
+        "type": "String"
+      }
+    }
+  },
+  "groupJoinPasteSharecodeTitle": "Sharecode einfügen",
+  "groupJoinRequireCourseSelectionDescription": "Du musst zum Beitreten die Kurse auswählen, in welchen du bist.",
+  "groupJoinRequireCourseSelectionTitle": "Klasse gefunden: {groupName}",
+  "@groupJoinRequireCourseSelectionTitle": {
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "groupJoinResultJoinMoreAction": "Mehr beitreten",
+  "groupJoinResultRetryAction": "Nochmal versuchen",
+  "groupJoinResultSelectCoursesAction": "Kurse auswählen",
+  "groupJoinScanQrCodeDescription": "Scanne einen QR-Code, um einer Gruppe beizutreten.",
+  "groupJoinScanQrCodeTooltip": "QR-Code scannen",
+  "groupJoinSharecodeHint": "z.B. Qb32vF",
+  "groupJoinSharecodeLabel": "Sharecode",
+  "groupJoinSuccessDescription": "{groupName} wurde erfolgreich hinzugefügt. Du bist nun Mitglied.",
+  "@groupJoinSuccessDescription": {
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "groupJoinSuccessTitle": "Erfolgreich beigetreten 🎉",
+  "groupOnboardingCreateNewGroupsAction": "Group Onboarding Create New Groups Action",
+  "groupOnboardingFirstPersonHint": "Group Onboarding First Person Hint",
+  "groupOnboardingFirstPersonParentTitle": "Group Onboarding First Person Parent Title",
+  "groupOnboardingFirstPersonStudentTitle": "Group Onboarding First Person Student Title",
+  "groupOnboardingFirstPersonTeacherTitle": "Group Onboarding First Person Teacher Title",
+  "groupOnboardingIsClassTeacherCreateClassAction": "Group Onboarding Is Class Teacher Create Class Action",
+  "groupOnboardingIsClassTeacherCreateCoursesOnlyAction": "Group Onboarding Is Class Teacher Create Courses Only Action",
+  "groupOnboardingIsClassTeacherTitle": "Group Onboarding Is Class Teacher Title",
+  "groupOnboardingJoinMultipleGroupsAction": "Group Onboarding Join Multiple Groups Action",
+  "groupOnboardingJoinSingleGroupAction": "Group Onboarding Join Single Group Action",
+  "groupOnboardingSchoolClassHint": "Group Onboarding School Class Hint",
+  "groupParticipantsEmpty": "Es befinden sich keine Teilnehmer in dieser Gruppe 😭",
+  "groupsAllowJoinTitle": "Beitreten erlauben",
+  "groupsContactSupportLinkText": "Groups Contact Support Link Text",
+  "groupsContactSupportPrefix": "Groups Contact Support Prefix",
+  "groupsContactSupportSuffix": "Groups Contact Support Suffix",
+  "groupsCreateCourseDescription": "Einen Kurs kannst du dir wie ein Schulfach vorstellen. Jedes Fach wird mit einem Kurs abgebildet.",
+  "groupsCreateSchoolClassDescription": "Eine Klasse besteht aus mehreren Kursen. Jedes Mitglied tritt beim Betreten der Klasse automatisch allen dazugehörigen Kursen bei.",
+  "groupsEmptyTitle": "Du bist noch keinem Kurs, bzw. keiner Klasse beigetreten!",
+  "groupsFabJoinOrCreateTooltip": "Gruppe beitreten/erstellen",
+  "groupsInviteParticipants": "Teilnehmer einladen",
+  "groupsJoinCourseOrClassDescription": "Falls einer deiner Mitschüler schon eine Klasse oder einen Kurs erstellt hat, kannst du diesem einfach beitreten.",
+  "groupsJoinCourseOrClassTitle": "Kurs/Klasse beitreten",
+  "groupsJoinTitle": "Beitreten",
+  "groupsLinkCopied": "Groups Link Copied",
+  "groupsMemberCount": "Anzahl der Teilnehmer: {value}",
+  "groupsMemberOptionsNoAdminRightsHint": "Da du kein Admin bist, hast du keine Rechte, um andere Mitglieder zu verwalten.",
+  "groupsMemberYou": "Du",
+  "groupsMembersActiveMemberTitle": "Groups Members Active Member Title",
+  "groupsMembersAdminsTitle": "Groups Members Admins Title",
+  "groupsMembersLegendTitle": "Legenden",
+  "groupsMembersPassiveMemberTitle": "Groups Members Passive Member Title",
+  "groupsPageMyCourses": "Meine Kurse:",
+  "groupsPageMySchoolClass": "Meine Klasse:",
+  "groupsPageMySchoolClasses": "Meine Klassen:",
+  "groupsPageTitle": "Gruppen",
+  "groupsQrCodeSubtitle": "Groups Qr Code Subtitle",
+  "groupsQrCodeTitle": "Groups Qr Code Title",
+  "groupsRoleActiveMemberDescription": "Schreib- und Leserechte",
+  "groupsRoleAdminDescription": "Schreib- und Leserechte \u0026 Verwaltung",
+  "groupsRoleReadOnlyDescription": "Leserechte",
+  "groupsSharecodeCopied": "Groups Sharecode Copied",
+  "groupsSharecodeCopiedToClipboard": "Sharecode wurde in die Zwischenablage kopiert.",
+  "groupsSharecodeLoading": "Sharecode wird geladen...",
+  "groupsSharecodeLowercaseCharacter": "kleines {character}",
+  "@groupsSharecodeLowercaseCharacter": {
+    "placeholders": {
+      "character": {
+        "type": "String"
+      }
+    }
+  },
+  "groupsSharecodePrefix": "Sharecode: ",
+  "groupsSharecodeSemanticsLabel": "Sharecode: {sharecode}",
+  "@groupsSharecodeSemanticsLabel": {
+    "placeholders": {
+      "sharecode": {
+        "type": "String"
+      }
+    }
+  },
+  "groupsSharecodeText": "Sharecode: {sharecode}",
+  "@groupsSharecodeText": {
+    "placeholders": {
+      "sharecode": {
+        "type": "String"
+      }
+    }
+  },
+  "groupsSharecodeUppercaseCharacter": "großes {character}",
+  "@groupsSharecodeUppercaseCharacter": {
+    "placeholders": {
+      "character": {
+        "type": "String"
+      }
+    }
+  },
+  "groupsWritePermissionsEveryoneDescription": "Jeder erhält die Rolle ”aktives Mitglied (Lese- und Schreibrechte)\"",
+  "groupsWritePermissionsExplanation": "Mit dieser Einstellung kann reguliert werden, welche Nutzergruppen Schreibrechte erhalten.",
+  "groupsWritePermissionsOnlyAdminsDescription": "Alle, außer die Admins, erhalten die Rolle \"passives Mitglied (Nur Leserechte)\"",
+  "groupsWritePermissionsSheetQuestion": "Wer ist dazu berechtigt, neue Einträge, neue Hausaufgaben, neue Dateien, etc. zu erstellen, bzw. hochzuladen?",
+  "groupsWritePermissionsTitle": "Schreibrechte",
+  "homeworkAddAction": "Homework Add Action",
+  "homeworkBottomBarMoreIdeas": "Homework Bottom Bar More Ideas",
+  "homeworkCardViewCompletedByTooltip": "\"Erledigt von\" anzeigen",
+  "homeworkCardViewSubmissionsTooltip": "Abgaben anzeigen",
+  "homeworkCompletionPlusDescription": "Homework Completion Plus Description",
+  "homeworkCompletionReadByTitle": "Homework Completion Read By Title",
+  "homeworkDeleteAttachmentsDialogDescription": "Sollen die Anhänge der Hausaufgabe aus der Dateiablage gelöscht oder die Verknüpfung zwischen beiden aufgehoben werden?",
+  "homeworkDeleteAttachmentsDialogTitle": "Anhänge ebenfalls löschen?",
+  "homeworkDeleteAttachmentsUnlink": "Entknüpfen",
+  "homeworkDeleteScopeDialogDescription": "Soll die Hausaufgabe nur für dich oder für den gesamten Kurs gelöscht werden?",
+  "homeworkDeleteScopeDialogTitle": "Für alle löschen?",
+  "homeworkDeleteScopeOnlyMe": "Nur für mich",
+  "homeworkDeleteScopeWholeCourse": "Für gesamten Kurs",
+  "homeworkDetailsAdditionalInfo": "Zusatzinformationen",
+  "homeworkDetailsAttachmentsCount": "Anhänge: {count}",
+  "@homeworkDetailsAttachmentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeworkDetailsChangeAccountTypeContent": "Wenn du eine Hausaufgabe abgeben möchtest, musst dein Account als Schüler registriert sein. Der Support kann deinen Account in einen Schüler-Account umwandeln, damit du Hausaufgaben abgeben darfst.",
+  "homeworkDetailsChangeAccountTypeEmailBody": "Liebes Sharezone-Team, bitte ändert meinen Account-Typ zum Schüler ab.",
+  "homeworkDetailsChangeAccountTypeEmailSubject": "Typ des Accounts zu Schüler ändern [{uid}]",
+  "@homeworkDetailsChangeAccountTypeEmailSubject": {
+    "placeholders": {
+      "uid": {
+        "type": "String"
+      }
+    }
+  },
+  "homeworkDetailsChangeAccountTypeTitle": "Account-Typ ändern?",
+  "homeworkDetailsCourseTitle": "Kurs",
+  "homeworkDetailsCreatedBy": "Erstellt von:",
+  "homeworkDetailsDoneByStudentsCount": "Von {count} SuS erledigt",
+  "@homeworkDetailsDoneByStudentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeworkDetailsMarkAsDone": "Als erledigt markieren",
+  "homeworkDetailsMarkAsUndone": "Als unerledigt markieren",
+  "homeworkDetailsMarkDoneAction": "Abhaken",
+  "homeworkDetailsMySubmission": "Meine Abgabe",
+  "homeworkDetailsNoPermissionTitle": "Keine Berechtigung",
+  "homeworkDetailsNoSubmissionContent": "Du hast bisher keine Abgabe gemacht. Möchtest du wirklich die Hausaufgabe ohne Abgabe als erledigt markieren?",
+  "homeworkDetailsNoSubmissionTitle": "Keine Abgabe bisher",
+  "homeworkDetailsNoSubmissionYet": "Keine Abgabe bisher eingereicht",
+  "homeworkDetailsParentsCannotSubmit": "Eltern dürfen keine Hausaufgaben abgeben",
+  "homeworkDetailsPrivateSubtitle": "Diese Hausaufgabe wird nicht mit dem Kurs geteilt.",
+  "homeworkDetailsPrivateTitle": "Privat",
+  "homeworkDetailsSubmissionsCount": "{count} Abgaben",
+  "@homeworkDetailsSubmissionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeworkDetailsViewCompletionNoPermissionContent": "Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.",
+  "homeworkDetailsViewSubmissionsNoPermissionContent": "Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.",
+  "homeworkDialogCourseChangeDisabled": "Der Kurs kann nachträglich nicht mehr geändert werden. Bitte lösche die Hausaufgabe und erstelle eine neue, falls du den Kurs ändern möchtest.",
+  "homeworkDialogDescriptionHint": "Zusatzinformationen eingeben",
+  "homeworkDialogDueDateAfterNextLesson": "Übernächste Stunde",
+  "homeworkDialogDueDateChipsPlusDescription": "Mit Sharezone Plus kannst du Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.",
+  "homeworkDialogDueDateInXHours": "In X Stunden",
+  "homeworkDialogDueDateInXLessons": "{count}.-nächste Stunde",
+  "@homeworkDialogDueDateInXLessons": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeworkDialogDueDateNextLesson": "Nächste Stunde",
+  "homeworkDialogDueDateNextSchoolday": "Nächster Schultag",
+  "homeworkDialogEmptyTitleError": "Bitte gib einen Titel für die Hausaufgabe an!",
+  "homeworkDialogNextLessonSuffix": ".-nächste Stunde",
+  "homeworkDialogNoCourseSelected": "Keinen Kurs ausgewählt",
+  "homeworkDialogNotifyCourseMembers": "Kursmitglieder benachrichtigen",
+  "homeworkDialogNotifyCourseMembersDescription": "Kursmitglieder über neue Hausaufgabe benachrichtigen.",
+  "homeworkDialogNotifyCourseMembersEditing": "Kursmitglieder über die Änderungen benachrichtigen",
+  "homeworkDialogPrivateSubtitle": "Hausaufgabe nicht mit dem Kurs teilen.",
+  "homeworkDialogPrivateTitle": "Privat",
+  "homeworkDialogRequiredFieldsMissing": "Bitte fülle alle erforderlichen Felder aus!",
+  "homeworkDialogSaveTooltip": "Hausaufgabe speichern",
+  "homeworkDialogSavingFailed": "Hausaufgabe konnte nicht gespeichert werden.\n\n{error}\n\nFalls der Fehler weiterhin auftritt, kontaktiere bitte den Support.",
+  "@homeworkDialogSavingFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "homeworkDialogSelectLessonOffsetDescription": "Wähle aus, in wie vielen Stunden die Hausaufgabe fällig ist.",
+  "homeworkDialogSelectLessonOffsetTitle": "Stundenzeit auswählen",
+  "homeworkDialogSubmissionTimeTitle": "Abgabe-Uhrzeit",
+  "homeworkDialogTitleHint": "Titel eingeben (z.B. AB Nr. 1 - 3)",
+  "homeworkDialogUnknownError": "Es gab einen unbekannten Fehler ({error}) 😖 Bitte kontaktiere den Support!",
+  "@homeworkDialogUnknownError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "homeworkDialogWithSubmissionTitle": "Mit Abgabe",
+  "homeworkEmptyFireDescription": "Homework Empty Fire Description",
+  "homeworkEmptyFireTitle": "Homework Empty Fire Title",
+  "homeworkEmptyGameControllerDescription": "Homework Empty Game Controller Description",
+  "homeworkEmptyGameControllerTitle": "Homework Empty Game Controller Title",
+  "homeworkFabNewHomeworkTooltip": "Homework Fab New Homework Tooltip",
+  "homeworkLongPressTitle": "Hausaufgabe: {homeworkTitle}",
+  "@homeworkLongPressTitle": {
+    "placeholders": {
+      "homeworkTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "homeworkMarkOverdueAction": "Homework Mark Overdue Action",
+  "homeworkMarkOverduePromptTitle": "Homework Mark Overdue Prompt Title",
   "homeworkSectionDayAfterTomorrow": "Übermorgen",
   "homeworkSectionLater": "Später",
   "homeworkSectionOverdue": "Überfällig",
   "homeworkSectionToday": "Heute",
   "homeworkSectionTomorrow": "Morgen",
+  "homeworkTabArchivedUppercase": "Homework Tab Archived Uppercase",
+  "homeworkTabDoneUppercase": "Homework Tab Done Uppercase",
+  "homeworkTabOpenUppercase": "Homework Tab Open Uppercase",
+  "homeworkTeacherNoArchivedTitle": "Homework Teacher No Archived Title",
+  "homeworkTeacherNoOpenTitle": "Homework Teacher No Open Title",
+  "homeworkTeacherNoPermissionTitle": "Homework Teacher No Permission Title",
+  "homeworkTeacherViewCompletionNoPermissionContent": "Homework Teacher View Completion No Permission Content",
+  "homeworkTeacherViewSubmissionsNoPermissionContent": "Homework Teacher View Submissions No Permission Content",
   "homeworkTodoDateTime": "{date} - {time} Uhr",
   "@homeworkTodoDateTime": {
     "placeholders": {
@@ -390,6 +1132,33 @@
       }
     }
   },
+  "icalLinksDialogExportCreated": "Ical Links Dialog Export Created",
+  "icalLinksDialogNameHint": "Ical Links Dialog Name Hint",
+  "icalLinksDialogNameMissingError": "Ical Links Dialog Name Missing Error",
+  "icalLinksDialogNameMissingErrorWithPeriod": "Ical Links Dialog Name Missing Error With Period",
+  "icalLinksDialogPrivateNote": "Ical Links Dialog Private Note",
+  "icalLinksDialogSourceMissingError": "Ical Links Dialog Source Missing Error",
+  "icalLinksDialogSourcesQuestion": "Ical Links Dialog Sources Question",
+  "icalLinksPageBuilding": "Wird erstellt...",
+  "icalLinksPageCopyLink": "Link kopieren",
+  "icalLinksPageEmptyState": "Du hast noch keine iCal-Links erstellt.",
+  "icalLinksPageErrorSubtitle": "Fehler: {error}",
+  "@icalLinksPageErrorSubtitle": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "icalLinksPageHowToAddIcalLinkToCalendarBody": "1. Kopiere den iCal-Link\n2. Öffne deinen Kalender (z.B. Google Kalender, Apple Kalender)\n3. Füge einen neuen Kalender hinzu\n4. Wähle \"Über URL hinzufügen\" oder \"Über das Internet hinzufügen\"\n5. Füge den iCal-Link ein\n6. Fertig! Dein Stundenplan und deine Termine werden nun in deinem Kalender angezeigt.",
+  "icalLinksPageHowToAddIcalLinkToCalendarHeader": "Wie füge ich einen iCal-Link zu meinem Kalender hinzu?",
+  "icalLinksPageLinkCopied": "Link in Zwischenablage kopiert.",
+  "icalLinksPageLinkDeleted": "Link gelöscht.",
+  "icalLinksPageLinkLoading": "Link wird geladen...",
+  "icalLinksPageLocked": "Gesperrt",
+  "icalLinksPageNewLink": "Neuer Link",
+  "icalLinksPageTitle": "iCal-Links",
+  "icalLinksPageWhatIsAnIcalLinkHeader": "Was ist ein iCal Link?",
   "imprintTitle": "Impressum",
   "languageDeName": "Deutsch",
   "languageEnName": "Englisch",
@@ -445,11 +1214,28 @@
   "legalPrivacyPolicyTitle": "Datenschutzerklärung",
   "legalTableOfContents": "Inhaltsverzeichnis",
   "legalTermsOfServiceTitle": "Allgemeine Nutzungsbedingungen",
+  "loginCreateAccount": "Neues Konto erstellen",
+  "loginEmailLabel": "E-Mail",
+  "loginHidePasswordTooltip": "Passwort verstecken",
+  "loginPasswordFieldSemanticsLabel": "Passwortfeld",
+  "loginPasswordLabel": "Passwort",
+  "loginResetPasswordButton": "Passwort zurücksetzen",
+  "loginShowPasswordTooltip": "Passwort anzeigen",
+  "loginSubmitTooltip": "Einloggen",
+  "loginWithAppleButton": "Über Apple anmelden",
+  "loginWithGoogleButton": "Über Google einloggen",
+  "loginWithQrCodeButton": "Über einen QR-Code einloggen",
   "memberRoleAdmin": "Admin",
   "memberRoleCreator": "Aktives Mitglied (Schreib- und Leserechte)",
   "memberRoleNone": "Nichts",
   "memberRoleOwner": "Besitzer",
   "memberRoleStandard": "Passives Mitglied (Nur Leserechte)",
+  "mobileWelcomeBackgroundImageSemanticsLabel": "Hintergrundbild der Willkommens-Seite mit 5 Handys, die die Sharezone-App zeigen.",
+  "mobileWelcomeHeadline": "Gemeinsam den\nSchulalltag organisieren 🚀",
+  "mobileWelcomeNewAtSharezoneButton": "Ich bin neu bei Sharezone 👋",
+  "mobileWelcomeSignInButton": "Anmelden",
+  "mobileWelcomeSignInWithExistingAccount": "Mit existierendem Konto anmelden",
+  "mobileWelcomeSubHeadline": "Optional kannst du Sharezone auch komplett alleine verwenden.",
   "myProfileActivationCodeTile": "Aktivierungscode eingeben",
   "myProfileChangePasswordTile": "Passwort ändern",
   "myProfileChangedPasswordConfirmation": "Das Passwort wurde erfolgreich geändert.",
@@ -475,6 +1261,81 @@
   "navigationExperimentOptionDrawerAndBnb": "Aktuelle Navigation",
   "navigationExperimentOptionExtendableBnb": "Neue Navigation - Ohne Mehr-Button",
   "navigationExperimentOptionExtendableBnbWithMoreButton": "Neue Navigation - Mit Mehr-Button",
+  "notificationPageBlackboardDescription": "Der Ersteller eines Infozettels kann regulieren, ob die Kursmitglieder darüber benachrichtigt werden sollen, dass ein neuer Infozettel erstellt wurde, bzw. es eine Änderung gab. Mit dieser Option kannst du diese Benachrichtigungen an- und ausschalten.",
+  "notificationPageBlackboardHeadline": "Infozettel",
+  "notificationPageBlackboardTitle": "Benachrichtigungen für Infozettel",
+  "notificationPageCommentsDescription": "Erhalte eine Push-Nachricht, sobald ein neuer Nutzer einen neuen Kommentar unter einer Hausaufgabe oder einem Infozettel verfasst hat.",
+  "notificationPageCommentsHeadline": "Kommentare",
+  "notificationPageCommentsTitle": "Benachrichtigungen für Kommentare",
+  "notificationPageHomeworkHeadline": "Offene Hausaufgaben",
+  "notificationPageHomeworkReminderTitle": "Erinnerungen für offene Hausaufgaben",
+  "notificationPageInvalidHomeworkReminderTime": "Nur volle und halbe Stunden sind erlaubt, z.B. 18:00 oder 18:30.",
+  "notificationPagePlusDialogDescription": "Mit Sharezone Plus kannst du die Erinnerung für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.",
+  "notificationPagePlusDialogTitle": "Uhrzeit für Erinnerung am Vortag",
+  "notificationPageTimeTitle": "Uhrzeit",
+  "notificationPageTimeValue": "{time} Uhr",
+  "@notificationPageTimeValue": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationPageTitle": "Benachrichtigungen",
+  "notificationsDialogReplyAction": "Notifications Dialog Reply Action",
+  "notificationsErrorDialogMoreInfo": "Notifications Error Dialog More Info",
+  "notificationsErrorDialogShortDescription": "Notifications Error Dialog Short Description",
+  "onboardingNotificationsConfirmBody": "Bist du dir sicher, dass du keine Benachrichtigungen erhalten möchtest?\n\nSollte jemand einen Infozettel eintragen, einen Kommentar zu einer Hausaufgabe hinzufügen oder dir eine Nachricht schreiben, würdest du keine Push-Nachrichten erhalten.",
+  "onboardingNotificationsConfirmTitle": "Keine Push-Nachrichten? 🤨",
+  "onboardingNotificationsDescriptionGeneral": "Wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt, erhältst du eine Benachrichtigung. Somit bleibst du immer auf dem aktuellen Stand 💪",
+  "onboardingNotificationsDescriptionStudent": "Wir können dich an offene Hausaufgaben erinnern 😉 Zudem kannst du eine Benachrichtigung erhalten, wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt.",
+  "onboardingNotificationsEnable": "Onboarding Notifications Enable",
+  "onboardingNotificationsTitle": "Erinnerungen und Benachrichtigungen erhalten",
+  "pastCalendricalEventsDummyTitleExam2": "Past Calendrical Events Dummy Title Exam2",
+  "pastCalendricalEventsDummyTitleExam3": "Past Calendrical Events Dummy Title Exam3",
+  "pastCalendricalEventsDummyTitleExam4": "Past Calendrical Events Dummy Title Exam4",
+  "pastCalendricalEventsDummyTitleExam5": "Past Calendrical Events Dummy Title Exam5",
+  "pastCalendricalEventsDummyTitleNoSchool": "Past Calendrical Events Dummy Title No School",
+  "pastCalendricalEventsDummyTitleParentTeacherDay": "Past Calendrical Events Dummy Title Parent Teacher Day",
+  "pastCalendricalEventsDummyTitleSportsFestival": "Past Calendrical Events Dummy Title Sports Festival",
+  "pastCalendricalEventsDummyTitleTest6": "Past Calendrical Events Dummy Title Test6",
+  "pastCalendricalEventsPageEmpty": "Keine vergangenen Termine",
+  "pastCalendricalEventsPageError": "Fehler beim Laden der vergangenen Termine: {error}",
+  "@pastCalendricalEventsPageError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "pastCalendricalEventsPagePlusDescription": "Erwerbe Sharezone Plus, um alle vergangenen Termine einzusehen.",
+  "pastCalendricalEventsPageSortAscending": "Aufsteigend",
+  "pastCalendricalEventsPageSortAscendingSubtitle": "Älteste Termine zuerst",
+  "pastCalendricalEventsPageSortDescending": "Absteigend",
+  "pastCalendricalEventsPageSortDescendingSubtitle": "Neueste Termine zuerst",
+  "pastCalendricalEventsPageSortOrderTooltip": "Sortierreihenfolge",
+  "pastCalendricalEventsPageTitle": "Vergangene Termine",
+  "periodsEditAddLesson": "Stunde hinzufügen",
+  "periodsEditSaved": "Die Stundenzeiten wurden erfolgreich geändert.",
+  "periodsEditTimetableStart": "Stundenplanbeginn",
+  "privacyDisplaySettingsDensityComfortable": "Komfortabel",
+  "privacyDisplaySettingsDensityCompact": "Kompakt",
+  "privacyDisplaySettingsDensityStandard": "Standard",
+  "privacyDisplaySettingsShowReadIndicator": "\"Am Lesen\"-Indikator anzeigen",
+  "privacyDisplaySettingsTextScalingFactor": "Textskalierungsfaktor",
+  "privacyDisplaySettingsThemeMode": "Dunkel-/Hellmodus",
+  "privacyDisplaySettingsThemeModeAutomatic": "Automatisch",
+  "privacyDisplaySettingsThemeModeDark": "Dunkler Modus",
+  "privacyDisplaySettingsThemeModeLight": "Heller Modus",
+  "privacyDisplaySettingsTitle": "Anzeigeeinstellungen",
+  "privacyDisplaySettingsVisualDensity": "Visuelle Kompaktheit",
+  "privacyPolicyChangeAppearance": "Darstellung ändern",
+  "privacyPolicyDownloadPdf": "Als PDF herunterladen",
+  "privacyPolicyPageTitle": "Datenschutzerklärung",
+  "privacyPolicyPageUpdatedEffectiveDatePrefix": "Diese aktualisierte Datenschutzerklärung tritt am",
+  "privacyPolicyPageUpdatedEffectiveDateSuffix": "in Kraft.",
+  "privacyPolicyTableOfContents": "Inhaltsverzeichnis",
+  "profileAvatarTooltip": "Profile Avatar Tooltip",
   "registerAccountAgeNoticeText": "Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.",
   "@registerAccountAgeNoticeText": {
     "description": "Legal notice shown below the sign-in methods for anonymous users."
@@ -633,6 +1494,40 @@
   "@reportReasonViolentContent": {
     "description": "Reason option for violent or repulsive content."
   },
+  "resetPasswordEmailFieldLabel": "E-Mail Adresse deines Kontos",
+  "resetPasswordErrorMessage": "E-Mail konnte nicht gesendet werden. Überprüfe deine eingegebene E-Mail-Adresse!",
+  "resetPasswordSentDialogTitle": "E-Mail wurde verschickt",
+  "resetPasswordSuccessMessage": "E-Mail zum Passwort-Zurücksetzen wurde gesendet.",
+  "schoolClassActionsDeleteUppercase": "KLASSE LÖSCHEN",
+  "schoolClassActionsKickUppercase": "AUS DER SCHULKLASSE KICKEN",
+  "schoolClassActionsLeaveUppercase": "KLASSE VERLASSEN",
+  "schoolClassAllowJoinExplanation": "Über diese Einstellungen kannst du regulieren, ob neue Mitglieder dem Kurs beitreten dürfen.\n\nDie Einstellung wird direkt auf alle Kurse übertragen, die mit der Schulklasse verbunden sind.",
+  "schoolClassCoursesAddExisting": "Existierenden Kurs hinzufügen",
+  "schoolClassCoursesAddNew": "Neuen Kurs hinzufügen",
+  "schoolClassCoursesEmptyDescription": "Es wurden noch keine Kurse zu dieser Klasse hinzugefügt.\n\nErstelle jetzt einen Kurs, der mit der Klasse verknüpft ist.",
+  "schoolClassCoursesSelectCourseDialogHint": "Du kannst nur Kurse hinzufügen, in denen du auch Administrator bist.",
+  "schoolClassCoursesSelectCourseDialogTitle": "Wähle einen Kurs aus",
+  "schoolClassCoursesTitle": "Kurse",
+  "schoolClassCreateTitle": "Schulklasse erstellen",
+  "schoolClassEditSuccess": "Die Schulklasse wurde erfolgreich bearbeitet!",
+  "schoolClassEditTitle": "Schulklasse bearbeiten",
+  "schoolClassLeaveConfirmationQuestion": "Möchtest du wirklich die Schulklasse verlassen?",
+  "schoolClassLeaveDialogDeleteWithCourses": "Mit Kursen löschen",
+  "schoolClassLeaveDialogDeleteWithoutCourses": "Ohne Kurse löschen",
+  "schoolClassLeaveDialogDescription": "Möchtest du wirklich die Klasse verlassen?\n\nDu hast noch die Option, die Kurse der Schulklasse ebenfalls zu löschen oder diese zu behalten. Werden die Kurse der Schulklasse nicht gelöscht, bleiben diese weiterhin bestehen.",
+  "schoolClassLeaveDialogTitle": "Klasse verlassen",
+  "schoolClassLoadError": "Es ist ein Fehler beim Laden aufgetreten...",
+  "schoolClassLongPressTitle": "Klasse: {schoolClassName}",
+  "@schoolClassLongPressTitle": {
+    "placeholders": {
+      "schoolClassName": {
+        "type": "String"
+      }
+    }
+  },
+  "schoolClassMemberOptionsAloneHint": "Da du der einzige in der Schulklasse bist, kannst du deine Rolle nicht bearbeiten.",
+  "schoolClassMemberOptionsOnlyAdminHint": "Du bist der einzige Admin in dieser Schulklasse. Daher kannst du dir keine Rechte entziehen.",
+  "schoolClassWritePermissionsAnnotation": "Die Einstellung wird direkt auf alle Kurse übertragen, die mit der Schulklasse verbunden sind.",
   "selectStateDialogConfirmationSnackBar": "Region {region} ausgewählt",
   "@selectStateDialogConfirmationSnackBar": {
     "placeholders": {
@@ -645,6 +1540,17 @@
   "selectStateDialogSelectCanton": "Kanton auswählen",
   "selectStateDialogSelectCountryTitle": "Land auswählen",
   "selectStateDialogStayAnonymous": "Ich möchte anonym bleiben",
+  "settingsLegalLicensesTitle": "Lizenzen",
+  "settingsLegalTermsTitle": "Allgemeine Nutzungsbedingungen (ANB)",
+  "settingsOptionMyAccount": "Mein Konto",
+  "settingsOptionSourceCode": "Quellcode",
+  "settingsOptionWebApp": "Web-App",
+  "settingsPrivacyPolicyLinkText": "Settings Privacy Policy Link Text",
+  "settingsPrivacyPolicySentencePrefix": "Settings Privacy Policy Sentence Prefix",
+  "settingsPrivacyPolicySentenceSuffix": "Settings Privacy Policy Sentence Suffix",
+  "settingsSectionAppSettings": "App-Einstellungen",
+  "settingsSectionLegal": "Rechtliches",
+  "settingsSectionMore": "Mehr",
   "sharezonePlusAdvantageAddToCalendarDescription": "Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android \u0026 iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.",
   "sharezonePlusAdvantageAddToCalendarTitle": "Termine zum lokalen Kalender hinzufügen",
   "sharezonePlusAdvantageDiscordDescription": "Erhalte den Discord Sharezone Plus Rang auf unserem [Discord-Server](https://sharezone.net/discord). Dieser Rang zeigt, dass du Sharezone Plus hast und gibt dir Zugriff auf einen exklusive Channel nur für Sharezone Plus Nutzer.",
@@ -771,6 +1677,12 @@
   "sharezonePlusTestFlightTitle": "TestFlight",
   "sharezonePlusUnsubscribeActiveText": "Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.",
   "sharezonePlusUnsubscribeLifetimeText": "Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!",
+  "sharezoneV2DialogAnbAcceptanceCheckbox": "Sharezone V2 Dialog Anb Acceptance Checkbox",
+  "sharezoneV2DialogChangedLegalFormHeader": "Geänderte Rechtsform",
+  "sharezoneV2DialogPrivacyPolicyRevisionHeader": "Überarbeitung der Datenschutzerklärung",
+  "sharezoneV2DialogSubmitError": "Es ist ein Fehler aufgetreten: {value}. Falls dieser bestehen bleibt, dann schreibe uns unter support@sharezone.net",
+  "sharezoneV2DialogTermsHeader": "Allgemeine Nutzungsbedingungen (ANB)",
+  "sharezoneV2DialogTitle": "Sharezone v2.0",
   "sharezoneWidgetsCenteredErrorMessage": "Es gab leider einen Fehler beim Laden 😖\nVersuche es später einfach nochmal.",
   "sharezoneWidgetsCourseTileNoCourseSelected": "Keinen Kurs ausgewählt",
   "sharezoneWidgetsCourseTileTitle": "Kurs",
@@ -811,6 +1723,29 @@
   "sharezoneWidgetsSnackbarSaved": "Änderung wurde erfolgreich gespeichert",
   "sharezoneWidgetsSnackbarSendingDataToFrankfurt": "Daten werden nach Frankfurt transportiert...",
   "sharezoneWidgetsTextFieldCannotBeEmptyError": "Das Textfeld darf nicht leer sein!",
+  "signInWithQrCodeLoadingMessage": "Die Erstellung des QR-Codes kann einige Sekunden dauern...",
+  "signInWithQrCodeStep1": "Öffne Sharezone auf deinem Handy / Tablet",
+  "signInWithQrCodeStep2": "Öffne die Einstellungen über die seitliche Navigation",
+  "signInWithQrCodeStep3": "Tippe auf \"Web-App\"",
+  "signInWithQrCodeStep4": "Tippe auf \"QR-Code scannen\" und richte die Kamera auf deinen Bildschirm",
+  "signInWithQrCodeTitle": "So meldest du dich über einen QR-Code an:",
+  "signOutDialogConfirmation": "Möchtest du dich wirklich abmelden?",
+  "signUpAdvantageAllInOne": "All-In-One-App für die Schule",
+  "signUpAdvantageCloud": "Schulplaner über die Cloud mit der Klasse teilen",
+  "signUpAdvantageHomeworkReminder": "Erinnerungen an offene Hausaufgaben",
+  "signUpAdvantageSaveTime": "Große Zeitersparnis durch gemeinsames Organisieren",
+  "signUpAdvantagesTitle": "Vorteile von Sharezone",
+  "signUpDataProtectionAesTitle": "AES 256-Bit serverseitige Verschlüsselung",
+  "signUpDataProtectionAnonymousSignInSubtitle": "IP-Adresse wird zwangsläufig temporär gespeichert",
+  "signUpDataProtectionAnonymousSignInTitle": "Anmeldung ohne personenbezogene Daten",
+  "signUpDataProtectionDeleteDataTitle": "Einfaches Löschen der Daten",
+  "signUpDataProtectionIsoTitle": "ISO27001, ISO27012 \u0026 ISO27018 zertifiziert*",
+  "signUpDataProtectionServerLocationSubtitle": "Mit Ausnahme des Authentifizierungs-Server",
+  "signUpDataProtectionServerLocationTitle": "Standort der Server: Frankfurt (Deutschland)",
+  "signUpDataProtectionSocSubtitle": "* Zertifizierung von unserem Hosting-Anbieter",
+  "signUpDataProtectionSocTitle": "SOC1, SOC2, \u0026 SOC3 zertifiziert*",
+  "signUpDataProtectionTitle": "Datenschutz",
+  "signUpDataProtectionTlsTitle": "TLS-Verschlüsselung bei der Übertragung",
   "socialDiscord": "Discord",
   "socialEmail": "E-Mail",
   "socialGitHub": "GitHub",
@@ -930,6 +1865,34 @@
   "submissionsListMissingSection": "Nicht abgegeben 😭",
   "submissionsListNoMembersPlaceholder": "Vergessen Teilnehmer in den Kurs einzuladen?",
   "submissionsListTitle": "Abgaben",
+  "supportPageBody": "Du hast einen Fehler gefunden, hast Feedback oder einfach eine Frage über Sharezone? Kontaktiere uns und wir helfen dir weiter!",
+  "supportPageDiscordIconSemanticsLabel": "Discord Icon",
+  "supportPageDiscordPrivacyContent": "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
+  "supportPageDiscordPrivacyTitle": "Discord Datenschutz",
+  "supportPageDiscordSubtitle": "Community-Support",
+  "supportPageDiscordTitle": "Discord",
+  "supportPageEmailAddress": "E-Mail: {email}",
+  "@supportPageEmailAddress": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "supportPageEmailIconSemanticsLabel": "E-Mail Icon",
+  "supportPageEmailTitle": "E-Mail",
+  "supportPageFreeSupportSubtitle": "Bitte beachte, dass die Wartezeit beim kostenfreien Support bis zu 2 Wochen betragen kann.",
+  "supportPageFreeSupportTitle": "Kostenfreier Support",
+  "supportPageHeadline": "Du brauchst Hilfe?",
+  "supportPagePlusAdvertisingBulletOne": "Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)",
+  "supportPagePlusAdvertisingBulletTwo": "Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)",
+  "supportPagePlusEmailSubtitle": "Erhalte eine Rückmeldung innerhalb von wenigen Stunden.",
+  "supportPagePlusSupportSubtitle": "Als Sharezone Plus Nutzer hast du Zugriff auf unseren Premium Support.",
+  "supportPagePlusSupportTitle": "Plus Support",
+  "supportPageTitle": "Support",
+  "supportPageVideoCallRequiresSignIn": "Du musst angemeldet sein, um einen Videocall zu vereinbaren.",
+  "supportPageVideoCallSubtitle": "Nach Terminvereinbarung, bei Bedarf kann ebenfalls der Bildschirm geteilt werden.",
+  "supportPageVideoCallTitle": "Videocall-Support",
   "themeDarkMode": "Dunkler Modus",
   "themeLightDarkModeSectionTitle": "Heller \u0026 Dunkler Modus",
   "themeLightMode": "Heller Modus",
@@ -948,6 +1911,17 @@
   },
   "themeNavigationExperimentSectionContent": "Wir testen aktuell eine neue Navigation. Bitte gib über die Feedback-Box oder unseren Discord-Server eine kurze Rückmeldung, wie du die jeweiligen Optionen findest.",
   "themeNavigationExperimentSectionTitle": "Experiment: Neue Navigation",
+  "themeNavigationOptionTitle": "Option {number}: {optionName}",
+  "@themeNavigationOptionTitle": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "optionName": {
+        "type": "String"
+      }
+    }
+  },
   "themeRateOurAppCardContent": "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
   "themeRateOurAppCardRateButton": "Bewerten",
   "themeRateOurAppCardRatingsNotAvailableOnWebDialogContent": "Über die Web-App kann die App nicht bewertet werden. Nimm dafür einfach dein Handy 👍",
@@ -955,6 +1929,17 @@
   "themeRateOurAppCardTitle": "Gefällt dir Sharezone?",
   "themeSystemMode": "System",
   "themeTitle": "Erscheinungsbild",
+  "timetableAddAbWeeksPrefix": " A/B Wochen kannst du in den ",
+  "timetableAddAbWeeksSettings": "Einstellungen",
+  "timetableAddAbWeeksSuffix": " aktivieren.",
+  "timetableAddAutoRecurringInfo": "Schulstunden werden automatisch auch für die nächsten Wochen eingetragen.",
+  "timetableAddJoinCourseAction": "Timetable Add Join Course Action",
+  "timetableAddLessonTitle": "Schulstunde hinzufügen",
+  "timetableAddRoomAndTeacherOptionalTitle": "Timetable Add Room And Teacher Optional Title",
+  "timetableAddSelectCourseTitle": "Timetable Add Select Course Title",
+  "timetableAddSelectWeekTypeTitle": "Timetable Add Select Week Type Title",
+  "timetableAddSelectWeekdayTitle": "Timetable Add Select Weekday Title",
+  "timetableAddUnknownError": "Timetable Add Unknown Error",
   "timetableDeleteAllDialogDeleteCountdown": "Löschen ({seconds})",
   "@timetableDeleteAllDialogDeleteCountdown": {
     "description": "Countdown label for the delete action in the delete all lessons dialog.",
@@ -977,6 +1962,28 @@
   "@timetableDeleteAllSuggestionTitle": {
     "description": "Overlay title suggesting deleting the entire timetable."
   },
+  "timetableEditCourseLocked": "Der Kurs kann nicht mehr nachträglich geändert werden.",
+  "timetableEditEndTime": "Endzeit",
+  "timetableEditEventTitle": "{eventType} bearbeiten",
+  "@timetableEditEventTitle": {
+    "placeholders": {
+      "eventType": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableEditLessonTitle": "Schulstunde bearbeiten",
+  "timetableEditNoPeriodSelected": "Keine Stunde ausgewählt",
+  "timetableEditPeriodSelected": "{number}. Stunde",
+  "@timetableEditPeriodSelected": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "timetableEditStartTime": "Startzeit",
+  "timetableEditTeacherHint": "z.B. Frau Stark",
   "timetableErrorEndTimeBeforeNextLessonStart": "Die Endzeit ist vor der Startzeit der nächsten Stunde!",
   "@timetableErrorEndTimeBeforeNextLessonStart": {
     "description": "Error message shown when the end time is before the next lesson's start time."
@@ -1017,6 +2024,106 @@
   "@timetableErrorWeekdayMissing": {
     "description": "Error message shown when no weekday is selected."
   },
+  "timetableEventCardChangeColorAction": "Timetable Event Card Change Color Action",
+  "timetableEventCardEventTitle": "Termin: {value}",
+  "timetableEventCardExamTitle": "Prüfung: {value}",
+  "timetableEventDetailsAddToCalendarButton": "IN KALENDER EINTRAGEN",
+  "timetableEventDetailsAddToCalendarPlusDescription": "Mit Sharezone Plus kannst du kinderleicht die Termine aus Sharezone in deinen lokalen Kalender (z.B. Apple oder Google Kalender) übertragen.",
+  "timetableEventDetailsAddToCalendarTitle": "Termin zum Kalender hinzufügen",
+  "timetableEventDetailsDeleteDialog": "Möchtest du wirklich diesen Termin löschen?",
+  "timetableEventDetailsDeletedConfirmation": "Termin wurde gelöscht",
+  "timetableEventDetailsEditedConfirmation": "Termin wurde erfolgreich bearbeitet",
+  "timetableEventDetailsExamTopics": "Themen der Prüfung",
+  "timetableEventDetailsLabel": "Details",
+  "timetableEventDetailsReport": "{itemType} melden",
+  "@timetableEventDetailsReport": {
+    "placeholders": {
+      "itemType": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableEventDetailsRoom": "Raum: {room}",
+  "@timetableEventDetailsRoom": {
+    "placeholders": {
+      "room": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableEventDialogDateSelectionNotPossible": "Timetable Event Dialog Date Selection Not Possible",
+  "timetableEventDialogDateSelectionNotPossibleContent": "Aktuell ist nicht möglich, einen Termin oder eine Klausur über mehrere Tage hinweg zu haben.",
+  "timetableEventDialogDescriptionHintEvent": "Timetable Event Dialog Description Hint Event",
+  "timetableEventDialogDescriptionHintExam": "Timetable Event Dialog Description Hint Exam",
+  "timetableEventDialogNotifyCourseMembersEvent": "Timetable Event Dialog Notify Course Members Event",
+  "timetableEventDialogNotifyCourseMembersExam": "Timetable Event Dialog Notify Course Members Exam",
+  "timetableEventDialogNotifyCourseMembersTitle": "Timetable Event Dialog Notify Course Members Title",
+  "timetableFabAddTooltip": "Stunde/Termin hinzufügen",
+  "timetableFabLessonAddedConfirmation": "Die Schulstunde wurde erfolgreich hinzugefügt",
+  "timetableFabOptionEvent": "Termin",
+  "timetableFabOptionExam": "Prüfung",
+  "timetableFabOptionLesson": "Schulstunde",
+  "timetableFabOptionSubstitutions": "Vertretungsplan",
+  "timetableFabSectionCalendar": "Kalender",
+  "timetableFabSectionTimetable": "Stundenplan",
+  "timetableFabSubstitutionsDialogTitle": "Vertretungsplan",
+  "timetableFabSubstitutionsStepOne": "1. Navigiere zu der betroffenen Schulstunde.",
+  "timetableFabSubstitutionsStepThree": "3. Wähle die Art der Vertretung aus.",
+  "timetableFabSubstitutionsStepTwo": "2. Klicke auf die Schulstunde.",
+  "timetableLessonDetailsAddHomeworkTooltip": "Hausaufgabe hinzufügen",
+  "timetableLessonDetailsArrowLocation": "-\u003e {location}",
+  "@timetableLessonDetailsArrowLocation": {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableLessonDetailsChangeColor": "Farbe ändern",
+  "timetableLessonDetailsCourseName": "Kursname: ",
+  "timetableLessonDetailsDeleteDialogConfirm": "Mir ist bewusst, dass die Stunde für alle Teilnehmer aus dem Kurs gelöscht wird.",
+  "timetableLessonDetailsDeleteDialogMessage": "Möchtest du wirklich die Schulstunde für den gesamten Kurs löschen?",
+  "timetableLessonDetailsDeleteTitle": "Stunde löschen",
+  "timetableLessonDetailsDeletedConfirmation": "Schulstunde wurde gelöscht",
+  "timetableLessonDetailsEditedConfirmation": "Schulstunde wurde erfolgreich bearbeitet",
+  "timetableLessonDetailsRoom": "Raum: ",
+  "timetableLessonDetailsSubstitutionPlusDescription": "Schalte mit Sharezone Plus den Vertretungsplan frei, um z.B. den Entfall einer Schulstunden zu markieren.\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern).",
+  "timetableLessonDetailsTeacher": "Lehrkraft: ",
+  "timetableLessonDetailsTeacherInTimetableDescription": "Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt.",
+  "timetableLessonDetailsTeacherInTimetableTitle": "Lehrkraft im Stundenplan",
+  "timetableLessonDetailsTimeRange": "{startTime} - {endTime}",
+  "@timetableLessonDetailsTimeRange": {
+    "placeholders": {
+      "endTime": {
+        "type": "String"
+      },
+      "startTime": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableLessonDetailsWeekType": "Wochentyp: {weekType}",
+  "@timetableLessonDetailsWeekType": {
+    "placeholders": {
+      "weekType": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableLessonDetailsWeekday": "Wochentag: {weekday}",
+  "@timetableLessonDetailsWeekday": {
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      }
+    }
+  },
+  "timetablePageSettingsTooltip": "Timetable Page Settings Tooltip",
+  "timetableQuickCreateEmptyTitle": "Timetable Quick Create Empty Title",
+  "timetableQuickCreateTitle": "Timetable Quick Create Title",
+  "timetableSchoolClassFilterAllClasses": "Alle Schulklassen",
+  "timetableSchoolClassFilterAllShort": "Alle",
+  "timetableSchoolClassFilterLabel": "Schulklasse: {value}",
   "timetableSettingsABWeekTileTitle": "A/B Wochen",
   "timetableSettingsAWeeksAreEvenSwitch": "A-Wochen sind gerade Kalenderwochen",
   "timetableSettingsDeleteAllLessonsConfirmation": "Stunden wurden gelöscht.",
@@ -1087,6 +2194,79 @@
   "@timetableSettingsTitle": {
     "description": "Title of the timetable settings page."
   },
+  "timetableSubstitutionCancelDialogAction": "Entfallen lassen",
+  "timetableSubstitutionCancelDialogDescription": "Möchtest du wirklich die Schulstunde für den gesamten Kurs entfallen lassen?",
+  "timetableSubstitutionCancelDialogNotify": "Informiere deine Kursmitglieder, dass die Stunde entfällt.",
+  "timetableSubstitutionCancelDialogTitle": "Stunde entfallen lassen",
+  "timetableSubstitutionCancelLesson": "Stunde entfallen lassen",
+  "timetableSubstitutionCancelRestored": "Entfallene Stunde wiederhergestellt",
+  "timetableSubstitutionCancelSaved": "Stunde als \"Entfällt\" markiert",
+  "timetableSubstitutionCanceledTitle": "Stunde entfällt",
+  "timetableSubstitutionChangeRoom": "Raumänderung",
+  "timetableSubstitutionChangeRoomDialogAction": "Raumänderung speichern",
+  "timetableSubstitutionChangeRoomDialogDescription": "Möchtest du wirklich den Raum für die Stunde ändern?",
+  "timetableSubstitutionChangeRoomDialogNotify": "Informiere deine Kursmitglieder über die Raumänderung.",
+  "timetableSubstitutionChangeRoomDialogTitle": "Raumänderung",
+  "timetableSubstitutionChangeTeacher": "Lehrkraft ändern",
+  "timetableSubstitutionChangeTeacherDialogAction": "Lehrkraft speichern",
+  "timetableSubstitutionChangeTeacherDialogDescription": "Möchtest du wirklich die Vertretungslehrkraft ändern?",
+  "timetableSubstitutionChangeTeacherDialogNotify": "Informiere deine Kursmitglieder über die Lehrkraftänderung.",
+  "timetableSubstitutionChangeTeacherDialogTitle": "Vertretungslehrkraft ändern",
+  "timetableSubstitutionEditRoomTooltip": "Raum ändern",
+  "timetableSubstitutionEditTeacherTooltip": "Lehrkraft ändern",
+  "timetableSubstitutionEnteredBy": "Eingetragen von: {name}",
+  "@timetableSubstitutionEnteredBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableSubstitutionNewRoomHint": "z.B. D203",
+  "timetableSubstitutionNewRoomLabel": "Neuer Raum",
+  "timetableSubstitutionNoPermissionSubtitle": "Bitte wende dich an deinen Kurs-Administrator.",
+  "timetableSubstitutionNoPermissionTitle": "Du hast keine Berechtigung, den Vertretungsplan zu ändern.",
+  "timetableSubstitutionRemoveAction": "Entfernen",
+  "timetableSubstitutionRemoveRoomDialogDescription": "Möchtest du wirklich die Raumänderung für die Stunde entfernen?",
+  "timetableSubstitutionRemoveRoomDialogNotify": "Informiere deine Kursmitglieder über die Entfernung.",
+  "timetableSubstitutionRemoveRoomDialogTitle": "Raumänderung entfernen",
+  "timetableSubstitutionRemoveTeacherDialogDescription": "Möchtest du wirklich die Vertretungslehrkraft für die Stunde entfernen?",
+  "timetableSubstitutionRemoveTeacherDialogNotify": "Informiere deine Kursmitglieder über die Entfernung.",
+  "timetableSubstitutionRemoveTeacherDialogTitle": "Vertretungslehrkraft entfernen",
+  "timetableSubstitutionReplacement": "Vertretung: {teacher}",
+  "@timetableSubstitutionReplacement": {
+    "placeholders": {
+      "teacher": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableSubstitutionRestoreDialogAction": "Wiederherstellen",
+  "timetableSubstitutionRestoreDialogDescription": "Möchtest du wirklich die Stunde wieder stattfinden lassen?",
+  "timetableSubstitutionRestoreDialogNotify": "Informiere deine Kursmitglieder, dass die Stunde stattfindet.",
+  "timetableSubstitutionRestoreDialogTitle": "Entfallene Stunde wiederherstellen",
+  "timetableSubstitutionRoomChanged": "Raumänderung: {room}",
+  "@timetableSubstitutionRoomChanged": {
+    "placeholders": {
+      "room": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableSubstitutionRoomRemoved": "Raumänderung entfernt",
+  "timetableSubstitutionRoomSaved": "Raumänderung eingetragen",
+  "timetableSubstitutionSectionForDate": "Für {date}",
+  "@timetableSubstitutionSectionForDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "timetableSubstitutionSectionTitle": "Vertretungsplan",
+  "timetableSubstitutionTeacherRemoved": "Vertretungslehrkraft entfernt",
+  "timetableSubstitutionTeacherSaved": "Vertretungslehrkraft eingetragen",
+  "timetableSubstitutionUndoTooltip": "Rückgängig machen",
   "typeOfUserParent": "Elternteil",
   "@typeOfUserParent": {
     "description": "Label for the type of user parent."
@@ -1120,6 +2300,8 @@
   "@useAccountInstructionsVideoTitle": {
     "description": "Title above the explanatory video for using multiple devices."
   },
+  "userCommentFieldEmptyError": "User Comment Field Empty Error",
+  "userCommentFieldHint": "User Comment Field Hint",
   "userEditLoadingUserSnackbar": "Informationen werden geladen! Warte kurz.",
   "@userEditLoadingUserSnackbar": {
     "description": "Snackbar text while waiting for the user data to load before opening the edit screen."
@@ -1140,6 +2322,11 @@
   "@userEditSubmittingSnackbar": {
     "description": "Loading snackbar text shown while the edit form submits."
   },
+  "webAppSettingsDescription": "Besuche für weitere Informationen einfach https://web.sharezone.net.",
+  "webAppSettingsHeadline": "Sharezone für's Web!",
+  "webAppSettingsQrCodeHint": "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
+  "webAppSettingsScanQrCodeDescription": "Geh auf web.sharezone.net und scanne den QR-Code.",
+  "webAppSettingsScanQrCodeTitle": "QR-Code scannen",
   "websiteAllInOneFeatureImageLabel": "Ein Bild der Funktion {feature}",
   "@websiteAllInOneFeatureImageLabel": {
     "placeholders": {
@@ -1258,6 +2445,8 @@
   "websiteWelcomeDescriptionSemanticLabel": "Beschreibung der Sharezone App",
   "websiteWelcomeHeadline": "Simpel. Sicher. Stabil.",
   "websiteWelcomeHeadlineSemanticLabel": "Überschrift der Sharezone App",
+  "weekdaysEditSaved": "Die aktivierten Wochentage wurden erfolgreich geändert.",
+  "weekdaysEditTitle": "Schultage",
   "writePermissionEveryone": "Alle",
   "writePermissionOnlyAdmins": "Nur Admins"
 }

@@ -8,6 +8,7 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -71,7 +72,7 @@ class _AppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Einstellung: $name');
+    return Text(context.l10n.gradesTermSettingsTitle(name));
   }
 }
 
@@ -150,7 +151,7 @@ class _Name extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.calendar_month),
-      title: const Text('Name'),
+      title: Text(context.l10n.gradesCommonName),
       subtitle: Text(name),
       onTap: () async {
         final res = await showDialog<String>(
@@ -196,13 +197,13 @@ class _NameDialogState extends State<_NameDialog> {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: const Text('Name ändern'),
+        title: Text(context.l10n.gradesTermSettingsEditNameTitle),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Der Name beschreibt das Halbjahr, z.B. '10/2' für das zweite Halbjahr der 10. Klasse.",
+                context.l10n.gradesTermSettingsEditNameDescription,
                 style: TextStyle(
                   color: Theme.of(
                     context,
@@ -214,8 +215,8 @@ class _NameDialogState extends State<_NameDialog> {
                 prefilledText: widget.name,
                 autofocus: true,
                 decoration: InputDecoration(
-                  labelText: "Name",
-                  hintText: "z.B. 10/2",
+                  labelText: context.l10n.gradesCommonName,
+                  hintText: context.l10n.gradesTermSettingsNameHint,
                   errorText: errorText,
                 ),
                 onEditingComplete: () {
@@ -228,7 +229,10 @@ class _NameDialogState extends State<_NameDialog> {
                     this.value = value;
 
                     final isValid = value.isNotEmpty;
-                    errorText = isValid ? null : 'Bitte gib einen Namen ein.';
+                    errorText =
+                        isValid
+                            ? null
+                            : context.l10n.gradesTermSettingsNameRequired;
                   });
                 },
               ),
@@ -238,14 +242,14 @@ class _NameDialogState extends State<_NameDialog> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Abbrechen'),
+            child: Text(context.l10n.commonActionsCancel),
           ),
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 250),
             child: FilledButton(
               onPressed:
                   isValid ? () => Navigator.of(context).pop(value) : null,
-              child: const Text('Speichern'),
+              child: Text(context.l10n.commonActionsSave),
             ),
           ),
         ],
@@ -285,9 +289,9 @@ class _SubjectWeights extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Gewichtung der Kurse für Notenschnitt vom Halbjahr',
-          style: TextStyle(fontSize: 16),
+        Text(
+          context.l10n.gradesTermSettingsCourseWeightingTitle,
+          style: const TextStyle(fontSize: 16),
         ),
         const SizedBox(height: 8),
         _WeightDisplaySetting(
@@ -299,7 +303,7 @@ class _SubjectWeights extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Solltest du Kurse haben, die doppelt gewichtet werden, kannst du bei diesen eine 2.0 eintragen.',
+          context.l10n.gradesTermSettingsCourseWeightingDescription,
           style: TextStyle(
             color: Theme.of(
               context,
@@ -309,7 +313,7 @@ class _SubjectWeights extends StatelessWidget {
         const SizedBox(height: 8),
         if (subjects.isEmpty)
           Text(
-            'Du hast bisher noch keine Fächer erstellt.',
+            context.l10n.gradesTermSettingsNoSubjectsYet,
             style: TextStyle(
               color: Theme.of(
                 context,
@@ -332,32 +336,38 @@ class _WeightDisplaySetting extends StatelessWidget {
   final WeightDisplayType weightDisplayType;
   final void Function(WeightDisplayType) onWeightDisplayTypeChanged;
 
-  String get weightDisplayTypeString => switch (weightDisplayType) {
-    WeightDisplayType.factor => 'Faktor',
-    WeightDisplayType.percent => 'Prozent',
-  };
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Symbols.weight, fill: 1),
-      title: const Text('Gewichtungssystem'),
-      subtitle: Text(weightDisplayTypeString),
+      title: Text(context.l10n.gradesTermSettingsWeightDisplayTypeTitle),
+      subtitle: Text(switch (weightDisplayType) {
+        WeightDisplayType.factor =>
+          context.l10n.gradesTermSettingsWeightDisplayTypeFactor,
+        WeightDisplayType.percent =>
+          context.l10n.gradesTermSettingsWeightDisplayTypePercent,
+      }),
       onTap: () async {
         final result = await showDialog<WeightDisplayType?>(
           context: context,
           builder:
               (context) => SimpleDialog(
-                title: const Text('Gewichtungssystem'),
+                title: Text(
+                  context.l10n.gradesTermSettingsWeightDisplayTypeTitle,
+                ),
                 children: [
                   ListTile(
-                    title: const Text('Faktor'),
+                    title: Text(
+                      context.l10n.gradesTermSettingsWeightDisplayTypeFactor,
+                    ),
                     onTap: () {
                       Navigator.pop(context, WeightDisplayType.factor);
                     },
                   ),
                   ListTile(
-                    title: const Text('Prozent'),
+                    title: Text(
+                      context.l10n.gradesTermSettingsWeightDisplayTypePercent,
+                    ),
                     onTap: () {
                       Navigator.pop(context, WeightDisplayType.percent);
                     },
@@ -467,13 +477,13 @@ class _FactorDialogState extends State<_FactorDialog> {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: const Text('Gewichtung ändern'),
+        title: Text(context.l10n.gradesTermSettingsEditWeightTitle),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Die Gewichtung beschreibt, wie stark die Note des Kurses in den Halbjahresschnitt einfließt.',
+                context.l10n.gradesTermSettingsEditWeightDescription,
                 style: TextStyle(
                   color: Theme.of(
                     context,
@@ -485,8 +495,8 @@ class _FactorDialogState extends State<_FactorDialog> {
                 prefilledText: formatted,
                 autofocus: true,
                 decoration: InputDecoration(
-                  labelText: 'Gewichtung',
-                  hintText: 'z.B. 1.0',
+                  labelText: context.l10n.gradesTermSettingsWeightLabel,
+                  hintText: context.l10n.gradesTermSettingsWeightHint,
                   errorText: errorText,
                   suffixText: switch (widget.weightDisplayType) {
                     WeightDisplayType.factor => null,
@@ -503,7 +513,10 @@ class _FactorDialogState extends State<_FactorDialog> {
                     this.value = num.tryParse(value);
 
                     final isValid = this.value != null;
-                    errorText = isValid ? null : 'Bitte gib eine Zahl ein.';
+                    errorText =
+                        isValid
+                            ? null
+                            : context.l10n.gradesTermSettingsWeightInvalid;
                   });
                 },
               ),
@@ -513,7 +526,7 @@ class _FactorDialogState extends State<_FactorDialog> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Abbrechen'),
+            child: Text(context.l10n.commonActionsCancel),
           ),
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 250),
@@ -522,7 +535,7 @@ class _FactorDialogState extends State<_FactorDialog> {
                   isValid()
                       ? () => Navigator.of(context).pop(valueAsWeight)
                       : null,
-              child: const Text('Speichern'),
+              child: Text(context.l10n.commonActionsSave),
             ),
           ),
         ],

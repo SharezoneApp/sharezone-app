@@ -306,7 +306,12 @@ class _NavigationRadioTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return MergeSemantics(
       child: ListTile(
-        title: Text('Option $number: ${option.getDisplayName(context)}'),
+        title: Text(
+          context.l10n.themeNavigationOptionTitle(
+            number ?? 0,
+            option.getDisplayName(context),
+          ),
+        ),
         onTap: () => onTap(option),
         trailing: Radio(value: option),
       ),

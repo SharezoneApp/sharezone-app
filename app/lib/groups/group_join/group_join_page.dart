@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/support/support_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'bloc/group_join_bloc.dart';
@@ -72,7 +73,10 @@ class GroupJoinAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text("Beitreten", style: TextStyle(color: Colors.white)),
+      title: Text(
+        context.l10n.groupsJoinTitle,
+        style: const TextStyle(color: Colors.white),
+      ),
       automaticallyImplyLeading: withBackIcon,
       centerTitle: true,
       backgroundColor:
@@ -95,7 +99,7 @@ class _SupportIcon extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.question_answer),
       onPressed: () => Navigator.pushNamed(context, SupportPage.tag),
-      tooltip: "Support",
+      tooltip: context.l10n.supportPageTitle,
     );
   }
 }

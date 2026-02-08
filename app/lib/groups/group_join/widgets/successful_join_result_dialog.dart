@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SuccessfulJoinResultDialog extends StatelessWidget {
@@ -18,11 +19,12 @@ class SuccessfulJoinResultDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateSheetSimpleBody(
-      title: "Erfolgreich beigetreten 🎉",
+      title: context.l10n.groupJoinSuccessTitle,
       iconData: Icons.done,
       iconColor: Colors.green,
-      description:
-          "${result.groupInfo.name} wurde erfolgreich hinzugefügt. Du bist nun Mitglied.",
+      description: context.l10n.groupJoinSuccessDescription(
+        result.groupInfo.name ?? '',
+      ),
     );
   }
 }

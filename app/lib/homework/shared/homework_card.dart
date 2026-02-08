@@ -31,6 +31,7 @@ import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/navigation_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -100,24 +101,24 @@ class HomeworkCard extends StatelessWidget {
           final longPressList =
               <LongPress<_HomeworkTileLongPressModelSheetOption>>[
                 if (isStudent)
-                  const LongPress(
-                    title: 'Als erledigt markieren',
+                  LongPress(
+                    title: context.l10n.homeworkDetailsMarkAsDone,
                     icon: Icon(Icons.done),
                     popResult: _HomeworkTileLongPressModelSheetOption.done,
                   ),
-                const LongPress(
-                  title: "Melden",
+                LongPress(
+                  title: context.l10n.commonActionsReport,
                   popResult: _HomeworkTileLongPressModelSheetOption.report,
                   icon: reportIcon,
                 ),
                 if (detailsView.hasPermission) ...[
-                  const LongPress(
-                    title: 'Bearbeiten',
+                  LongPress(
+                    title: context.l10n.commonActionsEdit,
                     icon: Icon(Icons.edit),
                     popResult: _HomeworkTileLongPressModelSheetOption.edit,
                   ),
-                  const LongPress(
-                    title: 'Löschen',
+                  LongPress(
+                    title: context.l10n.commonActionsDelete,
                     icon: Icon(Icons.delete),
                     popResult: _HomeworkTileLongPressModelSheetOption.delete,
                   ),
@@ -128,7 +129,7 @@ class HomeworkCard extends StatelessWidget {
           >(
             context: context,
             longPressList: longPressList,
-            title: "Hausaufgabe: ${homework!.title}",
+            title: context.l10n.homeworkLongPressTitle(homework!.title),
           );
           if (!context.mounted) return;
 
@@ -226,7 +227,7 @@ class HomeworkCard extends StatelessWidget {
       return StreamBuilder<bool?>(
         stream: bloc.isDone,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return const Text("");
+          if (!snapshot.hasData) return const SizedBox.shrink();
           return Checkbox(
             value: snapshot.data,
             onChanged: (value) {
@@ -245,8 +246,8 @@ class HomeworkCard extends StatelessWidget {
       return IconButton(
         tooltip:
             homework!.withSubmissions
-                ? 'Abgaben anzeigen'
-                : '"Erledigt von" anzeigen',
+                ? context.l10n.homeworkCardViewSubmissionsTooltip
+                : context.l10n.homeworkCardViewCompletedByTooltip,
         iconSize: 50,
         icon: CircleAvatar(
           backgroundColor: Colors.transparent,
@@ -432,24 +433,24 @@ Future showLongPressIfUserHasPermissions(
 
   final longPressList = <LongPress<_HomeworkTileLongPressModelSheetOption>>[
     if (isStudent)
-      const LongPress(
-        title: 'Als erledigt markieren',
+      LongPress(
+        title: context.l10n.homeworkDetailsMarkAsDone,
         icon: Icon(Icons.done),
         popResult: _HomeworkTileLongPressModelSheetOption.done,
       ),
-    const LongPress(
-      title: "Melden",
+    LongPress(
+      title: context.l10n.commonActionsReport,
       popResult: _HomeworkTileLongPressModelSheetOption.report,
       icon: reportIcon,
     ),
     if (hasPermission) ...[
-      const LongPress(
-        title: 'Bearbeiten',
+      LongPress(
+        title: context.l10n.commonActionsEdit,
         icon: Icon(Icons.edit),
         popResult: _HomeworkTileLongPressModelSheetOption.edit,
       ),
-      const LongPress(
-        title: 'Löschen',
+      LongPress(
+        title: context.l10n.commonActionsDelete,
         icon: Icon(Icons.delete),
         popResult: _HomeworkTileLongPressModelSheetOption.delete,
       ),
@@ -459,7 +460,7 @@ Future showLongPressIfUserHasPermissions(
       await showLongPressAdaptiveDialog<_HomeworkTileLongPressModelSheetOption>(
         context: context,
         longPressList: longPressList,
-        title: "Hausaufgabe: ${homeworkView.title}",
+        title: context.l10n.homeworkLongPressTitle(homeworkView.title),
       );
   if (!context.mounted) return;
 

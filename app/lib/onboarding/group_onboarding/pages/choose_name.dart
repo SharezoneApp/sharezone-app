@@ -132,7 +132,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
                             bottom: PlatformCheck.isDesktopOrWeb ? 0 : 12,
                           ),
                           child: ContinueRoundButton(
-                            tooltip: 'Weiter',
+                            tooltip: context.l10n.commonActionsContinue,
                             onTap: () => _submit(context),
                           ),
                         ),

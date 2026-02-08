@@ -31,6 +31,7 @@ import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/models/homework_view.dart';
 import 'package:sharezone/dashboard/sections/ad_section.dart';
 import 'package:sharezone/dashboard/timetable/lesson_view.dart';
+import 'package:sharezone/dashboard/tips/models/rate_our_app_tip.dart';
 import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
 import 'package:sharezone/dashboard/widgets/blackboard_card_dashboard.dart';
@@ -179,7 +180,7 @@ class DashboardPageBody extends StatelessWidget {
               const HolidayCountdownSection(),
               if (kDebugMode)
                 TextButton(
-                  child: const Text('V2 Dialog öffnen'),
+                  child: Text(context.l10n.dashboardDebugOpenV2Dialog),
                   onPressed: () {
                     openSzV2AnnoucementDialog(context);
                   },

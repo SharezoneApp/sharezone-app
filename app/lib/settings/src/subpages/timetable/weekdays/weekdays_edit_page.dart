@@ -19,10 +19,7 @@ import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:user/user.dart';
 
 void _showConfirmSnackBarOfSavingEnabledWeekDays(BuildContext context) {
-  showSnackSec(
-    context: context,
-    text: "Die Angabe der aktivierten Wochentage wurden erfolgreich geändert.",
-  );
+  showSnackSec(context: context, text: context.l10n.weekdaysEditSaved);
 }
 
 Future<void> openWeekDaysEditPage(BuildContext context) async {
@@ -102,7 +99,10 @@ class _WeekDaysEditPageState extends State<_WeekDaysEditPage> {
         child: Scaffold(
           key: scaffoldKey,
           backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
-          appBar: AppBar(title: const Text("Schultage"), centerTitle: true),
+          appBar: AppBar(
+            title: Text(context.l10n.weekdaysEditTitle),
+            centerTitle: true,
+          ),
           body: StreamBuilder<EnabledWeekDays>(
             stream: bloc.weekDays,
             builder: (context, snapshot) {
@@ -135,7 +135,7 @@ class _EnabledWeekDaysEditFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      tooltip: 'Speichern',
+      tooltip: context.l10n.commonActionsSave,
       onPressed: () => _submit(context),
       child: const Icon(Icons.done),
     );

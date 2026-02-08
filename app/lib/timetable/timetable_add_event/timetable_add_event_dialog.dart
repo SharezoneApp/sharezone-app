@@ -19,6 +19,7 @@ import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
@@ -388,7 +389,7 @@ class _CourseTile extends StatelessWidget {
         child: CourseTileBase(
           key: EventDialogKeys.courseTile,
           courseName:
-              controller.course?.name ?? HwDialogErrorStrings.emptyCourse,
+              controller.course?.name ?? EventDialogErrorStrings.emptyCourse,
           errorText:
               controller.showEmptyCourseError
                   ? EventDialogErrorStrings.emptyCourse
@@ -501,9 +502,14 @@ class _DateAndTimeTile extends StatelessWidget {
                   showLeftRightAdaptiveDialog(
                     key: EventDialogKeys.dateCantBeChangedDialog,
                     context: context,
-                    title: 'Auswahl nicht möglich',
-                    content: const Text(
-                      'Aktuell ist nicht möglich, einen Termin oder eine Klausur über mehrere Tage hinweg zu haben.',
+                    title:
+                        context
+                            .l10n
+                            .timetableEventDialogDateSelectionNotPossible,
+                    content: Text(
+                      context
+                          .l10n
+                          .timetableEventDialogDateSelectionNotPossibleContent,
                     ),
                   );
                 },
@@ -576,7 +582,10 @@ class _DescriptionField extends StatelessWidget {
       padding: const EdgeInsets.only(top: 4),
       child: DescriptionFieldBase(
         textFieldKey: EventDialogKeys.descriptionTextField,
-        hintText: isExam ? 'Themen der Prüfung' : 'Zusatzinformationen',
+        hintText:
+            isExam
+                ? context.l10n.timetableEventDialogDescriptionHintExam
+                : context.l10n.timetableEventDialogDescriptionHintEvent,
         onChanged: (newDescription) {
           Provider.of<AddEventDialogController>(context, listen: false)
               .description = newDescription;
@@ -617,13 +626,15 @@ class _SendNotification extends StatelessWidget {
         bottom: false,
         child: SendNotificationBase(
           switchKey: EventDialogKeys.notifyCourseMembersSwitch,
-          title: "Kursmitglieder benachrichtigen",
+          title: context.l10n.timetableEventDialogNotifyCourseMembersTitle,
           onChanged: (newValue) {
             controller.notifyCourseMembers = newValue;
           },
           sendNotification: controller.notifyCourseMembers,
           description:
-              "Kursmitglieder über ${isExam ? 'neue Klausur' : 'neuen Termin'} benachrichtigen.",
+              isExam
+                  ? context.l10n.timetableEventDialogNotifyCourseMembersExam
+                  : context.l10n.timetableEventDialogNotifyCourseMembersEvent,
         ),
       ),
     );

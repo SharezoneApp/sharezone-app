@@ -18,6 +18,7 @@ import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller.dart';
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller_factory.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -55,7 +56,7 @@ class _PastCalendricalEventsPageState extends State<PastCalendricalEventsPage> {
       value: controller,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Vergangene Termine'),
+          title: Text(context.l10n.pastCalendricalEventsPageTitle),
           actions: const [_ToggleSortOrder()],
         ),
         body: const _Body(),
@@ -72,7 +73,7 @@ class _ToggleSortOrder extends StatelessWidget {
     final sortingOrder =
         context.watch<PastCalendricalEventsPageController>().state.sortingOrder;
     return PopupMenuButton<EventsSortingOrder>(
-      tooltip: 'Sortierreihenfolge',
+      tooltip: context.l10n.pastCalendricalEventsPageSortOrderTooltip,
       onSelected: (order) {
         context.read<PastCalendricalEventsPageController>().setSortOrder(order);
       },
@@ -116,12 +117,16 @@ class _SortingTile extends StatelessWidget {
               )
               : const SizedBox(width: 24, height: 24),
       title: Text(switch (value) {
-        EventsSortingOrder.ascending => 'Aufsteigend',
-        EventsSortingOrder.descending => 'Absteigend',
+        EventsSortingOrder.ascending =>
+          context.l10n.pastCalendricalEventsPageSortAscending,
+        EventsSortingOrder.descending =>
+          context.l10n.pastCalendricalEventsPageSortDescending,
       }),
       subtitle: Text(switch (value) {
-        EventsSortingOrder.ascending => 'Älteste Termine zuerst',
-        EventsSortingOrder.descending => 'Neueste Termine zuerst',
+        EventsSortingOrder.ascending =>
+          context.l10n.pastCalendricalEventsPageSortAscendingSubtitle,
+        EventsSortingOrder.descending =>
+          context.l10n.pastCalendricalEventsPageSortDescendingSubtitle,
       }),
       mouseCursor: SystemMouseCursors.click,
       contentPadding: const EdgeInsets.symmetric(horizontal: 0),
@@ -169,7 +174,7 @@ class _SharezonePlusAd extends StatelessWidget {
         createdOn: DateTime(2023, 1, 1),
         authorID: 'authorId',
         groupID: 'groupId',
-        title: 'title',
+        title: title,
         date: Date('01-01-2023'),
         detail: null,
         endTime: Time(hour: 12, minute: 0),
@@ -190,49 +195,49 @@ class _SharezonePlusAd extends StatelessWidget {
     final random = Random(42);
     final dummyEvents = [
       _createDummyEventView(
-        title: 'Sportfest',
+        title: context.l10n.pastCalendricalEventsDummyTitleSportsFestival,
         dateText: 'Jan 1, 2023',
         random: random,
         courseName: 'Sport',
       ),
       _createDummyEventView(
-        title: 'Klausur Nr. 2',
+        title: context.l10n.pastCalendricalEventsDummyTitleExam2,
         dateText: 'Feb 12, 2023',
         random: random,
         courseName: 'Mathe',
       ),
       _createDummyEventView(
-        title: 'Elternsprechtag',
+        title: context.l10n.pastCalendricalEventsDummyTitleParentTeacherDay,
         dateText: 'Apr 3, 2023',
         random: random,
         courseName: 'Orga',
       ),
       _createDummyEventView(
-        title: 'Klausur Nr. 3',
+        title: context.l10n.pastCalendricalEventsDummyTitleExam3,
         dateText: 'Apr 12, 2023',
         random: random,
         courseName: 'Mathe',
       ),
       _createDummyEventView(
-        title: 'Klausur Nr. 4',
+        title: context.l10n.pastCalendricalEventsDummyTitleExam4,
         dateText: 'Apr 12, 2023',
         random: random,
         courseName: 'Mathe',
       ),
       _createDummyEventView(
-        title: 'Schulfrei',
+        title: context.l10n.pastCalendricalEventsDummyTitleNoSchool,
         dateText: 'Apr 13, 2023',
         random: random,
         courseName: 'Orga',
       ),
       _createDummyEventView(
-        title: 'Klausur Nr. 5',
+        title: context.l10n.pastCalendricalEventsDummyTitleExam5,
         dateText: 'Jun 14, 2023',
         random: random,
         courseName: 'Mathe',
       ),
       _createDummyEventView(
-        title: 'Test Nr. 6',
+        title: context.l10n.pastCalendricalEventsDummyTitleTest6,
         dateText: 'Jun 14, 2023',
         random: random,
         courseName: 'Biologie',
@@ -262,9 +267,7 @@ class _SharezonePlusAd extends StatelessWidget {
             withLearnMoreButton: true,
             onLearnMorePressed: () => navigateToSharezonePlusPage(context),
             underlayColor: Theme.of(context).scaffoldBackgroundColor,
-            child: const Text(
-              'Erwerbe Sharezone Plus, um alle vergangenen Termine einzusehen.',
-            ),
+            child: Text(context.l10n.pastCalendricalEventsPagePlusDescription),
           ),
         ),
       ],
@@ -301,7 +304,7 @@ class _EmptyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Keine vergangenen Termine'));
+    return Center(child: Text(context.l10n.pastCalendricalEventsPageEmpty));
   }
 }
 
@@ -325,7 +328,7 @@ class _Error extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: SelectableText(
-          'Fehler beim Laden der vergangenen Termine: $error',
+          context.l10n.pastCalendricalEventsPageError(error),
           textAlign: TextAlign.center,
           style: TextStyle(color: Theme.of(context).colorScheme.error),
         ),

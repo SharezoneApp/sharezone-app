@@ -19,6 +19,7 @@ import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_blo
 import 'package:sharezone/onboarding/group_onboarding/pages/create_courses.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
@@ -121,9 +122,9 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
                         onEditingComplete: () {
                           if (isValid) onSubmit(context, name);
                         },
-                        decoration: const InputDecoration(
-                          hintText: 'z.B. 10A',
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          hintText: context.l10n.groupOnboardingSchoolClassHint,
+                          border: const OutlineInputBorder(),
                         ),
                         textCapitalization: TextCapitalization.sentences,
                       ),
@@ -140,7 +141,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
                               : Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
                                 child: ContinueRoundButton(
-                                  tooltip: 'Weiter',
+                                  tooltip: context.l10n.commonActionsContinue,
                                   onTap:
                                       isValid
                                           ? () => onSubmit(context, name)

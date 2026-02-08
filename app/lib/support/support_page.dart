@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,10 @@ class SupportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watch<SupportPageController>();
     return Scaffold(
-      appBar: AppBar(title: const Text('Support'), centerTitle: true),
+      appBar: AppBar(
+        title: Text(context.l10n.supportPageTitle),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: 12,
@@ -88,15 +92,18 @@ class _Header extends StatelessWidget {
           child: SvgPicture.asset('assets/icons/confused.svg'),
         ),
       ),
-      children: const <Widget>[
-        Text('Du brauchst Hilfe?', style: TextStyle(fontSize: 26)),
-        SizedBox(height: 4),
+      children: <Widget>[
+        Text(
+          context.l10n.supportPageHeadline,
+          style: const TextStyle(fontSize: 26),
+        ),
+        const SizedBox(height: 4),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text(
-            'Du hast einen Fehler gefunden, hast Feedback oder einfach eine Frage über Sharezone? Kontaktiere uns und wir helfen dir weiter!',
+            context.l10n.supportPageBody,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: Colors.grey),
+            style: const TextStyle(fontSize: 14, color: Colors.grey),
           ),
         ),
       ],
@@ -109,13 +116,11 @@ class _FreeSupport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _SupportPlanBase(
+    return _SupportPlanBase(
       key: ValueKey('free-support'),
-      title: Text('Kostenfreier Support'),
-      subtitle: Text(
-        'Bitte beachte, dass die Wartezeit beim kostenfreien Support bis zu 2 Wochen betragen kann.',
-      ),
-      body: Column(children: [_DiscordTile(), _FreeEmailTile()]),
+      title: Text(context.l10n.supportPageFreeSupportTitle),
+      subtitle: Text(context.l10n.supportPageFreeSupportSubtitle),
+      body: const Column(children: [_DiscordTile(), _FreeEmailTile()]),
     );
   }
 }
@@ -125,13 +130,11 @@ class _PlusSupport extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _SupportPlanBase(
+    return _SupportPlanBase(
       key: ValueKey('plus-support'),
-      title: Text('Plus Support'),
-      subtitle: Text(
-        'Als Sharezone Plus Nutzer hast du Zugriff auf unseren Premium Support.',
-      ),
-      body: Column(
+      title: Text(context.l10n.supportPagePlusSupportTitle),
+      subtitle: Text(context.l10n.supportPagePlusSupportSubtitle),
+      body: const Column(
         children: [_PlusEmailTile(), _VideoCallTile(), _DiscordTile()],
       ),
     );
@@ -213,9 +216,9 @@ class _FreeEmailTile extends StatelessWidget {
       icon: SvgPicture.asset(
         'assets/icons/email.svg',
         colorFilter: ColorFilter.mode(context.primaryColor, BlendMode.srcIn),
-        semanticsLabel: 'E-Mail Icon',
+        semanticsLabel: context.l10n.supportPageEmailIconSemanticsLabel,
       ),
-      title: 'E-Mail',
+      title: context.l10n.supportPageEmailTitle,
       subtitle: freeSupportEmail,
       onPressed: () async {
         try {
@@ -223,7 +226,10 @@ class _FreeEmailTile extends StatelessWidget {
           await controller.sendEmailToFreeSupport();
         } on Exception catch (_) {
           if (!context.mounted) return;
-          showSnackSec(context: context, text: 'E-Mail: $freeSupportEmail');
+          showSnackSec(
+            context: context,
+            text: context.l10n.supportPageEmailAddress(freeSupportEmail),
+          );
         }
       },
     );
@@ -240,17 +246,20 @@ class _PlusEmailTile extends StatelessWidget {
       icon: SvgPicture.asset(
         'assets/icons/email.svg',
         colorFilter: ColorFilter.mode(context.primaryColor, BlendMode.srcIn),
-        semanticsLabel: 'E-Mail Icon',
+        semanticsLabel: context.l10n.supportPageEmailIconSemanticsLabel,
       ),
-      title: 'E-Mail',
-      subtitle: 'Erhalte eine Rückmeldung innerhalb von wenigen Stunden.',
+      title: context.l10n.supportPageEmailTitle,
+      subtitle: context.l10n.supportPagePlusEmailSubtitle,
       onPressed: () async {
         try {
           final controller = context.read<SupportPageController>();
           await controller.sendEmailToPlusSupport();
         } on Exception catch (_) {
           if (!context.mounted) return;
-          showSnackSec(context: context, text: 'E-Mail: $plusSupportEmail');
+          showSnackSec(
+            context: context,
+            text: context.l10n.supportPageEmailAddress(plusSupportEmail),
+          );
         }
       },
     );
@@ -270,10 +279,10 @@ class _VideoCallTile extends StatelessWidget {
     } on UserNotAuthenticatedException catch (_) {
       showSnackSec(
         context: context,
-        text: 'Du musst angemeldet sein, um einen Videocall zu vereinbaren.',
+        text: context.l10n.supportPageVideoCallRequiresSignIn,
       );
     } on Exception catch (_) {
-      showSnackSec(context: context, text: 'Es ist ein Fehler aufgetreten.');
+      showSnackSec(context: context, text: context.l10n.commonErrorGeneric);
     }
   }
 
@@ -281,9 +290,8 @@ class _VideoCallTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return _SupportCard(
       icon: Icon(Icons.video_call, color: context.primaryColor),
-      title: 'Videocall-Support',
-      subtitle:
-          'Nach Terminvereinbarung, bei Bedarf kann ebenfalls der Bildschirm geteilt werden.',
+      title: context.l10n.supportPageVideoCallTitle,
+      subtitle: context.l10n.supportPageVideoCallSubtitle,
       onPressed: () => launchVideoCallPage(context),
     );
   }
@@ -302,7 +310,7 @@ class _SharezonePlusAdvertising extends StatelessWidget {
   Widget build(BuildContext context) {
     return _SupportPlanBase(
       key: const ValueKey('sharezone-plus-advertising'),
-      title: const Text('Plus Support'),
+      title: Text(context.l10n.supportPagePlusSupportTitle),
       body: Padding(
         padding: const EdgeInsets.only(top: 12),
         child: SizedBox(
@@ -310,19 +318,17 @@ class _SharezonePlusAdvertising extends StatelessWidget {
           child: SharezonePlusFeatureInfoCard(
             withLearnMoreButton: true,
             onLearnMorePressed: () => _navigateToSharezonePlusPage(context),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    'Mit Sharezone Plus erhältst du Zugriff auf unseren Premium Support.',
-                  ),
-                  SizedBox(height: 8),
+                  Text(context.l10n.supportPagePlusSupportSubtitle),
+                  const SizedBox(height: 8),
                   MarkdownBody(
                     data:
-                        '''- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)
-- Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)''',
+                        '''- ${context.l10n.supportPagePlusAdvertisingBulletOne}
+- ${context.l10n.supportPagePlusAdvertisingBulletTwo}''',
                   ),
                 ],
               ),
@@ -343,10 +349,10 @@ class _DiscordTile extends StatelessWidget {
       icon: SvgPicture.asset(
         'assets/icons/discord.svg',
         colorFilter: ColorFilter.mode(context.primaryColor, BlendMode.srcIn),
-        semanticsLabel: 'Discord Icon',
+        semanticsLabel: context.l10n.supportPageDiscordIconSemanticsLabel,
       ),
-      title: 'Discord',
-      subtitle: 'Community-Support',
+      title: context.l10n.supportPageDiscordTitle,
+      subtitle: context.l10n.supportPageDiscordSubtitle,
       onPressed: () async {
         final confirmed = await showDialog<bool>(
           context: context,
@@ -367,11 +373,10 @@ class _NoteAboutPrivacyPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Discord Datenschutz"),
+      title: Text(context.l10n.supportPageDiscordPrivacyTitle),
       content: SingleChildScrollView(
         child: MarkdownBody(
-          data:
-              "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
+          data: context.l10n.supportPageDiscordPrivacyContent,
           styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
           onTapLink: (_, url, _) {
             if (url == null) return;
@@ -382,11 +387,11 @@ class _NoteAboutPrivacyPolicy extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text("ABBRECHEN"),
+          child: Text(context.l10n.commonActionsCancelUppercase),
         ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text("WEITER"),
+          child: Text(context.l10n.commonActionsContinue.toUpperCase()),
         ),
       ],
     );

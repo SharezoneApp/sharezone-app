@@ -18,6 +18,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/bottom_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/teacher_and_parent_src.dart';
@@ -43,9 +44,12 @@ class TeacherAndParentHomeworkPage extends StatelessWidget {
           length: 2,
           child: SharezoneMainScaffold(
             colorBehindBNB: bottomBarBackgroundColor,
-            appBarConfiguration: const AppBarConfiguration(
+            appBarConfiguration: AppBarConfiguration(
               bottom: HomeworkTabBar(
-                tabs: [Tab(text: 'OFFEN'), Tab(text: 'ARCHIVIERT')],
+                tabs: [
+                  Tab(text: context.l10n.homeworkTabOpenUppercase),
+                  Tab(text: context.l10n.homeworkTabArchivedUppercase),
+                ],
               ),
               actions: <Widget>[],
             ),
@@ -134,11 +138,11 @@ class TeacherHomeworkBody extends StatelessWidget {
 class _NoOpenHomeworkPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const PlaceholderWidgetWithAnimation(
+    return PlaceholderWidgetWithAnimation(
       key: ValueKey('no-homework-teacher-placeholder-for-open-homework'),
-      iconSize: Size(175, 175),
-      title: "Keine Hausaufgaben für die Schüler:innen? 😮😍",
-      description: Padding(
+      iconSize: const Size(175, 175),
+      title: context.l10n.homeworkTeacherNoOpenTitle,
+      description: const Padding(
         padding: EdgeInsets.only(top: 8),
         child: AddHomeworkCard(),
       ),
@@ -151,12 +155,11 @@ class _NoOpenHomeworkPlaceholder extends StatelessWidget {
 class _NoArchivedHomeworkPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const PlaceholderWidgetWithAnimation(
+    return PlaceholderWidgetWithAnimation(
       key: ValueKey('no-homework-teacher-placeholder-for-archived-homework'),
-      iconSize: Size(160, 160),
-      title:
-          "Hier werden alle Hausaufgaben angezeigt, deren Fälligkeitsdatum in der Vergangenheit liegt.",
-      description: Padding(
+      iconSize: const Size(160, 160),
+      title: context.l10n.homeworkTeacherNoArchivedTitle,
+      description: const Padding(
         padding: EdgeInsets.only(top: 8),
         child: AddHomeworkCard(),
       ),
