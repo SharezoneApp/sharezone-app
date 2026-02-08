@@ -28,16 +28,14 @@ class TableOfContentsController extends ChangeNotifier {
 
     _updateViews();
 
-    currentlyReadingController.currentlyReadDocumentSection.addListener(
-      () {
-        final currentlyReadSection =
-            currentlyReadingController.currentlyReadDocumentSection.value;
-        _tableOfContents = _tableOfContents.changeCurrentlyReadSectionTo(
-          currentlyReadSection,
-        );
-        _updateViews();
-      },
-    );
+    currentlyReadingController.currentlyReadDocumentSection.addListener(() {
+      final currentlyReadSection =
+          currentlyReadingController.currentlyReadDocumentSection.value;
+      _tableOfContents = _tableOfContents.changeCurrentlyReadSectionTo(
+        currentlyReadSection,
+      );
+      _updateViews();
+    });
   }
 
   TableOfContents _createTableOfContents(

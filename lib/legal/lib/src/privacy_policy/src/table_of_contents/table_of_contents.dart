@@ -29,8 +29,7 @@ class TableOfContents {
         final sectionsHaveCorrectExpansionBehavior = sections.every(
           (element) =>
               element.expansionState == null ||
-              element.expansionState!.expansionBehavior ==
-                  expansionBehavior,
+              element.expansionState!.expansionBehavior == expansionBehavior,
         );
 
         return sectionsHaveCorrectExpansionBehavior;
