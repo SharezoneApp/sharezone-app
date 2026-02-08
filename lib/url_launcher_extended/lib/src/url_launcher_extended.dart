@@ -12,6 +12,14 @@ import 'package:url_launcher/url_launcher_string.dart';
 /// [UrlLauncherExtended] adds the ability to mocks the `url_launcher` by
 /// wrapping the methods into a class and adds some helpful methods.
 class UrlLauncherExtended {
+  static const _allowedSchemes = [
+    'http',
+    'https',
+    'mailto',
+    'tel',
+    'sms',
+  ];
+
   /// Passes [url] to the underlying platform for handling.
   ///
   /// [mode] support varies significantly by platform:
@@ -50,6 +58,12 @@ class UrlLauncherExtended {
     WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
     String? webOnlyWindowName,
   }) async {
+    if (!_allowedSchemes.contains(url.scheme)) {
+      throw ArgumentError(
+        'Scheme \'${url.scheme}\' is not allowed. Allowed schemes: ${_allowedSchemes.join(', ')}',
+      );
+    }
+
     return url_launcher.launchUrl(
       url,
       mode: mode,
@@ -85,6 +99,10 @@ class UrlLauncherExtended {
   ///
   /// (Copied form url_launcher)
   Future<bool> canLaunchUrl(Uri url) {
+    if (!_allowedSchemes.contains(url.scheme)) {
+      return Future.value(false);
+    }
+
     return url_launcher.canLaunchUrl(url);
   }
 
