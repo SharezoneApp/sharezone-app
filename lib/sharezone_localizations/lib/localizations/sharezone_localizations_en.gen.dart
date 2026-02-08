@@ -2003,6 +2003,18 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get gradesWeightSettingsTitle => 'Subject grade calculation';
 
   @override
+  String get gradingDialogFieldsGradeValue => 'Grade';
+
+  @override
+  String get gradingDialogFieldsSubject => 'Subject';
+
+  @override
+  String get gradingDialogFieldsTerm => 'Term';
+
+  @override
+  String get gradingDialogFieldsTitle => 'Title';
+
+  @override
   String get gradingSystemAustrianBehaviouralGrades =>
       'Austrian behavioural grades';
 

@@ -2019,6 +2019,18 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get gradesWeightSettingsTitle => 'Berechnung der Fachnote';
 
   @override
+  String get gradingDialogFieldsGradeValue => 'Note';
+
+  @override
+  String get gradingDialogFieldsSubject => 'Fach';
+
+  @override
+  String get gradingDialogFieldsTerm => 'Halbjahr';
+
+  @override
+  String get gradingDialogFieldsTitle => 'Title';
+
+  @override
   String get gradingSystemAustrianBehaviouralGrades =>
       'Österreichische Verhaltensnoten';
 

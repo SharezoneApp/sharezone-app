@@ -3571,6 +3571,30 @@ abstract class SharezoneLocalizations {
   /// **'Berechnung der Fachnote'**
   String get gradesWeightSettingsTitle;
 
+  /// No description provided for @gradingDialogFieldsGradeValue.
+  ///
+  /// In de, this message translates to:
+  /// **'Note'**
+  String get gradingDialogFieldsGradeValue;
+
+  /// No description provided for @gradingDialogFieldsSubject.
+  ///
+  /// In de, this message translates to:
+  /// **'Fach'**
+  String get gradingDialogFieldsSubject;
+
+  /// No description provided for @gradingDialogFieldsTerm.
+  ///
+  /// In de, this message translates to:
+  /// **'Halbjahr'**
+  String get gradingDialogFieldsTerm;
+
+  /// No description provided for @gradingDialogFieldsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Title'**
+  String get gradingDialogFieldsTitle;
+
   /// No description provided for @gradingSystemAustrianBehaviouralGrades.
   ///
   /// In de, this message translates to:
