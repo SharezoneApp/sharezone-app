@@ -192,7 +192,7 @@ class _TimeTableUnitState extends State<TimeTableUnit> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
 
-      final bloc = context.read<TimetableBloc>();
+      final bloc = BlocProvider.of<TimetableBloc>(context);
       _initialWeekSub = bloc
           .events(_startOfCurrentWeek, endDate: _endOfCurrentWeek)
           .where((events) => events.isNotEmpty || true)
