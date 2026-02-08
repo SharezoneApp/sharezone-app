@@ -46,7 +46,7 @@ Future<bool> _showSignOutWithNormalUserDialog(BuildContext context) async {
             : null,
     defaultValue: false,
     right: AdaptiveDialogAction(
-      key: ValueKey('sign-out-dialog-action-E2E'),
+      key: const ValueKey('sign-out-dialog-action-E2E'),
       title: context.l10n.commonActionsSignOut,
       popResult: true,
       isDestructiveAction: true,

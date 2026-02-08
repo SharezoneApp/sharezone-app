@@ -50,7 +50,7 @@ class InfoMessage extends StatelessWidget {
       TextSpan(
         children: <TextSpan>[
           TextSpan(
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
             text: context.l10n.settingsPrivacyPolicySentencePrefix,
           ),
           TextSpan(

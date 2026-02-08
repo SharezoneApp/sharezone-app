@@ -89,18 +89,18 @@ class CourseCardRedesign extends StatelessWidget {
               LongPress(
                 popResult: _CourseCardLongPressResult.edit,
                 title: context.l10n.commonActionsEdit,
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
               ),
             LongPress(
               popResult: _CourseCardLongPressResult.leave,
               title: context.l10n.commonActionsLeave,
-              icon: Icon(Icons.cancel),
+              icon: const Icon(Icons.cancel),
             ),
             if (isAdmin)
               LongPress(
                 popResult: _CourseCardLongPressResult.delete,
                 title: context.l10n.commonActionsDelete,
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
               ),
           ],
         );
@@ -270,25 +270,25 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
               LongPress(
                 popResult: _CourseCardLongPressResult.edit,
                 title: context.l10n.commonActionsEdit,
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
               ),
             if (!isMember)
               LongPress(
                 popResult: _CourseCardLongPressResult.join,
                 title: context.l10n.commonActionsJoin,
-                icon: Icon(Icons.add_circle_outline),
+                icon: const Icon(Icons.add_circle_outline),
               ),
             if (isMember)
               LongPress(
                 popResult: _CourseCardLongPressResult.leave,
                 title: context.l10n.commonActionsLeave,
-                icon: Icon(Icons.cancel),
+                icon: const Icon(Icons.cancel),
               ),
             if (isMember && isAdmin)
               LongPress(
                 popResult: _CourseCardLongPressResult.delete,
                 title: context.l10n.commonActionsDelete,
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
               ),
           ],
         );

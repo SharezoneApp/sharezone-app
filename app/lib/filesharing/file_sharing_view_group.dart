@@ -266,7 +266,7 @@ class _NoFilesFound extends StatelessWidget {
           MediaQuery.of(context).size.height -
           (dimensions.isDesktopModus ? 100 : 200),
       child: Padding(
-        padding: EdgeInsets.only(bottom: 48),
+        padding: const EdgeInsets.only(bottom: 48),
         child: PlaceholderWidgetWithAnimation(
           svgPath: "assets/icons/folder.svg",
           animateSVG: true,

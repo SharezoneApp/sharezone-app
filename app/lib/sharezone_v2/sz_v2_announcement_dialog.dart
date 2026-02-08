@@ -292,7 +292,7 @@ Hallo, hier ist das Sharezone Team :) Wir haben ein paar wichtige Änderungen, d
               header: Text(
                 context.l10n.sharezoneV2DialogChangedLegalFormHeader,
               ),
-              body: MarkdownBody(
+              body: const MarkdownBody(
                 data:
                     'Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.',
               ),

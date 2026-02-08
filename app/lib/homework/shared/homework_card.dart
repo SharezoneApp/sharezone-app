@@ -103,7 +103,7 @@ class HomeworkCard extends StatelessWidget {
                 if (isStudent)
                   LongPress(
                     title: context.l10n.homeworkDetailsMarkAsDone,
-                    icon: Icon(Icons.done),
+                    icon: const Icon(Icons.done),
                     popResult: _HomeworkTileLongPressModelSheetOption.done,
                   ),
                 LongPress(
@@ -114,12 +114,12 @@ class HomeworkCard extends StatelessWidget {
                 if (detailsView.hasPermission) ...[
                   LongPress(
                     title: context.l10n.commonActionsEdit,
-                    icon: Icon(Icons.edit),
+                    icon: const Icon(Icons.edit),
                     popResult: _HomeworkTileLongPressModelSheetOption.edit,
                   ),
                   LongPress(
                     title: context.l10n.commonActionsDelete,
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     popResult: _HomeworkTileLongPressModelSheetOption.delete,
                   ),
                 ],
@@ -435,7 +435,7 @@ Future showLongPressIfUserHasPermissions(
     if (isStudent)
       LongPress(
         title: context.l10n.homeworkDetailsMarkAsDone,
-        icon: Icon(Icons.done),
+        icon: const Icon(Icons.done),
         popResult: _HomeworkTileLongPressModelSheetOption.done,
       ),
     LongPress(
@@ -446,12 +446,12 @@ Future showLongPressIfUserHasPermissions(
     if (hasPermission) ...[
       LongPress(
         title: context.l10n.commonActionsEdit,
-        icon: Icon(Icons.edit),
+        icon: const Icon(Icons.edit),
         popResult: _HomeworkTileLongPressModelSheetOption.edit,
       ),
       LongPress(
         title: context.l10n.commonActionsDelete,
-        icon: Icon(Icons.delete),
+        icon: const Icon(Icons.delete),
         popResult: _HomeworkTileLongPressModelSheetOption.delete,
       ),
     ],

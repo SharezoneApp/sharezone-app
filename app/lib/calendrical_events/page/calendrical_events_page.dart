@@ -320,7 +320,7 @@ class _EventListFABSheet extends StatelessWidget {
                 child: Stack(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(right: 145),
+                      padding: const EdgeInsets.only(right: 145),
                       child: ModalBottomSheetBigIconButton<_FABEventListOption>(
                         title: context.l10n.timetableFabOptionEvent,
                         alignment: Alignment.center,
@@ -331,7 +331,7 @@ class _EventListFABSheet extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 145),
+                      padding: const EdgeInsets.only(left: 145),
                       child: ModalBottomSheetBigIconButton<_FABEventListOption>(
                         alignment: Alignment.center,
                         title: context.l10n.timetableFabOptionExam,
@@ -359,10 +359,10 @@ class _EmptyEventList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: PlaceholderWidgetWithAnimation(
-        iconSize: Size(150, 150),
+        iconSize: const Size(150, 150),
         title: context.l10n.calendricalEventsEmptyTitle,
         svgPath: "assets/icons/calendar.svg",
-        description: Padding(
+        description: const Padding(
           padding: EdgeInsets.symmetric(vertical: 8),
           child: Column(
             children: <Widget>[

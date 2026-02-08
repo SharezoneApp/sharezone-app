@@ -127,11 +127,11 @@ Widget _buildDashboardPage(UpdateReminderBloc updateReminderBloc) {
         BlocProvider<HolidayBloc>(bloc: MockHolidayBloc()),
       ],
       child:
-          (c) => MaterialApp(
+          (c) => const MaterialApp(
             localizationsDelegates:
                 SharezoneLocalizations.localizationsDelegates,
             supportedLocales: SharezoneLocalizations.supportedLocales,
-            home: const DashboardPageBody(),
+            home: DashboardPageBody(),
           ),
     ),
   );

@@ -166,7 +166,7 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.fromLTRB(24, 8, 24, 0),
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
           child: Text(context.l10n.timetableLessonDetailsDeleteDialogMessage),
         ),
         DeleteConfirmationCheckbox(

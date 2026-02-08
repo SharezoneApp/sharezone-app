@@ -72,7 +72,7 @@ class _FinalGradeTypeHelpDialog extends StatelessWidget {
   const _FinalGradeTypeHelpDialog();
 
   static void show(BuildContext context) {
-    GradesHelpDialog.show(context, _FinalGradeTypeHelpDialog());
+    GradesHelpDialog.show(context, const _FinalGradeTypeHelpDialog());
   }
 
   @override

@@ -95,7 +95,7 @@ class _AdvantageSaveTime extends StatelessWidget {
   Widget build(BuildContext context) {
     return _AdvancedListTile(
       title: context.l10n.signUpAdvantageSaveTime,
-      leading: EasterEggClock(dimension: 45),
+      leading: const EasterEggClock(dimension: 45),
     );
   }
 }
@@ -107,7 +107,7 @@ class _AdvantageNotifications extends StatelessWidget {
   Widget build(BuildContext context) {
     return _AdvancedListTile(
       title: context.l10n.signUpAdvantageHomeworkReminder,
-      leading: SizedBox(
+      leading: const SizedBox(
         height: 45,
         width: 45,
         child: FlareActor(

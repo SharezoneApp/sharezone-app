@@ -290,7 +290,7 @@ class _BlackboardNotificationsSwitch extends StatelessWidget {
           ),
           description: Text(
             context.l10n.notificationPageBlackboardDescription,
-            style: TextStyle(fontSize: 11.5),
+            style: const TextStyle(fontSize: 11.5),
           ),
         );
       },
@@ -337,7 +337,7 @@ class _CommentsNotificationsSwitch extends StatelessWidget {
           ),
           description: Text(
             context.l10n.notificationPageCommentsDescription,
-            style: TextStyle(fontSize: 11.5),
+            style: const TextStyle(fontSize: 11.5),
           ),
         );
       },

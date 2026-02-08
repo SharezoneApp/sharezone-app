@@ -452,7 +452,7 @@ class _SelectTermDialog extends StatelessWidget {
         children: [
           if (terms.isEmpty)
             Padding(
-              padding: EdgeInsets.only(left: 12, right: 12, bottom: 12),
+              padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
               child: Text(context.l10n.gradesDialogNoTermsYetInfo),
             ),
           for (final term in terms)

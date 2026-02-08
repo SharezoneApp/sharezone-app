@@ -867,7 +867,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 18),
+                padding: const EdgeInsets.only(bottom: 18),
                 child: Text(context.l10n.homeworkDialogNextLessonSuffix),
               ),
             ],

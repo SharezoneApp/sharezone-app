@@ -209,7 +209,7 @@ class VerifyEmailAddressDialog extends StatelessWidget {
           children: [
             TextSpan(
               text: context.l10n.changeEmailVerifyDialogAfterWord,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(text: context.l10n.changeEmailVerifyDialogBodySuffix),
           ],

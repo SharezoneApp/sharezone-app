@@ -58,11 +58,11 @@ void main() {
           ],
           child: BlocProvider<NotificationsBlocFactory>(
             bloc: mockNotificationsBlocFactory,
-            child: MaterialApp(
+            child: const MaterialApp(
               localizationsDelegates:
                   SharezoneLocalizations.localizationsDelegates,
               supportedLocales: SharezoneLocalizations.supportedLocales,
-              home: const NotificationPage(),
+              home: NotificationPage(),
             ),
           ),
         ),

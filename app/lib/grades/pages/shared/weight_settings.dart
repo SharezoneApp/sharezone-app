@@ -242,7 +242,7 @@ class _HelpDialog extends StatelessWidget {
   const _HelpDialog();
 
   static void show(BuildContext context) {
-    GradesHelpDialog.show(context, _HelpDialog());
+    GradesHelpDialog.show(context, const _HelpDialog());
   }
 
   @override

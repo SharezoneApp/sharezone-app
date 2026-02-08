@@ -220,7 +220,7 @@ class _EmptyTerm3 extends StatelessWidget {
           transform: Matrix4.translationValues(0, -110, 0),
           child: CustomCard(
             child: TermTile(
-              termId: TermId('8/2'),
+              termId: const TermId('8/2'),
               displayName: context.l10n.gradesPagePastTermTitle,
               avgGrade: ("3,8", GradePerformance.bad),
               title: '8/2',
@@ -246,7 +246,7 @@ class _EmptyTerm2 extends StatelessWidget {
           transform: Matrix4.translationValues(0, -55, 0),
           child: CustomCard(
             child: TermTile(
-              termId: TermId('9/1'),
+              termId: const TermId('9/1'),
               displayName: context.l10n.gradesPagePastTermTitle,
               avgGrade: ("2,6", GradePerformance.satisfactory),
               title: '9/1',
@@ -268,7 +268,7 @@ class _EmptyTerm1 extends StatelessWidget {
       padding: const EdgeInsets.only(top: 70),
       child: CustomCard(
         child: TermTile(
-          termId: TermId('9/2'),
+          termId: const TermId('9/2'),
           displayName: context.l10n.gradesCreateTermCurrentTerm,
           avgGrade: ("1,3", GradePerformance.good),
           title: '9/2',

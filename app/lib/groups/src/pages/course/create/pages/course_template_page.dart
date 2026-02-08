@@ -285,13 +285,13 @@ class _CreateCustomCourseSection extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.add_circle, color: Colors.white),
-                        SizedBox(width: 8.0),
+                        const Icon(Icons.add_circle, color: Colors.white),
+                        const SizedBox(width: 8.0),
                         Text(
                           context
                               .l10n
                               .courseTemplateCreateCustomCourseUppercase,
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
@@ -634,7 +634,7 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
                 children: <Widget>[
                   Text(
                     context.l10n.courseTemplateSchoolClassSelectionTitle,
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
                   const SizedBox(height: 12),
                   Text(

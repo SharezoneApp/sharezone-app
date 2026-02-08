@@ -161,10 +161,10 @@ class _AddExistingCourse extends StatelessWidget {
           title: Text(context.l10n.schoolClassCoursesSelectCourseDialogTitle),
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(24, 0, 24, 6),
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 6),
               child: Text(
                 context.l10n.schoolClassCoursesSelectCourseDialogHint,
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+                style: const TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ),
             Column(

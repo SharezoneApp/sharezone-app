@@ -176,7 +176,7 @@ class _AloneInCourse extends StatelessWidget {
       ).add(const EdgeInsets.only(top: 12)),
       child: Text(
         context.l10n.courseMemberOptionsAloneHint,
-        style: TextStyle(color: Colors.grey, fontSize: 11),
+        style: const TextStyle(color: Colors.grey, fontSize: 11),
         textAlign: TextAlign.center,
       ),
     );
@@ -192,7 +192,7 @@ class _NoPermissions extends StatelessWidget {
       ).add(const EdgeInsets.only(top: 12)),
       child: Text(
         context.l10n.groupsMemberOptionsNoAdminRightsHint,
-        style: TextStyle(color: Colors.grey, fontSize: 11),
+        style: const TextStyle(color: Colors.grey, fontSize: 11),
         textAlign: TextAlign.center,
       ),
     );
@@ -208,7 +208,7 @@ class _OnlyAdminHint extends StatelessWidget {
       ).add(const EdgeInsets.only(top: 12)),
       child: Text(
         context.l10n.courseMemberOptionsOnlyAdminHint,
-        style: TextStyle(color: Colors.grey, fontSize: 11),
+        style: const TextStyle(color: Colors.grey, fontSize: 11),
         textAlign: TextAlign.center,
       ),
     );

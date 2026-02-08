@@ -21,8 +21,10 @@ import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_lis
 import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_page.dart';
 import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/user_has_completed_homework_view.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+import '../../../flutter_test_config.dart';
 import 'homework_completion_user_list_page_test.mocks.dart';
 
 @GenerateNiceMocks([
@@ -70,7 +72,11 @@ void main() {
             ),
           ),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 

@@ -63,18 +63,18 @@ class SchoolClassCard extends StatelessWidget {
                     LongPress(
                       title: context.l10n.commonActionsEdit,
                       popResult: _SchoolClassLongPressResult.edit,
-                      icon: Icon(Icons.edit),
+                      icon: const Icon(Icons.edit),
                     ),
                   LongPress(
                     title: context.l10n.commonActionsLeave,
                     popResult: _SchoolClassLongPressResult.leave,
-                    icon: Icon(Icons.cancel),
+                    icon: const Icon(Icons.cancel),
                   ),
                   if (isAdmin)
                     LongPress(
                       title: context.l10n.commonActionsDelete,
                       popResult: _SchoolClassLongPressResult.delete,
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                     ),
                 ],
               );

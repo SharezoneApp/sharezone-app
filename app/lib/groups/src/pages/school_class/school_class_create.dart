@@ -124,7 +124,7 @@ class _NameField extends StatelessWidget {
       autofocus: true,
       decoration: InputDecoration(
         labelText: context.l10n.commonFieldName,
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
       ),
       maxLines: 1,
       maxLength: 32,

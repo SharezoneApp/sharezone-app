@@ -139,7 +139,7 @@ class _NoOpenHomeworkPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlaceholderWidgetWithAnimation(
-      key: ValueKey('no-homework-teacher-placeholder-for-open-homework'),
+      key: const ValueKey('no-homework-teacher-placeholder-for-open-homework'),
       iconSize: const Size(175, 175),
       title: context.l10n.homeworkTeacherNoOpenTitle,
       description: const Padding(
@@ -156,7 +156,7 @@ class _NoArchivedHomeworkPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlaceholderWidgetWithAnimation(
-      key: ValueKey('no-homework-teacher-placeholder-for-archived-homework'),
+      key: const ValueKey('no-homework-teacher-placeholder-for-archived-homework'),
       iconSize: const Size(160, 160),
       title: context.l10n.homeworkTeacherNoArchivedTitle,
       description: const Padding(

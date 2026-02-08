@@ -113,7 +113,7 @@ class _SubstitutionSection extends StatelessWidget {
               ),
         ] else
           ListTile(
-            leading: Icon(Icons.info),
+            leading: const Icon(Icons.info),
             title: Text(context.l10n.timetableSubstitutionNoPermissionTitle),
             subtitle: Text(
               context.l10n.timetableSubstitutionNoPermissionSubtitle,

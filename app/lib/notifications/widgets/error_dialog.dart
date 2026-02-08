@@ -86,12 +86,12 @@ Möglicherweise ist der Fehler durch eine veraltete Version von Sharezone enstan
         children: [
           TextSpan(
             text: context.l10n.notificationsErrorDialogShortDescription,
-            style: TextStyle(fontSize: 13),
+            style: const TextStyle(fontSize: 13),
           ),
-          TextSpan(text: ' '),
+          const TextSpan(text: ' '),
           TextSpan(
             text: context.l10n.notificationsErrorDialogMoreInfo,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.blue,
               // When the text is underlined it looks bigger than the rest so we
               // choose a font sizer smaller than the other text.

@@ -18,7 +18,7 @@ class GameController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlaceholderWidgetWithAnimation(
-      iconSize: Size(175, 175),
+      iconSize: const Size(175, 175),
       title: context.l10n.homeworkEmptyGameControllerTitle,
       description: Column(
         children: <Widget>[
@@ -40,7 +40,7 @@ class FireMotivation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlaceholderWidgetWithAnimation(
-      iconSize: Size(175, 175),
+      iconSize: const Size(175, 175),
       title: context.l10n.homeworkEmptyFireTitle,
       description: Text(context.l10n.homeworkEmptyFireDescription),
       svgPath: 'assets/icons/fire.svg',

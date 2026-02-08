@@ -117,7 +117,7 @@ class _FreeSupport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SupportPlanBase(
-      key: ValueKey('free-support'),
+      key: const ValueKey('free-support'),
       title: Text(context.l10n.supportPageFreeSupportTitle),
       subtitle: Text(context.l10n.supportPageFreeSupportSubtitle),
       body: const Column(children: [_DiscordTile(), _FreeEmailTile()]),
@@ -131,7 +131,7 @@ class _PlusSupport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SupportPlanBase(
-      key: ValueKey('plus-support'),
+      key: const ValueKey('plus-support'),
       title: Text(context.l10n.supportPagePlusSupportTitle),
       subtitle: Text(context.l10n.supportPagePlusSupportSubtitle),
       body: const Column(
