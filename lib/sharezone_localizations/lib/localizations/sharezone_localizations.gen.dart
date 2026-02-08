@@ -906,7 +906,7 @@ abstract class SharezoneLocalizations {
   /// No description provided for @changelogUpdatePromptWeb.
   ///
   /// In de, this message translates to:
-  /// **'Wir haben bemerkt, dass du eine veraltete Version der App verwendest. Lade die Seite neu, um die neueste Version zu erhalten! 👍'**
+  /// **'Wir haben bemerkt, dass du eine veraltete Version der App verwendest. Lade die Seite neu, um die neuste Version zu erhalten! 👍'**
   String get changelogUpdatePromptWeb;
 
   /// No description provided for @commentActionsCopyText.
@@ -3706,13 +3706,13 @@ abstract class SharezoneLocalizations {
   /// No description provided for @homeworkAddAction.
   ///
   /// In de, this message translates to:
-  /// **'Homework Add Action'**
+  /// **'Hausaufgabe eintragen'**
   String get homeworkAddAction;
 
   /// No description provided for @homeworkBottomBarMoreIdeas.
   ///
   /// In de, this message translates to:
-  /// **'Homework Bottom Bar More Ideas'**
+  /// **'Noch Ideen?'**
   String get homeworkBottomBarMoreIdeas;
 
   /// No description provided for @homeworkCardViewCompletedByTooltip.
@@ -3730,13 +3730,13 @@ abstract class SharezoneLocalizations {
   /// No description provided for @homeworkCompletionPlusDescription.
   ///
   /// In de, this message translates to:
-  /// **'Homework Completion Plus Description'**
+  /// **'Erwerbe Sharezone Plus, um nachzuvollziehen, wer bereits die Hausaufgabe als erledigt markiert hat.'**
   String get homeworkCompletionPlusDescription;
 
   /// No description provided for @homeworkCompletionReadByTitle.
   ///
   /// In de, this message translates to:
-  /// **'Homework Completion Read By Title'**
+  /// **'Erledigt von'**
   String get homeworkCompletionReadByTitle;
 
   /// No description provided for @homeworkDeleteAttachmentsDialogDescription.
@@ -4882,49 +4882,49 @@ abstract class SharezoneLocalizations {
   /// No description provided for @pastCalendricalEventsDummyTitleExam2.
   ///
   /// In de, this message translates to:
-  /// **'Past Calendrical Events Dummy Title Exam2'**
+  /// **'Klausur Nr. 2'**
   String get pastCalendricalEventsDummyTitleExam2;
 
   /// No description provided for @pastCalendricalEventsDummyTitleExam3.
   ///
   /// In de, this message translates to:
-  /// **'Past Calendrical Events Dummy Title Exam3'**
+  /// **'Klausur Nr. 3'**
   String get pastCalendricalEventsDummyTitleExam3;
 
   /// No description provided for @pastCalendricalEventsDummyTitleExam4.
   ///
   /// In de, this message translates to:
-  /// **'Past Calendrical Events Dummy Title Exam4'**
+  /// **'Klausur Nr. 4'**
   String get pastCalendricalEventsDummyTitleExam4;
 
   /// No description provided for @pastCalendricalEventsDummyTitleExam5.
   ///
   /// In de, this message translates to:
-  /// **'Past Calendrical Events Dummy Title Exam5'**
+  /// **'Klausur Nr. 5'**
   String get pastCalendricalEventsDummyTitleExam5;
 
   /// No description provided for @pastCalendricalEventsDummyTitleNoSchool.
   ///
   /// In de, this message translates to:
-  /// **'Past Calendrical Events Dummy Title No School'**
+  /// **'Schulfrei'**
   String get pastCalendricalEventsDummyTitleNoSchool;
 
   /// No description provided for @pastCalendricalEventsDummyTitleParentTeacherDay.
   ///
   /// In de, this message translates to:
-  /// **'Past Calendrical Events Dummy Title Parent Teacher Day'**
+  /// **'Elternsprechtag'**
   String get pastCalendricalEventsDummyTitleParentTeacherDay;
 
   /// No description provided for @pastCalendricalEventsDummyTitleSportsFestival.
   ///
   /// In de, this message translates to:
-  /// **'Past Calendrical Events Dummy Title Sports Festival'**
+  /// **'Sportfest'**
   String get pastCalendricalEventsDummyTitleSportsFestival;
 
   /// No description provided for @pastCalendricalEventsDummyTitleTest6.
   ///
   /// In de, this message translates to:
-  /// **'Past Calendrical Events Dummy Title Test6'**
+  /// **'Test Nr. 6'**
   String get pastCalendricalEventsDummyTitleTest6;
 
   /// No description provided for @pastCalendricalEventsPageEmpty.
@@ -7456,7 +7456,7 @@ abstract class SharezoneLocalizations {
   /// No description provided for @timetableEventDialogDateSelectionNotPossible.
   ///
   /// In de, this message translates to:
-  /// **'Timetable Event Dialog Date Selection Not Possible'**
+  /// **'Auswahl nicht möglich'**
   String get timetableEventDialogDateSelectionNotPossible;
 
   /// No description provided for @timetableEventDialogDateSelectionNotPossibleContent.
@@ -7468,31 +7468,31 @@ abstract class SharezoneLocalizations {
   /// No description provided for @timetableEventDialogDescriptionHintEvent.
   ///
   /// In de, this message translates to:
-  /// **'Timetable Event Dialog Description Hint Event'**
+  /// **'Zusatzinformationen'**
   String get timetableEventDialogDescriptionHintEvent;
 
   /// No description provided for @timetableEventDialogDescriptionHintExam.
   ///
   /// In de, this message translates to:
-  /// **'Timetable Event Dialog Description Hint Exam'**
+  /// **'Themen der Prüfung'**
   String get timetableEventDialogDescriptionHintExam;
 
   /// No description provided for @timetableEventDialogNotifyCourseMembersEvent.
   ///
   /// In de, this message translates to:
-  /// **'Timetable Event Dialog Notify Course Members Event'**
+  /// **'Kursmitglieder über neuen Termin benachrichtigen.'**
   String get timetableEventDialogNotifyCourseMembersEvent;
 
   /// No description provided for @timetableEventDialogNotifyCourseMembersExam.
   ///
   /// In de, this message translates to:
-  /// **'Timetable Event Dialog Notify Course Members Exam'**
+  /// **'Kursmitglieder über neue Klausur benachrichtigen.'**
   String get timetableEventDialogNotifyCourseMembersExam;
 
   /// No description provided for @timetableEventDialogNotifyCourseMembersTitle.
   ///
   /// In de, this message translates to:
-  /// **'Timetable Event Dialog Notify Course Members Title'**
+  /// **'Kursmitglieder benachrichtigen'**
   String get timetableEventDialogNotifyCourseMembersTitle;
 
   /// No description provided for @timetableFabAddTooltip.

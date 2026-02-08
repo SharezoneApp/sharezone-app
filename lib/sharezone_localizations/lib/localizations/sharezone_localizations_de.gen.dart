@@ -495,7 +495,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get changelogUpdatePromptWeb =>
-      'Wir haben bemerkt, dass du eine veraltete Version der App verwendest. Lade die Seite neu, um die neueste Version zu erhalten! 👍';
+      'Wir haben bemerkt, dass du eine veraltete Version der App verwendest. Lade die Seite neu, um die neuste Version zu erhalten! 👍';
 
   @override
   String get commentActionsCopyText => 'Text kopieren';
@@ -2119,10 +2119,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get groupsWritePermissionsTitle => 'Schreibrechte';
 
   @override
-  String get homeworkAddAction => 'Homework Add Action';
+  String get homeworkAddAction => 'Hausaufgabe eintragen';
 
   @override
-  String get homeworkBottomBarMoreIdeas => 'Homework Bottom Bar More Ideas';
+  String get homeworkBottomBarMoreIdeas => 'Noch Ideen?';
 
   @override
   String get homeworkCardViewCompletedByTooltip => '\"Erledigt von\" anzeigen';
@@ -2132,11 +2132,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get homeworkCompletionPlusDescription =>
-      'Homework Completion Plus Description';
+      'Erwerbe Sharezone Plus, um nachzuvollziehen, wer bereits die Hausaufgabe als erledigt markiert hat.';
 
   @override
-  String get homeworkCompletionReadByTitle =>
-      'Homework Completion Read By Title';
+  String get homeworkCompletionReadByTitle => 'Erledigt von';
 
   @override
   String get homeworkDeleteAttachmentsDialogDescription =>
@@ -2808,36 +2807,29 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Erinnerungen und Benachrichtigungen erhalten';
 
   @override
-  String get pastCalendricalEventsDummyTitleExam2 =>
-      'Past Calendrical Events Dummy Title Exam2';
+  String get pastCalendricalEventsDummyTitleExam2 => 'Klausur Nr. 2';
 
   @override
-  String get pastCalendricalEventsDummyTitleExam3 =>
-      'Past Calendrical Events Dummy Title Exam3';
+  String get pastCalendricalEventsDummyTitleExam3 => 'Klausur Nr. 3';
 
   @override
-  String get pastCalendricalEventsDummyTitleExam4 =>
-      'Past Calendrical Events Dummy Title Exam4';
+  String get pastCalendricalEventsDummyTitleExam4 => 'Klausur Nr. 4';
 
   @override
-  String get pastCalendricalEventsDummyTitleExam5 =>
-      'Past Calendrical Events Dummy Title Exam5';
+  String get pastCalendricalEventsDummyTitleExam5 => 'Klausur Nr. 5';
 
   @override
-  String get pastCalendricalEventsDummyTitleNoSchool =>
-      'Past Calendrical Events Dummy Title No School';
+  String get pastCalendricalEventsDummyTitleNoSchool => 'Schulfrei';
 
   @override
   String get pastCalendricalEventsDummyTitleParentTeacherDay =>
-      'Past Calendrical Events Dummy Title Parent Teacher Day';
+      'Elternsprechtag';
 
   @override
-  String get pastCalendricalEventsDummyTitleSportsFestival =>
-      'Past Calendrical Events Dummy Title Sports Festival';
+  String get pastCalendricalEventsDummyTitleSportsFestival => 'Sportfest';
 
   @override
-  String get pastCalendricalEventsDummyTitleTest6 =>
-      'Past Calendrical Events Dummy Title Test6';
+  String get pastCalendricalEventsDummyTitleTest6 => 'Test Nr. 6';
 
   @override
   String get pastCalendricalEventsPageEmpty => 'Keine vergangenen Termine';
@@ -4323,31 +4315,29 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get timetableEventDialogDateSelectionNotPossible =>
-      'Timetable Event Dialog Date Selection Not Possible';
+      'Auswahl nicht möglich';
 
   @override
   String get timetableEventDialogDateSelectionNotPossibleContent =>
       'Aktuell ist nicht möglich, einen Termin oder eine Klausur über mehrere Tage hinweg zu haben.';
 
   @override
-  String get timetableEventDialogDescriptionHintEvent =>
-      'Timetable Event Dialog Description Hint Event';
+  String get timetableEventDialogDescriptionHintEvent => 'Zusatzinformationen';
 
   @override
-  String get timetableEventDialogDescriptionHintExam =>
-      'Timetable Event Dialog Description Hint Exam';
+  String get timetableEventDialogDescriptionHintExam => 'Themen der Prüfung';
 
   @override
   String get timetableEventDialogNotifyCourseMembersEvent =>
-      'Timetable Event Dialog Notify Course Members Event';
+      'Kursmitglieder über neuen Termin benachrichtigen.';
 
   @override
   String get timetableEventDialogNotifyCourseMembersExam =>
-      'Timetable Event Dialog Notify Course Members Exam';
+      'Kursmitglieder über neue Klausur benachrichtigen.';
 
   @override
   String get timetableEventDialogNotifyCourseMembersTitle =>
-      'Timetable Event Dialog Notify Course Members Title';
+      'Kursmitglieder benachrichtigen';
 
   @override
   String get timetableFabAddTooltip => 'Stunde/Termin hinzufügen';
