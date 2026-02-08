@@ -294,7 +294,7 @@ class _TitleField extends StatelessWidget {
                 : 'Titel eingeben (z.B. Sportfest)',
         errorText:
             controller.showEmptyTitleError
-                ? EventDialogErrorStrings.emptyTitle
+                ? context.l10n.timetableEventDialogEmptyTitleError
                 : null,
       ),
     );
@@ -389,10 +389,11 @@ class _CourseTile extends StatelessWidget {
         child: CourseTileBase(
           key: EventDialogKeys.courseTile,
           courseName:
-              controller.course?.name ?? EventDialogErrorStrings.emptyCourse,
+              controller.course?.name ??
+              context.l10n.timetableEventDialogEmptyCourseError,
           errorText:
               controller.showEmptyCourseError
-                  ? EventDialogErrorStrings.emptyCourse
+                  ? context.l10n.timetableEventDialogEmptyCourseError
                   : null,
           onTap: () {
             CourseTile.onTap(
@@ -490,7 +491,7 @@ class _DateAndTimeTile extends StatelessWidget {
       subtitle:
           showEndNotAfterBeginningError
               ? Text(
-                EventDialogErrorStrings.endTimeMustBeAfterStartTime,
+                context.l10n.timetableEventDialogEndTimeAfterStartTimeError,
                 style: TextStyle(color: Theme.of(context).colorScheme.error),
               )
               : null,
@@ -655,11 +656,4 @@ class EventDialogKeys {
   static const Key notifyCourseMembersSwitch = Key(
     "notify-course-members-switch",
   );
-}
-
-class EventDialogErrorStrings {
-  static const emptyTitle = "Bitte gib einen Titel ein.";
-  static const emptyCourse = "Bitte wähle einen Kurs aus.";
-  static const endTimeMustBeAfterStartTime =
-      "Die Endzeit muss nach der Startzeit liegen.";
 }

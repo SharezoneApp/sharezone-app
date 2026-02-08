@@ -128,8 +128,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get activationCodeFieldLabel => 'Aktivierungscode';
 
   @override
-  String get activationCodeResultDoneAction =>
-      'Activation Code Result Done Action';
+  String get activationCodeResultDoneAction => 'Fertig';
 
   @override
   String activationCodeSuccessTitle(Object value) {
@@ -177,15 +176,14 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get authEmailAndPasswordLinkFillFormComplete =>
-      'Auth Email And Password Link Fill Form Complete';
+      'Füll das Formular komplett aus! 😉';
 
   @override
   String get authEmailAndPasswordLinkNicknameHint =>
-      'Auth Email And Password Link Nickname Hint';
+      'Dieser Nickname ist nur für deine Gruppenmitglieder sichtbar und sollte ein Pseudonym sein.';
 
   @override
-  String get authEmailAndPasswordLinkNicknameLabel =>
-      'Auth Email And Password Link Nickname Label';
+  String get authEmailAndPasswordLinkNicknameLabel => 'Nickname';
 
   @override
   String get authProviderAnonymous => 'Anonyme Anmeldung';
@@ -210,11 +208,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein';
 
   @override
-  String get blackboardCardAttachmentTooltip =>
-      'Blackboard Card Attachment Tooltip';
+  String get blackboardCardAttachmentTooltip => 'Enthält Anhänge';
 
   @override
-  String get blackboardCardMyEntryTooltip => 'Blackboard Card My Entry Tooltip';
+  String get blackboardCardMyEntryTooltip => 'Mein Eintrag';
 
   @override
   String get blackboardComposeMessageHint => 'Nachricht verfassen';
@@ -243,10 +240,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get blackboardDetailsTitle => 'Details';
 
   @override
-  String get blackboardDialogSaveTooltip => 'Blackboard Dialog Save Tooltip';
+  String get blackboardDialogSaveTooltip => 'Eintrag speichern';
 
   @override
-  String get blackboardDialogTitleHint => 'Blackboard Dialog Title Hint';
+  String get blackboardDialogTitleHint => 'Titel eingeben';
 
   @override
   String get blackboardEntryDeleted => 'Eintrag wurde gelöscht.';
@@ -356,26 +353,24 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get changeEmailReauthenticationDialogBody =>
-      'Change Email Reauthentication Dialog Body';
+      'Nach der Änderung der E-Mail-Adresse musst du abgemeldet und wieder angemeldet werden. Danach kannst du die App wie gewohnt weiter nutzen.\n\nKlicke auf \"Weiter\" um eine Abmeldung und eine Anmeldung von Sharezone durchzuführen.\n\nEs kann sein, dass die Anmeldung nicht funktioniert (z.B. weil die E-Mail-Adresse noch nicht bestätigt wurde). Führe in diesem Fall die Anmeldung selbständig durch.';
 
   @override
-  String get changeEmailReauthenticationDialogTitle =>
-      'Change Email Reauthentication Dialog Title';
+  String get changeEmailReauthenticationDialogTitle => 'Re-Authentifizierung';
 
   @override
-  String get changeEmailVerifyDialogAfterWord =>
-      'Change Email Verify Dialog After Word';
+  String get changeEmailVerifyDialogAfterWord => 'Nachdem';
 
   @override
   String get changeEmailVerifyDialogBodyPrefix =>
-      'Change Email Verify Dialog Body Prefix';
+      'Wir haben dir einen Link geschickt. Bitte klicke jetzt auf den Link, um deine E-Mail zu bestätigen. Prüfe auch deinen Spam-Ordner.\n\n';
 
   @override
   String get changeEmailVerifyDialogBodySuffix =>
-      'Change Email Verify Dialog Body Suffix';
+      ' du die neue E-Mail-Adresse bestätigt hast, klicke auf \"Weiter\".';
 
   @override
-  String get changeEmailVerifyDialogTitle => 'Change Email Verify Dialog Title';
+  String get changeEmailVerifyDialogTitle => 'Neue E-Mail Adresse bestätigen';
 
   @override
   String get changePasswordCurrentPasswordTextfieldLabel =>
@@ -504,7 +499,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get commentActionsReport => 'Kommentar melden';
 
   @override
-  String get commentDeletedConfirmation => 'Comment Deleted Confirmation';
+  String get commentDeletedConfirmation => 'Kommentar wurde gelöscht.';
 
   @override
   String commentsSectionTitle(Object value) {
@@ -527,7 +522,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get commonActionsAlright => 'Alles klar';
 
   @override
-  String get commonActionsBack => 'Common Actions Back';
+  String get commonActionsBack => 'Zurück';
 
   @override
   String get commonActionsCancel => 'Abbrechen';
@@ -690,7 +685,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Das ist doch der selbe Name wie vorher 🙈';
 
   @override
-  String get commonErrorTitle => 'Common Error Title';
+  String get commonErrorTitle => 'Fehler';
 
   @override
   String get commonErrorTitleMissing => 'Bitte gib einen Titel an!';
@@ -749,7 +744,8 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get commonStatusUnknownErrorTitle => 'Unbekannter Fehler';
 
   @override
-  String get commonTextCopiedToClipboard => 'Common Text Copied To Clipboard';
+  String get commonTextCopiedToClipboard =>
+      'Text wurde in die Zwischenablage kopiert';
 
   @override
   String get commonTitle => 'Titel';
@@ -758,7 +754,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get commonTitleNote => 'Hinweis';
 
   @override
-  String get commonUnknownError => 'Common Unknown Error';
+  String get commonUnknownError => 'Es ist ein Fehler aufgetreten.';
 
   @override
   String get contactSupportButton => 'Support kontaktieren';
@@ -957,12 +953,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get courseTemplateUndoUppercase => 'RÜCKGÄNGIG MACHEN';
 
   @override
-  String get dashboardAdSectionAcquireSuffix =>
-      'Dashboard Ad Section Acquire Suffix';
+  String get dashboardAdSectionAcquireSuffix => ' erwerben.';
 
   @override
-  String get dashboardAdSectionSharezonePlusLabel =>
-      'Dashboard Ad Section Sharezone Plus Label';
+  String get dashboardAdSectionSharezonePlusLabel => 'Sharezone Plus';
 
   @override
   String get dashboardDebugClearCache => '[DEBUG] Cache löschen';
@@ -1045,14 +1039,14 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Ferien konnten für dein Bundesland nicht angezeigt werden';
 
   @override
-  String get dashboardRateOurAppActionTitle =>
-      'Dashboard Rate Our App Action Title';
+  String get dashboardRateOurAppActionTitle => 'App bewerten';
 
   @override
-  String get dashboardRateOurAppText => 'Dashboard Rate Our App Text';
+  String get dashboardRateOurAppText =>
+      'Wir wären dir unglaublich dankbar, wenn du uns eine Bewertung im App-/PlayStore hinterlassen könntest 🐵';
 
   @override
-  String get dashboardRateOurAppTitle => 'Dashboard Rate Our App Title';
+  String get dashboardRateOurAppTitle => 'Gefällt dir Sharezone?';
 
   @override
   String get dashboardSelectStateButton => 'Bundesland / Kanton auswählen';
@@ -1091,16 +1085,16 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get dateYesterday => 'Gestern';
 
   @override
-  String get drawerAboutTooltip => 'Drawer About Tooltip';
+  String get drawerAboutTooltip => 'Über uns';
 
   @override
-  String get drawerNavigationTooltip => 'Drawer Navigation Tooltip';
+  String get drawerNavigationTooltip => 'Navigation';
 
   @override
-  String get drawerOpenSemanticsLabel => 'Drawer Open Semantics Label';
+  String get drawerOpenSemanticsLabel => 'Navigation öffnen';
 
   @override
-  String get drawerProfileTooltip => 'Drawer Profile Tooltip';
+  String get drawerProfileTooltip => 'Profile';
 
   @override
   String feedbackBoxCooldownError(Object coolDown) {
@@ -1179,18 +1173,16 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get feedbackThankYouRatePromptPrefix =>
-      'Feedback Thank You Rate Prompt Prefix';
+      'Dir gefällt unsere App? Dann würden wir uns über eine Bewertung im ';
 
   @override
-  String get feedbackThankYouRatePromptSuffix =>
-      'Feedback Thank You Rate Prompt Suffix';
+  String get feedbackThankYouRatePromptSuffix => ' riesig freuen! 😄';
 
   @override
-  String get feedbackThankYouTitle => 'Feedback Thank You Title';
+  String get feedbackThankYouTitle => 'Vielen Dank für dein Feedback!';
 
   @override
-  String get fileSharingCourseFoldersHeadline =>
-      'File Sharing Course Folders Headline';
+  String get fileSharingCourseFoldersHeadline => 'Kursordner';
 
   @override
   String fileSharingDeleteFolderDescription(Object value) {
@@ -1198,7 +1190,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   }
 
   @override
-  String get fileSharingDeleteFolderTitle => 'File Sharing Delete Folder Title';
+  String get fileSharingDeleteFolderTitle => 'Ordner löschen?';
 
   @override
   String fileSharingDownloadError(Object value) {
@@ -1207,7 +1199,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get fileSharingDownloadingFileMessage =>
-      'File Sharing Downloading File Message';
+      'Datei wird heruntergeladen...';
 
   @override
   String get fileSharingFabCameraTitle => 'Kamera';
@@ -1262,41 +1254,38 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get fileSharingFabVideosTooltip => 'Videos';
 
   @override
-  String get fileSharingFoldersHeadline => 'File Sharing Folders Headline';
+  String get fileSharingFoldersHeadline => 'Ordner';
 
   @override
   String get fileSharingMoveEmptyFoldersMessage =>
-      'File Sharing Move Empty Folders Message';
+      'Es befinden sich an diesem Ort keine weiteren Ordner... Navigiere zwischen den Ordnern über die Leiste oben.';
 
   @override
-  String get fileSharingNewNameHint => 'File Sharing New Name Hint';
+  String get fileSharingNewNameHint => 'Neuer Name';
 
   @override
   String get fileSharingNoCourseFoldersFoundDescription =>
-      'File Sharing No Course Folders Found Description';
+      'Es wurden keine Ordner gefunden, da du noch keinen Kursen beigetreten bist. Trete einfach einem Kurs bei oder erstelle einen eigenen Kurs.';
 
   @override
   String get fileSharingNoFilesFoundDescription =>
-      'File Sharing No Files Found Description';
+      'Lade jetzt einfach eine Datei hoch, um diese mit deinem Kurs zu teilen 👍';
 
   @override
-  String get fileSharingNoFilesFoundTitle =>
-      'File Sharing No Files Found Title';
+  String get fileSharingNoFilesFoundTitle => 'Keine Dateien gefunden 😶';
 
   @override
-  String get fileSharingNoFoldersFoundTitle =>
-      'File Sharing No Folders Found Title';
+  String get fileSharingNoFoldersFoundTitle => 'Keine Ordner gefunden! 😬';
 
   @override
   String get fileSharingPreparingDownloadMessage =>
-      'File Sharing Preparing Download Message';
+      'Die Datei wird auf dein Gerät gebeamt...';
 
   @override
-  String get fileSharingRenameActionUppercase =>
-      'File Sharing Rename Action Uppercase';
+  String get fileSharingRenameActionUppercase => 'UMBENENNEN';
 
   @override
-  String get fileSharingRenameFolderTitle => 'File Sharing Rename Folder Title';
+  String get fileSharingRenameFolderTitle => 'Ordner umbenennen';
 
   @override
   String get filesAddAttachment => 'Anhang hinzufügen';
@@ -1315,7 +1304,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get filesDeleteDialogTitle => 'Datei löschen?';
 
   @override
-  String get filesDisplayErrorTitle => 'Files Display Error Title';
+  String get filesDisplayErrorTitle => 'Anzeigefehler';
 
   @override
   String get filesDownloadBrokenFileError =>
@@ -1325,7 +1314,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get filesDownloadStarted => 'Download wurde gestartet...';
 
   @override
-  String get filesLoading => 'Files Loading';
+  String get filesLoading => 'Laden...';
 
   @override
   String filesMoveTo(Object value) {
@@ -1333,7 +1322,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   }
 
   @override
-  String get filesMoveUppercase => 'Files Move Uppercase';
+  String get filesMoveUppercase => 'VERSCHIEBEN';
 
   @override
   String get filesRenameDialogHint => 'Neuer Name';
@@ -1342,7 +1331,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get filesRenameDialogTitle => 'Datei umbenennen';
 
   @override
-  String get filesSelectCourseTitle => 'Files Select Course Title';
+  String get filesSelectCourseTitle => 'Wähle einen Kurs aus';
 
   @override
   String get gradesCommonName => 'Name';
@@ -1380,10 +1369,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get gradesDetailsDeleted => 'Note gelöscht.';
 
   @override
-  String get gradesDetailsDummyDetails => 'Grades Details Dummy Details';
+  String get gradesDetailsDummyDetails => 'This is a test grade for algebra.';
 
   @override
-  String get gradesDetailsDummyTopic => 'Grades Details Dummy Topic';
+  String get gradesDetailsDummyTopic => 'Algebra';
 
   @override
   String get gradesDetailsEditTooltip => 'Note bearbeiten';
@@ -1923,47 +1912,46 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get groupOnboardingCreateNewGroupsAction =>
-      'Group Onboarding Create New Groups Action';
+      'Nein, ich möchte neue Gruppen erstellen';
 
   @override
   String get groupOnboardingFirstPersonHint =>
-      'Group Onboarding First Person Hint';
+      'Wenn ein Mitschüler schon Sharezone verwendet, kann dir dieser einen Sharecode geben, damit du seiner Klasse beitreten kannst.';
 
   @override
   String get groupOnboardingFirstPersonParentTitle =>
-      'Group Onboarding First Person Parent Title';
+      'Wurden bereits Gruppen von Schülern oder Lehrkräften erstellt?';
 
   @override
   String get groupOnboardingFirstPersonStudentTitle =>
-      'Group Onboarding First Person Student Title';
+      'Haben Mitschüler oder dein Lehrer / deine Lehrerin schon einen Kurs, eine Klasse oder Stufe erstellt? 💪';
 
   @override
   String get groupOnboardingFirstPersonTeacherTitle =>
-      'Group Onboarding First Person Teacher Title';
+      'Wurden bereits Gruppen von einer anderen Person erstellt? 💪';
 
   @override
   String get groupOnboardingIsClassTeacherCreateClassAction =>
-      'Group Onboarding Is Class Teacher Create Class Action';
+      'Ja, ich möchte eine Klasse erstellen';
 
   @override
   String get groupOnboardingIsClassTeacherCreateCoursesOnlyAction =>
-      'Group Onboarding Is Class Teacher Create Courses Only Action';
+      'Nein, ich möchte nur Kurse erstellen';
 
   @override
   String get groupOnboardingIsClassTeacherTitle =>
-      'Group Onboarding Is Class Teacher Title';
+      'Leitest du eine Klasse? (Klassenlehrer)';
 
   @override
   String get groupOnboardingJoinMultipleGroupsAction =>
-      'Group Onboarding Join Multiple Groups Action';
+      'Ja, ich möchte diesen Gruppen beitreten';
 
   @override
   String get groupOnboardingJoinSingleGroupAction =>
-      'Group Onboarding Join Single Group Action';
+      'Ja, ich möchte dieser Gruppe beitreten';
 
   @override
-  String get groupOnboardingSchoolClassHint =>
-      'Group Onboarding School Class Hint';
+  String get groupOnboardingSchoolClassHint => 'z.B. 10A';
 
   @override
   String get groupParticipantsEmpty =>
@@ -1973,13 +1961,14 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get groupsAllowJoinTitle => 'Beitreten erlauben';
 
   @override
-  String get groupsContactSupportLinkText => 'Groups Contact Support Link Text';
+  String get groupsContactSupportLinkText => 'Support';
 
   @override
-  String get groupsContactSupportPrefix => 'Groups Contact Support Prefix';
+  String get groupsContactSupportPrefix =>
+      'Du brauchst Hilfe? Dann kontaktiere einfach unseren ';
 
   @override
-  String get groupsContactSupportSuffix => 'Groups Contact Support Suffix';
+  String get groupsContactSupportSuffix => ' 😉';
 
   @override
   String get groupsCreateCourseDescription =>
@@ -2010,7 +1999,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get groupsJoinTitle => 'Beitreten';
 
   @override
-  String get groupsLinkCopied => 'Groups Link Copied';
+  String get groupsLinkCopied => 'Link wurde kopiert';
 
   @override
   String groupsMemberCount(Object value) {
@@ -2026,17 +2015,17 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get groupsMembersActiveMemberTitle =>
-      'Groups Members Active Member Title';
+      'Aktives Mitglied (Schreib- und Leserechte)';
 
   @override
-  String get groupsMembersAdminsTitle => 'Groups Members Admins Title';
+  String get groupsMembersAdminsTitle => 'Administratoren';
 
   @override
   String get groupsMembersLegendTitle => 'Legenden';
 
   @override
   String get groupsMembersPassiveMemberTitle =>
-      'Groups Members Passive Member Title';
+      'Passives Mitglied (nur Leserechte)';
 
   @override
   String get groupsPageMyCourses => 'Meine Kurse:';
@@ -2051,10 +2040,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get groupsPageTitle => 'Gruppen';
 
   @override
-  String get groupsQrCodeSubtitle => 'Groups Qr Code Subtitle';
+  String get groupsQrCodeSubtitle => 'anzeigen';
 
   @override
-  String get groupsQrCodeTitle => 'Groups Qr Code Title';
+  String get groupsQrCodeTitle => 'QR-Code';
 
   @override
   String get groupsRoleActiveMemberDescription => 'Schreib- und Leserechte';
@@ -2067,7 +2056,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get groupsRoleReadOnlyDescription => 'Leserechte';
 
   @override
-  String get groupsSharecodeCopied => 'Groups Sharecode Copied';
+  String get groupsSharecodeCopied => 'Sharecode wurde kopiert';
 
   @override
   String get groupsSharecodeCopiedToClipboard =>
@@ -2337,22 +2326,22 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get homeworkDialogWithSubmissionTitle => 'Mit Abgabe';
 
   @override
-  String get homeworkEmptyFireDescription => 'Homework Empty Fire Description';
+  String get homeworkEmptyFireDescription =>
+      'Du musst noch die Hausaufgaben erledigen! Also schau mich nicht weiter an und erledige die Aufgaben! Do it!';
 
   @override
-  String get homeworkEmptyFireTitle => 'Homework Empty Fire Title';
+  String get homeworkEmptyFireTitle => 'AUF GEHT\'S! 💥👊';
 
   @override
   String get homeworkEmptyGameControllerDescription =>
-      'Homework Empty Game Controller Description';
+      'Sehr gut! Du hast keine Hausaufgaben zu erledigen';
 
   @override
   String get homeworkEmptyGameControllerTitle =>
-      'Homework Empty Game Controller Title';
+      'Jetzt ist Zeit für die wirklich wichtigen Dinge im Leben! 🤘💪';
 
   @override
-  String get homeworkFabNewHomeworkTooltip =>
-      'Homework Fab New Homework Tooltip';
+  String get homeworkFabNewHomeworkTooltip => 'Neue Hausaufgabe';
 
   @override
   String homeworkLongPressTitle(String homeworkTitle) {
@@ -2360,11 +2349,11 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   }
 
   @override
-  String get homeworkMarkOverdueAction => 'Homework Mark Overdue Action';
+  String get homeworkMarkOverdueAction => 'Überfällige Hausaufgaben abhaken';
 
   @override
   String get homeworkMarkOverduePromptTitle =>
-      'Homework Mark Overdue Prompt Title';
+      'Alle überfälligen Hausaufgaben abhaken?';
 
   @override
   String get homeworkSectionDayAfterTomorrow => 'Übermorgen';
@@ -2382,32 +2371,32 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get homeworkSectionTomorrow => 'Morgen';
 
   @override
-  String get homeworkTabArchivedUppercase => 'Homework Tab Archived Uppercase';
+  String get homeworkTabArchivedUppercase => 'ARCHIVIERT';
 
   @override
-  String get homeworkTabDoneUppercase => 'Homework Tab Done Uppercase';
+  String get homeworkTabDoneUppercase => 'ERLEDIGT';
 
   @override
-  String get homeworkTabOpenUppercase => 'Homework Tab Open Uppercase';
+  String get homeworkTabOpenUppercase => 'OFFEN';
 
   @override
   String get homeworkTeacherNoArchivedTitle =>
-      'Homework Teacher No Archived Title';
+      'Hier werden alle Hausaufgaben angezeigt, deren Fälligkeitsdatum in der Vergangenheit liegt.';
 
   @override
-  String get homeworkTeacherNoOpenTitle => 'Homework Teacher No Open Title';
+  String get homeworkTeacherNoOpenTitle =>
+      'Keine Hausaufgaben für die Schüler:innen? 😮😍';
 
   @override
-  String get homeworkTeacherNoPermissionTitle =>
-      'Homework Teacher No Permission Title';
+  String get homeworkTeacherNoPermissionTitle => 'Keine Berechtigung';
 
   @override
   String get homeworkTeacherViewCompletionNoPermissionContent =>
-      'Homework Teacher View Completion No Permission Content';
+      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.';
 
   @override
   String get homeworkTeacherViewSubmissionsNoPermissionContent =>
-      'Homework Teacher View Submissions No Permission Content';
+      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.';
 
   @override
   String homeworkTodoDateTime(String date, String time) {
@@ -2415,29 +2404,30 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   }
 
   @override
-  String get icalLinksDialogExportCreated => 'Ical Links Dialog Export Created';
+  String get icalLinksDialogExportCreated =>
+      'Der Export wurde erfolgreich erstellt.';
 
   @override
-  String get icalLinksDialogNameHint => 'Ical Links Dialog Name Hint';
+  String get icalLinksDialogNameHint => 'Name eingeben (z.B. Meine Prüfungen)';
 
   @override
-  String get icalLinksDialogNameMissingError =>
-      'Ical Links Dialog Name Missing Error';
+  String get icalLinksDialogNameMissingError => 'Bitte gib einen Namen ein';
 
   @override
   String get icalLinksDialogNameMissingErrorWithPeriod =>
-      'Ical Links Dialog Name Missing Error With Period';
+      'Bitte gib einen Namen ein.';
 
   @override
-  String get icalLinksDialogPrivateNote => 'Ical Links Dialog Private Note';
+  String get icalLinksDialogPrivateNote =>
+      'iCal Exporte sind privat und nur für dich sichtbar.';
 
   @override
   String get icalLinksDialogSourceMissingError =>
-      'Ical Links Dialog Source Missing Error';
+      'Bitte wähle mindestens eine Quelle aus.';
 
   @override
   String get icalLinksDialogSourcesQuestion =>
-      'Ical Links Dialog Sources Question';
+      'Welche Quellen sollen in den Export aufgenommen werden?';
 
   @override
   String get icalLinksPageBuilding => 'Wird erstellt...';
@@ -2772,16 +2762,14 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get notificationPageTitle => 'Benachrichtigungen';
 
   @override
-  String get notificationsDialogReplyAction =>
-      'Notifications Dialog Reply Action';
+  String get notificationsDialogReplyAction => 'Antworten';
 
   @override
-  String get notificationsErrorDialogMoreInfo =>
-      'Notifications Error Dialog More Info';
+  String get notificationsErrorDialogMoreInfo => 'Mehr Infos.';
 
   @override
   String get notificationsErrorDialogShortDescription =>
-      'Notifications Error Dialog Short Description';
+      'Beim tippen auf die Benachrichtigung hätte jetzt etwas anderes passieren sollen.';
 
   @override
   String get onboardingNotificationsConfirmBody =>
@@ -2800,7 +2788,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Wir können dich an offene Hausaufgaben erinnern 😉 Zudem kannst du eine Benachrichtigung erhalten, wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt.';
 
   @override
-  String get onboardingNotificationsEnable => 'Onboarding Notifications Enable';
+  String get onboardingNotificationsEnable => 'Aktivieren';
 
   @override
   String get onboardingNotificationsTitle =>
@@ -2927,7 +2915,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get privacyPolicyTableOfContents => 'Inhaltsverzeichnis';
 
   @override
-  String get profileAvatarTooltip => 'Profile Avatar Tooltip';
+  String get profileAvatarTooltip => 'Mein Profil';
 
   @override
   String get registerAccountAgeNoticeText =>
@@ -3186,16 +3174,14 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get settingsOptionWebApp => 'Web-App';
 
   @override
-  String get settingsPrivacyPolicyLinkText =>
-      'Settings Privacy Policy Link Text';
+  String get settingsPrivacyPolicyLinkText => 'Datenschutzerklärung';
 
   @override
   String get settingsPrivacyPolicySentencePrefix =>
-      'Settings Privacy Policy Sentence Prefix';
+      'Mehr Informationen erhältst du in unserer ';
 
   @override
-  String get settingsPrivacyPolicySentenceSuffix =>
-      'Settings Privacy Policy Sentence Suffix';
+  String get settingsPrivacyPolicySentenceSuffix => '.';
 
   @override
   String get settingsSectionAppSettings => 'App-Einstellungen';
@@ -3504,7 +3490,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get sharezoneV2DialogAnbAcceptanceCheckbox =>
-      'Sharezone V2 Dialog Anb Acceptance Checkbox';
+      'Ich habe [die ANB](anb) gelesen und akzeptiere diese.';
 
   @override
   String get sharezoneV2DialogChangedLegalFormHeader => 'Geänderte Rechtsform';
@@ -4153,29 +4139,27 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Schulstunden werden automatisch auch für die nächsten Wochen eingetragen.';
 
   @override
-  String get timetableAddJoinCourseAction => 'Timetable Add Join Course Action';
+  String get timetableAddJoinCourseAction => 'Kurs beitreten';
 
   @override
   String get timetableAddLessonTitle => 'Schulstunde hinzufügen';
 
   @override
   String get timetableAddRoomAndTeacherOptionalTitle =>
-      'Timetable Add Room And Teacher Optional Title';
+      'Gib einen Raum & eine Lehrkraft an (optional)';
 
   @override
-  String get timetableAddSelectCourseTitle =>
-      'Timetable Add Select Course Title';
+  String get timetableAddSelectCourseTitle => 'Wähle einen Kurs aus';
 
   @override
-  String get timetableAddSelectWeekTypeTitle =>
-      'Timetable Add Select Week Type Title';
+  String get timetableAddSelectWeekTypeTitle => 'Wähle einen Wochentypen aus';
 
   @override
-  String get timetableAddSelectWeekdayTitle =>
-      'Timetable Add Select Weekday Title';
+  String get timetableAddSelectWeekdayTitle => 'Wähle einen Wochentag aus';
 
   @override
-  String get timetableAddUnknownError => 'Timetable Add Unknown Error';
+  String get timetableAddUnknownError =>
+      'Es ist ein unbekannter Fehler aufgetreten. Bitte kontaktiere den Support!';
 
   @override
   String timetableDeleteAllDialogDeleteCountdown(int seconds) {
@@ -4260,8 +4244,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get timetableErrorWeekdayMissing => 'Bitte gib einen Wochentag an!';
 
   @override
-  String get timetableEventCardChangeColorAction =>
-      'Timetable Event Card Change Color Action';
+  String get timetableEventCardChangeColorAction => 'Farbe ändern';
 
   @override
   String timetableEventCardEventTitle(Object value) {
@@ -4326,6 +4309,18 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get timetableEventDialogDescriptionHintExam => 'Themen der Prüfung';
+
+  @override
+  String get timetableEventDialogEmptyCourseError =>
+      'Bitte wähle einen Kurs aus.';
+
+  @override
+  String get timetableEventDialogEmptyTitleError =>
+      'Bitte gib einen Titel ein.';
+
+  @override
+  String get timetableEventDialogEndTimeAfterStartTimeError =>
+      'Die Endzeit muss nach der Startzeit liegen.';
 
   @override
   String get timetableEventDialogNotifyCourseMembersEvent =>
@@ -4447,14 +4442,14 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   }
 
   @override
-  String get timetablePageSettingsTooltip => 'Timetable Page Settings Tooltip';
+  String get timetablePageSettingsTooltip => 'Stundenplan-Einstellungen';
 
   @override
   String get timetableQuickCreateEmptyTitle =>
-      'Timetable Quick Create Empty Title';
+      'Du bist noch keinem Kurs, bzw. keiner Klasse beigetreten!';
 
   @override
-  String get timetableQuickCreateTitle => 'Timetable Quick Create Title';
+  String get timetableQuickCreateTitle => 'Stunde hinzufügen';
 
   @override
   String get timetableSchoolClassFilterAllClasses => 'Alle Schulklassen';
@@ -4759,10 +4754,11 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get useAccountInstructionsVideoTitle => 'Video:';
 
   @override
-  String get userCommentFieldEmptyError => 'User Comment Field Empty Error';
+  String get userCommentFieldEmptyError =>
+      'Der Kommentar hat doch gar keinen Text! 🧐';
 
   @override
-  String get userCommentFieldHint => 'User Comment Field Hint';
+  String get userCommentFieldHint => 'Gib deinen Senf ab...';
 
   @override
   String get userEditLoadingUserSnackbar =>

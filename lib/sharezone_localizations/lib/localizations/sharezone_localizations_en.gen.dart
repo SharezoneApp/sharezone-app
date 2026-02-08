@@ -4300,6 +4300,16 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'Timetable Event Dialog Description Hint Exam';
 
   @override
+  String get timetableEventDialogEmptyCourseError => 'Please choose a course.';
+
+  @override
+  String get timetableEventDialogEmptyTitleError => 'Please enter a title.';
+
+  @override
+  String get timetableEventDialogEndTimeAfterStartTimeError =>
+      'The end time must be after the start time.';
+
+  @override
   String get timetableEventDialogNotifyCourseMembersEvent =>
       'Timetable Event Dialog Notify Course Members Event';
 
