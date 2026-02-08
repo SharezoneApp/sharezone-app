@@ -478,7 +478,11 @@ class _DeleteAccountDialogContentState
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     const SizedBox(height: 16),
-                    Text(context.l10n.myProfileDeleteAccountDialogPleaseEnterYourPassword),
+                    Text(
+                      context
+                          .l10n
+                          .myProfileDeleteAccountDialogPleaseEnterYourPassword,
+                    ),
                     Material(
                       color: Colors.transparent,
                       child: TextField(

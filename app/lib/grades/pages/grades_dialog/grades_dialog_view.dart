@@ -11,6 +11,7 @@ import 'package:design/design.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 typedef SelectableGrades =
     ({IList<String>? distinctGrades, NonDistinctGrades? nonDistinctGrades});
@@ -134,19 +135,24 @@ typedef SubjectView =
     ({String abbreviation, Design design, SubjectId id, String name});
 
 extension GradeSystemToName on GradingSystem {
-  String get displayName {
+  String toLocalizedString(BuildContext context) {
     return switch (this) {
-      GradingSystem.oneToSixWithPlusAndMinus => '1 - 6 (+-)',
-      GradingSystem.oneToSixWithDecimals => '1 - 6 (with decimals)',
-      GradingSystem.sixToOneWithDecimals => '6 - 1 (with decimals)',
-      GradingSystem.oneToFiveWithDecimals => '1 - 5 (with decimals)',
-      GradingSystem.zeroToFifteenPoints => '15 - 0 points',
+      GradingSystem.oneToSixWithPlusAndMinus =>
+        context.l10n.gradingSystemOneToSixWithPlusAndMinus,
+      GradingSystem.oneToSixWithDecimals =>
+        context.l10n.gradingSystemOneToSixWithDecimals,
+      GradingSystem.sixToOneWithDecimals =>
+        context.l10n.gradingSystemSixToOneWithDecimals,
+      GradingSystem.oneToFiveWithDecimals =>
+        context.l10n.gradingSystemOneToFiveWithDecimals,
+      GradingSystem.zeroToFifteenPoints =>
+        context.l10n.gradingSystemZeroToFifteenPoints,
       GradingSystem.zeroToFifteenPointsWithDecimals =>
-        '15 - 0 points (with decimals)',
+        context.l10n.gradingSystemZeroToFifteenPointsWithDecimals,
       GradingSystem.zeroToHundredPercentWithDecimals =>
-        '100% - 0% (with decimals)',
+        context.l10n.gradingSystemZeroToHundredPercentWithDecimals,
       GradingSystem.austrianBehaviouralGrades =>
-        'Austrian behavioural grades',
+        context.l10n.gradingSystemAustrianBehaviouralGrades,
     };
   }
 }

@@ -93,7 +93,7 @@ class _GradeTypeWeight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gradeType = getGradeType(context);
-    final name = gradeType?.predefinedType?.toUiString() ?? '?';
+    final name = gradeType?.predefinedType?.toUiString(context) ?? '?';
     return ListTile(
       title: Text(name),
       onTap: () async {

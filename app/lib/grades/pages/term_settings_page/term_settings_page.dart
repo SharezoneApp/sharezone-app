@@ -578,7 +578,7 @@ class _GradingSystem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GradingSystemBase(
-      currentGradingSystemName: gradingSystem.displayName,
+      currentGradingSystemName: gradingSystem.toLocalizedString(context),
       onGradingSystemChanged: (res) {
         final controller = context.read<TermSettingsPageController>();
         controller.setGradingSystem(res);
@@ -598,7 +598,8 @@ class _FinalGradeType extends StatelessWidget {
       icon:
           view.finalGradeType.predefinedType?.getIcon() ??
           const Icon(Icons.help),
-      displayName: view.finalGradeType.predefinedType?.toUiString() ?? '?',
+      displayName:
+          view.finalGradeType.predefinedType?.toUiString(context) ?? '?',
       selectableGradingTypes: view.selectableGradingTypes,
       onSetFinalGradeType: (type) {
         final controller = context.read<TermSettingsPageController>();

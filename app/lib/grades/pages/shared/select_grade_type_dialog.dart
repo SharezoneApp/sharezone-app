@@ -43,7 +43,7 @@ class SelectGradeTypeDialog extends StatelessWidget {
                 gradeType.predefinedType?.getIcon() ??
                 const Icon(Icons.help_outline),
             title: Text(
-              gradeType.predefinedType?.toUiString() ??
+              gradeType.predefinedType?.toUiString(context) ??
                   context.l10n.gradesDialogUnknownCustomGradeType,
             ),
             onTap: () {

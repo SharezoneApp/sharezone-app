@@ -13,16 +13,19 @@ import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller.da
 class SubjectsPageControllerFactory {
   final GradesService gradesService;
   final Stream<List<Course>> Function() coursesStream;
+  final SubjectsPageControllerTranslations translations;
 
   const SubjectsPageControllerFactory({
     required this.gradesService,
     required this.coursesStream,
+    required this.translations,
   });
 
   SubjectsPageController create() {
     return SubjectsPageController(
       gradesService: gradesService,
       coursesStream: coursesStream(),
+      translations: translations,
     );
   }
 }

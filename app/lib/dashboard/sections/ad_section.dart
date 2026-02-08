@@ -112,8 +112,7 @@ class _DashboardAdsState extends State<DashboardAds> {
               onTap: () => navigateToSharezonePlusPage(context),
               child: Text.rich(
                 TextSpan(
-                  text:
-                      context.l10n.dashboardAdSectionPrefix,
+                  text: context.l10n.dashboardAdSectionPrefix,
                   style: const TextStyle(fontSize: 10, color: Colors.grey),
                   children: [
                     TextSpan(

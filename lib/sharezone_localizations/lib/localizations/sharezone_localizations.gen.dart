@@ -2947,11 +2947,41 @@ abstract class SharezoneLocalizations {
   /// **'Halbjahr ändern'**
   String get gradesDialogEditTermTitle;
 
+  /// No description provided for @gradesDialogEnterGradeError.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib eine Note an.'**
+  String get gradesDialogEnterGradeError;
+
+  /// No description provided for @gradesDialogEnterTitleError.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte einen Titel eingeben.'**
+  String get gradesDialogEnterTitleError;
+
   /// No description provided for @gradesDialogGoToSharezonePlus.
   ///
   /// In de, this message translates to:
   /// **'Zu Sharezone Plus'**
   String get gradesDialogGoToSharezonePlus;
+
+  /// No description provided for @gradesDialogGradeInvalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Note ist ungültig.'**
+  String get gradesDialogGradeInvalid;
+
+  /// No description provided for @gradesDialogGradeIsInvalidError.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Eingabe ist keine gültige Zahl.'**
+  String get gradesDialogGradeIsInvalidError;
+
+  /// No description provided for @gradesDialogGradeIsOutOfRangeError.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Note ist außerhalb des gültigen Bereichs.'**
+  String get gradesDialogGradeIsOutOfRangeError;
 
   /// No description provided for @gradesDialogGradeLabel.
   ///
@@ -3540,6 +3570,54 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Berechnung der Fachnote'**
   String get gradesWeightSettingsTitle;
+
+  /// No description provided for @gradingSystemAustrianBehaviouralGrades.
+  ///
+  /// In de, this message translates to:
+  /// **'Österreichische Verhaltensnoten'**
+  String get gradingSystemAustrianBehaviouralGrades;
+
+  /// No description provided for @gradingSystemOneToFiveWithDecimals.
+  ///
+  /// In de, this message translates to:
+  /// **'1 - 5 (mit Kommazahlen)'**
+  String get gradingSystemOneToFiveWithDecimals;
+
+  /// No description provided for @gradingSystemOneToSixWithDecimals.
+  ///
+  /// In de, this message translates to:
+  /// **'1 - 6 (mit Kommazahlen)'**
+  String get gradingSystemOneToSixWithDecimals;
+
+  /// No description provided for @gradingSystemOneToSixWithPlusAndMinus.
+  ///
+  /// In de, this message translates to:
+  /// **'1 - 6 (+-)'**
+  String get gradingSystemOneToSixWithPlusAndMinus;
+
+  /// No description provided for @gradingSystemSixToOneWithDecimals.
+  ///
+  /// In de, this message translates to:
+  /// **'6 - 1 (mit Kommazahlen)'**
+  String get gradingSystemSixToOneWithDecimals;
+
+  /// No description provided for @gradingSystemZeroToFifteenPoints.
+  ///
+  /// In de, this message translates to:
+  /// **'15 - 0 Punkte'**
+  String get gradingSystemZeroToFifteenPoints;
+
+  /// No description provided for @gradingSystemZeroToFifteenPointsWithDecimals.
+  ///
+  /// In de, this message translates to:
+  /// **'15 - 0 Punkte (mit Kommazahlen)'**
+  String get gradingSystemZeroToFifteenPointsWithDecimals;
+
+  /// No description provided for @gradingSystemZeroToHundredPercentWithDecimals.
+  ///
+  /// In de, this message translates to:
+  /// **'100% - 0% (mit Kommazahlen)'**
+  String get gradingSystemZeroToHundredPercentWithDecimals;
 
   /// No description provided for @groupCourseDetailsLoadError.
   ///
@@ -5658,6 +5736,42 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Stundenplanbeginn'**
   String get periodsEditTimetableStart;
+
+  /// No description provided for @predefinedGradeTypesOralParticipation.
+  ///
+  /// In de, this message translates to:
+  /// **'Mündliche Beteiligung'**
+  String get predefinedGradeTypesOralParticipation;
+
+  /// No description provided for @predefinedGradeTypesOther.
+  ///
+  /// In de, this message translates to:
+  /// **'Sonstiges'**
+  String get predefinedGradeTypesOther;
+
+  /// No description provided for @predefinedGradeTypesPresentation.
+  ///
+  /// In de, this message translates to:
+  /// **'Präsentation'**
+  String get predefinedGradeTypesPresentation;
+
+  /// No description provided for @predefinedGradeTypesSchoolReportGrade.
+  ///
+  /// In de, this message translates to:
+  /// **'Zeugnisnote'**
+  String get predefinedGradeTypesSchoolReportGrade;
+
+  /// No description provided for @predefinedGradeTypesVocabularyTest.
+  ///
+  /// In de, this message translates to:
+  /// **'Vokabeltest'**
+  String get predefinedGradeTypesVocabularyTest;
+
+  /// No description provided for @predefinedGradeTypesWrittenExam.
+  ///
+  /// In de, this message translates to:
+  /// **'Schriftliche Prüfung'**
+  String get predefinedGradeTypesWrittenExam;
 
   /// No description provided for @privacyDisplaySettingsDensityComfortable.
   ///

@@ -21,6 +21,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../models/subject_id.dart';
 import '../models/term_id.dart';
@@ -442,14 +443,19 @@ enum PredefinedGradeTypes {
   presentation,
   other;
 
-  String toUiString() {
+  String toUiString(BuildContext context) {
     return switch (this) {
-      PredefinedGradeTypes.schoolReportGrade => 'Report grade',
-      PredefinedGradeTypes.writtenExam => 'Written exam',
-      PredefinedGradeTypes.oralParticipation => 'Oral participation',
-      PredefinedGradeTypes.vocabularyTest => 'Vocabulary test',
-      PredefinedGradeTypes.presentation => 'Presentation',
-      PredefinedGradeTypes.other => 'Other',
+      PredefinedGradeTypes.schoolReportGrade =>
+        context.l10n.predefinedGradeTypesSchoolReportGrade,
+      PredefinedGradeTypes.writtenExam =>
+        context.l10n.predefinedGradeTypesWrittenExam,
+      PredefinedGradeTypes.oralParticipation =>
+        context.l10n.predefinedGradeTypesOralParticipation,
+      PredefinedGradeTypes.vocabularyTest =>
+        context.l10n.predefinedGradeTypesVocabularyTest,
+      PredefinedGradeTypes.presentation =>
+        context.l10n.predefinedGradeTypesPresentation,
+      PredefinedGradeTypes.other => context.l10n.predefinedGradeTypesOther,
     };
   }
 

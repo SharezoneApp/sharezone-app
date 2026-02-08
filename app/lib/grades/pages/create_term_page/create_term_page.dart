@@ -149,7 +149,7 @@ class _GradingSystem extends StatelessWidget {
           (controller) => controller.view.gradingSystem,
         );
     return GradingSystemBase(
-      currentGradingSystemName: gradingSystem.displayName,
+      currentGradingSystemName: gradingSystem.toLocalizedString(context),
       onGradingSystemChanged: (res) {
         final controller = context.read<CreateTermPageController>();
         controller.setGradingSystem(res);
@@ -181,7 +181,7 @@ class GradingSystemBase extends StatelessWidget {
                 children: [
                   for (final gradingSystem in GradingSystem.values)
                     ListTile(
-                      title: Text(gradingSystem.displayName),
+                      title: Text(gradingSystem.toLocalizedString(context)),
                       onTap: () {
                         Navigator.of(
                           context,

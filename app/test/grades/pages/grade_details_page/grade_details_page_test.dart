@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/grades/models/grade_id.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
@@ -42,10 +42,10 @@ void main() {
   void setLoaded() {
     const dummyView = GradeDetailsView(
       gradeValue: '5',
-      gradingSystem: '5-Point',
+      gradingSystem: GradingSystem.oneToFiveWithDecimals,
       subjectDisplayName: 'Math',
       date: '2021-09-01',
-      gradeType: 'Test',
+      gradeType: PredefinedGradeTypes.vocabularyTest,
       termDisplayName: '1st Term',
       integrateGradeIntoSubjectGrade: true,
       title: 'Algebra',

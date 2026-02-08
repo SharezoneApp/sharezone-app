@@ -3,17 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i7;
+import 'dart:async' as _i8;
 
 import 'package:analytics/analytics.dart' as _i4;
 import 'package:crash_analytics/crash_analytics.dart' as _i2;
-import 'package:group_domain_models/group_domain_models.dart' as _i8;
+import 'package:flutter/material.dart' as _i6;
+import 'package:group_domain_models/group_domain_models.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i10;
 import 'package:sharezone/grades/grades_service/grades_service.dart' as _i3;
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart'
     as _i5;
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart'
-    as _i6;
+    as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -46,9 +48,22 @@ class _FakeAnalytics_2 extends _i1.SmartFake implements _i4.Analytics {
     : super(parent, parentInvocation);
 }
 
-class _FakeGradesDialogController_3 extends _i1.SmartFake
+class _FakeGradesDialogControllerTranslations_3 extends _i1.SmartFake
+    implements _i5.GradesDialogControllerTranslations {
+  _FakeGradesDialogControllerTranslations_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(parent, parentInvocation);
+}
+
+class _FakeGradesDialogController_4 extends _i1.SmartFake
     implements _i5.GradesDialogController {
-  _FakeGradesDialogController_3(Object parent, Invocation parentInvocation)
+  _FakeGradesDialogController_4(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeBuildContext_5 extends _i1.SmartFake implements _i6.BuildContext {
+  _FakeBuildContext_5(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -56,7 +71,7 @@ class _FakeGradesDialogController_3 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGradesDialogControllerFactory extends _i1.Mock
-    implements _i6.GradesDialogControllerFactory {
+    implements _i7.GradesDialogControllerFactory {
   @override
   _i2.CrashAnalytics get crashAnalytics =>
       (super.noSuchMethod(
@@ -100,27 +115,262 @@ class MockGradesDialogControllerFactory extends _i1.Mock
           as _i4.Analytics);
 
   @override
-  _i7.Stream<List<_i8.Course>> Function() get coursesStream =>
+  _i5.GradesDialogControllerTranslations get translations =>
+      (super.noSuchMethod(
+            Invocation.getter(#translations),
+            returnValue: _FakeGradesDialogControllerTranslations_3(
+              this,
+              Invocation.getter(#translations),
+            ),
+            returnValueForMissingStub:
+                _FakeGradesDialogControllerTranslations_3(
+                  this,
+                  Invocation.getter(#translations),
+                ),
+          )
+          as _i5.GradesDialogControllerTranslations);
+
+  @override
+  _i8.Stream<List<_i9.Course>> Function() get coursesStream =>
       (super.noSuchMethod(
             Invocation.getter(#coursesStream),
-            returnValue: () => _i7.Stream<List<_i8.Course>>.empty(),
+            returnValue: () => _i8.Stream<List<_i9.Course>>.empty(),
             returnValueForMissingStub:
-                () => _i7.Stream<List<_i8.Course>>.empty(),
+                () => _i8.Stream<List<_i9.Course>>.empty(),
           )
-          as _i7.Stream<List<_i8.Course>> Function());
+          as _i8.Stream<List<_i9.Course>> Function());
 
   @override
   _i5.GradesDialogController create(_i3.GradeId? gradeId) =>
       (super.noSuchMethod(
             Invocation.method(#create, [gradeId]),
-            returnValue: _FakeGradesDialogController_3(
+            returnValue: _FakeGradesDialogController_4(
               this,
               Invocation.method(#create, [gradeId]),
             ),
-            returnValueForMissingStub: _FakeGradesDialogController_3(
+            returnValueForMissingStub: _FakeGradesDialogController_4(
               this,
               Invocation.method(#create, [gradeId]),
             ),
           )
           as _i5.GradesDialogController);
+}
+
+/// A class which mocks [GradesDialogControllerTranslations].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGradesDialogControllerTranslations extends _i1.Mock
+    implements _i5.GradesDialogControllerTranslations {
+  @override
+  _i6.BuildContext get context =>
+      (super.noSuchMethod(
+            Invocation.getter(#context),
+            returnValue: _FakeBuildContext_5(this, Invocation.getter(#context)),
+            returnValueForMissingStub: _FakeBuildContext_5(
+              this,
+              Invocation.getter(#context),
+            ),
+          )
+          as _i6.BuildContext);
+
+  @override
+  String get enterGradeError =>
+      (super.noSuchMethod(
+            Invocation.getter(#enterGradeError),
+            returnValue: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#enterGradeError),
+            ),
+            returnValueForMissingStub: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#enterGradeError),
+            ),
+          )
+          as String);
+
+  @override
+  String get gradeIsInvalidError =>
+      (super.noSuchMethod(
+            Invocation.getter(#gradeIsInvalidError),
+            returnValue: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#gradeIsInvalidError),
+            ),
+            returnValueForMissingStub: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#gradeIsInvalidError),
+            ),
+          )
+          as String);
+
+  @override
+  String get gradeIsOutOfRangeError =>
+      (super.noSuchMethod(
+            Invocation.getter(#gradeIsOutOfRangeError),
+            returnValue: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#gradeIsOutOfRangeError),
+            ),
+            returnValueForMissingStub: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#gradeIsOutOfRangeError),
+            ),
+          )
+          as String);
+
+  @override
+  String get enterTitleError =>
+      (super.noSuchMethod(
+            Invocation.getter(#enterTitleError),
+            returnValue: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#enterTitleError),
+            ),
+            returnValueForMissingStub: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#enterTitleError),
+            ),
+          )
+          as String);
+
+  @override
+  String get gradeInvalid =>
+      (super.noSuchMethod(
+            Invocation.getter(#gradeInvalid),
+            returnValue: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#gradeInvalid),
+            ),
+            returnValueForMissingStub: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#gradeInvalid),
+            ),
+          )
+          as String);
+}
+
+/// A class which mocks [CrashAnalytics].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCrashAnalytics extends _i1.Mock implements _i2.CrashAnalytics {
+  @override
+  set enableInDevMode(bool? value) => super.noSuchMethod(
+    Invocation.setter(#enableInDevMode, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void crash() => super.noSuchMethod(
+    Invocation.method(#crash, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  _i8.Future<void> recordFlutterError(_i6.FlutterErrorDetails? details) =>
+      (super.noSuchMethod(
+            Invocation.method(#recordFlutterError, [details]),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> recordError(
+    dynamic exception,
+    StackTrace? stack, {
+    bool? fatal = false,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(
+              #recordError,
+              [exception, stack],
+              {#fatal: fatal},
+            ),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
+  void log(String? msg) => super.noSuchMethod(
+    Invocation.method(#log, [msg]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  _i8.Future<void> setCustomKey(String? key, dynamic value) =>
+      (super.noSuchMethod(
+            Invocation.method(#setCustomKey, [key, value]),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> setUserIdentifier(String? identifier) =>
+      (super.noSuchMethod(
+            Invocation.method(#setUserIdentifier, [identifier]),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> setCrashAnalyticsEnabled(bool? enabled) =>
+      (super.noSuchMethod(
+            Invocation.method(#setCrashAnalyticsEnabled, [enabled]),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+}
+
+/// A class which mocks [Analytics].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAnalytics extends _i1.Mock implements _i4.Analytics {
+  @override
+  void log(_i4.AnalyticsEvent? event) => super.noSuchMethod(
+    Invocation.method(#log, [event]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setAnalyticsCollectionEnabled(bool? value) => super.noSuchMethod(
+    Invocation.method(#setAnalyticsCollectionEnabled, [value]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  _i8.Future<void> logSignUp({required String? signUpMethod}) =>
+      (super.noSuchMethod(
+            Invocation.method(#logSignUp, [], {#signUpMethod: signUpMethod}),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> setCurrentScreen({required String? screenName}) =>
+      (super.noSuchMethod(
+            Invocation.method(#setCurrentScreen, [], {#screenName: screenName}),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> setUserProperty({
+    required String? name,
+    required String? value,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#setUserProperty, [], {
+              #name: name,
+              #value: value,
+            }),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
 }

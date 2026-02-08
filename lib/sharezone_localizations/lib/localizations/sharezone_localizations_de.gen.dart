@@ -1659,7 +1659,24 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get gradesDialogEditTermTitle => 'Halbjahr ändern';
 
   @override
+  String get gradesDialogEnterGradeError => 'Bitte gib eine Note an.';
+
+  @override
+  String get gradesDialogEnterTitleError => 'Bitte einen Titel eingeben.';
+
+  @override
   String get gradesDialogGoToSharezonePlus => 'Zu Sharezone Plus';
+
+  @override
+  String get gradesDialogGradeInvalid => 'Die Note ist ungültig.';
+
+  @override
+  String get gradesDialogGradeIsInvalidError =>
+      'Die Eingabe ist keine gültige Zahl.';
+
+  @override
+  String get gradesDialogGradeIsOutOfRangeError =>
+      'Die Note ist außerhalb des gültigen Bereichs.';
 
   @override
   String get gradesDialogGradeLabel => 'Note';
@@ -2000,6 +2017,33 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get gradesWeightSettingsTitle => 'Berechnung der Fachnote';
+
+  @override
+  String get gradingSystemAustrianBehaviouralGrades =>
+      'Österreichische Verhaltensnoten';
+
+  @override
+  String get gradingSystemOneToFiveWithDecimals => '1 - 5 (mit Kommazahlen)';
+
+  @override
+  String get gradingSystemOneToSixWithDecimals => '1 - 6 (mit Kommazahlen)';
+
+  @override
+  String get gradingSystemOneToSixWithPlusAndMinus => '1 - 6 (+-)';
+
+  @override
+  String get gradingSystemSixToOneWithDecimals => '6 - 1 (mit Kommazahlen)';
+
+  @override
+  String get gradingSystemZeroToFifteenPoints => '15 - 0 Punkte';
+
+  @override
+  String get gradingSystemZeroToFifteenPointsWithDecimals =>
+      '15 - 0 Punkte (mit Kommazahlen)';
+
+  @override
+  String get gradingSystemZeroToHundredPercentWithDecimals =>
+      '100% - 0% (mit Kommazahlen)';
 
   @override
   String get groupCourseDetailsLoadError =>
@@ -3253,6 +3297,24 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get periodsEditTimetableStart => 'Stundenplanbeginn';
+
+  @override
+  String get predefinedGradeTypesOralParticipation => 'Mündliche Beteiligung';
+
+  @override
+  String get predefinedGradeTypesOther => 'Sonstiges';
+
+  @override
+  String get predefinedGradeTypesPresentation => 'Präsentation';
+
+  @override
+  String get predefinedGradeTypesSchoolReportGrade => 'Zeugnisnote';
+
+  @override
+  String get predefinedGradeTypesVocabularyTest => 'Vokabeltest';
+
+  @override
+  String get predefinedGradeTypesWrittenExam => 'Schriftliche Prüfung';
 
   @override
   String get privacyDisplaySettingsDensityComfortable => 'Komfortabel';

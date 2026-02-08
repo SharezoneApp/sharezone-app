@@ -138,7 +138,7 @@ class _FinalGradeType extends StatelessWidget {
   Widget build(BuildContext context) {
     return FinalGradeTypeSettings(
       icon: view.finalGradeTypeIcon,
-      displayName: view.finalGradeTypeDisplayName,
+      displayName: view.finalGradeType?.toUiString(context) ?? '?',
       selectableGradingTypes: view.selectableGradingTypes,
       onSetFinalGradeType: (type) {
         final controller = context.read<SubjectSettingsPageController>();

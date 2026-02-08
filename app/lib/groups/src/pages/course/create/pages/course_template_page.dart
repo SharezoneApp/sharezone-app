@@ -186,8 +186,7 @@ class _CourseTemplateListState extends State<CourseTemplateList> {
       CourseTemplate(l10n.courseTemplateSubjectHomeEconomics, "HW"),
       CourseTemplate(l10n.courseTemplateSubjectWorkEducation, "AL"),
     ];
-    sortedCourseTemplates = unsortedCourseTemplates
-      ..sortBySubject();
+    sortedCourseTemplates = unsortedCourseTemplates..sortBySubject();
   }
 
   @override

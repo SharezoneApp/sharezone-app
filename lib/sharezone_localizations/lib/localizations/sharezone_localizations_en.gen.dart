@@ -1642,7 +1642,24 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get gradesDialogEditTermTitle => 'Change term';
 
   @override
+  String get gradesDialogEnterGradeError => 'Please enter a grade.';
+
+  @override
+  String get gradesDialogEnterTitleError => 'Please enter a title.';
+
+  @override
   String get gradesDialogGoToSharezonePlus => 'Go to Sharezone Plus';
+
+  @override
+  String get gradesDialogGradeInvalid => 'The grade is invalid.';
+
+  @override
+  String get gradesDialogGradeIsInvalidError =>
+      'The input is not a valid number.';
+
+  @override
+  String get gradesDialogGradeIsOutOfRangeError =>
+      'The grade is outside the valid range.';
 
   @override
   String get gradesDialogGradeLabel => 'Grade';
@@ -1984,6 +2001,33 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get gradesWeightSettingsTitle => 'Subject grade calculation';
+
+  @override
+  String get gradingSystemAustrianBehaviouralGrades =>
+      'Austrian behavioural grades';
+
+  @override
+  String get gradingSystemOneToFiveWithDecimals => '1 - 5 (with decimals)';
+
+  @override
+  String get gradingSystemOneToSixWithDecimals => '1 - 6 (with decimals)';
+
+  @override
+  String get gradingSystemOneToSixWithPlusAndMinus => '1 - 6 (+-)';
+
+  @override
+  String get gradingSystemSixToOneWithDecimals => '6 - 1 (with decimals)';
+
+  @override
+  String get gradingSystemZeroToFifteenPoints => '15 - 0 points';
+
+  @override
+  String get gradingSystemZeroToFifteenPointsWithDecimals =>
+      '15 - 0 points (with decimals)';
+
+  @override
+  String get gradingSystemZeroToHundredPercentWithDecimals =>
+      '100% - 0% (with decimals)';
 
   @override
   String get groupCourseDetailsLoadError =>
@@ -3226,6 +3270,24 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get periodsEditTimetableStart => 'Timetable start';
+
+  @override
+  String get predefinedGradeTypesOralParticipation => 'Oral participation';
+
+  @override
+  String get predefinedGradeTypesOther => 'Other';
+
+  @override
+  String get predefinedGradeTypesPresentation => 'Presentation';
+
+  @override
+  String get predefinedGradeTypesSchoolReportGrade => 'Report grade';
+
+  @override
+  String get predefinedGradeTypesVocabularyTest => 'Vocabulary test';
+
+  @override
+  String get predefinedGradeTypesWrittenExam => 'Written exam';
 
   @override
   String get privacyDisplaySettingsDensityComfortable => 'Comfortable';

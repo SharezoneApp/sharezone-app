@@ -41,7 +41,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
 
     _subjectName = subject.name;
     final finalGradeType = _getFinalGradeType(subject.finalGradeTypeId);
-    _finalGradeTypeDisplayName = _getFinalGradeTypeDisplayName(finalGradeType);
+    _finalGradeType = finalGradeType?.predefinedType;
     _finalGradeTypeIcon = _getFinalGradeTypeIcon(finalGradeType);
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
 
@@ -79,10 +79,6 @@ class SubjectSettingsPageController extends ChangeNotifier {
     }
   }
 
-  String _getFinalGradeTypeDisplayName(GradeType? gradeType) {
-    return gradeType?.predefinedType?.toUiString() ?? '?';
-  }
-
   Icon _getFinalGradeTypeIcon(GradeType? gradeType) {
     return gradeType?.predefinedType?.getIcon() ?? const Icon(Icons.help);
   }
@@ -99,7 +95,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
   SubjectSettingsState state = const SubjectSettingsLoading();
 
   late String _subjectName;
-  late String _finalGradeTypeDisplayName;
+  late PredefinedGradeTypes? _finalGradeType;
   late Icon _finalGradeTypeIcon;
   late IList<GradeType> _selectableGradeTypes;
   late IMap<GradeTypeId, Weight> _weights;
@@ -107,7 +103,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
   SubjectSettingsPageView get view {
     return SubjectSettingsPageView(
       subjectName: _subjectName,
-      finalGradeTypeDisplayName: _finalGradeTypeDisplayName,
+      finalGradeType: _finalGradeType,
       finalGradeTypeIcon: _finalGradeTypeIcon,
       selectableGradingTypes:
           _selectableGradeTypes.where((gradeType) {
@@ -163,7 +159,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
   }
 
   void setFinalGradeType(GradeType gradeType) {
-    _finalGradeTypeDisplayName = _getFinalGradeTypeDisplayName(gradeType);
+    _finalGradeType = gradeType.predefinedType;
     _finalGradeTypeIcon = _getFinalGradeTypeIcon(gradeType);
     subRef.changeFinalGradeType(gradeType.id);
     state = SubjectSettingsLoaded(view);

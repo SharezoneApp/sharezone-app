@@ -7,13 +7,14 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
 
 class GradeDetailsView extends Equatable {
   final String gradeValue;
-  final String gradingSystem;
+  final GradingSystem gradingSystem;
   final String subjectDisplayName;
   final String date;
-  final String gradeType;
+  final PredefinedGradeTypes gradeType;
   final String termDisplayName;
   final bool? integrateGradeIntoSubjectGrade;
   final String? title;

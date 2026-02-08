@@ -47,7 +47,9 @@ class TermDialog extends StatelessWidget {
                 ListTile(
                   leading: SavedGradeIcons.gradingSystem,
                   title: Text(context.l10n.gradesDialogGradingSystemLabel),
-                  subtitle: Text(controller.gradingSystem.displayName),
+                  subtitle: Text(
+                    controller.gradingSystem.toLocalizedString(context),
+                  ),
                   onTap: () async {
                     final res = await showDialog<GradingSystem?>(
                       context: context,
@@ -57,7 +59,9 @@ class TermDialog extends StatelessWidget {
                             children: [
                               for (final gradingSystem in GradingSystem.values)
                                 ListTile(
-                                  title: Text(gradingSystem.displayName),
+                                  title: Text(
+                                    gradingSystem.toLocalizedString(context),
+                                  ),
                                   onTap: () {
                                     Navigator.of(
                                       context,

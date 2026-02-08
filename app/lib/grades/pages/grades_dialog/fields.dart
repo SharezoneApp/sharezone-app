@@ -102,7 +102,7 @@ class _GradingSystem extends StatelessWidget {
     return ListTile(
       leading: SavedGradeIcons.gradingSystem,
       title: Text(context.l10n.gradesDialogGradingSystemLabel),
-      subtitle: Text(view.selectedGradingSystem.displayName),
+      subtitle: Text(view.selectedGradingSystem.toLocalizedString(context)),
       onTap: () async {
         final res = await showDialog<GradingSystem?>(
           context: context,
@@ -140,7 +140,7 @@ class _SelectGradeSystemDialog extends StatelessWidget {
           ),
           for (final gradingSystem in GradingSystem.values)
             ListTile(
-              title: Text(gradingSystem.displayName),
+              title: Text(gradingSystem.toLocalizedString(context)),
               onTap: () {
                 Navigator.of(context).pop<GradingSystem?>(gradingSystem);
               },
@@ -371,7 +371,7 @@ class _GradingType extends StatelessWidget {
       leading: SavedGradeIcons.gradingType,
       title: Text(context.l10n.gradesDialogGradeTypeLabel),
       subtitle: Text(
-        view.selectedGradingType.predefinedType?.toUiString() ??
+        view.selectedGradingType.predefinedType?.toUiString(context) ??
             context.l10n.gradesDialogCustomGradeType,
       ),
       onTap: () async {

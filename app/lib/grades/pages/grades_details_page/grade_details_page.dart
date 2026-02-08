@@ -7,15 +7,16 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/grades/models/grade_id.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_view.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
 import 'package:sharezone/support/support_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GradeDetailsPage extends StatelessWidget {
@@ -167,10 +168,10 @@ class _Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     final dummyView = GradeDetailsView(
       gradeValue: '5',
-      gradingSystem: '5-Point',
+      gradingSystem: GradingSystem.oneToFiveWithDecimals,
       subjectDisplayName: 'Math',
       date: '2021-09-01',
-      gradeType: 'Test',
+      gradeType: PredefinedGradeTypes.writtenExam,
       termDisplayName: '1st Term',
       integrateGradeIntoSubjectGrade: true,
       title: context.l10n.gradesDetailsDummyTopic,
@@ -195,7 +196,7 @@ class _Items extends StatelessWidget {
         child: Column(
           children: [
             _GradeValue(value: view.gradeValue),
-            _GradingSystem(gradingSystemDisplayName: view.gradingSystem),
+            _GradingSystem(gradingSystem: view.gradingSystem),
             _Subject(subjectDisplayName: view.subjectDisplayName),
             _Date(date: view.date),
             _GradingType(gradeType: view.gradeType),
@@ -227,16 +228,16 @@ class _GradeValue extends StatelessWidget {
 }
 
 class _GradingSystem extends StatelessWidget {
-  const _GradingSystem({required this.gradingSystemDisplayName});
+  const _GradingSystem({required this.gradingSystem});
 
-  final String gradingSystemDisplayName;
+  final GradingSystem gradingSystem;
 
   @override
   Widget build(BuildContext context) {
     return _GradeDetailsTile(
       leading: SavedGradeIcons.gradingSystem,
       title: Text(context.l10n.gradesDialogGradingSystemLabel),
-      subtitle: Text(gradingSystemDisplayName),
+      subtitle: Text(gradingSystem.toLocalizedString(context)),
     );
   }
 }
@@ -270,14 +271,14 @@ class _Date extends StatelessWidget {
 class _GradingType extends StatelessWidget {
   const _GradingType({required this.gradeType});
 
-  final String gradeType;
+  final PredefinedGradeTypes gradeType;
 
   @override
   Widget build(BuildContext context) {
     return _GradeDetailsTile(
       leading: SavedGradeIcons.gradingType,
       title: Text(context.l10n.gradesDialogGradeTypeLabel),
-      subtitle: Text(gradeType),
+      subtitle: Text(gradeType.toUiString(context)),
     );
   }
 }

@@ -264,9 +264,10 @@ class _PeriodTile extends StatelessWidget {
                             final newTime = await selectTime(
                               context,
                               initialTime: period.startTime,
-                              title: context.l10n.timetableEditSelectTimeForPeriod(
-                                period.number,
-                              ),
+                              title: context.l10n
+                                  .timetableEditSelectTimeForPeriod(
+                                    period.number,
+                                  ),
                             );
                             if (newTime != null) {
                               bloc.editPeriodStartTime(period.number, newTime);

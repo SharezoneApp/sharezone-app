@@ -48,7 +48,7 @@ void main() {
         SubjectSettingsLoaded(
           SubjectSettingsPageView(
             subjectName: 'Mathe',
-            finalGradeTypeDisplayName: 'Zeugnisnote',
+            finalGradeType: PredefinedGradeTypes.schoolReportGrade,
             finalGradeTypeIcon: const Icon(Icons.edit_document),
             selectableGradingTypes: const IListConst([]),
             weights: IMapConst({

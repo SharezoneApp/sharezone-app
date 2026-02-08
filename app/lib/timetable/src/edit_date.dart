@@ -38,7 +38,8 @@ class EditDateField extends StatelessWidget {
               isEmpty: date == null,
               isFocused: value,
               decoration: InputDecoration(
-                labelText: label ?? context.l10n.sharezoneWidgetsDatePickerSelectDate,
+                labelText:
+                    label ?? context.l10n.sharezoneWidgetsDatePickerSelectDate,
                 icon: Icon(iconData ?? Icons.today),
                 border: const OutlineInputBorder(),
               ),
