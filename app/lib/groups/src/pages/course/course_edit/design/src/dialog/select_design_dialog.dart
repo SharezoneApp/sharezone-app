@@ -252,7 +252,7 @@ class _PlusBaseColors extends StatelessWidget {
         Center(
           child: Text(
             context.l10n.groupDesignSelectBaseColorTitle,
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
             textAlign: TextAlign.center,
           ),
         ),

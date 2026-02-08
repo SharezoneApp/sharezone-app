@@ -122,18 +122,22 @@ class _CourseDetailsPage extends StatelessWidget {
         if (!snapshot.hasData) {
           return Scaffold(
             appBar: AppBar(),
-            body: const Center(
+            body: Center(
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.warning, color: Colors.deepOrange, size: 84),
-                    SizedBox(height: 16),
+                    const Icon(
+                      Icons.warning,
+                      color: Colors.deepOrange,
+                      size: 84,
+                    ),
+                    const SizedBox(height: 16),
                     Text(
                       context.l10n.groupCourseDetailsLoadError,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
                       ),

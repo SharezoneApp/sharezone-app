@@ -229,7 +229,10 @@ class _Sources extends StatelessWidget {
                   source == ICalLinkSource.lessons
                       ? Text(
                         context.l10n.icalLinksDialogLessonsComingSoon,
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
                       )
                       : null,
               secondary: source.getIcon(),

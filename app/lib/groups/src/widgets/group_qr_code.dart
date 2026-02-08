@@ -117,7 +117,7 @@ class _QRCodeBottomSheet extends StatelessWidget {
             ).add(const EdgeInsets.only(bottom: 20)),
             child: Text(
               context.l10n.groupsQrCodeHelpText,
-              style: TextStyle(color: Colors.grey),
+              style: const TextStyle(color: Colors.grey),
               textAlign: TextAlign.center,
             ),
           ),

@@ -158,7 +158,7 @@ class _SharecodeBox extends StatelessWidget {
               Text(
                 context.l10n.groupOnboardingSharecodeJoinLabel(
                   getGroupType(context),
-                  groupInfo.name,
+                  groupInfo.name ?? '',
                 ),
                 style: const TextStyle(color: Colors.grey),
               ),
@@ -200,7 +200,7 @@ class _JoinHint extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       context.l10n.groupOnboardingSharecodeJoinHint,
-      style: TextStyle(color: Colors.grey),
+      style: const TextStyle(color: Colors.grey),
       textAlign: TextAlign.center,
     );
   }
