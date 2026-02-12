@@ -85,6 +85,7 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
 
       - name: Activate sz_repo_cli package
         run: flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
@@ -130,6 +131,7 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
 
       - name: Install Sharezone Repo CLI
         run: |
@@ -241,6 +243,7 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
 
       - name: Activate sz_repo_cli package
         run: flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
@@ -304,6 +307,7 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
 
       - name: Install Sharezone Repo CLI
         run: |
