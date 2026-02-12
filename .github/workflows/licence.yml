@@ -49,6 +49,7 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
 
       - name: Activate license_checker
         run: dart pub global activate license_checker 1.6.0

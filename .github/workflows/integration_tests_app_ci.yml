@@ -98,6 +98,7 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
 
       - name: Install patrol cli
         run: flutter pub global activate patrol_cli 3.6.0
@@ -183,6 +184,7 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
 
       - uses: futureware-tech/simulator-action@6a2cef2c27540a25595e53c969fd85988700d451
         id: simulator
@@ -233,6 +235,7 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
 
       - name: Install chromedriver
         uses: nanasess/setup-chromedriver@e93e57b843c0c92788f22483f1a31af8ee48db25
@@ -312,6 +315,7 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
 
       # We need to install the FlutterFire CLI because we have Build Phases in
       # XCode configured which are using the FlutterFire CLI. Without the CLI,
