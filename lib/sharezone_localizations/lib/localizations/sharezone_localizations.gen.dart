@@ -3739,6 +3739,36 @@ abstract class SharezoneLocalizations {
   /// **'Überschrift der Sharezone App'**
   String get websiteWelcomeHeadlineSemanticLabel;
 
+  /// Title for the Sharezone Plus dialog that explains the title image upload for information sheets.
+  ///
+  /// In de, this message translates to:
+  /// **'Eigenes Titelbild'**
+  String get blackboardTitleImagePlusDialogTitle;
+
+  /// Description for the Sharezone Plus dialog that explains the title image upload for information sheets.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Sharezone Plus kannst du eigene Bilder als Titelbild für Infozettel hochladen.'**
+  String get blackboardTitleImagePlusDialogDescription;
+
+  /// Message shown when a user tries to upload a title image without selecting a course.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte wähle zuerst einen Kurs aus, bevor du ein Titelbild hochlädst.'**
+  String get blackboardTitleImageSelectCourseFirst;
+
+  /// Loading text shown while the title image is uploading.
+  ///
+  /// In de, this message translates to:
+  /// **'Titelbild wird hochgeladen...'**
+  String get blackboardTitleImageUploading;
+
+  /// Error message shown when the title image upload fails.
+  ///
+  /// In de, this message translates to:
+  /// **'Titelbild konnte nicht hochgeladen werden. Bitte versuche es erneut.'**
+  String get blackboardTitleImageUploadFailed;
+
   /// No description provided for @writePermissionEveryone.
   ///
   /// In de, this message translates to:

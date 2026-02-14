@@ -14,6 +14,7 @@ import 'package:key_value_store/key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/blackboard/blackboard_dialog.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
+import 'package:sharezone/blackboard/blackboard_picture_utils.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/blackboard_item_read_by_users_list_page.dart';
 import 'package:sharezone/comments/comments_gateway.dart';
@@ -178,8 +179,8 @@ class _PageWithPicture extends StatelessWidget {
           flexibleSpace: FlexibleSpaceBar(
             background: Hero(
               tag: view.id,
-              child: Image.asset(
-                view.pictureURL!,
+              child: Image(
+                image: getBlackboardPictureProvider(view.pictureURL!),
                 fit: BoxFit.cover,
                 height: _appBarHeight,
               ),
