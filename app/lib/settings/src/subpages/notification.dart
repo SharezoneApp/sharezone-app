@@ -18,6 +18,7 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
@@ -57,7 +58,7 @@ class _NotificationPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
       appBar: AppBar(
-        title: const Text("Benachrichtigungen"),
+        title: Text(context.l10n.notificationPageTitle),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -98,9 +99,9 @@ class _HomeworkNotificationsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Padding(
+          Padding(
             padding: _leftPadding,
-            child: Headline("Offene Hausaufgaben"),
+            child: Headline(context.l10n.notificationPageHomeworkHeadline),
           ),
           _HomeworkNotificationsSwitch(),
           _HomeworkNotificationsTimeTile(),
@@ -120,7 +121,7 @@ class _HomeworkNotificationsSwitch extends StatelessWidget {
         final bool notificationsForHomework = snapshot.data ?? true;
         return ListTile(
           leading: const Icon(Icons.notifications),
-          title: const Text("Erinnerungen für offene Hausaufgaben"),
+          title: Text(context.l10n.notificationPageHomeworkReminderTitle),
           onTap:
               () => bloc.changeNotificationsForHomeworks(
                 !notificationsForHomework,
@@ -147,7 +148,7 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
         interval: interval,
         visibleStep: VisibleStep.thirtieths,
         errorInvalidText:
-            'Nur volle und halbe Stunden sind erlaubt, z.B. 18:00 oder 18:30.',
+            context.l10n.notificationPageInvalidHomeworkReminderTime,
         builder: (BuildContext context, Widget? child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
@@ -180,10 +181,8 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
     await showSharezonePlusFeatureInfoDialog(
       context: context,
       navigateToPlusPage: () => navigateToSharezonePlusPage(context),
-      title: const Text('Uhrzeit für Erinnerung am Vortag'),
-      description: const Text(
-        'Mit Sharezone Plus kannst du die Erinnerung für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr.',
-      ),
+      title: Text(context.l10n.notificationPagePlusDialogTitle),
+      description: Text(context.l10n.notificationPagePlusDialogDescription),
     );
   }
 
@@ -199,9 +198,11 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
             return ListTile(
               key: const Key("homework-notifications-time-tile"),
               leading: const Icon(Icons.access_time),
-              title: const Text("Uhrzeit"),
+              title: Text(context.l10n.notificationPageTimeTitle),
               subtitle: Text(
-                "${timeForHomeworks.data?.format(context) ?? "18:00"} Uhr",
+                context.l10n.notificationPageTimeValue(
+                  timeForHomeworks.data?.format(context) ?? "18:00",
+                ),
               ),
               enabled: homeworkEnabled.data ?? true,
               onTap: () async {
@@ -258,7 +259,10 @@ class _BlackboardNotificationsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Padding(padding: _leftPadding, child: Headline("Infozettel")),
+          Padding(
+            padding: _leftPadding,
+            child: Headline(context.l10n.notificationPageBlackboardHeadline),
+          ),
           _BlackboardNotificationsSwitch(),
         ],
       ),
@@ -279,15 +283,14 @@ class _BlackboardNotificationsSwitch extends StatelessWidget {
               () => bloc.changeNotificationsForBlackboard(
                 !notificationsForBlackboard,
               ),
-          title: const Text("Benachrichtigungen für Infozettel"),
+          title: Text(context.l10n.notificationPageBlackboardTitle),
           trailing: Switch.adaptive(
             value: notificationsForBlackboard,
             onChanged: bloc.changeNotificationsForBlackboard,
           ),
-          description: const Text(
-            "Der Ersteller eines Infozettels kann regulieren, ob die Kursmitglieder darüber benachrichtigt werden sollen, dass ein "
-            "neuer Infozettel erstellt wurde, bzw. es eine Änderung gab. Mit dieser Option kannst du diese Benachrichtigungen an- und ausschalten.",
-            style: TextStyle(fontSize: 11.5),
+          description: Text(
+            context.l10n.notificationPageBlackboardDescription,
+            style: const TextStyle(fontSize: 11.5),
           ),
         );
       },
@@ -303,7 +306,10 @@ class _CommentsNotificationsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Padding(padding: _leftPadding, child: Headline("Kommentare")),
+          Padding(
+            padding: _leftPadding,
+            child: Headline(context.l10n.notificationPageCommentsHeadline),
+          ),
           _CommentsNotificationsSwitch(),
         ],
       ),
@@ -324,14 +330,14 @@ class _CommentsNotificationsSwitch extends StatelessWidget {
               () => bloc.changeNotificationsForComments(
                 !notificationsForComments,
               ),
-          title: const Text("Benachrichtigungen für Kommentare"),
+          title: Text(context.l10n.notificationPageCommentsTitle),
           trailing: Switch.adaptive(
             value: notificationsForComments,
             onChanged: bloc.changeNotificationsForComments,
           ),
-          description: const Text(
-            "Erhalte eine Push-Nachricht, sobald ein neuer Nutzer einen neuen Kommentar unter einer Hausaufgabe oder einem Infozettel verfasst hat.",
-            style: TextStyle(fontSize: 11.5),
+          description: Text(
+            context.l10n.notificationPageCommentsDescription,
+            style: const TextStyle(fontSize: 11.5),
           ),
         );
       },

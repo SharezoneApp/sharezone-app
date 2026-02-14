@@ -39,7 +39,7 @@ Future _showCourseEditConformationSnackbarWithDelay(
   if (!context.mounted) return;
   showSnackSec(
     context: context,
-    text: "Der Kurs wurde erfolgreich bearbeitet!",
+    text: context.l10n.courseEditSuccess,
     seconds: 2,
   );
 }
@@ -118,7 +118,7 @@ class _CourseEditPage extends StatelessWidget {
     final abbreviationNode = FocusNode();
     final courseNameNode = FocusNode();
     return Scaffold(
-      appBar: AppBar(title: const Text("Kurs bearbeiten")),
+      appBar: AppBar(title: Text(context.l10n.courseEditTitle)),
       backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(
@@ -166,7 +166,7 @@ class _SubjectField extends StatelessWidget {
               () => FocusManager.instance.primaryFocus?.unfocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
-            labelText: "Fach",
+            labelText: context.l10n.courseFieldsSubjectLabel,
             errorText: snapshot.error?.toString(),
           ),
           prefilledText: initialSubject,
@@ -192,7 +192,9 @@ class _AbbreviationField extends StatelessWidget {
     return PrefilledTextField(
       prefilledText: initialAbbreviation,
       textInputAction: TextInputAction.next,
-      decoration: const InputDecoration(labelText: "Kürzel des Fachs"),
+      decoration: InputDecoration(
+        labelText: context.l10n.courseFieldsAbbreviationLabel,
+      ),
       onEditingComplete: () => FocusManager.instance.primaryFocus?.unfocus(),
       onChanged: bloc.changeAbbreviation,
       maxLength: 3,
@@ -211,7 +213,9 @@ class _CourseNameField extends StatelessWidget {
     return PrefilledTextField(
       prefilledText: initialCourseName,
       textInputAction: TextInputAction.done,
-      decoration: const InputDecoration(labelText: "Name des Kurses"),
+      decoration: InputDecoration(
+        labelText: context.l10n.courseFieldsNameLabel,
+      ),
       onEditingComplete: () => submit(context),
       onChanged: bloc.changeCourseName,
     );
@@ -222,7 +226,7 @@ class _CourseEditPageFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      tooltip: "Speichern",
+      tooltip: context.l10n.commonActionsSave,
       onPressed: () => submit(context),
       child: const Icon(Icons.check),
     );

@@ -43,9 +43,13 @@ class _EventsSectionTitle extends StatelessWidget {
     return StreamBuilder<int>(
       stream: bloc.numberOfUpcomingEvents,
       builder: (context, snapshot) {
-        final numberOfUrgentHomeworks = snapshot.data ?? 0;
+        final numberOfUpcomingEvents = snapshot.data ?? 0;
         return Text(
-          "Anstehende Termine ${numberOfUrgentHomeworks != 0 ? "($numberOfUrgentHomeworks)" : ""}",
+          numberOfUpcomingEvents != 0
+              ? context.l10n.dashboardUpcomingEventsTitleWithCount(
+                numberOfUpcomingEvents,
+              )
+              : context.l10n.dashboardUpcomingEventsTitle,
         );
       },
     );
@@ -63,9 +67,9 @@ class _NoEventsViews extends StatelessWidget {
           bloc.navigateTo(NavigationItem.events);
         },
         padding: const EdgeInsets.all(8),
-        child: const Center(
+        child: Center(
           child: Text(
-            "In den nächsten 14 Tagen stehen keine Termine an! 👻",
+            context.l10n.dashboardNoUpcomingEventsInNext14Days,
             textAlign: TextAlign.center,
           ),
         ),

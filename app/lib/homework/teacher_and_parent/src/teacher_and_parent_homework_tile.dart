@@ -16,6 +16,7 @@ import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_page.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -114,9 +115,9 @@ void showTeacherMustBeAdminDialogToViewSubmissions(BuildContext context) {
   showLeftRightAdaptiveDialog(
     context: context,
     left: AdaptiveDialogAction.ok(context),
-    title: 'Keine Berechtigung',
-    content: const Text(
-      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.',
+    title: context.l10n.homeworkTeacherNoPermissionTitle,
+    content: Text(
+      context.l10n.homeworkTeacherViewSubmissionsNoPermissionContent,
     ),
   );
 }
@@ -158,9 +159,9 @@ void _showTeacherMustBeAdminDialogToViewCompletionList(BuildContext context) {
   showLeftRightAdaptiveDialog(
     context: context,
     left: AdaptiveDialogAction.ok(context),
-    title: 'Keine Berechtigung',
-    content: const Text(
-      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.',
+    title: context.l10n.homeworkTeacherNoPermissionTitle,
+    content: Text(
+      context.l10n.homeworkTeacherViewCompletionNoPermissionContent,
     ),
   );
 }
@@ -178,7 +179,7 @@ class _TrailingCounterIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       iconSize: 50,
-      icon: Chip(label: Text('$counterValue')),
+      icon: Chip(label: Text(counterValue.toString())),
       onPressed: onPressed,
     );
   }

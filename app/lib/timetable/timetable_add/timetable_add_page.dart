@@ -14,13 +14,12 @@ import 'package:date/weektype.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
-import 'package:sharezone/timetable/src/edit_weekday.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/time_type.dart';
@@ -31,8 +30,8 @@ import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
 import 'package:sharezone/widgets/fade_switch_between_index_with_tab_controller.dart';
 import 'package:sharezone/widgets/tabs.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
@@ -116,7 +115,7 @@ class _TimetableAddPage extends StatelessWidget {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Schulstunde hinzufügen"),
+          title: Text(context.l10n.timetableAddLessonTitle),
           leading: const TimetableAddAppBarLeading(),
         ),
         body: MaxWidthConstraintBox(
@@ -173,14 +172,11 @@ class _TimetableAddInfoMsg extends StatelessWidget {
       child: Text.rich(
         TextSpan(
           children: <TextSpan>[
-            const TextSpan(
-              text:
-                  "Schulstunden werden automatisch auch für die nächsten Wochen eingetragen.",
-            ),
+            TextSpan(text: context.l10n.timetableAddAutoRecurringInfo),
             if (!abWeekEnabled) ...[
-              const TextSpan(text: " A/B Wochen kannst du in den "),
+              TextSpan(text: context.l10n.timetableAddAbWeeksPrefix),
               TextSpan(
-                text: "Einstellungen",
+                text: context.l10n.timetableAddAbWeeksSettings,
                 style: linkStyle(context, 12),
                 recognizer:
                     TapGestureRecognizer()
@@ -190,7 +186,7 @@ class _TimetableAddInfoMsg extends StatelessWidget {
                             TimetableSettingsPage.tag,
                           ),
               ),
-              const TextSpan(text: " aktivieren."),
+              TextSpan(text: context.l10n.timetableAddAbWeeksSuffix),
             ],
           ],
           style: const TextStyle(fontSize: 12, color: Colors.grey),
@@ -261,7 +257,7 @@ class _FinishButton extends StatelessWidget {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     final controller = DefaultTabController.of(context);
     return IconButton(
-      tooltip: 'Speichern',
+      tooltip: context.l10n.commonActionsSave,
       icon: const Icon(Icons.check),
       color: Colors.lightGreen,
       onPressed: () {
@@ -270,8 +266,7 @@ class _FinishButton extends StatelessWidget {
           if (lesson == null) {
             showSnackSec(
               context: context,
-              text:
-                  "Es ist ein unbekannter Fehler aufgetreten. Bitte kontaktiere den Support!",
+              text: context.l10n.timetableAddUnknownError,
             );
           } else {
             Navigator.pop(context, TimetableLessonAdded(lesson));
@@ -308,7 +303,7 @@ class _NavigateBackButton extends StatelessWidget {
 
   Widget backButton(BuildContext context) {
     return IconButton(
-      tooltip: 'Zurück',
+      tooltip: context.l10n.commonActionsBack,
       icon: const Icon(Icons.keyboard_arrow_left),
       color: Colors.grey,
       onPressed: () => navigateToBackTab(context),
@@ -370,7 +365,7 @@ class _EmptyCourseList extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              "Du bist noch in keinem Kurs Mitglied 😔\nErstelle einen neuen Kurs oder tritt einem bei 😃",
+              context.l10n.timetableAddNoCourseMembershipHint,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey[700]),
             ),

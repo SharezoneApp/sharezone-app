@@ -18,8 +18,28 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'grades_dialog_view.dart';
+
+class GradesDialogControllerTranslations {
+  const GradesDialogControllerTranslations(this.context);
+
+  final BuildContext context;
+
+  String? gradeTypeDisplayName(PredefinedGradeTypes? type) {
+    if (type == null) return null;
+    return type.toLocalizedString(context);
+  }
+
+  String get enterGradeError => context.l10n.gradesDialogEnterGradeError;
+  String get gradeIsInvalidError =>
+      context.l10n.gradesDialogGradeIsInvalidError;
+  String get gradeIsOutOfRangeError =>
+      context.l10n.gradesDialogGradeIsOutOfRangeError;
+  String get enterTitleError => context.l10n.gradesDialogEnterTitleError;
+  String get gradeInvalid => context.l10n.gradesDialogGradeInvalid;
+}
 
 class GradesDialogController extends ChangeNotifier {
   final GradeId? gradeId;
@@ -30,6 +50,7 @@ class GradesDialogController extends ChangeNotifier {
   late StreamSubscription<List<Course>> _coursesStreamSubscription;
   late StreamSubscription<IList<TermResult>> _termsStreamSubscription;
   final Analytics analytics;
+  final GradesDialogControllerTranslations translations;
 
   GradesDialogView get view {
     final subject =
@@ -147,6 +168,7 @@ class GradesDialogController extends ChangeNotifier {
     required this.coursesStream,
     required this.crashAnalytics,
     required this.analytics,
+    required this.translations,
     this.gradeId,
   }) {
     if (gradeId != null) {
@@ -177,7 +199,7 @@ class GradesDialogController extends ChangeNotifier {
           GradingSystem.oneToSixWithPlusAndMinus;
       _date = Date.today();
       _gradeType = GradeType.writtenExam;
-      _title = _gradeType.predefinedType?.toUiString();
+      _title = translations.gradeTypeDisplayName(_gradeType.predefinedType);
       _takeIntoAccount = true;
       _subjects = gradesService.getSubjects();
       _detailsController = TextEditingController();
@@ -259,7 +281,7 @@ class GradesDialogController extends ChangeNotifier {
   bool _validateGrade() {
     final isEmpty = _grade == null || _grade!.isEmpty;
     if (isEmpty) {
-      _gradeErrorText = 'Bitte eine Note eingeben.';
+      _gradeErrorText = translations.enterGradeError;
       _isGradeMissing = true;
       notifyListeners();
       return false;
@@ -274,7 +296,7 @@ class GradesDialogController extends ChangeNotifier {
     }
 
     final isParsable = _isGradeParsable();
-    _gradeErrorText = isParsable ? null : 'Die Eingabe ist keine gültige Zahl.';
+    _gradeErrorText = isParsable ? null : translations.gradeIsInvalidError;
     _isGradeMissing = false;
     notifyListeners();
     return isParsable;
@@ -397,10 +419,13 @@ class GradesDialogController extends ChangeNotifier {
     final isTitleEmpty = _title == null || _title!.isEmpty;
     final isTitleAsPreviousType =
         previousType != null &&
-        _title == previousType.predefinedType?.toUiString();
+        _title ==
+            translations.gradeTypeDisplayName(previousType.predefinedType);
 
     if (isTitleEmpty || isTitleAsPreviousType) {
-      final typeDisplayName = newType.predefinedType?.toUiString();
+      final typeDisplayName = translations.gradeTypeDisplayName(
+        newType.predefinedType,
+      );
       _title = typeDisplayName;
       _titleController.text = typeDisplayName ?? '';
       _titleErrorText = null;
@@ -417,7 +442,7 @@ class GradesDialogController extends ChangeNotifier {
 
   bool _validateTitle() {
     final isValid = _isTitleValid();
-    _titleErrorText = isValid ? null : 'Bitte einen Titel eingeben.';
+    _titleErrorText = isValid ? null : translations.enterTitleError;
     notifyListeners();
     return isValid;
   }
@@ -540,7 +565,7 @@ class GradesDialogController extends ChangeNotifier {
       }
     } catch (e, s) {
       if (e is InvalidGradeValueException) {
-        _gradeErrorText = 'Die Note ist ungültig.';
+        _gradeErrorText = translations.gradeInvalid;
         notifyListeners();
         throw const InvalidFieldsSaveGradeException(
           ISetConst({GradingDialogFields.gradeValue}),
@@ -663,12 +688,12 @@ enum GradingDialogFields {
   term,
   title;
 
-  String toUiString() {
+  String toLocalizedString(BuildContext context) {
     return switch (this) {
-      gradeValue => 'Note',
-      title => 'Titel',
-      subject => 'Fach',
-      term => 'Halbjahr',
+      gradeValue => context.l10n.gradingDialogFieldsGradeValue,
+      title => context.l10n.gradingDialogFieldsTitle,
+      subject => context.l10n.gradingDialogFieldsSubject,
+      term => context.l10n.gradingDialogFieldsTerm,
     };
   }
 }

@@ -30,6 +30,7 @@ import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
 import 'package:user/user.dart';
@@ -42,9 +43,9 @@ void showTeacherMustBeAdminDialogToViewSubmissions(BuildContext context) {
   showLeftRightAdaptiveDialog(
     context: context,
     left: AdaptiveDialogAction.ok(context),
-    title: 'Keine Berechtigung',
-    content: const Text(
-      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.',
+    title: context.l10n.homeworkDetailsNoPermissionTitle,
+    content: Text(
+      context.l10n.homeworkDetailsViewSubmissionsNoPermissionContent,
     ),
   );
 }
@@ -53,9 +54,9 @@ void showTeacherMustBeAdminDialogToViewCompletionList(BuildContext context) {
   showLeftRightAdaptiveDialog(
     context: context,
     left: AdaptiveDialogAction.ok(context),
-    title: 'Keine Berechtigung',
-    content: const Text(
-      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.',
+    title: context.l10n.homeworkDetailsNoPermissionTitle,
+    content: Text(
+      context.l10n.homeworkDetailsViewCompletionNoPermissionContent,
     ),
   );
 }
@@ -65,13 +66,11 @@ Future<bool?> confirmToMarkHomeworkAsDoneWithoutSubmission(
 ) {
   return showLeftRightAdaptiveDialog<bool>(
     context: context,
-    title: 'Keine Abgabe bisher',
-    content: const Text(
-      "Du hast bisher keine Abgabe gemacht. Möchtest du wirklich die Hausaufgabe ohne Abgabe als erledigt markieren?",
-    ),
+    title: context.l10n.homeworkDetailsNoSubmissionTitle,
+    content: Text(context.l10n.homeworkDetailsNoSubmissionContent),
     defaultValue: false,
-    right: const AdaptiveDialogAction<bool>(
-      title: 'Abhaken',
+    right: AdaptiveDialogAction<bool>(
+      title: context.l10n.homeworkDetailsMarkDoneAction,
       popResult: true,
       textColor: Colors.orange,
     ),
@@ -212,7 +211,11 @@ class _DoneByTile extends StatelessWidget {
     if (view!.typeOfUser != TypeOfUser.teacher) return Container();
     return ListTile(
       leading: const Icon(Icons.check),
-      title: Text("Von ${view!.nrOfCompletedStudents} SuS erledigt"),
+      title: Text(
+        context.l10n.homeworkDetailsDoneByStudentsCount(
+          view!.nrOfCompletedStudents,
+        ),
+      ),
       onTap: () {
         if (view!.hasPermissionsToViewDoneByList) {
           _openDoneByList(context);
@@ -275,7 +278,9 @@ class _UserSubmissionsTeacherTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.folder_shared),
-      title: Text('${view.nrOfSubmissions} Abgaben'),
+      title: Text(
+        context.l10n.homeworkDetailsSubmissionsCount(view.nrOfSubmissions),
+      ),
       onTap: () {
         if (view.hasPermissionToViewSubmissions) {
           if (view.hasTeacherSubmissionsUnlocked) {
@@ -310,15 +315,15 @@ class _UserSubmissionsStudentTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.folder_shared),
-      title: Text(getText()),
+      title: Text(getText(context)),
       onTap: () => _openCreateSubmissionPage(context),
       trailing: const Icon(Icons.chevron_right),
     );
   }
 
-  String getText() {
-    if (view.hasSubmitted) return 'Meine Abgabe';
-    return 'Keine Abgabe bisher eingereicht';
+  String getText(BuildContext context) {
+    if (view.hasSubmitted) return context.l10n.homeworkDetailsMySubmission;
+    return context.l10n.homeworkDetailsNoSubmissionYet;
   }
 
   void _openCreateSubmissionPage(BuildContext context) {
@@ -334,22 +339,21 @@ class _UserSubmissionsStudentTile extends StatelessWidget {
 class _UserSubmissionsParentsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return ListTile(
       leading: const Icon(Icons.folder_shared),
-      title: const Text("Eltern dürfen keine Hausaufgaben abgeben"),
+      title: Text(l10n.homeworkDetailsParentsCannotSubmit),
       onTap: () async {
         final confirmed =
             (await showLeftRightAdaptiveDialog<bool>(
               context: context,
               defaultValue: false,
-              title: 'Account-Typ ändern?',
-              content: const Text(
-                "Wenn du eine Hausaufgabe abgeben möchtest, musst dein Account als Schüler registriert sein. Der Support kann deinen Account in einen Schüler-Account umwandeln, damit du Hausaufgaben abgeben darfst.",
-              ),
-              right: const AdaptiveDialogAction(
+              title: l10n.homeworkDetailsChangeAccountTypeTitle,
+              content: Text(l10n.homeworkDetailsChangeAccountTypeContent),
+              right: AdaptiveDialogAction(
                 isDefaultAction: true,
                 popResult: true,
-                title: "Support kontaktieren",
+                title: l10n.commonActionsContactSupport,
               ),
             ))!;
 
@@ -357,9 +361,8 @@ class _UserSubmissionsParentsTile extends StatelessWidget {
           final uid = BlocProvider.of<SharezoneContext>(context).api.uID;
           UrlLauncherExtended().tryLaunchMailOrThrow(
             "support@sharezone.net",
-            subject: "Typ des Accounts zu Schüler ändern [$uid]",
-            body:
-                "Liebes Sharezone-Team, bitte ändert meinen Account-Typ zum Schüler ab.",
+            subject: l10n.homeworkDetailsChangeAccountTypeEmailSubject(uid),
+            body: l10n.homeworkDetailsChangeAccountTypeEmailBody,
           );
         }
       },
@@ -376,7 +379,7 @@ class _DeleteIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.delete),
-      tooltip: 'Löschen',
+      tooltip: context.l10n.commonActionsDelete,
       onPressed:
           () => deleteHomeworkDialogsEntry(context, homework, popTwice: true),
     );
@@ -392,7 +395,7 @@ class _EditIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.edit),
-      tooltip: 'Bearbeiten',
+      tooltip: context.l10n.commonActionsEdit,
       onPressed: () async {
         // See comment below
         // ignore: unused_local_variable
@@ -470,7 +473,9 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
           }
         },
         title:
-            view.isDone ? "Als unerledigt markieren" : "Als erledigt markieren",
+            view.isDone
+                ? context.l10n.homeworkDetailsMarkAsUndone
+                : context.l10n.homeworkDetailsMarkAsDone,
       ),
     );
   }
@@ -485,7 +490,7 @@ class _HomeworkAuthorTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.person),
-      title: const Text("Erstellt von:"),
+      title: Text(context.l10n.homeworkDetailsCreatedBy),
       subtitle: Text(authorName ?? "-"),
     );
   }
@@ -499,10 +504,10 @@ class _HomeworkPrivateTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isPrivate != null && isPrivate!
-        ? const ListTile(
-          leading: Icon(Icons.security),
-          title: Text("Privat"),
-          subtitle: Text("Diese Hausaufgabe wird nicht mit dem Kurs geteilt."),
+        ? ListTile(
+          leading: const Icon(Icons.security),
+          title: Text(context.l10n.homeworkDetailsPrivateTitle),
+          subtitle: Text(context.l10n.homeworkDetailsPrivateSubtitle),
         )
         : Container();
   }
@@ -519,7 +524,7 @@ class _HomeworkDescription extends StatelessWidget {
     return description != null && description!.isNotEmpty
         ? ListTile(
           leading: const Icon(Icons.subject),
-          title: const Text("Zusatzinformationen"),
+          title: Text(context.l10n.homeworkDetailsAdditionalInfo),
           subtitle: MarkdownBody(
             data: description!,
             selectable: true,
@@ -575,7 +580,7 @@ class _CourseTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.book),
-      title: const Text("Kurs"),
+      title: Text(context.l10n.homeworkDetailsCourseTitle),
       subtitle: Text(courseName ?? ''),
     );
   }
@@ -595,7 +600,9 @@ class _AttachmentList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           DividerWithText(
-            text: 'Anhänge: ${view.attachmentIDs.length}',
+            text: context.l10n.homeworkDetailsAttachmentsCount(
+              view.attachmentIDs.length,
+            ),
             fontSize: 16,
           ),
           const SizedBox(height: 4),

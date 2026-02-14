@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:notifications/notifications.dart';
 import 'package:sharezone/notifications/setup_push_notification_action_handler.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Shows a dialog showing the contents of the [notification] and an explanation
@@ -34,9 +35,9 @@ void showNotificationHandlingErrorDialog(
         ],
       ),
       defaultValue: false,
-      left: const AdaptiveDialogAction<bool>(
+      left: AdaptiveDialogAction<bool>(
         isDefaultAction: true,
-        title: "Ok",
+        title: context.l10n.commonActionsOk,
       ),
     );
   });
@@ -80,18 +81,17 @@ Möglicherweise ist der Fehler durch eine veraltete Version von Sharezone enstan
   );
 
   Widget getShortDescription(BuildContext context) {
-    return const Text.rich(
+    return Text.rich(
       TextSpan(
         children: [
           TextSpan(
-            text:
-                'Beim tippen auf die Benachrichtigung hätte jetzt etwas anderes passieren sollen.',
-            style: TextStyle(fontSize: 13),
+            text: context.l10n.notificationsErrorDialogShortDescription,
+            style: const TextStyle(fontSize: 13),
           ),
-          TextSpan(text: ' '),
+          const TextSpan(text: ' '),
           TextSpan(
-            text: 'Mehr Infos.',
-            style: TextStyle(
+            text: context.l10n.notificationsErrorDialogMoreInfo,
+            style: const TextStyle(
               color: Colors.blue,
               // When the text is underlined it looks bigger than the rest so we
               // choose a font sizer smaller than the other text.

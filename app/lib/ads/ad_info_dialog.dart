@@ -8,6 +8,7 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -30,16 +31,13 @@ class _Dialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 500,
       child: AlertDialog(
-        title: const Text('Werbung in Sharezone'),
+        title: Text(context.l10n.adInfoDialogTitle),
         content: Text.rich(
           TextSpan(
             children: [
-              const TextSpan(
-                text:
-                    'Innerhalb der nächsten Wochen führen wir ein Experiment mit Werbung in Sharezone durch. Wenn du keine Werbung sehen möchten, kannst du ',
-              ),
+              TextSpan(text: context.l10n.adInfoDialogBodyPrefix),
               TextSpan(
-                text: 'Sharezone Plus',
+                text: context.l10n.websiteNavPlus,
                 style: const TextStyle(
                   color: primaryColor,
                   decoration: TextDecoration.underline,
@@ -48,14 +46,14 @@ class _Dialog extends StatelessWidget {
                     TapGestureRecognizer()
                       ..onTap = () => Navigator.of(context).pop(true),
               ),
-              const TextSpan(text: ' erwerben.'),
+              TextSpan(text: context.l10n.adInfoDialogBodySuffix),
             ],
           ),
         ),
         actions: <Widget>[
           ElevatedButton(
             style: ElevatedButton.styleFrom(foregroundColor: Colors.white),
-            child: const Text('OK'),
+            child: Text(context.l10n.commonActionsOk),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],

@@ -185,7 +185,7 @@ class BackIcon extends StatelessWidget {
               cupertinoIcon: Icons.arrow_back_ios,
             ),
           ),
-          tooltip: 'Zurück',
+          tooltip: context.l10n.commonActionsBack,
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -238,7 +238,7 @@ class NameField extends StatelessWidget {
               autofillHints: const [AutofillHints.name],
               autoSelectAllCharactersOnFirstBuild: selectText,
               decoration: InputDecoration(
-                labelText: 'Nickname',
+                labelText: context.l10n.authEmailAndPasswordLinkNicknameLabel,
                 icon: withIcon ? const Icon(Icons.person) : null,
                 errorText: mapAuthentificationValidationErrorMessage(
                   context,
@@ -252,7 +252,7 @@ class NameField extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: withIcon ? 38 : 0),
               child: Text(
-                "Dieser Nickname ist nur für deine Gruppenmitglieder sichtbar und sollte ein Pseudonym sein.",
+                context.l10n.authEmailAndPasswordLinkNicknameHint,
                 style: _hintTextStyle(context),
               ),
             ),
@@ -285,7 +285,7 @@ class _EmailField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 38),
           child: Text(
-            "Die E-Mail ist für niemanden sichtbar und dient nur zur Anmeldung.",
+            context.l10n.changeEmailAddressWhyWeNeedTheEmailInfoContent,
             style: _hintTextStyle(context),
           ),
         ),
@@ -299,7 +299,7 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SubmitButton(
       onPressed: () => handleEmailAndPasswordLinkSubmit(context),
-      titel: "Verknüpfen",
+      titel: context.l10n.authEmailAndPasswordLinkSubmitAction,
       color: Theme.of(context).primaryColor,
       textColor: Colors.white,
     );

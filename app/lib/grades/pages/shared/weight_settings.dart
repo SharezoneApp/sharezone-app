@@ -9,6 +9,7 @@
 import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/shared/grades_help_dialog.dart';
@@ -36,9 +37,9 @@ class WeightSettings extends StatelessWidget {
       children: [
         ListTile(
           contentPadding: const EdgeInsets.all(0),
-          title: const Text('Berechnung der Fachnote'),
+          title: Text(context.l10n.gradesWeightSettingsTitle),
           subtitle: Text(
-            'Lege die Gewichtung der Notentypen für die Berechnung der Fachnote fest.',
+            context.l10n.gradesWeightSettingsSubtitle,
             style: TextStyle(
               color: Theme.of(
                 context,
@@ -46,7 +47,7 @@ class WeightSettings extends StatelessWidget {
             ),
           ),
           trailing: IconButton(
-            tooltip: 'Wie wird die Note berechnet?',
+            tooltip: context.l10n.gradesWeightSettingsHelpTooltip,
             onPressed: () => _HelpDialog.show(context),
             icon: const Icon(Icons.help_outline),
           ),
@@ -92,7 +93,7 @@ class _GradeTypeWeight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gradeType = getGradeType(context);
-    final name = gradeType?.predefinedType?.toUiString() ?? '?';
+    final name = gradeType?.predefinedType?.toLocalizedString(context) ?? '?';
     return ListTile(
       title: Text(name),
       onTap: () async {
@@ -107,7 +108,7 @@ class _GradeTypeWeight extends StatelessWidget {
         }
       },
       leading: IconButton(
-        tooltip: 'Entfernen',
+        tooltip: context.l10n.gradesWeightSettingsRemoveTooltip,
         icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
         onPressed: () => onRemoveGradeType(gradeTypeId),
       ),
@@ -167,7 +168,9 @@ class _WeightTextFieldState extends State<_WeightTextField> {
             setState(() {
               value = v;
               errorText =
-                  isValid ? null : 'Bitte gebe eine gültige Zahl (>= 0) ein.';
+                  isValid
+                      ? null
+                      : context.l10n.gradesWeightSettingsInvalidWeightInput;
             });
           },
           onEditingComplete: () {
@@ -177,8 +180,8 @@ class _WeightTextFieldState extends State<_WeightTextField> {
           },
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            labelText: 'Gewichtung in %',
-            hintText: 'z.B. 56.5',
+            labelText: context.l10n.gradesWeightSettingsPercentLabel,
+            hintText: context.l10n.gradesWeightSettingsPercentHint,
             errorText: errorText,
           ),
         ),
@@ -186,14 +189,14 @@ class _WeightTextFieldState extends State<_WeightTextField> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Abbrechen'),
+          child: Text(context.l10n.commonActionsCancel),
         ),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
           child: FilledButton(
             key: ValueKey(isValid),
             onPressed: isValid ? () => popWithValue(context) : null,
-            child: const Text('Speichern'),
+            child: Text(context.l10n.commonActionsSave),
           ),
         ),
       ],
@@ -229,7 +232,7 @@ class _AddSubjectWeight extends StatelessWidget {
         onPressed: () => onTap(context),
         color: Theme.of(context).colorScheme.primary,
       ),
-      title: const Text('Neue Gewichtung hinzufügen'),
+      title: Text(context.l10n.gradesWeightSettingsAddWeight),
       onTap: () => onTap(context),
     );
   }
@@ -244,11 +247,9 @@ class _HelpDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GradesHelpDialog(
-      title: Text('Wie wird die Note eines Fachs berechnet?'),
-      text: Text(
-        'In Sharezone kannst du genau bestimmen, wie die Note für jedes Fach berechnet wird, indem du die Gewichtung der verschiedenen Notentypen festlegst. Zum Beispiel kannst du einstellen, dass die Gesamtnote aus 50% schriftlichen Prüfungen und 50% mündlicher Beteiligung zusammengesetzt wird.\n\nDiese Flexibilität ermöglicht es dir, die Bewertungskriterien deiner Schule genau abzubilden und sicherzustellen, dass jede Art von Leistung angemessen berücksichtigt wird.',
-      ),
+    return GradesHelpDialog(
+      title: Text(context.l10n.gradesWeightSettingsHelpDialogTitle),
+      text: Text(context.l10n.gradesWeightSettingsHelpDialogText),
     );
   }
 }

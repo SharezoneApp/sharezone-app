@@ -75,13 +75,13 @@ class _LessonRow extends StatelessWidget {
 class _NoLessonsToday extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
-      const _EmptyStateMsg("Yeah! Heute stehen keine Schulstunden an! 😍");
+      _EmptyStateMsg(context.l10n.dashboardNoLessonsToday);
 }
 
 class _SchoolIsOver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const _EmptyStateMsg("Endlich Schulschluss! 😍");
+    return _EmptyStateMsg(context.l10n.dashboardSchoolIsOver);
   }
 }
 

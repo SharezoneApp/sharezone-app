@@ -84,9 +84,7 @@ class _SharezonePlusAd extends StatelessWidget {
     return SharezonePlusFeatureInfoCard(
       withLearnMoreButton: true,
       onLearnMorePressed: () => navigateToSharezonePlusPage(context),
-      child: const Text(
-        'Nicht genug Farben? Schalte mit Sharezone Plus +200 zusätzliche Farben frei.',
-      ),
+      child: Text(context.l10n.courseDesignPlusColorsHint),
     );
   }
 }
@@ -101,7 +99,7 @@ class _RemovePersonalColor extends StatelessWidget {
             const SelectDesignPopResult(removePersonalColor: true),
           ),
       style: TextButton.styleFrom(foregroundColor: Colors.grey[700]),
-      child: const Text("Persönliche Farbe entfernen"),
+      child: Text(context.l10n.courseDesignRemovePersonalColor),
     );
   }
 }
@@ -251,10 +249,10 @@ class _PlusBaseColors extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Center(
+        Center(
           child: Text(
-            'Grundfarbe auswählen',
-            style: TextStyle(fontSize: 20),
+            context.l10n.groupDesignSelectBaseColorTitle,
+            style: const TextStyle(fontSize: 20),
             textAlign: TextAlign.center,
           ),
         ),

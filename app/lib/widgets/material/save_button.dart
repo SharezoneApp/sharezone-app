@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SaveButton extends StatelessWidget {
@@ -31,7 +32,7 @@ class SaveButton extends StatelessWidget {
                   : Theme.of(context).primaryColor,
           backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
         ),
-        child: const Text('Speichern'),
+        child: Text(context.l10n.commonActionsSave),
       ),
     );
   }

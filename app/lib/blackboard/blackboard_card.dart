@@ -14,6 +14,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_card_bloc.dart';
 import 'package:sharezone/blackboard/details/blackboard_details.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -38,7 +39,7 @@ Future<void> showUserConfirmationOfBlackboardDeleted(
     const Duration(milliseconds: 320),
   ); // Waiting for pop animation
   if (context.mounted) {
-    showSnackSec(context: context, text: "Eintrag wurde gelöscht.");
+    showSnackSec(context: context, text: context.l10n.blackboardEntryDeleted);
   }
 }
 
@@ -187,7 +188,10 @@ class _HeadlineAndCourseName extends StatelessWidget {
 class _AttachmentIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const _TipIcon(tooltip: 'Enthält Anhänge', icon: Icons.attach_file);
+    return _TipIcon(
+      tooltip: context.l10n.blackboardCardAttachmentTooltip,
+      icon: Icons.attach_file,
+    );
   }
 }
 
@@ -195,7 +199,7 @@ class _IsAuthorIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _TipIcon(
-      tooltip: 'Mein Eintrag',
+      tooltip: context.l10n.blackboardCardMyEntryTooltip,
       icon: themeIconData(Icons.person, cupertinoIcon: CupertinoIcons.person),
     );
   }
@@ -326,7 +330,7 @@ class BottomActionBar extends StatelessWidget {
                   analytics.log(NamedAnalyticsEvent(name: "blackboard_read"));
                   bloc.changeReadState(true);
                 },
-                child: const Text('ALS GELESEN MARKIEREN'),
+                child: Text(context.l10n.blackboardMarkAsRead.toUpperCase()),
               ),
           ],
         ),

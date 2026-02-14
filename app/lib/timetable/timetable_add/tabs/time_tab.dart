@@ -24,8 +24,8 @@ class _TimeTab extends StatelessWidget {
           index: index,
           title:
               timeType == TimeType.period
-                  ? "In der wievielten Stunde findet die neue Schulstunde statt?"
-                  : "Wähle die Uhrzeit aus",
+                  ? context.l10n.timetableAddSelectPeriodQuestion
+                  : context.l10n.timetableEditSelectTime,
           child: _SwitchTimeType(timeType: timeType),
         );
       },
@@ -65,12 +65,12 @@ class _NoteForChangingTheTimesOfTheTimetable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Opacity(
+    return Opacity(
       opacity: 0.4,
       child: Text(
-        "Du kannst die Stundenzeiten in den Einstellungen vom Stundenplan ändern.",
+        context.l10n.timetableAddChangeTimesInSettingsInfo,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 12),
+        style: const TextStyle(fontSize: 12),
       ),
     );
   }
@@ -81,8 +81,8 @@ class _ChangeToPeriodButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     return TextButton(
-      child: const Text(
-        "Alternativ kannst du auch eine Stunde auswählen",
+      child: Text(
+        context.l10n.timetableAddAlternativeSelectPeriod,
         textAlign: TextAlign.center,
       ),
       onPressed: () => bloc.changeTimeType(TimeType.period),
@@ -95,8 +95,8 @@ class _ChangeToIndividualButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     return TextButton(
-      child: const Text(
-        "Alternativ kannst du auch individuell die Uhrzeit festlegen",
+      child: Text(
+        context.l10n.timetableAddAlternativeSetIndividualTime,
         textAlign: TextAlign.center,
       ),
       onPressed: () => bloc.changeTimeType(TimeType.individual),
@@ -207,8 +207,7 @@ class _StartTime extends StatelessWidget {
 
               if (startTime.hour < 7) {
                 showSnackSec(
-                  text:
-                      'Bitte bedenke, dass erst die Schulstunden ab 7 Uhr angezeigt werden.',
+                  text: context.l10n.timetableAddEarlyStartTimeHint,
                   context: context,
                   seconds: 4,
                 );
@@ -235,7 +234,7 @@ class _StartTime extends StatelessWidget {
                 );
               }
             },
-            label: "Startzeit",
+            label: context.l10n.timetableEditStartTime,
           ),
         );
       },
@@ -279,7 +278,7 @@ class _EndTime extends StatelessWidget {
                 );
               }
             },
-            label: "Endzeit",
+            label: context.l10n.timetableEditEndTime,
           ),
         );
       },

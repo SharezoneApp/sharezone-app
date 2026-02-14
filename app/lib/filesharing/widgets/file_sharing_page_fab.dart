@@ -17,6 +17,7 @@ import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'upload_file_dialog.dart';
@@ -62,9 +63,9 @@ class FileSharingPageFAB extends StatelessWidget {
             context: context,
             builder:
                 (context) => OneTextFieldDialog(
-                  title: "Ordner erstellen",
-                  hint: "Ordnername",
-                  actionName: "Erstellen".toUpperCase(),
+                  title: context.l10n.fileSharingFabCreateFolderTitle,
+                  hint: context.l10n.fileSharingFabFolderNameHint,
+                  actionName: context.l10n.commonActionsCreate.toUpperCase(),
                   onTap: (name) async {
                     final creatorName = (await api.user.userStream.first)!.name;
                     final fileSharingData = await api.fileSharing.folderGateway
@@ -138,7 +139,7 @@ class FileSharingPageFAB extends StatelessWidget {
             if (context.mounted) {
               showSnackSec(
                 context: context,
-                text: "Oh! Die Berechtigung für die Kamera fehlt!",
+                text: context.l10n.fileSharingFabMissingCameraPermission,
               );
             }
           }
@@ -174,7 +175,7 @@ class FileSharingPageFAB extends StatelessWidget {
     );
     if (!hasPermissionsToUpload) return Container();
     return ModalFloatingActionButton(
-      tooltip: 'Neu erstellen',
+      tooltip: context.l10n.fileSharingFabCreateNewTooltip,
       icon: const Icon(Icons.add),
       onPressed: () => onPressed(context, path),
     );
@@ -202,7 +203,7 @@ class __FABModalBottomSheetContentState
           children: <Widget>[
             const SizedBox(height: 20),
             Text(
-              "Neu erstellen",
+              context.l10n.fileSharingFabCreateNewTitle,
               style: TextStyle(
                 color:
                     Theme.of(context).isDarkTheme
@@ -236,30 +237,30 @@ class __FABModalBottomSheetContentState
           showUploadOptions = false;
         });
       },
-      child: const Stack(
+      child: Stack(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(left: 205),
+            padding: const EdgeInsets.only(left: 205),
             child: ModalBottomSheetBigIconButton<_FABAddOption>(
-              title: "Bilder",
+              title: context.l10n.fileSharingFabImagesTitle,
               iconData: Icons.photo,
               popValue: _FABAddOption.gallery,
-              tooltip: "Bilder",
+              tooltip: context.l10n.fileSharingFabImagesTooltip,
             ),
           ),
           ModalBottomSheetBigIconButton<_FABAddOption>(
-            title: "Videos",
+            title: context.l10n.fileSharingFabVideosTitle,
             iconData: Icons.movie,
             popValue: _FABAddOption.video,
-            tooltip: "Videos",
+            tooltip: context.l10n.fileSharingFabVideosTooltip,
           ),
           Padding(
-            padding: EdgeInsets.only(right: 205),
+            padding: const EdgeInsets.only(right: 205),
             child: ModalBottomSheetBigIconButton<_FABAddOption>(
-              title: "Dateien",
+              title: context.l10n.fileSharingFabFilesTitle,
               iconData: Icons.insert_drive_file,
               popValue: _FABAddOption.upload,
-              tooltip: "Dateien",
+              tooltip: context.l10n.fileSharingFabFilesTooltip,
             ),
           ),
         ],
@@ -275,11 +276,11 @@ class __FABModalBottomSheetContentState
           padding: EdgeInsets.only(
             right: PlatformCheck.isDesktopOrWeb ? 100 : 205,
           ),
-          child: const ModalBottomSheetBigIconButton<_FABAddOption>(
-            title: "Ordner",
+          child: ModalBottomSheetBigIconButton<_FABAddOption>(
+            title: context.l10n.fileSharingFabFolderTitle,
             iconData: Icons.folder,
             popValue: _FABAddOption.newFolder,
-            tooltip: "Neuen Ordner erstellen",
+            tooltip: context.l10n.fileSharingFabCreateFolderTooltip,
           ),
         ),
         Padding(
@@ -287,10 +288,10 @@ class __FABModalBottomSheetContentState
             left: PlatformCheck.isDesktopOrWeb ? 100 : 0,
           ),
           child: ModalBottomSheetBigIconButton<_FABAddOption>(
-            title: "Hochladen",
+            title: context.l10n.fileSharingFabUploadTitle,
             iconData: Icons.file_upload,
             popValue: _FABAddOption.upload,
-            tooltip: "Neue Datei hochalden",
+            tooltip: context.l10n.fileSharingFabUploadTooltip,
             onTap: () {
               if (PlatformCheck.isIOS) {
                 setState(() {
@@ -303,13 +304,13 @@ class __FABModalBottomSheetContentState
           ),
         ),
         if (!PlatformCheck.isDesktopOrWeb)
-          const Padding(
-            padding: EdgeInsets.only(left: 205),
+          Padding(
+            padding: const EdgeInsets.only(left: 205),
             child: ModalBottomSheetBigIconButton<_FABAddOption>(
-              title: "Kamera",
+              title: context.l10n.fileSharingFabCameraTitle,
               iconData: Icons.photo_camera,
               popValue: _FABAddOption.camera,
-              tooltip: "Kamera öffnen",
+              tooltip: context.l10n.fileSharingFabCameraTooltip,
             ),
           ),
       ],

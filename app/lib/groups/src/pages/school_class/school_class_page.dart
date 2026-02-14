@@ -15,6 +15,7 @@ import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/groups/src/pages/school_class/school_class_details.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 abstract class SchoolClassDetailsPopOption {}
 
@@ -71,10 +72,8 @@ class MySchoolClassPage extends StatelessWidget {
       builder: (context, snapshot) {
         final schoolClass = snapshot.data;
         if (schoolClass == null) {
-          return const Scaffold(
-            body: Center(
-              child: Text("Es ist ein Fehler beim Laden aufgetreten..."),
-            ),
+          return Scaffold(
+            body: Center(child: Text(context.l10n.schoolClassLoadError)),
           );
         }
         return SchoolClassDetailsPage(schoolClass);

@@ -12,6 +12,7 @@ import 'package:filesharing_logic/file_uploader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> showUploadFileDialog({
@@ -80,7 +81,9 @@ class __UploadFileDialogContentState extends State<_UploadFileDialogContent> {
                 event.snapshot.totalByteCount *
                 100;
             if (event.type == UploadTaskEventType.error) {
-              return const _UploadingDialogFailure(error: "Fehler");
+              return _UploadingDialogFailure(
+                error: context.l10n.commonErrorUnknown,
+              );
             }
             return _UploadingDialog(percent: percent);
           },
@@ -110,7 +113,7 @@ class _UploadingDialog extends StatelessWidget {
         const SizedBox(width: 6),
         Flexible(
           child: Text(
-            "Die Datei wird auf den Server gebeamt: ${percent.toStringAsFixed(0)}/100",
+            context.l10n.filesUploadProgress(percent.toStringAsFixed(0)),
             style: const TextStyle(fontSize: 16),
           ),
         ),
@@ -138,7 +141,7 @@ class _UploadingDialogFailure extends StatelessWidget {
         const SizedBox(width: 6),
         Flexible(
           child: Text(
-            "Es gab einen Fehler: $error",
+            context.l10n.filesUploadError('$error'),
             style: const TextStyle(fontSize: 16),
           ),
         ),

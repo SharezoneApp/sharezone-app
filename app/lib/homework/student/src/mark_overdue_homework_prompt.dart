@@ -10,6 +10,7 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -61,7 +62,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Text(
-                  "Alle überfälligen Hausaufgaben abhaken?",
+                  context.l10n.homeworkMarkOverduePromptTitle,
                   style: textTheme.titleLarge?.apply(fontSizeFactor: 0.9),
                   textAlign: TextAlign.center,
                 ),
@@ -69,7 +70,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
               OverflowBar(
                 children: <Widget>[
                   TextButton(
-                    child: const Text("Schließen"),
+                    child: Text(context.l10n.commonActionsClose),
                     onPressed: () {
                       analytics.log(_OverdueAnalyticsEvent.closed());
                       setState(() {
@@ -83,7 +84,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
                       analytics.log(_OverdueAnalyticsEvent.confirmed());
                       bloc.add(CompletedAllOverdue());
                     },
-                    child: const Text("Abhaken"),
+                    child: Text(context.l10n.homeworkDetailsMarkDoneAction),
                   ),
                 ],
               ),

@@ -11,21 +11,26 @@ import 'dart:async';
 import 'package:date/date.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:mockito/annotations.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller.dart';
 
 import '../../grades_test_common.dart';
+import './subjects_page_controller_test.mocks.dart';
 
+@GenerateNiceMocks([MockSpec<SubjectsPageControllerTranslations>()])
 void main() {
   group(SubjectsPageController, () {
     late GradesService service;
     late GradesTestController testController;
     late StreamController<List<Course>> coursesController;
+    late MockSubjectsPageControllerTranslations translations;
 
     setUp(() {
       service = GradesService();
       testController = GradesTestController(gradesService: service);
       coursesController = StreamController<List<Course>>();
+      translations = MockSubjectsPageControllerTranslations();
     });
 
     tearDown(() async {
@@ -70,6 +75,7 @@ void main() {
         final controller = SubjectsPageController(
           gradesService: service,
           coursesStream: coursesController.stream,
+          translations: translations,
         );
 
         addTearDown(controller.dispose);

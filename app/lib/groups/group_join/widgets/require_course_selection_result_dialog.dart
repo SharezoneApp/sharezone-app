@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class RequireCourseSelectionsJoinResultDialog extends StatelessWidget {
@@ -21,11 +22,12 @@ class RequireCourseSelectionsJoinResultDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateSheetSimpleBody(
-      title: "Klasse gefunden: ${result.groupInfo.name}",
+      title: context.l10n.groupJoinRequireCourseSelectionTitle(
+        result.groupInfo.name ?? '',
+      ),
       iconData: Icons.notifications,
       iconColor: Colors.deepOrange,
-      description:
-          "Du musst zum Beitreten die Kurse auswählen, in welchen du bist.",
+      description: context.l10n.groupJoinRequireCourseSelectionDescription,
     );
   }
 }

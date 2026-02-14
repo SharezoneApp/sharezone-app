@@ -15,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
@@ -138,7 +139,7 @@ class _SettingsIcon extends StatelessWidget {
       icon: Icon(
         themeIconData(Icons.settings, cupertinoIcon: CupertinoIcons.settings),
       ),
-      tooltip: 'Stundenplan-Einstellungen',
+      tooltip: context.l10n.timetablePageSettingsTooltip,
       onPressed: () => Navigator.pushNamed(context, TimetableSettingsPage.tag),
     );
   }

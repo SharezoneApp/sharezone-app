@@ -119,7 +119,7 @@ class _TimetableEditPage extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
-        appBar: AppBar(title: const Text("Schulstunde bearbeiten")),
+        appBar: AppBar(title: Text(context.l10n.timetableEditLessonTitle)),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -161,7 +161,7 @@ class _TimetableEditFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      tooltip: 'Speichern',
+      tooltip: context.l10n.commonActionsSave,
       heroTag: 'sharezone-fab',
       child: const Icon(Icons.done),
       onPressed: () => _submit(context),
@@ -197,12 +197,14 @@ class _CourseField extends StatelessWidget {
           onTap: () {
             showSnackSec(
               context: context,
-              text: "Der Kurs kann nicht mehr nachträglich geändert werden.",
+              text: context.l10n.timetableEditCourseLocked,
               seconds: 4,
               action:
                   hasPermissionsToManageLessons
                       ? SnackBarAction(
-                        label: 'Stunde löschen'.toUpperCase(),
+                        label:
+                            context.l10n.timetableLessonDetailsDeleteTitle
+                                .toUpperCase(),
                         textColor: Colors.lightBlueAccent,
                         onPressed: () async {
                           final confirmed =
@@ -238,7 +240,8 @@ class _WeekDayField extends StatelessWidget {
             padding: EdgeInsets.only(left: 6),
             child: Icon(Icons.today),
           ),
-          title: weekDay == null ? null : Text(getWeekDayText(weekDay)),
+          title:
+              weekDay == null ? null : Text(weekDay.toLocalizedString(context)),
           onTap: () async {
             final newWeekDay = await selectWeekDay(context, selected: weekDay);
             if (newWeekDay != null) {
@@ -266,8 +269,8 @@ class _PeriodField extends StatelessWidget {
           ),
           title: Text(
             period != null
-                ? "${period.number}. Stunde"
-                : "Keine Stunde ausgewählt",
+                ? context.l10n.timetableEditPeriodSelected(period.number)
+                : context.l10n.timetableEditNoPeriodSelected,
           ),
           onTap: () async {
             final newPeriod = await selectPeriod(context, selected: period);
@@ -324,7 +327,7 @@ class _StartTimeField extends StatelessWidget {
           child: EditTimeField(
             time: startTime,
             onChanged: bloc.changeStartTime,
-            label: "Startzeit",
+            label: context.l10n.timetableEditStartTime,
           ),
         );
       },
@@ -345,7 +348,7 @@ class _EndTimeField extends StatelessWidget {
           child: EditTimeField(
             time: endTime,
             onChanged: bloc.changeEndTime,
-            label: "Endzeit",
+            label: context.l10n.timetableEditEndTime,
           ),
         );
       },
@@ -370,9 +373,9 @@ class RoomField extends StatelessWidget {
         ),
         title: PrefilledTextField(
           prefilledText: initialPlace,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: "Raum",
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: context.l10n.timetableLessonDetailsRoom.trim(),
           ),
           textCapitalization: TextCapitalization.sentences,
           maxLength: 32,
@@ -436,8 +439,8 @@ class TeacherField extends StatelessWidget {
                 focusNode: focusNode,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: "Lehrkraft",
-                  hintText: "z.B. Frau Stark",
+                  labelText: context.l10n.timetableLessonDetailsTeacher.trim(),
+                  hintText: context.l10n.timetableEditTeacherHint,
                   suffixIcon:
                       isUnlocked
                           ? null

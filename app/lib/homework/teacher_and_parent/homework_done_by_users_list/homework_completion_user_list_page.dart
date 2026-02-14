@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'homework_completion_user_list_bloc.dart';
@@ -50,7 +51,10 @@ class _HomeworkCompletionUserListPageState
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
-        appBar: AppBar(title: const Text("Erledigt von"), centerTitle: true),
+        appBar: AppBar(
+          title: Text(context.l10n.homeworkCompletionReadByTitle),
+          centerTitle: true,
+        ),
         body: const HomeworkCompletionUserListPageBody(),
       ),
     );
@@ -108,20 +112,20 @@ class _FreeUsersLockScreen extends StatelessWidget {
     final dummyUsers = [
       _createMockView(1, 'Zottel Zappelfritz'),
       _createMockView(2, 'Quassel Trudel'),
-      _createMockView(3, 'Pünktchen Schmunzler', hasDone: true),
+      _createMockView(3, 'Dot Cheerful', hasDone: true),
       _createMockView(4, 'Kicher Karla'),
       _createMockView(5, 'Hoppla Heidi'),
       _createMockView(6, 'Fussel Frieda', hasDone: true),
       _createMockView(7, 'Wuschel Waltraud'),
       _createMockView(8, 'Pumpernickel Peter'),
-      _createMockView(9, 'Tapsi Töne'),
+      _createMockView(9, 'Tap Tunes'),
       _createMockView(10, 'Knuddel Kuno', hasDone: true),
       _createMockView(11, 'Wunder Willi'),
       _createMockView(12, 'Muffel Maxim'),
       _createMockView(13, 'Schnuffel Sina', hasDone: true),
       _createMockView(14, 'Gurken Greta'),
-      _createMockView(15, 'Träumchen Tino', hasDone: true),
-      _createMockView(16, 'Rübchen Rudi'),
+      _createMockView(15, 'Dreamy Tino', hasDone: true),
+      _createMockView(16, 'Rooty Rudi'),
     ];
 
     return Stack(
@@ -148,9 +152,7 @@ class _FreeUsersLockScreen extends StatelessWidget {
                 withLearnMoreButton: true,
                 onLearnMorePressed: () => navigateToSharezonePlusPage(context),
                 underlayColor: Theme.of(context).scaffoldBackgroundColor,
-                child: const Text(
-                  'Erwerbe Sharezone Plus, um nachzuvollziehen, wer bereits die Hausaufgabe als erledigt markiert hat.',
-                ),
+                child: Text(context.l10n.homeworkCompletionPlusDescription),
               ),
             ),
           ),
@@ -202,9 +204,7 @@ class _List extends StatelessWidget {
 class _EmptyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Es befinden sich keine Teilnehmer in dieser Gruppe 😭"),
-    );
+    return Center(child: Text(context.l10n.groupParticipantsEmpty));
   }
 }
 

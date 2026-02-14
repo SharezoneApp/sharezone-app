@@ -12,6 +12,7 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -63,8 +64,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
       log("User has no internet access!");
       setState(() {
         isLoading = false;
-        errorTextForUser =
-            "Dein Gerät hat leider keinen Zugang zum Internet...";
+        errorTextForUser = context.l10n.commonErrorNoInternetAccess;
       });
     } on Exception catch (e, s) {
       log("$e $s", error: e, stackTrace: s);
@@ -77,7 +77,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
 
   @override
   Widget build(BuildContext context) {
-    const text = "Ja, ich möchte mein Konto löschen.";
+    final text = context.l10n.deleteAccountConfirmationCheckbox;
     if (ThemePlatform.isCupertino) {
       return CupertinoAlertDialog(
         title: const _SignOutAndDeleteAnonymousDialogTitle(),
@@ -101,7 +101,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
         ),
         actions: <Widget>[
           CupertinoDialogAction(
-            child: const Text("Abbrechen"),
+            child: Text(context.l10n.commonActionsCancel),
             onPressed: () => Navigator.pop(context, false),
           ),
           if (isLoading)
@@ -118,7 +118,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
               isDefaultAction: true,
               isDestructiveAction: true,
               onPressed: () => tryToSignOutAndDeleteUser(context),
-              child: const Text("Löschen"),
+              child: Text(context.l10n.commonActionsDelete),
             ),
         ],
       );
@@ -166,7 +166,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
                     confirmedToDeleteAccount
                         ? () => tryToSignOutAndDeleteUser(context)
                         : null,
-                child: const Text("LÖSCHEN"),
+                child: Text(context.l10n.commonActionsDeleteUppercase),
               ),
             ],
           ),
@@ -186,7 +186,7 @@ class _SignOutAndDeleteAnonymousDialogTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      const Text("Möchtest du dich wirklich abmelden?");
+      Text(context.l10n.signOutDialogConfirmation);
 }
 
 class DeleteAccountDialogErrorText extends StatelessWidget {

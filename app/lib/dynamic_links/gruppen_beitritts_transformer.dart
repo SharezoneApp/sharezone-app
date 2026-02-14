@@ -48,7 +48,7 @@ class GruppenBeitrittsversuchFilterBloc implements BlocBase {
       if (link.typ == matchingLinkType) {
         final codeString = link.zusatzinformationen[sharecodeKey];
         if (codeString == null || codeString.isEmpty) {
-          log("Kein Sharecode im Link vorhanden: $link");
+          log("No sharecode found in link: $link");
           return null;
         }
         final sharecode = Sharecode(link.zusatzinformationen[sharecodeKey]!);
@@ -56,7 +56,7 @@ class GruppenBeitrittsversuchFilterBloc implements BlocBase {
         if (!schonBeigetreten) {
           return Beitrittsversuch(sharecode: sharecode);
         } else {
-          log("Gruppe wurde schon beigetreten");
+          log("Group was already joined");
           // Das dynamic-link Plugin gibt den Link beim Rückwechsel in die App nochmals als neues Event an,
           // weswegen dann der Beitrittsversuch einfach komplett ignoriert werden soll.
           // Falls allerdings beim App-Start dem Kurs bereits beigetreten worden ist,

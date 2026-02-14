@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/ical_links/dialog/ical_links_dialog_controller.dart';
 import 'package:sharezone/ical_links/dialog/ical_links_dialog_controller_factory.dart';
 import 'package:sharezone/ical_links/shared/ical_link_source.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -81,7 +82,7 @@ class _AppBar extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.close, color: Colors.white),
                       onPressed: onCloseTap,
-                      tooltip: "Schließen",
+                      tooltip: context.l10n.commonActionsClose,
                     ),
                     const _SaveButton(),
                   ],
@@ -112,7 +113,8 @@ class _TitleField extends StatelessWidget {
         focusNode: focusNode,
         onChanged: context.read<ICalLinksDialogController>().setName,
         errorText: switch (error) {
-          ICalDialogNameMissingError() => 'Bitte gib einen Namen ein',
+          ICalDialogNameMissingError() =>
+            context.l10n.icalLinksDialogNameMissingError,
           _ => null,
         },
       ),
@@ -166,9 +168,9 @@ class _TitleFieldBase extends StatelessWidget {
                     fontSize: 22,
                     fontWeight: FontWeight.w400,
                   ),
-                  decoration: const InputDecoration(
-                    hintText: "Name eingeben (z.B. Meine Prüfungen)",
-                    hintStyle: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: context.l10n.icalLinksDialogNameHint,
+                    hintStyle: const TextStyle(color: Colors.white),
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
@@ -206,7 +208,7 @@ class _Sources extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Text(
-              'Welche Quellen sollen in den Export aufgenommen werden?',
+              context.l10n.icalLinksDialogSourcesQuestion,
               style: TextStyle(
                 fontSize: 16,
                 color: switch (state.error) {
@@ -225,9 +227,12 @@ class _Sources extends StatelessWidget {
               title: Text(source.getUiName()),
               subtitle:
                   source == ICalLinkSource.lessons
-                      ? const Text(
-                        'Diese Option ist demnächst verfügbar.',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ? Text(
+                        context.l10n.icalLinksDialogLessonsComingSoon,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
                       )
                       : null,
               secondary: source.getIcon(),
@@ -255,10 +260,11 @@ class _SaveButton extends StatelessWidget {
     showSnackSec(
       context: context,
       text: switch (error) {
-        ICalDialogNameMissingError() => 'Bitte gib einen Namen ein.',
+        ICalDialogNameMissingError() =>
+          context.l10n.icalLinksDialogNameMissingErrorWithPeriod,
         ICalDialogSourcesMissingError() =>
-          'Bitte wähle mindestens eine Quelle aus.',
-        _ => 'Es ist ein Fehler aufgetreten.',
+          context.l10n.icalLinksDialogSourceMissingError,
+        _ => context.l10n.commonUnknownError,
       },
     );
   }
@@ -266,7 +272,7 @@ class _SaveButton extends StatelessWidget {
   void showSuccessSnackBar(BuildContext context) {
     showSnackSec(
       context: context,
-      text: 'Der Export wurde erfolgreich erstellt.',
+      text: context.l10n.icalLinksDialogExportCreated,
     );
   }
 
@@ -301,7 +307,7 @@ class _PrivateNote extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Text(
-          "iCal Exporte sind privat und nur für dich sichtbar.",
+          context.l10n.icalLinksDialogPrivateNote,
           style: TextStyle(
             color: Theme.of(
               context,

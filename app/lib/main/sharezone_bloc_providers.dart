@@ -64,8 +64,10 @@ import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
+import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller_factory.dart';
@@ -494,6 +496,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
               gradesService: gradesService,
               coursesStream: () => api.course.streamCourses(),
               analytics: analytics,
+              translations: GradesDialogControllerTranslations(context),
             ),
       ),
       ChangeNotifierProvider(
@@ -515,6 +518,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
             (context) => SubjectsPageControllerFactory(
               gradesService: gradesService,
               coursesStream: () => api.course.streamCourses(),
+              translations: SubjectsPageControllerTranslations(context),
             ),
       ),
       Provider(

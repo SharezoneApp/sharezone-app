@@ -19,6 +19,7 @@ import 'package:flutter/material.dart' hide VerticalDivider;
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'email_and_password_link_page.dart';
@@ -139,9 +140,7 @@ class _LoadingCircular extends StatelessWidget {
           const SizedBox(height: 18),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 175),
-            child: const Text(
-              "Die Erstellung des QR-Codes kann einige Sekunden dauern...",
-            ),
+            child: Text(context.l10n.signInWithQrCodeLoadingMessage),
           ),
         ],
       ),
@@ -152,36 +151,29 @@ class _LoadingCircular extends StatelessWidget {
 class _QrCodeSteps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          "So meldest du dich über einen QR-Code an:",
-          style: TextStyle(fontSize: 30),
+          context.l10n.signInWithQrCodeTitle,
+          style: const TextStyle(fontSize: 30),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 16),
+          padding: const EdgeInsets.only(left: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _Step(step: 1, text: 'Öffne Sharezone auf deinem Handy / Tablet'),
-              _Step(
-                step: 2,
-                text: 'Öffne die Einstellungen über die seitliche Navigation',
-              ),
-              _Step(step: 3, text: 'Tippe auf "Web-App"'),
-              _Step(
-                step: 4,
-                text:
-                    'Tippe auf "QR-Code scannen" und richte die Kamera auf deinen Bildschirm',
-              ),
+              _Step(step: 1, text: context.l10n.signInWithQrCodeStep1),
+              _Step(step: 2, text: context.l10n.signInWithQrCodeStep2),
+              _Step(step: 3, text: context.l10n.signInWithQrCodeStep3),
+              _Step(step: 4, text: context.l10n.signInWithQrCodeStep4),
             ],
           ),
         ),
-        SizedBox(height: 40),
+        const SizedBox(height: 40),
         Text(
-          "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
-          style: TextStyle(color: Colors.grey),
+          context.l10n.webAppSettingsQrCodeHint,
+          style: const TextStyle(color: Colors.grey),
         ),
       ],
     );

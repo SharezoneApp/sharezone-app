@@ -16,6 +16,7 @@ import 'package:platform_check/platform_check.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../group_join_result_dialog.dart';
@@ -80,14 +81,14 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                 },
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
-                  labelText: 'Sharecode',
+                  labelText: context.l10n.groupJoinSharecodeLabel,
                   labelStyle: const TextStyle(color: Colors.white),
                   focusedBorder: Theme.of(
                     context,
                   ).inputDecorationTheme.focusedBorder?.copyWith(
                     borderSide: const BorderSide(color: Colors.white),
                   ),
-                  hintText: "z.B. Qb32vF",
+                  hintText: context.l10n.groupJoinSharecodeHint,
                   hintStyle:
                       Theme.of(context).isDarkTheme
                           ? null
@@ -95,7 +96,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(right: 6),
                     child: IconButton(
-                      tooltip: 'QR-Code scannen',
+                      tooltip: context.l10n.groupJoinScanQrCodeTooltip,
                       iconSize: 48,
                       onPressed: () async {
                         hideKeyboard(context: context);
@@ -139,10 +140,8 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
   Future<String?> _scanQRCode() async {
     return showQrCodeScanner(
       context,
-      title: const Text('QR-Code scannen'),
-      description: const Text(
-        'Scanne einen QR-Code, um einer Gruppe beizutreten.',
-      ),
+      title: Text(context.l10n.groupJoinScanQrCodeTooltip),
+      description: Text(context.l10n.groupJoinScanQrCodeDescription),
       settings: const RouteSettings(name: 'scan-sharecode-qr-code-page'),
     );
   }
@@ -171,13 +170,16 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
     final result = await showLeftRightAdaptiveDialog<bool>(
       context: context,
       defaultValue: false,
-      title: "Sharecode einfügen",
+      title: context.l10n.groupJoinPasteSharecodeTitle,
       content: Text(
-        'Möchtest du den Sharecode "${sharecode.value}" aus deiner Zwischenablage übernehmen?',
+        context.l10n.groupJoinPasteSharecodeDescription(sharecode.value),
       ),
-      left: const AdaptiveDialogAction(title: 'Nein', popResult: false),
-      right: const AdaptiveDialogAction(
-        title: 'Ja',
+      left: AdaptiveDialogAction(
+        title: context.l10n.commonActionsNo,
+        popResult: false,
+      ),
+      right: AdaptiveDialogAction(
+        title: context.l10n.commonActionsYes,
         popResult: true,
         isDefaultAction: true,
       ),
