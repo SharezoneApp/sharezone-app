@@ -6,12 +6,21 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:url_launcher/url_launcher_string.dart';
 
 /// [UrlLauncherExtended] adds the ability to mocks the `url_launcher` by
 /// wrapping the methods into a class and adds some helpful methods.
 class UrlLauncherExtended {
+  static const _allowedSchemes = {
+    'http',
+    'https',
+    'mailto',
+    'tel',
+    'sms',
+  };
+
   /// Passes [url] to the underlying platform for handling.
   ///
   /// [mode] support varies significantly by platform:
@@ -45,6 +54,28 @@ class UrlLauncherExtended {
   ///
   /// (Copied form launch url_launcher)
   Future<bool> launchUrl(
+    Uri url, {
+    LaunchMode mode = LaunchMode.platformDefault,
+    WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
+    String? webOnlyWindowName,
+  }) async {
+    if (!_allowedSchemes.contains(url.scheme)) {
+      throw ArgumentError('Scheme ${url.scheme} is not allowed');
+    }
+
+    return launchUrlPlatform(
+      url,
+      mode: mode,
+      webViewConfiguration: webViewConfiguration,
+      webOnlyWindowName: webOnlyWindowName,
+    );
+  }
+
+  /// Passes [url] to the underlying platform for handling.
+  ///
+  /// Visible for testing to mock the underlying platform call.
+  @visibleForTesting
+  Future<bool> launchUrlPlatform(
     Uri url, {
     LaunchMode mode = LaunchMode.platformDefault,
     WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
@@ -85,6 +116,19 @@ class UrlLauncherExtended {
   ///
   /// (Copied form url_launcher)
   Future<bool> canLaunchUrl(Uri url) {
+    if (!_allowedSchemes.contains(url.scheme)) {
+      return Future.value(false);
+    }
+
+    return canLaunchUrlPlatform(url);
+  }
+
+  /// Checks whether the specified URL can be handled by some app installed on the
+  /// device.
+  ///
+  /// Visible for testing to mock the underlying platform call.
+  @visibleForTesting
+  Future<bool> canLaunchUrlPlatform(Uri url) {
     return url_launcher.canLaunchUrl(url);
   }
 

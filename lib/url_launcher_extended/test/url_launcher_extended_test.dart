@@ -14,7 +14,7 @@ class TestUrlLauncherExtended extends UrlLauncherExtended {
   Uri? lastLaunchedUri;
 
   @override
-  Future<bool> launchUrl(
+  Future<bool> launchUrlPlatform(
     Uri url, {
     LaunchMode mode = LaunchMode.platformDefault,
     WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
@@ -25,7 +25,7 @@ class TestUrlLauncherExtended extends UrlLauncherExtended {
   }
 
   @override
-  Future<bool> canLaunchUrl(Uri url) async {
+  Future<bool> canLaunchUrlPlatform(Uri url) async {
     return true;
   }
 }
@@ -91,5 +91,52 @@ void main() {
     expect(uri.path, equals('user@example.com'));
     expect(uri.queryParameters['subject'], isNull);
     expect(uri.queryParameters['body'], isNull);
+  });
+
+  group('Security: Scheme Validation', () {
+    final launcher = TestUrlLauncherExtended();
+
+    test('launchUrl succeeds for allowed schemes', () async {
+      final allowedSchemes = ['http', 'https', 'mailto', 'tel', 'sms'];
+
+      for (final scheme in allowedSchemes) {
+        final url = Uri(scheme: scheme, path: 'example');
+        await launcher.launchUrl(url);
+        expect(launcher.lastLaunchedUri, equals(url));
+      }
+    });
+
+    test('launchUrl throws ArgumentError for disallowed schemes', () async {
+      final disallowedSchemes = ['javascript', 'file', 'ftp', 'custom'];
+
+      for (final scheme in disallowedSchemes) {
+        final url = Uri(scheme: scheme, path: 'example');
+        expect(
+          () => launcher.launchUrl(url),
+          throwsArgumentError,
+          reason: 'Scheme $scheme should be disallowed',
+        );
+      }
+    });
+
+    test('canLaunchUrl returns false for disallowed schemes', () async {
+      final disallowedSchemes = ['javascript', 'file', 'ftp', 'custom'];
+
+      for (final scheme in disallowedSchemes) {
+        final url = Uri(scheme: scheme, path: 'example');
+        final result = await launcher.canLaunchUrl(url);
+        expect(result, isFalse, reason: 'Scheme $scheme should be disallowed');
+      }
+    });
+
+    test('canLaunchUrl returns true for allowed schemes', () async {
+      final allowedSchemes = ['http', 'https', 'mailto', 'tel', 'sms'];
+
+      for (final scheme in allowedSchemes) {
+        final url = Uri(scheme: scheme, path: 'example');
+        final result = await launcher.canLaunchUrl(url);
+        expect(result, isTrue, reason: 'Scheme $scheme should be allowed');
+      }
+    });
   });
 }
