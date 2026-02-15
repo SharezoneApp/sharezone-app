@@ -6,11 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/src/shared/models/date.dart';
-import 'package:hausaufgabenheft_logik/src/shared/models/title.dart';
 import 'package:hausaufgabenheft_logik/src/shared/sort_and_subcategorizer.dart';
 import 'package:test/test.dart';
 
@@ -19,7 +16,7 @@ import 'create_homework_util.dart';
 void main() {
   group('HomeworkSortAndSubcategorizer', () {
     late HomeworkSortAndSubcategorizer<StudentHomeworkReadModel> sorter;
-    final now = const Date(year: 2023, month: 10, day: 25);
+    const now = Date(year: 2023, month: 10, day: 25);
 
     setUp(() {
       sorter = HomeworkSortAndSubcategorizer(getCurrentDate: () => now);
