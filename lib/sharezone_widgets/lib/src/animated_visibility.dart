@@ -264,7 +264,7 @@ class _AnimatedVisibilityState extends State<AnimatedVisibility> {
     /// So we use both :)
     return AnimatedOpacity(
       opacity: isTransparent ? 0 : 1,
-      duration: const Duration(milliseconds: 300),
+      duration: widget.duration,
       curve: widget.curve,
 
       /// Only make the widget invisible after the fade-out has finished.
