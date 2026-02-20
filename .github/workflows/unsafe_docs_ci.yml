@@ -61,7 +61,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Remove "safe to test" label, if PR is from a fork
-        uses: SharezoneApp/remove-safe-to-test-label@91b378205db41bb08dde8e4c4f2685847eb3d168
+        uses: SharezoneApp/remove-safe-to-test-label@80adabf70bc8c16bbc23f1ad47d65c24236384c4
 
   # We can't use the official "paths" filter because it has no support for merge
   # groups and we would need some kind of fallback CI when a check is required
