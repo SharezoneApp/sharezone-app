@@ -97,7 +97,7 @@ dependencies:
       url: https://github.com/SharezoneApp/packages
       path: packages/flutter_markdown
       ref: 2f680bb80119f6fd037a7bda0984bc811b5dccb8
-  flutter_timezone: ^4.1.1
+  flutter_timezone: ^5.0.1
   flutter_rating_bar: ^4.0.1
   flutter_sfsymbols: ^2.0.0
   flutter_slidable: ^4.0.0
