@@ -75,7 +75,7 @@ jobs:
           - flavor: dev
             serviceAccountSecret: FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -115,7 +115,7 @@ jobs:
   deploy-alpha-android-app:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       # Our Android configurations require Java 17.
       - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
@@ -226,7 +226,7 @@ jobs:
     runs-on: macos-26
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
@@ -290,7 +290,7 @@ jobs:
     runs-on: macos-26
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
