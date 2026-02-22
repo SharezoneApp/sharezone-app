@@ -17,7 +17,7 @@ void main() {
   group('HomeworkSortAndSubcategorizer', () {
     late HomeworkSortAndSubcategorizer<StudentHomeworkReadModel> subcategorizer;
     // Oct 10, 2023 is a Tuesday
-    final now = const Date(year: 2023, month: 10, day: 10);
+    const now = Date(year: 2023, month: 10, day: 10);
 
     setUp(() {
       subcategorizer = HomeworkSortAndSubcategorizer(getCurrentDate: () => now);
