@@ -9,7 +9,7 @@
 import 'dart:math';
 
 String randomString(int length) {
-  var rand = Random();
+  var rand = Random.secure();
   var codeUnits = List.generate(length, (index) {
     return rand.nextInt(33) + 89;
   });
@@ -18,12 +18,12 @@ String randomString(int length) {
 }
 
 String randomIDString(int length) {
-  var rand = Random();
+  var rand = Random.secure();
   const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  String result = "";
-  for (var i = 0; i < length; i++) {
-    result += chars[rand.nextInt(chars.length)];
-  }
-  return result;
+
+  return List.generate(
+    length,
+    (index) => chars[rand.nextInt(chars.length)],
+  ).join();
 }
