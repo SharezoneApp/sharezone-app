@@ -43,7 +43,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: AurorNZ/paths-filter@c9dd42e99db87803313ff6f4b1150cc9f6c836af
         id: filter
         with:
@@ -82,7 +82,7 @@ jobs:
         working-directory: app
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       # Our Android configurations require Java 17.
       - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
@@ -174,7 +174,7 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -225,7 +225,7 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -271,7 +271,7 @@ jobs:
       run:
         working-directory: app
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
