@@ -155,7 +155,7 @@ class OnboardingNavigationBar extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.chevron_left),
                       onPressed: () => Navigator.pop(context),
-                      tooltip: 'Zurück',
+                      tooltip: context.l10n.commonActionsBack,
                       color: Colors.grey,
                     ),
                     if (action != null) action!,
@@ -186,7 +186,7 @@ class OnboardingNavigationBarContinueButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomBarButton(
-      text: "Weiter",
+      text: context.l10n.commonActionsContinue,
       onTap:
           () =>
               Navigator.push(context, FadeRoute(child: nextPage, tag: nextTag)),

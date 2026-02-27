@@ -26,7 +26,10 @@ class _DataProtectionOverview extends StatelessWidget {
               children: [
                 const _DataProtectionLockAnimation(),
                 const SizedBox(height: 10),
-                const Text("Datenschutz", style: TextStyle(fontSize: 26)),
+                Text(
+                  context.l10n.signUpDataProtectionTitle,
+                  style: const TextStyle(fontSize: 26),
+                ),
                 MaxWidthConstraintBox(
                   maxWidth: 600,
                   child: Column(
@@ -84,8 +87,8 @@ class _DataProtectionServerLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedListTile.dataProtection(
-      title: "Standort der Server: Frankfurt (Deutschland)",
-      subtitle: "Mit Ausnahme des Authentifizierungs-Server",
+      title: context.l10n.signUpDataProtectionServerLocationTitle,
+      subtitle: context.l10n.signUpDataProtectionServerLocationSubtitle,
     );
   }
 }
@@ -96,7 +99,7 @@ class _DataProtectionTLS extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedListTile.dataProtection(
-      title: "TLS-Verschlüsselung bei der Übertragung",
+      title: context.l10n.signUpDataProtectionTlsTitle,
     );
   }
 }
@@ -107,7 +110,7 @@ class _DataProtectionAES extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedListTile.dataProtection(
-      title: "AES 256-Bit serverseitige Verschlüsselung",
+      title: context.l10n.signUpDataProtectionAesTitle,
     );
   }
 }
@@ -118,8 +121,8 @@ class _DataProtectionAnonymousSignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedListTile.dataProtection(
-      title: "Anmeldung ohne personenbezogene Daten",
-      subtitle: "IP-Adresse wird zwangsläufig temporär gespeichert",
+      title: context.l10n.signUpDataProtectionAnonymousSignInTitle,
+      subtitle: context.l10n.signUpDataProtectionAnonymousSignInSubtitle,
     );
   }
 }
@@ -130,7 +133,7 @@ class _DataProtectionISO extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedListTile.dataProtection(
-      title: "ISO27001, ISO27012 & ISO27018 zertifiziert*",
+      title: context.l10n.signUpDataProtectionIsoTitle,
     );
   }
 }
@@ -141,8 +144,8 @@ class _DataProtectionSOC extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedListTile.dataProtection(
-      title: "SOC1, SOC2, & SOC3 zertifiziert*",
-      subtitle: "* Zertifizierung von unserem Hosting-Anbieter",
+      title: context.l10n.signUpDataProtectionSocTitle,
+      subtitle: context.l10n.signUpDataProtectionSocSubtitle,
     );
   }
 }
@@ -153,7 +156,7 @@ class _DataProtectionDeleteData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedListTile.dataProtection(
-      title: "Einfaches Löschen der Daten",
+      title: context.l10n.signUpDataProtectionDeleteDataTitle,
     );
   }
 }

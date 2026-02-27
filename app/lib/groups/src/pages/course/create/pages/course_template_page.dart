@@ -48,7 +48,7 @@ class _CourseTemplatePageState extends State<CourseTemplatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Vorlagen"),
+        title: Text(context.l10n.courseTemplateTitle),
         actions: const [CourseTemplatePageFinishButton()],
       ),
       body: SingleChildScrollView(
@@ -152,42 +152,41 @@ class _CourseTemplateListState extends State<CourseTemplateList> {
   late List<CourseTemplate> sortedCourseTemplates;
 
   @override
-  void initState() {
-    super.initState();
-
-    const unsortedCourseTemplates = [
-      CourseTemplate("Deutsch", "D"),
-      CourseTemplate("Englisch", "E"),
-      CourseTemplate("Französisch", "F"),
-      CourseTemplate("Spanisch", "S"),
-      CourseTemplate("Latein", "L"),
-      CourseTemplate("Mathematik", "M"),
-      CourseTemplate("Biologie", "BI"),
-      CourseTemplate("Chemie", "CH"),
-      CourseTemplate("Physik", "PH"),
-      CourseTemplate("Ethik", "ETH"),
-      CourseTemplate("Informatik", "IF"),
-      CourseTemplate("Naturwissenschaften", "NW"),
-      CourseTemplate("Technik", "TK"),
-      CourseTemplate("Gesellschaftslehre", "GL"),
-      CourseTemplate("Politik", "PO"),
-      CourseTemplate("Geschichte", "GE"),
-      CourseTemplate("Wirtschaft", "W"),
-      CourseTemplate("Pädagogik", "PA"),
-      CourseTemplate("Sport", "SP"),
-      CourseTemplate("Evangelische Religion", "ER"),
-      CourseTemplate("Katholische Religion", "KR"),
-      CourseTemplate("Philosophie", "PL"),
-      CourseTemplate("Praktische Philosophie", "PP"),
-      CourseTemplate("Kunst", "KU"),
-      CourseTemplate("Musik", "MU"),
-      CourseTemplate("Erdkunde", "EK"),
-      CourseTemplate("Geografie", "GEO"),
-      CourseTemplate("Hauswirtschaftslehre", "HW"),
-      CourseTemplate("Arbeitslehre", "AL"),
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final l10n = context.l10n;
+    final unsortedCourseTemplates = [
+      CourseTemplate(l10n.courseTemplateSubjectGerman, "D"),
+      CourseTemplate(l10n.courseTemplateSubjectEnglish, "E"),
+      CourseTemplate(l10n.courseTemplateSubjectFrench, "F"),
+      CourseTemplate(l10n.courseTemplateSubjectSpanish, "S"),
+      CourseTemplate(l10n.courseTemplateSubjectLatin, "L"),
+      CourseTemplate(l10n.courseTemplateSubjectMath, "M"),
+      CourseTemplate(l10n.courseTemplateSubjectBiology, "BI"),
+      CourseTemplate(l10n.courseTemplateSubjectChemistry, "CH"),
+      CourseTemplate(l10n.courseTemplateSubjectPhysics, "PH"),
+      CourseTemplate(l10n.courseTemplateSubjectEthics, "ETH"),
+      CourseTemplate(l10n.courseTemplateSubjectComputerScience, "IF"),
+      CourseTemplate(l10n.courseTemplateSubjectNaturalSciences, "NW"),
+      CourseTemplate(l10n.courseTemplateSubjectTechnology, "TK"),
+      CourseTemplate(l10n.courseTemplateSubjectSocialStudies, "GL"),
+      CourseTemplate(l10n.courseTemplateSubjectPolitics, "PO"),
+      CourseTemplate(l10n.courseTemplateSubjectHistory, "GE"),
+      CourseTemplate(l10n.courseTemplateSubjectEconomics, "W"),
+      CourseTemplate(l10n.courseTemplateSubjectPedagogy, "PA"),
+      CourseTemplate(l10n.courseTemplateSubjectSport, "SP"),
+      CourseTemplate(l10n.courseTemplateSubjectProtestantReligion, "ER"),
+      CourseTemplate(l10n.courseTemplateSubjectCatholicReligion, "KR"),
+      CourseTemplate(l10n.courseTemplateSubjectPhilosophy, "PL"),
+      CourseTemplate(l10n.courseTemplateSubjectPracticalPhilosophy, "PP"),
+      CourseTemplate(l10n.courseTemplateSubjectArt, "KU"),
+      CourseTemplate(l10n.courseTemplateSubjectMusic, "MU"),
+      CourseTemplate(l10n.courseTemplateSubjectGeographyErdkunde, "EK"),
+      CourseTemplate(l10n.courseTemplateSubjectGeography, "GEO"),
+      CourseTemplate(l10n.courseTemplateSubjectHomeEconomics, "HW"),
+      CourseTemplate(l10n.courseTemplateSubjectWorkEducation, "AL"),
     ];
-    sortedCourseTemplates = List<CourseTemplate>.from(unsortedCourseTemplates)
-      ..sortBySubject();
+    sortedCourseTemplates = unsortedCourseTemplates..sortBySubject();
   }
 
   @override
@@ -222,7 +221,7 @@ class CourseTemplatePageFinishButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: Text(
-        "FERTIG",
+        context.l10n.commonActionsDone.toUpperCase(),
         style: TextStyle(
           fontWeight: FontWeight.w600,
           color: Theme.of(context).appBarTheme.iconTheme?.color,
@@ -230,7 +229,7 @@ class CourseTemplatePageFinishButton extends StatelessWidget {
       ),
       onPressed: () => Navigator.pop(context),
       iconSize: 60,
-      tooltip: 'Seite schließen',
+      tooltip: context.l10n.commonActionsClose,
     );
   }
 }
@@ -248,11 +247,11 @@ class _CreateCustomCourseSection extends StatelessWidget {
             child: MaxWidthConstraintBox(
               child: Column(
                 children: [
-                  const Opacity(
+                  Opacity(
                     opacity: 0.8,
                     child: Text(
-                      'Dein Kurs ist nicht dabei?',
-                      style: TextStyle(
+                      context.l10n.courseTemplateCustomCourseMissingPrompt,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
@@ -276,18 +275,22 @@ class _CreateCustomCourseSection extends StatelessWidget {
                       if (course != null && context.mounted) {
                         showSnackSec(
                           context: context,
-                          text: 'Kurs "${course.$2}" wurde erstellt.',
+                          text: context.l10n.courseTemplateCourseCreated(
+                            course.$2,
+                          ),
                         );
                       }
                     },
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.add_circle, color: Colors.white),
-                        SizedBox(width: 8.0),
+                      children: [
+                        const Icon(Icons.add_circle, color: Colors.white),
+                        const SizedBox(width: 8.0),
                         Text(
-                          "EIGENEN KURS ERSTELLEN",
-                          style: TextStyle(color: Colors.white),
+                          context
+                              .l10n
+                              .courseTemplateCreateCustomCourseUppercase,
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
@@ -355,14 +358,18 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
   void showDeletingCourseSnackBar() {
     showSnackSec(
       context: context,
-      text: "Kurs wird wieder gelöscht...",
+      text: context.l10n.courseTemplateDeletingCourse,
       withLoadingCircle: true,
       seconds: 60,
     );
   }
 
   void showDeletedCourseSnackBar() {
-    showSnackSec(context: context, text: "Kurs wurde gelöscht.", seconds: 2);
+    showSnackSec(
+      context: context,
+      text: context.l10n.courseTemplateDeletedCourse,
+      seconds: 2,
+    );
   }
 
   Future<void> deleteCourse(CourseId courseId) async {
@@ -384,11 +391,11 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
 
   void _showCourseCreatedSnackBar((CourseId, CourseName) course) {
     showSnackSec(
-      text: 'Kurs "${course.$2}" wurde erstellt.',
+      text: context.l10n.courseTemplateCourseCreated(course.$2),
       context: context,
       seconds: 4,
       action: SnackBarAction(
-        label: "RÜCKGÄNGIG MACHEN",
+        label: context.l10n.courseTemplateUndoUppercase,
         onPressed: () => deleteCourse(course.$1),
         textColor: Colors.lightBlueAccent,
       ),
@@ -516,7 +523,7 @@ class _CourseEditButton extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.edit),
       onPressed: onPressed,
-      tooltip: 'Bearbeiten',
+      tooltip: context.l10n.commonActionsEdit,
     );
   }
 }
@@ -531,7 +538,7 @@ class _CreateCourseButton extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.add_circle_outline),
       onPressed: onPressed,
-      tooltip: 'Hinzufügen',
+      tooltip: context.l10n.commonActionsAdd,
     );
   }
 }
@@ -546,18 +553,18 @@ class _YouAlreadyHaveThisCourseDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: const Text("Kurs bereits vorhanden"),
+        title: Text(context.l10n.courseTemplateAlreadyExistsTitle),
         content: Text(
-          "Du hast bereits einen Kurs für das Fach $subject erstellt. Möchtest du einen weiteren Kurs erstellen?",
+          context.l10n.courseTemplateAlreadyExistsDescription(subject),
         ),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text("Nein"),
+            child: Text(context.l10n.commonActionsNo),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text("Ja"),
+            child: Text(context.l10n.commonActionsYes),
           ),
         ],
       ),
@@ -595,11 +602,9 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
     late String text;
 
     if (name == null) {
-      text =
-          'Kurse, die ab jetzt erstellt werden, werden mit keiner Schulklasse verknüpft.';
+      text = context.l10n.courseTemplateSchoolClassSelectionNoneInfo;
     } else {
-      text =
-          'Kurse, die ab jetzt erstellt werden, werden mit der Schulklasse "$name" verknüpft.';
+      text = context.l10n.courseTemplateSchoolClassSelectionInfo(name);
     }
 
     showSnackSec(context: context, text: text, seconds: 5);
@@ -626,13 +631,13 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Text(
-                    "Schulklasse auswählen",
-                    style: TextStyle(fontSize: 18),
+                  Text(
+                    context.l10n.courseTemplateSchoolClassSelectionTitle,
+                    style: const TextStyle(fontSize: 18),
                   ),
                   const SizedBox(height: 12),
-                  const Text(
-                    "Du bist in einer oder mehreren Schulklasse(n) Administrator. Wähle eine Schulklasse aus, um festzulegen, zu welcher Schulklasse die Kurse verknüpft werden sollen.",
+                  Text(
+                    context.l10n.courseTemplateSchoolClassSelectionDescription,
                   ),
                   const SizedBox(height: 12),
                   for (final schoolClass in schoolClasses)
@@ -656,9 +661,13 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
                       padding: EdgeInsets.only(left: 8),
                       child: Icon(Icons.remove_circle_outline),
                     ),
-                    title: const Padding(
-                      padding: EdgeInsets.only(left: 8),
-                      child: Text("Mit keiner Schulklasse verknüpfen"),
+                    title: Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        context
+                            .l10n
+                            .courseTemplateSchoolClassSelectionNoneOption,
+                      ),
                     ),
                     trailing: const Radio<(SchoolClassId, SchoolClassName)?>(
                       value: null,

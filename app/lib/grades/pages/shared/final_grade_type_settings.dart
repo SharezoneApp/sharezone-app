@@ -8,6 +8,7 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/shared/grades_help_dialog.dart';
 import 'package:sharezone/grades/pages/shared/select_grade_type_dialog.dart';
@@ -33,9 +34,9 @@ class FinalGradeTypeSettings extends StatelessWidget {
       children: [
         ListTile(
           contentPadding: const EdgeInsets.all(0),
-          title: const Text('Endnote eines Faches'),
+          title: Text(context.l10n.gradesFinalGradeTypeTitle),
           subtitle: Text(
-            'Die berechnete Fachnote kann von einem Notentyp überschrieben werden.',
+            context.l10n.gradesFinalGradeTypeSubtitle,
             style: TextStyle(
               color: Theme.of(
                 context,
@@ -43,7 +44,7 @@ class FinalGradeTypeSettings extends StatelessWidget {
             ),
           ),
           trailing: IconButton(
-            tooltip: 'Was ist die Endnote?',
+            tooltip: context.l10n.gradesFinalGradeTypeHelpTooltip,
             icon: const Icon(Icons.help_outline),
             onPressed: () => _FinalGradeTypeHelpDialog.show(context),
           ),
@@ -76,11 +77,9 @@ class _FinalGradeTypeHelpDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GradesHelpDialog(
-      title: Text('Was ist die Endnote eines Faches?'),
-      text: Text(
-        'Die Endnote ist die abschließende Note, die du in einem Fach bekommst, zum Beispiel die Note auf deinem Zeugnis. Manchmal berücksichtigt deine Lehrkraft zusätzliche Faktoren, die von der üblichen Berechnungsformel abweichen können – etwa 50% Prüfungen und 50% mündliche Beteiligung. In solchen Fällen kannst du die in Sharezone automatisch berechnete Note durch diese finale Note ersetzen.\n\nDiese Einstellung kann entweder für alle Fächer eines Halbjahres gleichzeitig festgelegt oder für jedes Fach individuell angepasst werden. So hast du die Flexibilität, je nach Bedarf spezifische Anpassungen vorzunehmen.',
-      ),
+    return GradesHelpDialog(
+      title: Text(context.l10n.gradesFinalGradeTypeHelpDialogTitle),
+      text: Text(context.l10n.gradesFinalGradeTypeHelpDialogText),
     );
   }
 }

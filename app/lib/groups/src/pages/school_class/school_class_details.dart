@@ -27,6 +27,7 @@ import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'school_class_details/school_class_course_list.dart';
@@ -36,16 +37,15 @@ Future<SchoolClassDeleteType?> showDeleteSchoolClassDialog(
 ) async {
   return await showColumnActionsAdaptiveDialog<SchoolClassDeleteType>(
     context: context,
-    title: "Klasse verlassen",
-    messsage:
-        "Möchtest du wirklich die Klasse verlassen?\n\nDu hast noch die Option, die Kurse der Schulklasse ebenfalls zu löschen oder diese zu behalten. Werden die Kurse der Schulklasse nicht gelöscht, bleiben diese weiterhin bestehen.",
+    title: context.l10n.schoolClassLeaveDialogTitle,
+    messsage: context.l10n.schoolClassLeaveDialogDescription,
     actions: [
-      const AdaptiveDialogAction(
-        title: "Mit Kursen löschen",
+      AdaptiveDialogAction(
+        title: context.l10n.schoolClassLeaveDialogDeleteWithCourses,
         popResult: SchoolClassDeleteType.withCourses,
       ),
-      const AdaptiveDialogAction(
-        title: "Ohne Kurse löschen",
+      AdaptiveDialogAction(
+        title: context.l10n.schoolClassLeaveDialogDeleteWithoutCourses,
         popResult: SchoolClassDeleteType.withoutCourses,
       ),
     ],
@@ -58,13 +58,11 @@ Future<bool?> showLeaveSchoolClassDialog(BuildContext context) async {
     defaultValue: false,
     title:
         ThemePlatform.isCupertino
-            ? "Möchtest du möchtest du wirklich Schulklasse verlassen?"
+            ? context.l10n.schoolClassLeaveConfirmationQuestion
             : null,
     content:
         !ThemePlatform.isCupertino
-            ? const Text(
-              "Möchtest du möchtest du wirklich Schulklasse verlassen?",
-            )
+            ? Text(context.l10n.schoolClassLeaveConfirmationQuestion)
             : null,
     right: AdaptiveDialogAction.leave(context),
   );
@@ -158,7 +156,7 @@ class _DangerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DangerSection(
-      deleteButtonLabel: const Text("KLASSE LÖSCHEN"),
+      deleteButtonLabel: Text(context.l10n.schoolClassActionsDeleteUppercase),
       onPressedDeleteButton: () async {
         final bloc = BlocProvider.of<MySchoolClassBloc>(context);
 
@@ -170,7 +168,7 @@ class _DangerSection extends StatelessWidget {
           onLeaveDialogClose(deleteFuture);
         }
       },
-      leaveButtonLabel: const Text("KLASSE VERLASSEN"),
+      leaveButtonLabel: Text(context.l10n.schoolClassActionsLeaveUppercase),
       onPressedLeaveButton: () async {
         final bloc = BlocProvider.of<MySchoolClassBloc>(context);
 
@@ -193,7 +191,7 @@ class _EditIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: 'Bearbeiten',
+      tooltip: context.l10n.commonActionsEdit,
       icon: const Icon(Icons.edit),
       onPressed: () => openSchoolClassEditPage(context, schoolClass),
     );
@@ -287,8 +285,7 @@ class SchoolClassSettingsCard extends StatelessWidget {
             initialWritePermission: settings.writePermission,
             onChange: (newWP) => bloc.setWritePermission(newWP),
             writePermissionStream: bloc.writePermissionStream(),
-            annotation:
-                "Die Einstellung wird direkt auf alle Kurse übertragen, die mit der Schulklasse verbunden sind.",
+            annotation: context.l10n.schoolClassWritePermissionsAnnotation,
           ),
         ],
       ),
@@ -305,7 +302,7 @@ class _IsPublic extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
     return ListTile(
-      title: const Text("Beitreten erlauben"),
+      title: Text(context.l10n.groupsAllowJoinTitle),
       leading: const Icon(Icons.lock),
       onTap: () {
         final setFuture = bloc.setIsPublic(!isPublic);
@@ -314,7 +311,7 @@ class _IsPublic extends StatelessWidget {
       onLongPress:
           () => showExplanation(
             context,
-            "Über diese Einstellungen kannst du regulieren, ob neue Mitglieder dem Kurs beitreten dürfen.\n\nDie Einstellung wird direkt auf alle Kurse übertragen, die mit der Schulklasse verbunden sind.",
+            context.l10n.schoolClassAllowJoinExplanation,
           ),
       trailing: Switch.adaptive(
         value: isPublic,

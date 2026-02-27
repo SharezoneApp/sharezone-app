@@ -51,7 +51,7 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
         bloc.removePersonalDesign();
         showSnackSec(
           context: context,
-          text: "Persönliche Farbe wurde entfernt.",
+          text: context.l10n.courseDesignPersonalColorRemoved,
           seconds: 2,
         );
       } else if (selectDesignPopResult.design != null) {
@@ -62,7 +62,7 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
           );
           showSnackSec(
             context: context,
-            text: "Persönliche Farbe wurde gesetzt.",
+            text: context.l10n.courseDesignPersonalColorSet,
             seconds: 2,
           );
         } else if (selectTypePopResult.editDesignType ==
@@ -77,13 +77,13 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
 
             showSnackSec(
               context: context,
-              text: "Farbe wurde erfolgreich für den gesamten Kurs geändert.",
+              text: context.l10n.courseDesignCourseColorChanged,
               seconds: 2,
             );
           } on ChangingDesignFailedException catch (_) {
             showSnackSec(
               context: context,
-              text: "Farbe konnte nicht geändert werden.",
+              text: context.l10n.courseDesignColorChangeFailed,
             );
           } catch (e, s) {
             showSnackSec(

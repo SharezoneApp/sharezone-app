@@ -44,10 +44,10 @@ class _TipCard extends StatelessWidget {
           child:
               tip != null
                   ? OverlayCard(
-                    title: Text(tip.title.toUpperCase()),
-                    content: Text(tip.description),
+                    title: Text(tip.title(context).toUpperCase()),
+                    content: Text(tip.description(context)),
                     onClose: () => bloc.closeTip(tip),
-                    actionText: tip.actionText.toUpperCase(),
+                    actionText: tip.actionText(context).toUpperCase(),
                     onAction: () {
                       bloc.markTipAsOpened(tip);
                       launchURL(tip.actionLink);

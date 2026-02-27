@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/group_join/models/group_join_exception.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ErrorJoinResultDialog extends StatelessWidget {
@@ -39,12 +40,11 @@ class ErrorJoinResultDialog extends StatelessWidget {
 class _UnknownError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const StateSheetSimpleBody(
-      title: "Ein unbekannter Fehler ist aufgetreten 😭",
+    return StateSheetSimpleBody(
+      title: context.l10n.groupJoinErrorUnknownTitle,
       iconData: Icons.error,
       iconColor: Colors.red,
-      description:
-          "Dies könnte eventuell an deiner Internetverbindung liegen. Bitte überprüfe diese!",
+      description: context.l10n.groupJoinErrorUnknownDescription,
     );
   }
 }
@@ -52,12 +52,11 @@ class _UnknownError extends StatelessWidget {
 class _NoInternet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const StateSheetSimpleBody(
-      title: "Ein Fehler ist aufgetreten: Keine Internetverbindung ☠️",
+    return StateSheetSimpleBody(
+      title: context.l10n.groupJoinErrorNoInternetTitle,
       iconData: Icons.error,
       iconColor: Colors.red,
-      description:
-          "Wir konnten nicht versuchen, der Gruppe beizutreten, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunkdaten.",
+      description: context.l10n.groupJoinErrorNoInternetDescription,
     );
   }
 }
@@ -65,12 +64,11 @@ class _NoInternet extends StatelessWidget {
 class _AlreadyMember extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const StateSheetSimpleBody(
-      title: "Ein Fehler ist aufgetreten: Bereits Mitglied 🤨",
+    return StateSheetSimpleBody(
+      title: context.l10n.groupJoinErrorAlreadyMemberTitle,
       iconData: Icons.error,
       iconColor: Colors.red,
-      description:
-          "Du bist bereits Mitglied in dieser Gruppe, daher musst du dieser nicht mehr beitreten.",
+      description: context.l10n.groupJoinErrorAlreadyMemberDescription,
     );
   }
 }
@@ -78,12 +76,11 @@ class _AlreadyMember extends StatelessWidget {
 class _NotPublic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const StateSheetSimpleBody(
-      title: "Ein Fehler ist aufgetreten: Beitreten verboten ⛔️",
+    return StateSheetSimpleBody(
+      title: context.l10n.groupJoinErrorNotPublicTitle,
       iconData: Icons.error,
       iconColor: Colors.red,
-      description:
-          "Die Gruppe erlaubt aktuell kein Beitreten. Dies ist in den Gruppeneinstellungen deaktiviert. Bitte wende dich an einen Admin dieser Gruppe.",
+      description: context.l10n.groupJoinErrorNotPublicDescription,
     );
   }
 }
@@ -91,12 +88,11 @@ class _NotPublic extends StatelessWidget {
 class _NotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const StateSheetSimpleBody(
-      title: "Ein Fehler ist aufgetreten: Sharecode nicht gefunden ❌",
+    return StateSheetSimpleBody(
+      title: context.l10n.groupJoinErrorSharecodeNotFoundTitle,
       iconData: Icons.error,
       iconColor: Colors.red,
-      description:
-          "Wir konnten den eingegeben Sharecode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Sharecode noch gültig ist.",
+      description: context.l10n.groupJoinErrorSharecodeNotFoundDescription,
     );
   }
 }

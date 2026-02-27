@@ -19,7 +19,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 ///   Widget build(BuildContext context) {
 ///     return SelectedTabsVisibility(
 ///       visibleInTabIndicies: const [0,1],
-///       child: Text('Only visible if one of the first two tabs is selected.')
+///       child: Text(/* visible when one of the first two tabs is selected */)
 ///     );
 ///   }
 /// }

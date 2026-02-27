@@ -23,6 +23,7 @@ import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'update_reminder_test.mocks.dart';
 
@@ -125,7 +126,13 @@ Widget _buildDashboardPage(UpdateReminderBloc updateReminderBloc) {
         BlocProvider<DashboardTipSystem>(bloc: MockDashboardTipSystem()),
         BlocProvider<HolidayBloc>(bloc: MockHolidayBloc()),
       ],
-      child: (c) => const MaterialApp(home: DashboardPageBody()),
+      child:
+          (c) => const MaterialApp(
+            localizationsDelegates:
+                SharezoneLocalizations.localizationsDelegates,
+            supportedLocales: SharezoneLocalizations.supportedLocales,
+            home: DashboardPageBody(),
+          ),
     ),
   );
 }

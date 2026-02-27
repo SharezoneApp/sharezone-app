@@ -19,14 +19,20 @@ import 'package:sharezone/grades/pages/grades_details_page/grade_details_page.da
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../../../../test/grades/grades_test_common.dart';
-import '../../../../test/grades/pages/grades_dialog/grades_dialog_controller_test.dart';
 import '../../../../test/homework/homework_dialog_test.dart';
+import '../../../flutter_test_config.dart';
 import 'grades_dialog_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<GradesDialogControllerFactory>()])
+@GenerateNiceMocks([
+  MockSpec<GradesDialogControllerFactory>(),
+  MockSpec<GradesDialogControllerTranslations>(),
+  MockSpec<CrashAnalytics>(),
+  MockSpec<Analytics>(),
+])
 void main() {
   group(GradeDetailsPage, () {
     late GradesTestController gradesTestController;
@@ -35,6 +41,7 @@ void main() {
     late Analytics analytics;
     late GradesDialogController controller;
     late MockGradesDialogControllerFactory controllerFactory;
+    late MockGradesDialogControllerTranslations translations;
 
     GradesDialogController createController({GradeId? gradeId}) {
       return GradesDialogController(
@@ -45,10 +52,15 @@ void main() {
         crashAnalytics: crashAnalytics,
         analytics: analytics,
         gradeId: gradeId,
+        translations: translations,
       );
     }
 
     setUp(() {
+      translations = MockGradesDialogControllerTranslations();
+      when(
+        translations.gradeTypeDisplayName(any),
+      ).thenReturn('Schriftliche Prüfung');
       withClock(Clock.fixed(DateTime(2025, 03, 25)), () async {
         gradesService = GradesService();
         gradesTestController = GradesTestController(
@@ -77,7 +89,11 @@ void main() {
           ],
           child: GradesDialog(gradeId: gradeId),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 

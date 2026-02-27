@@ -13,7 +13,7 @@ class _TimetablePageFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return ModalFloatingActionButton(
       icon: const Icon(Icons.add),
-      tooltip: 'Stunde/Termin hinzufügen',
+      tooltip: context.l10n.timetableFabAddTooltip,
       heroTag: 'sharezone-fab',
       onPressed: () => openTimetableAddSheet(context),
     );
@@ -37,7 +37,7 @@ void _showLessonAddConfirmation(BuildContext context) {
   showSnackSec(
     seconds: 2,
     context: context,
-    text: 'Die Schulstunde wurde erfolgreich hinzugefügt',
+    text: context.l10n.timetableFabLessonAddedConfirmation,
   );
 }
 
@@ -46,7 +46,7 @@ void showTutorialHowToUseSubstitutionDialog(BuildContext context) {
     context: context,
     builder:
         (context) => AlertDialog(
-          title: const Text('Vertretungsplan'),
+          title: Text(context.l10n.timetableFabSubstitutionsDialogTitle),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -59,12 +59,14 @@ void showTutorialHowToUseSubstitutionDialog(BuildContext context) {
                   ),
                 ),
                 const SizedBox(height: 8),
-                const ListTile(
-                  title: Text('1. Navigiere zu der betroffenen Schulstunde.'),
+                ListTile(
+                  title: Text(context.l10n.timetableFabSubstitutionsStepOne),
                 ),
-                const ListTile(title: Text('2. Klicke auf die Schulstunde.')),
-                const ListTile(
-                  title: Text('3. Wähle die Art der Vertretung aus.'),
+                ListTile(
+                  title: Text(context.l10n.timetableFabSubstitutionsStepTwo),
+                ),
+                ListTile(
+                  title: Text(context.l10n.timetableFabSubstitutionsStepThree),
                 ),
               ],
             ),
@@ -72,7 +74,7 @@ void showTutorialHowToUseSubstitutionDialog(BuildContext context) {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
+              child: Text(context.l10n.commonActionsOk),
             ),
           ],
         ),
@@ -120,17 +122,20 @@ class _TimetableAddSheet extends StatelessWidget {
           child: Column(
             children: [
               ListTile(
-                title: Text("Stundenplan", style: TextStyle(color: titleColor)),
+                title: Text(
+                  context.l10n.timetableFabSectionTimetable,
+                  style: TextStyle(color: titleColor),
+                ),
                 visualDensity: VisualDensity.compact,
               ),
               ListTile(
-                title: const Text("Schulstunde"),
+                title: Text(context.l10n.timetableFabOptionLesson),
                 leading: const Icon(Icons.access_time),
                 onTap:
                     () => Navigator.pop(context, _FABAddTimetableOption.lesson),
               ),
               ListTile(
-                title: const Text("Vertretungsplan"),
+                title: Text(context.l10n.timetableFabOptionSubstitutions),
                 leading: const Icon(Icons.cancel),
                 onTap:
                     () => Navigator.pop(
@@ -140,17 +145,20 @@ class _TimetableAddSheet extends StatelessWidget {
               ),
               const Divider(),
               ListTile(
-                title: Text("Kalender", style: TextStyle(color: titleColor)),
+                title: Text(
+                  context.l10n.timetableFabSectionCalendar,
+                  style: TextStyle(color: titleColor),
+                ),
                 visualDensity: VisualDensity.compact,
               ),
               ListTile(
-                title: const Text("Termin"),
+                title: Text(context.l10n.timetableFabOptionEvent),
                 leading: const Icon(Icons.event),
                 onTap:
                     () => Navigator.pop(context, _FABAddTimetableOption.event),
               ),
               ListTile(
-                title: const Text("Prüfung"),
+                title: Text(context.l10n.timetableFabOptionExam),
                 leading: const Icon(Icons.school),
                 onTap:
                     () => Navigator.pop(context, _FABAddTimetableOption.exam),

@@ -32,9 +32,14 @@ class _SubstitutionSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
-          title: const Text('Vertretungsplan', style: TextStyle(fontSize: 16)),
+          title: Text(
+            context.l10n.timetableSubstitutionSectionTitle,
+            style: const TextStyle(fontSize: 16),
+          ),
           subtitle: Text(
-            'Für ${DateFormat('dd.MM.yyyy').format(date.toDateTime)}',
+            context.l10n.timetableSubstitutionSectionForDate(
+              DateFormat('dd.MM.yyyy').format(date.toDateTime),
+            ),
             style: TextStyle(
               fontSize: 12,
               color: Theme.of(
@@ -63,7 +68,7 @@ class _SubstitutionSection extends StatelessWidget {
           if (canceledSubstitution == null && locationSubstitution == null)
             ListTile(
               leading: const Icon(Icons.cancel),
-              title: const Text("Stunde entfallen lassen"),
+              title: Text(context.l10n.timetableSubstitutionCancelLesson),
               onTap:
                   () => Navigator.pop(
                     context,
@@ -75,7 +80,7 @@ class _SubstitutionSection extends StatelessWidget {
           if (canceledSubstitution == null && locationSubstitution == null)
             ListTile(
               leading: const Icon(Icons.place_outlined),
-              title: const Text("Raumänderung"),
+              title: Text(context.l10n.timetableSubstitutionChangeRoom),
               onTap:
                   () => Navigator.pop(
                     context,
@@ -88,7 +93,7 @@ class _SubstitutionSection extends StatelessWidget {
             if (teacherSubstitution == null)
               ListTile(
                 leading: const Icon(Icons.person_outline),
-                title: const Text("Lehrkraft ändern"),
+                title: Text(context.l10n.timetableSubstitutionChangeTeacher),
                 onTap:
                     () => Navigator.pop(
                       context,
@@ -107,12 +112,12 @@ class _SubstitutionSection extends StatelessWidget {
                 hasPermissionsToManageLessons: hasPermissionsToManageLessons,
               ),
         ] else
-          const ListTile(
-            leading: Icon(Icons.info),
-            title: Text(
-              'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: Text(context.l10n.timetableSubstitutionNoPermissionTitle),
+            subtitle: Text(
+              context.l10n.timetableSubstitutionNoPermissionSubtitle,
             ),
-            subtitle: Text('Bitte wende dich an deinen Kurs-Administrator.'),
           ),
       ],
     );
@@ -142,7 +147,7 @@ class _LessonCanceledCard extends StatelessWidget {
           iconColor: color,
           textColor: color,
           leading: const Icon(Icons.cancel),
-          title: const Text("Stunde entfällt"),
+          title: Text(context.l10n.timetableSubstitutionCanceledTitle),
           subtitle: _EnteredBy(
             courseId: courseId,
             enteredBy: createdBy,
@@ -151,7 +156,7 @@ class _LessonCanceledCard extends StatelessWidget {
           trailing:
               hasPermissionsToManageLessons
                   ? IconButton(
-                    tooltip: 'Rückgängig machen',
+                    tooltip: context.l10n.timetableSubstitutionUndoTooltip,
                     icon: Icon(
                       Icons.delete,
                       color: Theme.of(
@@ -189,7 +194,7 @@ class _RoomChanged extends StatelessWidget {
     const color = Colors.orange;
     return _OrangeCard(
       leading: const Icon(Icons.place_outlined),
-      title: Text("Raumänderung: $newLocation"),
+      title: Text(context.l10n.timetableSubstitutionRoomChanged(newLocation)),
       subtitle: _EnteredBy(
         courseId: courseId,
         enteredBy: enteredBy,
@@ -201,7 +206,7 @@ class _RoomChanged extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    tooltip: 'Raum ändern',
+                    tooltip: context.l10n.timetableSubstitutionEditRoomTooltip,
                     icon: Icon(
                       Icons.edit,
                       color: Theme.of(
@@ -216,7 +221,7 @@ class _RoomChanged extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   IconButton(
-                    tooltip: 'Rückgängig machen',
+                    tooltip: context.l10n.timetableSubstitutionUndoTooltip,
                     icon: Icon(
                       Icons.delete,
                       color: Theme.of(
@@ -254,7 +259,7 @@ class _TeacherChanged extends StatelessWidget {
     const color = Colors.orange;
     return _OrangeCard(
       leading: const Icon(Icons.person_outline),
-      title: Text('Vertretung: $newTeacher'),
+      title: Text(context.l10n.timetableSubstitutionReplacement(newTeacher)),
       subtitle: _EnteredBy(
         courseId: courseId,
         enteredBy: enteredBy,
@@ -266,7 +271,8 @@ class _TeacherChanged extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    tooltip: 'Lehrkraft ändern',
+                    tooltip:
+                        context.l10n.timetableSubstitutionEditTeacherTooltip,
                     icon: Icon(
                       Icons.edit,
                       color: Theme.of(
@@ -281,7 +287,7 @@ class _TeacherChanged extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   IconButton(
-                    tooltip: 'Rückgängig machen',
+                    tooltip: context.l10n.timetableSubstitutionUndoTooltip,
                     icon: Icon(
                       Icons.delete,
                       color: Theme.of(
@@ -344,7 +350,7 @@ class _EnteredBy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String?>(
-      initialData: 'Lädt...',
+      initialData: context.l10n.commonLoadingPleaseWait,
       future: context.read<SubstitutionController>().getMemberName(
         courseId,
         enteredBy,
@@ -358,7 +364,7 @@ class _EnteredBy extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Eingetragen von: $name",
+              context.l10n.timetableSubstitutionEnteredBy(name),
               style: TextStyle(color: color.withValues(alpha: 0.8)),
             ),
           ),
@@ -389,7 +395,10 @@ Future<void> _cancelLesson(
     date: date,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(text: 'Stunde als "Entfällt" markiert', context: context);
+  showSnackSec(
+    text: context.l10n.timetableSubstitutionCancelSaved,
+    context: context,
+  );
 }
 
 Future<void> _removeCancelSubstitution(
@@ -401,7 +410,7 @@ Future<void> _removeCancelSubstitution(
     context: context,
     lesson: lesson,
     date: date,
-    snackBarText: 'Entfallene Stunde wiederhergestellt',
+    snackBarText: context.l10n.timetableSubstitutionCancelRestored,
     showConfirmationDialog: _removeCancelSubstitutionDialog,
     substitutionId:
         lesson.getSubstitutionFor(date).getLessonCanceledSubstitution()?.id,
@@ -450,7 +459,7 @@ Future<void> _removePlaceChangeSubstitution(
     context: context,
     lesson: lesson,
     date: date,
-    snackBarText: 'Raumänderung entfernt',
+    snackBarText: context.l10n.timetableSubstitutionRoomRemoved,
     showConfirmationDialog: _removePlaceSubstitutionDialog,
     substitutionId:
         lesson.getSubstitutionFor(date).getLocationChangedSubstitution()?.id,
@@ -461,13 +470,13 @@ Future<bool?> _removePlaceSubstitutionDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
     builder:
-        (context) => const _SubstitutionDialog(
-          title: 'Raumänderung entfernen',
-          actionText: 'Entfernen',
+        (context) => _SubstitutionDialog(
+          title: context.l10n.timetableSubstitutionRemoveRoomDialogTitle,
+          actionText: context.l10n.timetableSubstitutionRemoveAction,
           description:
-              'Möchtest du wirklich die Raumänderung für die Stunde entfernen?',
+              context.l10n.timetableSubstitutionRemoveRoomDialogDescription,
           notifyOptionText:
-              'Informiere deine Kursmitglieder über die Entfernung.',
+              context.l10n.timetableSubstitutionRemoveRoomDialogNotify,
         ),
   );
 }
@@ -495,7 +504,10 @@ Future<void> _addRoomSubstitution(
     newLocation: result.$2,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(text: 'Raumänderung eingetragen', context: context);
+  showSnackSec(
+    text: context.l10n.timetableSubstitutionRoomSaved,
+    context: context,
+  );
 }
 
 Future<void> _addTeacherSubstitution(
@@ -521,7 +533,10 @@ Future<void> _addTeacherSubstitution(
     newTeacher: result.$2,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(text: 'Vertretungslehrkraft eingetragen', context: context);
+  showSnackSec(
+    text: context.l10n.timetableSubstitutionTeacherSaved,
+    context: context,
+  );
 }
 
 Future<void> _updateTeacherSubstitution(
@@ -555,7 +570,10 @@ Future<void> _updateTeacherSubstitution(
     substitutionId: substitution.id,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(text: 'Vertretungslehrkraft eingetragen', context: context);
+  showSnackSec(
+    text: context.l10n.timetableSubstitutionTeacherSaved,
+    context: context,
+  );
 }
 
 Future<void> _removeTeacherSubstitution(
@@ -567,7 +585,7 @@ Future<void> _removeTeacherSubstitution(
     context: context,
     lesson: lesson,
     date: date,
-    snackBarText: 'Vertretungslehrkraft entfernt',
+    snackBarText: context.l10n.timetableSubstitutionTeacherRemoved,
     showConfirmationDialog: _removeTeacherSubstitutionDialog,
     substitutionId:
         lesson.getSubstitutionFor(date).getTeacherChangedSubstitution()?.id,
@@ -578,13 +596,13 @@ Future<bool?> _removeTeacherSubstitutionDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
     builder:
-        (context) => const _SubstitutionDialog(
-          title: 'Vertretungslehrkraft entfernen',
-          actionText: 'Entfernen',
+        (context) => _SubstitutionDialog(
+          title: context.l10n.timetableSubstitutionRemoveTeacherDialogTitle,
+          actionText: context.l10n.timetableSubstitutionRemoveAction,
           description:
-              'Möchtest du wirklich die Vertretungslehrkraft für die Stunde entfernen?',
+              context.l10n.timetableSubstitutionRemoveTeacherDialogDescription,
           notifyOptionText:
-              'Informiere deine Kursmitglieder über die Entfernung.',
+              context.l10n.timetableSubstitutionRemoveTeacherDialogNotify,
         ),
   );
 }
@@ -593,13 +611,13 @@ Future<bool?> _showCancelLessonDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
     builder:
-        (context) => const _SubstitutionDialog(
-          title: 'Stunde entfallen lassen',
-          actionText: 'Entfallen lassen',
+        (context) => _SubstitutionDialog(
+          title: context.l10n.timetableSubstitutionCancelDialogTitle,
+          actionText: context.l10n.timetableSubstitutionCancelDialogAction,
           description:
-              'Möchtest du wirklich die Schulstunde für den gesamten Kurs entfallen lassen?',
+              context.l10n.timetableSubstitutionCancelDialogDescription,
           notifyOptionText:
-              'Informiere deine Kursmitglieder, dass die Stunde entfällt.',
+              context.l10n.timetableSubstitutionCancelDialogNotify,
         ),
   );
 }
@@ -635,20 +653,23 @@ Future<void> _updateRoomSubstitution(
     substitutionId: substitution.id,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(text: 'Raumänderung eingetragen', context: context);
+  showSnackSec(
+    text: context.l10n.timetableSubstitutionRoomSaved,
+    context: context,
+  );
 }
 
 Future<bool?> _removeCancelSubstitutionDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
     builder:
-        (context) => const _SubstitutionDialog(
-          title: 'Entfallene Stunde wiederherstellen',
-          actionText: 'Wiederherstellen',
+        (context) => _SubstitutionDialog(
+          title: context.l10n.timetableSubstitutionRestoreDialogTitle,
+          actionText: context.l10n.timetableSubstitutionRestoreDialogAction,
           description:
-              'Möchtest du wirklich die Stunde wirklich wieder stattfinden lassen?',
+              context.l10n.timetableSubstitutionRestoreDialogDescription,
           notifyOptionText:
-              'Informiere deine Kursmitglieder, dass die Stunde stattfindet.',
+              context.l10n.timetableSubstitutionRestoreDialogNotify,
         ),
   );
 }
@@ -659,11 +680,12 @@ Future<(bool?, String)> _showChangeRoomDialog(BuildContext context) async {
     context: context,
     builder:
         (context) => _SubstitutionDialog(
-          title: 'Raumänderung',
-          actionText: 'Raumänderung speichern',
-          description: 'Möchtest du wirklich den Raum für die Stunde ändern?',
+          title: context.l10n.timetableSubstitutionChangeRoomDialogTitle,
+          actionText: context.l10n.timetableSubstitutionChangeRoomDialogAction,
+          description:
+              context.l10n.timetableSubstitutionChangeRoomDialogDescription,
           notifyOptionText:
-              'Informiere deine Kursmitglieder über die Raumänderung.',
+              context.l10n.timetableSubstitutionChangeRoomDialogNotify,
           bottom: _ChangeRoomTextField(textController: textController),
         ),
   );
@@ -676,11 +698,13 @@ Future<(bool?, String)> _showChangeTeacherDialog(BuildContext context) async {
     context: context,
     builder:
         (context) => _SubstitutionDialog(
-          title: 'Vertretungslehrkraft ändern',
-          actionText: 'Lehrkraft speichern',
-          description: 'Möchtest du wirklich die Vertretungslehrkraft ändern?',
+          title: context.l10n.timetableSubstitutionChangeTeacherDialogTitle,
+          actionText:
+              context.l10n.timetableSubstitutionChangeTeacherDialogAction,
+          description:
+              context.l10n.timetableSubstitutionChangeTeacherDialogDescription,
           notifyOptionText:
-              'Informiere deine Kursmitglieder über die Lehrkraftänderung.',
+              context.l10n.timetableSubstitutionChangeTeacherDialogNotify,
           bottom: _ChangeTeacherTextField(
             onTeacherChanged: (value) => teacher = value,
           ),
@@ -703,9 +727,9 @@ class _ChangeRoomTextField extends StatelessWidget {
         title: TextField(
           autofocus: true,
           controller: textController,
-          decoration: const InputDecoration(
-            labelText: 'Neuer Raum',
-            hintText: 'z.B. D203',
+          decoration: InputDecoration(
+            labelText: context.l10n.timetableSubstitutionNewRoomLabel,
+            hintText: context.l10n.timetableSubstitutionNewRoomHint,
           ),
           maxLength: 32,
         ),

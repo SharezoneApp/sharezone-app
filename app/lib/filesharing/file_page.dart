@@ -10,6 +10,7 @@ import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/bloc/file_page_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FilePage extends StatefulWidget {
@@ -134,7 +135,7 @@ class _EmptyPage extends StatelessWidget {
       body: Center(
         child: ListTile(
           leading: const Icon(Icons.warning),
-          title: const Text("Anzeigefehler"),
+          title: Text(context.l10n.filesDisplayErrorTitle),
           subtitle: error != null ? Text('$error') : null,
         ),
       ),

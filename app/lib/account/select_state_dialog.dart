@@ -33,7 +33,7 @@ void _showSelectedStateSnackBar(BuildContext context, StateEnum state) {
     seconds: 5,
     behavior: SnackBarBehavior.fixed,
     text: context.l10n.selectStateDialogConfirmationSnackBar(
-      state.getDisplayName(context),
+      state.toLocalizedString(context),
     ),
   );
 }
@@ -120,7 +120,7 @@ class _CountrySelectionList extends StatelessWidget {
                 country.getFlagEmoji(),
                 style: const TextStyle(fontSize: 24),
               ),
-              title: Text(country.getDisplayName(context)),
+              title: Text(country.toLocalizedString(context)),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => onCountrySelected(country),
             ),
@@ -160,7 +160,7 @@ class _StateSelectionList extends StatelessWidget {
           for (final state in states)
             ListTile(
               key: ValueKey(state),
-              title: Text(state.getDisplayName(context)),
+              title: Text(state.toLocalizedString(context)),
               onTap: () => onStateSelected(state),
             ),
         ],

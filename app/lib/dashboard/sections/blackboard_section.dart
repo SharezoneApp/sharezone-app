@@ -49,7 +49,11 @@ class _BlackboardSectionTitle extends StatelessWidget {
       builder: (context, snapshot) {
         final numberOfUnreadsBlackboardViews = snapshot.data ?? 0;
         return Text(
-          "Ungelesene Infozettel ${numberOfUnreadsBlackboardViews != 0 ? "($numberOfUnreadsBlackboardViews)" : ""}",
+          numberOfUnreadsBlackboardViews != 0
+              ? context.l10n.dashboardUnreadBlackboardTitleWithCount(
+                numberOfUnreadsBlackboardViews,
+              )
+              : context.l10n.dashboardUnreadBlackboardTitle,
         );
       },
     );
@@ -67,9 +71,9 @@ class _NoBlackboardViews extends StatelessWidget {
           bloc.navigateTo(NavigationItem.blackboard);
         },
         padding: const EdgeInsets.all(8),
-        child: const Center(
+        child: Center(
           child: Text(
-            "Du hast alle Infozettel gelesen 👍",
+            context.l10n.blackboardPageEmptyTitle,
             textAlign: TextAlign.center,
           ),
         ),

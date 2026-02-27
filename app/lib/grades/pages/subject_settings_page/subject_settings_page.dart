@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/shared/final_grade_type_settings.dart';
 import 'package:sharezone/grades/pages/shared/weight_settings.dart';
@@ -45,7 +46,11 @@ class SubjectSettingsPage extends StatelessWidget {
           _ => '?',
         };
         return Scaffold(
-          appBar: AppBar(title: Text('Einstellungen: $subjectDisplayName')),
+          appBar: AppBar(
+            title: Text(
+              context.l10n.gradesSubjectSettingsPageTitle(subjectDisplayName),
+            ),
+          ),
           body: AnimatedSwitcher(
             duration: const Duration(milliseconds: 350),
             child: switch (state) {
@@ -133,7 +138,7 @@ class _FinalGradeType extends StatelessWidget {
   Widget build(BuildContext context) {
     return FinalGradeTypeSettings(
       icon: view.finalGradeTypeIcon,
-      displayName: view.finalGradeTypeDisplayName,
+      displayName: view.finalGradeType?.toLocalizedString(context) ?? '?',
       selectableGradingTypes: view.selectableGradingTypes,
       onSetFinalGradeType: (type) {
         final controller = context.read<SubjectSettingsPageController>();

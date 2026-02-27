@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<dynamic> openMySchoolClassCreateDialog(
@@ -63,7 +64,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Schulklasse erstellen"),
+      title: Text(context.l10n.schoolClassCreateTitle),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +100,7 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
                       className.isEmpty
                           ? null
                           : () => _createClass(context, className),
-                  child: const Text("ERSTELLEN"),
+                  child: Text(context.l10n.commonActionsCreateUppercase),
                 ),
               ],
     );
@@ -121,9 +122,9 @@ class _NameField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       autofocus: true,
-      decoration: const InputDecoration(
-        labelText: "Name",
-        border: OutlineInputBorder(),
+      decoration: InputDecoration(
+        labelText: context.l10n.commonFieldName,
+        border: const OutlineInputBorder(),
       ),
       maxLines: 1,
       maxLength: 32,

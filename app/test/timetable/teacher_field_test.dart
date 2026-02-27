@@ -14,6 +14,7 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/timetable_edit/lesson/timetable_lesson_edit_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'teacher_field_test.mocks.dart';
@@ -38,6 +39,8 @@ void main() {
       return Provider<SubscriptionService>.value(
         value: mockSubscriptionService,
         child: MaterialApp(
+          localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+          supportedLocales: SharezoneLocalizations.supportedLocales,
           home: Scaffold(
             body: TeacherField(
               initialTeacher: initialTeacher,
@@ -76,6 +79,9 @@ void main() {
         Provider<SubscriptionService>.value(
           value: mockSubscriptionService,
           child: MaterialApp(
+            localizationsDelegates:
+                SharezoneLocalizations.localizationsDelegates,
+            supportedLocales: SharezoneLocalizations.supportedLocales,
             home: Scaffold(
               body: TeacherField(
                 teachers: teachersList,

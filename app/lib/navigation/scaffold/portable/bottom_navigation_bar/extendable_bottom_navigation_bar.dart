@@ -16,6 +16,7 @@ import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tutorial/bnb_tutorial_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -274,8 +275,11 @@ class _SwipeUpLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final isBnbExpanded = controller?.isPanelOpen ?? false;
     return Semantics(
-      label:
-          '${isBnbExpanded ? 'Schließt' : 'Öffnet'} die erweiterte Navigationsleiste',
+      label: context.l10n.navigationExtendableBnbSemantics(
+        isBnbExpanded
+            ? context.l10n.navigationSemanticsClose
+            : context.l10n.navigationSemanticsOpen,
+      ),
       child: GestureDetector(
         onTap: () => onTap(context),
         child: Padding(
@@ -320,7 +324,7 @@ class _ProfileChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: NavigationItem.accountPage.getName(),
+      message: NavigationItem.accountPage.getName(context),
       child: _Chip(
         controller: controller,
         navigationItem: NavigationItem.accountPage,
@@ -431,7 +435,7 @@ class _Chip extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8),
                     child: Center(
                       child: AutoSizeText(
-                        navigationItem.getName(),
+                        navigationItem.getName(context),
                         style: TextStyle(color: color),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

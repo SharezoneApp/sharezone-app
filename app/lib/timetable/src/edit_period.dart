@@ -8,6 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/widgets/common/picker.dart';
 import 'package:user/user.dart';
 
@@ -27,7 +28,12 @@ Future<Period?> selectPeriod(BuildContext context, {Period? selected}) {
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 18),
         ),
-        title: Text("${item.startTime} - ${item.endTime}"),
+        title: Text(
+          context.l10n.timetableLessonDetailsTimeRange(
+            item.startTime.toString(),
+            item.endTime.toString(),
+          ),
+        ),
         trailing:
             isSelected ? const Icon(Icons.done, color: Colors.green) : null,
         onTap: () {

@@ -12,25 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/widgets/common/picker.dart';
 
-String getWeekDayText(WeekDay weekDay) {
-  switch (weekDay) {
-    case WeekDay.monday:
-      return "Montag";
-    case WeekDay.tuesday:
-      return "Dienstag";
-    case WeekDay.wednesday:
-      return "Mittwoch";
-    case WeekDay.thursday:
-      return "Donnerstag";
-    case WeekDay.friday:
-      return "Freitag";
-    case WeekDay.saturday:
-      return "Samstag";
-    case WeekDay.sunday:
-      return "Sonntag";
-  }
-}
-
 Future<WeekDay?> selectWeekDay(BuildContext context, {WeekDay? selected}) {
   final userSettings =
       BlocProvider.of<SharezoneContext>(context).api.user.data!.userSettings;
@@ -41,7 +22,7 @@ Future<WeekDay?> selectWeekDay(BuildContext context, {WeekDay? selected}) {
     builder: (context, item) {
       bool isSelected = selected == item;
       return ListTile(
-        title: Text(getWeekDayText(item)),
+        title: Text(item.toLocalizedString(context)),
         trailing:
             isSelected ? const Icon(Icons.done, color: Colors.green) : null,
         onTap: () {

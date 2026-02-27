@@ -307,7 +307,7 @@ class _BottomNavItem extends StatelessWidget {
                   item.getIcon(),
                   const SizedBox(height: 1.5),
                   AutoSizeText(
-                    item.getName(),
+                    item.getName(context),
                     maxLines: 1,
                     minFontSize: 5,
                     maxFontSize: 10,

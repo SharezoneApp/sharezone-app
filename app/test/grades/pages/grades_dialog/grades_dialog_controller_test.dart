@@ -12,17 +12,20 @@ import 'package:clock/clock.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 
 import '../../grades_test_common.dart';
+import 'grades_dialog_controller_test.mocks.dart';
 
-class MockCrashAnalytics extends Mock implements CrashAnalytics {}
-
-class MockAnalytics extends Mock implements Analytics {}
-
+@GenerateNiceMocks([
+  MockSpec<CrashAnalytics>(),
+  MockSpec<Analytics>(),
+  MockSpec<GradesDialogControllerTranslations>(),
+])
 void main() {
   group('$GradesDialogController', () {
     late GradesTestController gradesTestController;
@@ -30,6 +33,7 @@ void main() {
     late CrashAnalytics crashAnalytics;
     late Analytics analytics;
     late GradesDialogController controller;
+    late GradesDialogControllerTranslations translations;
 
     GradesDialogController createController({GradeId? gradeId}) {
       return GradesDialogController(
@@ -37,6 +41,7 @@ void main() {
         coursesStream: Stream.value([]),
         crashAnalytics: crashAnalytics,
         analytics: analytics,
+        translations: translations,
         gradeId: gradeId,
       );
     }
@@ -46,6 +51,7 @@ void main() {
       gradesTestController = GradesTestController(gradesService: gradesService);
       crashAnalytics = MockCrashAnalytics();
       analytics = MockAnalytics();
+      translations = MockGradesDialogControllerTranslations();
       controller = createController();
     });
 
@@ -417,6 +423,12 @@ void main() {
 
     group('Grade handling', () {
       test('setting invalid grade shows error', () {
+        when(
+          translations.gradeIsInvalidError,
+        ).thenReturn('Die Eingabe ist keine gültige Zahl.');
+        when(
+          translations.enterGradeError,
+        ).thenReturn('Bitte eine Note eingeben.');
         controller.setGradingSystem(
           GradingSystem.zeroToFifteenPointsWithDecimals,
         );
@@ -527,13 +539,11 @@ void main() {
 
     group('Title handling', () {
       test('changing grade type updates title if empty', () {
+        when(translations.gradeTypeDisplayName(any)).thenReturn('Präsentation');
         controller = createController();
 
         controller.setGradeType(GradeType.presentation);
-        expect(
-          controller.view.title,
-          GradeType.presentation.predefinedType?.toUiString(),
-        );
+        expect(controller.view.title, 'Präsentation');
       });
 
       test('changing grade type preserves custom title', () {
@@ -545,6 +555,9 @@ void main() {
       });
 
       test('title error text is shown when title is empty', () {
+        when(
+          translations.enterTitleError,
+        ).thenReturn('Bitte einen Titel eingeben.');
         controller.setTitle('');
         expect(controller.view.titleErrorText, 'Bitte einen Titel eingeben.');
 
@@ -555,6 +568,16 @@ void main() {
       test(
         'changing grade type when title matches previous grade type updates title',
         () {
+          when(
+            translations.gradeTypeDisplayName(
+              PredefinedGradeTypes.oralParticipation,
+            ),
+          ).thenReturn('Mündliche Beteiligung');
+          when(
+            translations.gradeTypeDisplayName(
+              PredefinedGradeTypes.presentation,
+            ),
+          ).thenReturn('Präsentation');
           controller = createController();
 
           // Set initial grade type and verify title is set
@@ -563,11 +586,9 @@ void main() {
 
           // Change to new grade type, title should update
           controller.setGradeType(GradeType.presentation);
+
           expect(controller.view.title, isNot(equals(initialTitle)));
-          expect(
-            controller.view.title,
-            GradeType.presentation.predefinedType?.toUiString(),
-          );
+          expect(controller.view.title, 'Präsentation');
         },
       );
     });

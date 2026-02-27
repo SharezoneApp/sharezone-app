@@ -11,6 +11,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/keys.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class MobileWelcomePage extends StatelessWidget {
@@ -44,7 +45,7 @@ class _BackgroundImage extends StatelessWidget {
               height:
                   MediaQuery.of(context).size.height * (isTablet ? 0.9 : 0.8),
               semanticLabel:
-                  'Hintergrundbild der Willkommens-Seite mit 5 Handys, die die Sharezone-App zeigen.',
+                  context.l10n.mobileWelcomeBackgroundImageSemanticsLabel,
             ),
           ),
           Positioned.fill(
@@ -113,11 +114,11 @@ class _Headline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(bottom: 4),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
       child: Text(
-        'Gemeinsam den\nSchulalltag organisieren 🚀',
-        style: TextStyle(fontSize: 22, height: 1.1, color: Colors.black),
+        context.l10n.mobileWelcomeHeadline,
+        style: const TextStyle(fontSize: 22, height: 1.1, color: Colors.black),
       ),
     );
   }
@@ -128,11 +129,11 @@ class _SubHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(bottom: 20),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
       child: Text(
-        'Optional kannst du Sharezone auch komplett alleine verwenden.',
-        style: TextStyle(color: Colors.grey, fontSize: 12),
+        context.l10n.mobileWelcomeSubHeadline,
+        style: const TextStyle(color: Colors.grey, fontSize: 12),
       ),
     );
   }
@@ -146,8 +147,8 @@ class _NewAtSharezoneButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: _BaseButton(
-        text: const Text(
-          'Ich bin neu bei Sharezone 👋',
+        text: Text(
+          context.l10n.mobileWelcomeNewAtSharezoneButton,
           textAlign: TextAlign.center,
         ),
         onPressed:
@@ -176,12 +177,15 @@ class _AlreadyHaveAnAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return _BaseButton(
       key: K.goToLoginButton,
-      text: const Column(
+      text: Column(
         children: [
-          Text('Anmelden', style: TextStyle(fontSize: 18, color: Colors.black)),
           Text(
-            'Mit existierendem Konto anmelden',
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+            context.l10n.mobileWelcomeSignInButton,
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+          Text(
+            context.l10n.mobileWelcomeSignInWithExistingAccount,
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ],
       ),

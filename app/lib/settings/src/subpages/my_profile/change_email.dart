@@ -16,7 +16,6 @@ import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/submit_method.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-const snackBarText = 'Neue E-Mail Adresse wird an die Zentrale geschickt...';
 const changeType = ChangeType.email;
 
 void openChangeEmailPage(BuildContext context, String email) {
@@ -50,7 +49,12 @@ class ChangeEmailFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => submit(context, snackBarText, changeType),
+      onPressed:
+          () => submit(
+            context,
+            context.l10n.changeEmailAddressSubmitSnackbar,
+            changeType,
+          ),
       tooltip: context.l10n.commonActionsSave,
       child: const Icon(Icons.check),
     );
@@ -85,7 +89,11 @@ class ChangeEmailPageBody extends StatelessWidget {
                     context.l10n.changeEmailAddressPasswordTextfieldLabel,
                 focusNode: passwordNode,
                 onEditComplete:
-                    () async => await submit(context, snackBarText, changeType),
+                    () async => await submit(
+                      context,
+                      context.l10n.changeEmailAddressSubmitSnackbar,
+                      changeType,
+                    ),
               ),
               const SizedBox(height: 16),
               Text(
@@ -202,20 +210,16 @@ class VerifyEmailAddressDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LeftAndRightAdaptiveDialog(
-      title: "Neue E-Mail Adresse bestätigen",
-      content: const Text.rich(
+      title: context.l10n.changeEmailVerifyDialogTitle,
+      content: Text.rich(
         TextSpan(
-          text:
-              'Wir haben dir einen Link geschickt. Bitte klicke jetzt auf den Link, um deine E-Mail zu bestätigen. Prüfe auch deinen Spam-Ordner.\n\n',
+          text: context.l10n.changeEmailVerifyDialogBodyPrefix,
           children: [
             TextSpan(
-              text: "Nachdem",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              text: context.l10n.changeEmailVerifyDialogAfterWord,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            TextSpan(
-              text:
-                  " du die neue E-Mail-Adresse bestätigt hast, klicke auf \"Weiter\".",
-            ),
+            TextSpan(text: context.l10n.changeEmailVerifyDialogBodySuffix),
           ],
         ),
       ),
@@ -248,14 +252,8 @@ class _ReAuthenticationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LeftAndRightAdaptiveDialog(
-      title: "Re-Authentifizierung",
-      content: const Text(
-        '''Nach der Änderung der E-Mail-Adresse musst du abgemeldet und wieder angemeldet werden. Danach kannst du die App wie gewohnt weiter nutzen.
-
-Klicke auf "Weiter" um eine Abmeldung und eine Anmeldung von Sharezone durchzuführen.
-
-Es kann sein, dass die Anmeldung nicht funktioniert (z.B. weil die E-Mail-Adresse noch nicht bestätigt wurde). Führe in diesem Fall die Anmeldung selbständig durch.''',
-      ),
+      title: context.l10n.changeEmailReauthenticationDialogTitle,
+      content: Text(context.l10n.changeEmailReauthenticationDialogBody),
       left: AdaptiveDialogAction.cancel(context),
       right: AdaptiveDialogAction.continue_(context),
     );

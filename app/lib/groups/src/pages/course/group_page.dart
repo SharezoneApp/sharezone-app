@@ -23,6 +23,7 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum CourseDialogOption { groupJoin, courseCreate, schoolClassCreate }
@@ -137,12 +138,14 @@ class GroupPageState extends State<GroupPage> {
               (child, animation) =>
                   ScaleTransition(scale: animation, child: child),
           child:
-              _isVisible ? _CoursePageFAB(visible: _isVisible) : const Text(""),
+              _isVisible
+                  ? _CoursePageFAB(visible: _isVisible)
+                  : const SizedBox.shrink(),
         ),
         navigationItem: NavigationItem.group,
-        appBarConfiguration: const AppBarConfiguration(
-          title: "Gruppen",
-          actions: [HelpCoursePageIconButton()],
+        appBarConfiguration: AppBarConfiguration(
+          title: context.l10n.groupsPageTitle,
+          actions: const [HelpCoursePageIconButton()],
         ),
       ),
     );
@@ -162,7 +165,9 @@ class _SchoolClassList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          "Meine Klasse${schoolClasses.length == 1 ? "" : "n"}:",
+          schoolClasses.length == 1
+              ? context.l10n.groupsPageMySchoolClass
+              : context.l10n.groupsPageMySchoolClasses,
           style: const TextStyle(color: Colors.grey),
         ),
         AnimationLimiter(
@@ -202,7 +207,10 @@ class _CourseList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text("Meine Kurse:", style: TextStyle(color: Colors.grey)),
+        Text(
+          context.l10n.groupsPageMyCourses,
+          style: const TextStyle(color: Colors.grey),
+        ),
         const SizedBox(height: 4),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 2, 8),
@@ -259,7 +267,7 @@ class _CoursePageFAB extends StatelessWidget {
     return ModalFloatingActionButton(
       heroTag: 'sharezone-fab',
       onPressed: () => _openCreateOrJoinCourseSheet(context),
-      tooltip: "Gruppe beitreten/erstellen",
+      tooltip: context.l10n.groupsFabJoinOrCreateTooltip,
       icon: const Icon(Icons.add),
     );
   }
@@ -294,9 +302,8 @@ class _JoinGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _JoinGroupTile(
-      title: "Kurs/Klasse beitreten",
-      description:
-          "Falls einer deiner Mitschüler schon eine Klasse oder einen Kurs erstellt hat, kannst du diesem einfach beitreten.",
+      title: context.l10n.groupsJoinCourseOrClassTitle,
+      description: context.l10n.groupsJoinCourseOrClassDescription,
       onTap: () => Navigator.pop(context, CourseDialogOption.groupJoin),
       iconData: Icons.vpn_key,
     );
@@ -307,9 +314,8 @@ class _CreateSchoolClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _JoinGroupTile(
-      title: "Schulklasse erstellen",
-      description:
-          "Eine Klasse besteht aus mehreren Kursen. Jedes Mitglied tritt beim Betreten der Klasse automatisch allen dazugehörigen Kursen bei.",
+      title: context.l10n.schoolClassCreateTitle,
+      description: context.l10n.groupsCreateSchoolClassDescription,
       onTap: () => Navigator.pop(context, CourseDialogOption.schoolClassCreate),
       iconData: Icons.group_add,
     );
@@ -320,9 +326,8 @@ class _CreateCourse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _JoinGroupTile(
-      title: "Kurs erstellen",
-      description:
-          "Einen Kurs kannst du dir wie ein Schulfach vorstellen. Jedes Fach wird mit einem Kurs abgebildet.",
+      title: context.l10n.courseCreateTitle,
+      description: context.l10n.groupsCreateCourseDescription,
       onTap: () => Navigator.pop(context, CourseDialogOption.courseCreate),
       iconData: Icons.add_circle_outline,
     );
@@ -386,7 +391,7 @@ class _EmptyGroupList extends StatelessWidget {
     final gateway = BlocProvider.of<SharezoneContext>(context).api;
     return PlaceholderWidgetWithAnimation(
       iconSize: const Size(175, 175),
-      title: "Du bist noch keinem Kurs, bzw. keiner Klasse beigetreten!",
+      title: context.l10n.groupsEmptyTitle,
       svgPath: 'assets/icons/ghost.svg',
       animateSVG: true,
       description: Padding(
@@ -395,16 +400,14 @@ class _EmptyGroupList extends StatelessWidget {
           children: <Widget>[
             _EmptyGroupListAction(
               icon: const Icon(Icons.vpn_key),
-              title: "Kurs/Klasse beitreten",
-              subtitle:
-                  "Falls einer deiner Mitschüler schon eine Klasse oder einen Kurs erstellt hat, kannst du diesem einfach beitreten.",
+              title: context.l10n.groupsJoinCourseOrClassTitle,
+              subtitle: context.l10n.groupsJoinCourseOrClassDescription,
               onTap: () => openGroupJoinPage(context),
             ),
             _EmptyGroupListAction(
               icon: const Icon(Icons.group_add),
-              title: "Schulklasse erstellen",
-              subtitle:
-                  "Eine Klasse besteht aus mehreren Kursen. Jedes Mitglied tritt beim Betreten der Klasse automatisch allen dazugehörigen Kursen bei.",
+              title: context.l10n.schoolClassCreateTitle,
+              subtitle: context.l10n.groupsCreateSchoolClassDescription,
               onTap: () {
                 final analytics = BlocProvider.of<GroupAnalytics>(context);
                 openMySchoolClassCreateDialog(
@@ -415,9 +418,8 @@ class _EmptyGroupList extends StatelessWidget {
             ),
             _EmptyGroupListAction(
               icon: const Icon(Icons.add_circle_outline),
-              title: "Kurs erstellen",
-              subtitle:
-                  "Einen Kurs kannst du dir wie ein Schulfach vorstellen. Jedes Fach wird mit einem Kurs abgebildet.",
+              title: context.l10n.courseCreateTitle,
+              subtitle: context.l10n.groupsCreateCourseDescription,
               onTap: () => Navigator.pushNamed(context, CourseTemplatePage.tag),
             ),
           ],

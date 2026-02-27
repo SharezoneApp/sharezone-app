@@ -11,6 +11,7 @@ import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
@@ -61,16 +62,23 @@ class _SaveButton extends StatelessWidget {
   const _SaveButton();
 
   void showConfirmationSnackBar(BuildContext context) {
-    showSnackSec(context: context, text: 'Note gespeichert');
+    showSnackSec(
+      context: context,
+      text: context.l10n.gradesDialogSavedSnackBar,
+    );
   }
 
   void showErrorSnackBar(BuildContext context, Object e) {
-    final unknownErrorMessage = 'Unbekannter Fehler: $e';
+    final l10n = context.l10n;
+    final unknownErrorMessage = l10n.gradesDialogUnknownError(e);
     String? message;
 
     if (e is SaveGradeException) {
       message = switch (e) {
-        InvalidFieldsSaveGradeException() => _getInvalidFieldsMessage(e),
+        InvalidFieldsSaveGradeException() => _getInvalidFieldsMessage(
+          e,
+          context: context,
+        ),
         UnknownSaveGradeException() => unknownErrorMessage,
       };
     } else {
@@ -80,20 +88,27 @@ class _SaveButton extends StatelessWidget {
     showSnackSec(context: context, text: message);
   }
 
-  String _getInvalidFieldsMessage(InvalidFieldsSaveGradeException e) {
+  String _getInvalidFieldsMessage(
+    InvalidFieldsSaveGradeException e, {
+    required BuildContext context,
+  }) {
     assert(e.invalidFields.isNotEmpty);
 
     if (e.invalidFields.length == 1) {
       return switch (e.invalidFields.first) {
-        GradingDialogFields.gradeValue => 'Die Note fehlt oder ist ungültig.',
-        GradingDialogFields.title => 'Der Titel fehlt oder ist ungültig.',
-        GradingDialogFields.subject => 'Bitte gib ein Fach für die Note an.',
-        GradingDialogFields.term => 'Bitte gib ein Halbjahr für die an.',
+        GradingDialogFields.gradeValue =>
+          context.l10n.gradesDialogInvalidGradeField,
+        GradingDialogFields.title => context.l10n.gradesDialogInvalidTitleField,
+        GradingDialogFields.subject =>
+          context.l10n.gradesDialogInvalidSubjectField,
+        GradingDialogFields.term => context.l10n.gradesDialogInvalidTermField,
       };
     }
     final fields = e.invalidFields;
-    final fieldMessages = fields.map((f) => f.toUiString()).join(', ');
-    return 'Folgende Felder fehlen oder sind ungültig: $fieldMessages.';
+    final fieldMessages = fields
+        .map((f) => f.toLocalizedString(context))
+        .join(', ');
+    return context.l10n.gradesDialogInvalidFieldsCombined(fieldMessages);
   }
 
   @override
@@ -118,7 +133,7 @@ class _SaveButton extends StatelessWidget {
             showErrorSnackBar(context, e);
           }
         },
-        child: const Text("Speichern"),
+        child: Text(context.l10n.commonActionsSave),
       ),
     );
   }

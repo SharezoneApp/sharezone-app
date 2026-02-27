@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 void main() {
   group('SharecodeText', () {
@@ -20,6 +21,9 @@ void main() {
     }) async {
       await tester.pumpWidget(
         MaterialApp(
+          locale: const Locale('de'),
+          localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+          supportedLocales: SharezoneLocalizations.supportedLocales,
           home: Material(
             child: Scaffold(body: SharecodeText(sharecode, onCopied: onCopied)),
           ),

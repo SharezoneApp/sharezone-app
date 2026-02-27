@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:interval_time_picker/models/visible_step.dart';
 import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
@@ -92,7 +93,7 @@ Future<Time?> selectTime(
   BuildContext context, {
   Time? initialTime,
   int? minutesInterval,
-  String title = "Wähle eine Uhrzeit",
+  String? title,
 }) async {
   final cache = BlocProvider.of<TimePickerSettingsCache>(context);
   final isFiveMinutesIntervalActive =
@@ -113,7 +114,7 @@ Future<Time?> selectTime(
           (context) => CupertinoTimerPickerWithTimeOfDay(
             initialTime: initialTime?.toTimeOfDay(),
             minutesInterval: minutesInterval!,
-            title: title,
+            title: title ?? context.l10n.timetableEditSelectTime,
           ),
     ).then((timeOfDay) {
       if (timeOfDay == null) return null;
@@ -207,7 +208,7 @@ class _CupertinoTimerPickerWithTimeOfDayState
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).primaryColor,
           ),
-          child: const Text("OK"),
+          child: Text(context.l10n.commonActionsOk),
           onPressed: () => Navigator.pop(context, timeOfDay),
         ),
       ],

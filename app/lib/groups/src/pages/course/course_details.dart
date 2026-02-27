@@ -26,6 +26,7 @@ import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'course_edit/course_edit_page.dart';
@@ -74,7 +75,7 @@ Future<void> openCourseDetailsPageAndShowConfirmationIfSuccessful(
 
 void _showCourseDeleteConfirmationSnackbar(BuildContext context) {
   showSnackSec(
-    text: "Du hast erfolgreich den Kurs gelöscht.",
+    text: context.l10n.courseDeleteSuccess,
     context: context,
     seconds: 2,
   );
@@ -82,7 +83,7 @@ void _showCourseDeleteConfirmationSnackbar(BuildContext context) {
 
 void _showCourseLeaveConformationSnackbar(BuildContext context) {
   showSnackSec(
-    text: "Du hast erfolgreich den Kurs verlassen.",
+    text: context.l10n.courseLeaveSuccess,
     context: context,
     seconds: 2,
   );
@@ -121,18 +122,22 @@ class _CourseDetailsPage extends StatelessWidget {
         if (!snapshot.hasData) {
           return Scaffold(
             appBar: AppBar(),
-            body: const Center(
+            body: Center(
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.warning, color: Colors.deepOrange, size: 84),
-                    SizedBox(height: 16),
+                    const Icon(
+                      Icons.warning,
+                      color: Colors.deepOrange,
+                      size: 84,
+                    ),
+                    const SizedBox(height: 16),
                     Text(
-                      "Es gab einen Fehler beim Laden des Kurses.\n\nMöglicherweise bist du nicht mehr ein Teilnehmer dieses Kurses.",
+                      context.l10n.groupCourseDetailsLoadError,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
                       ),
@@ -237,7 +242,7 @@ class _DangerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DangerSection(
-      deleteButtonLabel: const Text("KURS LÖSCHEN"),
+      deleteButtonLabel: Text(context.l10n.courseActionsDeleteUppercase),
       onPressedDeleteButton: () async {
         final bloc = BlocProvider.of<CourseDetailsBloc>(context);
         final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
@@ -249,7 +254,7 @@ class _DangerSection extends StatelessWidget {
           onDeleteDialogClose(bloc.deleteCourse());
         }
       },
-      leaveButtonLabel: const Text("KURS VERLASSEN"),
+      leaveButtonLabel: Text(context.l10n.courseActionsLeaveUppercase),
       onPressedLeaveButton: () async {
         final bloc = BlocProvider.of<CourseDetailsBloc>(context);
         final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
@@ -276,7 +281,7 @@ class _ChangeColorIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: 'Farben auswählen',
+      tooltip: context.l10n.courseSelectColorsTooltip,
       icon: const Icon(Icons.color_lens),
       onPressed: () => editCourseDesign(context, courseID),
     );
@@ -292,7 +297,7 @@ class _EditIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
     return IconButton(
-      tooltip: 'Kurs bearbeiten',
+      tooltip: context.l10n.courseEditTitle,
       icon: const Icon(Icons.edit),
       onPressed: () {
         _logCourseEditViaAppBar(analytics);
@@ -313,7 +318,7 @@ class HelpCoursePageIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.help),
-      tooltip: "Hilfe",
+      tooltip: context.l10n.commonActionsHelp,
       onPressed: () => Navigator.pushNamed(context, CourseHelpPage.tag),
     );
   }

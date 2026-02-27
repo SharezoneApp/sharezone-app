@@ -10,6 +10,7 @@ import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> showRemoveFileFromBlocDialog({
@@ -28,7 +29,7 @@ Future<void> showRemoveFileFromBlocDialog({
           children: <Widget>[
             LongPressDialogTile(
               iconData: Icons.delete,
-              title: "Anhang entfernen",
+              title: context.l10n.blackboardRemoveAttachment,
               onTap: () {
                 removeFileFromBlocMethod();
                 Navigator.pop(context);

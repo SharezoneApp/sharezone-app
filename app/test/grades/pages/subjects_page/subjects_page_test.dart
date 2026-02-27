@@ -10,23 +10,30 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/subjects_page/subjects_page.dart';
+import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller.dart';
 import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller_factory.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../../grades_test_common.dart';
+import 'subjects_page_test.mocks.dart';
 
+@GenerateNiceMocks([MockSpec<SubjectsPageControllerTranslations>()])
 void main() {
   group(SubjectsPage, () {
     late GradesService service;
     late GradesTestController testController;
+    late MockSubjectsPageControllerTranslations translations;
 
     setUp(() {
       service = GradesService();
       testController = GradesTestController(gradesService: service);
+      translations = MockSubjectsPageControllerTranslations();
     });
 
     testWidgets('shows subjects and allows deleting them', (tester) async {
@@ -65,6 +72,7 @@ void main() {
           value: SubjectsPageControllerFactory(
             gradesService: service,
             coursesStream: () => Stream.value([]),
+            translations: translations,
           ),
           child: const _App(),
         ),
@@ -81,6 +89,9 @@ void main() {
       const termName = '11/1';
       const subjectId = SubjectId('subject');
 
+      when(
+        translations.predefinedTypeDisplayName(any),
+      ).thenReturn('Schriftliche Prüfung');
       testController.createTerm(
         termWith(
           id: termId,
@@ -111,6 +122,7 @@ void main() {
               _course(id: 'math', subject: 'Maths', name: 'Maths Class'),
               _course(id: 'bio', subject: 'Bio', name: 'Bio Class'),
             ]),
+        translations: translations,
       );
 
       await tester.pumpWidget(
@@ -145,6 +157,7 @@ void main() {
       final factory = SubjectsPageControllerFactory(
         gradesService: service,
         coursesStream: () => Stream.error(Exception('Test error')),
+        translations: translations,
       );
 
       await tester.pumpWidget(

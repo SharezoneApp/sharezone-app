@@ -29,9 +29,9 @@ class _Advantages extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                "Vorteile von Sharezone",
-                style: TextStyle(fontSize: 26),
+              Text(
+                context.l10n.signUpAdvantagesTitle,
+                style: const TextStyle(fontSize: 26),
               ),
               MaxWidthConstraintBox(
                 maxWidth: 650,
@@ -70,7 +70,7 @@ class _AdvantageAllInOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedListTile(
-      title: "All-In-One-App für die Schule",
+      title: context.l10n.signUpAdvantageAllInOne,
       leading: SvgPicture.asset('assets/icons/smartphone.svg', height: 45),
     );
   }
@@ -82,7 +82,7 @@ class _AdvantageCloud extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _AdvancedListTile(
-      title: "Schulplaner über die Cloud mit der Klasse teilen",
+      title: context.l10n.signUpAdvantageCloud,
       leading: SvgPicture.asset('assets/icons/cloud.svg', height: 45),
     );
   }
@@ -93,9 +93,9 @@ class _AdvantageSaveTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _AdvancedListTile(
-      title: "Große Zeitersparnis durch gemeinsames Organisieren",
-      leading: EasterEggClock(dimension: 45),
+    return _AdvancedListTile(
+      title: context.l10n.signUpAdvantageSaveTime,
+      leading: const EasterEggClock(dimension: 45),
     );
   }
 }
@@ -105,9 +105,9 @@ class _AdvantageNotifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _AdvancedListTile(
-      title: "Erinnerungen an offene Hausaufgaben",
-      leading: SizedBox(
+    return _AdvancedListTile(
+      title: context.l10n.signUpAdvantageHomeworkReminder,
+      leading: const SizedBox(
         height: 45,
         width: 45,
         child: FlareActor(

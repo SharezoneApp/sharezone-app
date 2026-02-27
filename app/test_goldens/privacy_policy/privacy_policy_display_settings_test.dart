@@ -15,7 +15,10 @@ import 'package:key_value_store/key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/legal/privacy_policy/src/ui/common.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+
+import '../flutter_test_config.dart';
 
 void main() {
   group('showDisplaySettingsDialog', () {
@@ -25,6 +28,8 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           theme: getLightTheme(),
+          localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+          supportedLocales: defaultLocales,
           home: Scaffold(
             body: ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
               create: (context) {

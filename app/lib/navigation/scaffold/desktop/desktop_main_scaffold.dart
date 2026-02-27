@@ -40,7 +40,9 @@ class DesktopMainScaffold extends StatelessWidget {
         key: scaffoldKey,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(appBarConfiguration?.title ?? navigationItem.getName()),
+            title: Text(
+              appBarConfiguration?.title ?? navigationItem.getName(context),
+            ),
             centerTitle: true,
             actions: appBarConfiguration?.actions,
             bottom: appBarConfiguration?.bottom,

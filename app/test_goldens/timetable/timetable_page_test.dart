@@ -20,12 +20,14 @@ import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../../test/timetable/mock/mock_course_gateway.dart';
 import '../../test/timetable/mock/mock_school_class_filter_analytics.dart';
 import '../../test/timetable/mock/mock_school_class_gateway.dart';
 import '../../test/timetable/mock/mock_timetable_gateway.dart';
 import '../../test/timetable/mock/mock_user_gateway.dart';
+import '../flutter_test_config.dart';
 import 'timetable_page_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<SubscriptionService>()])
@@ -77,6 +79,9 @@ void main() {
               Provider<SubscriptionService>.value(value: subscriptionService),
             ],
             child: MaterialApp(
+              localizationsDelegates:
+                  SharezoneLocalizations.localizationsDelegates,
+              supportedLocales: defaultLocales,
               theme: themeData,
               home: BlocProvider(
                 bloc: bloc,

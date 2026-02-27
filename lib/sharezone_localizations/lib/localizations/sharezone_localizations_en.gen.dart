@@ -84,10 +84,62 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'Cache cleared. You may need to restart the app to see the changes.';
 
   @override
+  String get activationCodeErrorInvalidDescription =>
+      'Either this code has already been redeemed or it is outside the validity period.';
+
+  @override
+  String get activationCodeErrorInvalidTitle =>
+      'An error occurred: This code is invalid 🤨';
+
+  @override
+  String get activationCodeErrorNoInternetDescription =>
+      'We could not redeem the code because no internet connection could be established. Please check your Wi-Fi or mobile data.';
+
+  @override
+  String get activationCodeErrorNoInternetTitle =>
+      'An error occurred: No internet connection ☠️';
+
+  @override
+  String get activationCodeErrorNotFoundDescription =>
+      'We could not find the entered activation code. Please check upper/lower case and whether this activation code is still valid.';
+
+  @override
+  String get activationCodeErrorNotFoundTitle =>
+      'An error occurred: Activation code not found ❌';
+
+  @override
+  String get activationCodeErrorUnknownDescription =>
+      'This might be due to your internet connection. Please check it.';
+
+  @override
+  String get activationCodeErrorUnknownTitle => 'An unknown error occurred 😭';
+
+  @override
   String get activationCodeFeatureAdsLabel => 'Ads';
 
   @override
   String get activationCodeFeatureL10nLabel => 'l10n';
+
+  @override
+  String get activationCodeFieldHint => 'e.g. NavigationV2';
+
+  @override
+  String get activationCodeFieldLabel => 'Activation code';
+
+  @override
+  String get activationCodeInfoDescription =>
+      'With the activation code, features that are still in development can be enabled and tested early. The activation code is provided by us and is intended for testing purposes only.\n\nIf you have a sharecode and want to join a group, enter it on the \"Groups\" page.';
+
+  @override
+  String get activationCodeInfoTitle => 'What is the activation code?';
+
+  @override
+  String get activationCodeResultDoneAction => 'Done';
+
+  @override
+  String activationCodeSuccessTitle(Object value) {
+    return 'Successfully activated: $value 🎉';
+  }
 
   @override
   String get activationCodeToggleDisabled => 'disabled';
@@ -101,12 +153,46 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   }
 
   @override
+  String get adInfoDialogBodyPrefix =>
+      'Over the next weeks, we are running an ad experiment in Sharezone. If you do not want to see ads, you can buy ';
+
+  @override
+  String get adInfoDialogBodySuffix => '.';
+
+  @override
+  String get adInfoDialogTitle => 'Ads in Sharezone';
+
+  @override
+  String get adsLoading => 'Ad is loading...';
+
+  @override
   String get appName => 'Sharezone';
+
+  @override
+  String get attachFileCameraPermissionError =>
+      'The app does not have camera access...';
+
+  @override
+  String get attachFileDocumentTitle => 'Document';
 
   @override
   String authAnonymousDisplayName(Object animalName) {
     return 'Anonymous $animalName';
   }
+
+  @override
+  String get authEmailAndPasswordLinkFillFormComplete =>
+      'Please complete the form! 😉';
+
+  @override
+  String get authEmailAndPasswordLinkNicknameHint =>
+      'This nickname is only visible to your group members and should be a pseudonym.';
+
+  @override
+  String get authEmailAndPasswordLinkNicknameLabel => 'Nickname';
+
+  @override
+  String get authEmailAndPasswordLinkSubmitAction => 'Link';
 
   @override
   String get authProviderAnonymous => 'Anonymous sign in';
@@ -131,11 +217,139 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'Invalid password, please enter more than 8 characters';
 
   @override
+  String get blackboardCardAttachmentTooltip => 'Contains attachments';
+
+  @override
+  String get blackboardCardMyEntryTooltip => 'My entry';
+
+  @override
+  String get blackboardComposeMessageHint => 'Compose message';
+
+  @override
+  String get blackboardCustomImageUnavailableMessage =>
+      'You currently cannot take/upload custom images yet 😔\n\nThis feature will be available very soon!';
+
+  @override
+  String get blackboardDeleteAttachmentsDialogDescription =>
+      'Should the entry attachments be deleted from file storage or should only the link between both be removed?';
+
+  @override
+  String get blackboardDeleteDialogDescription =>
+      'Do you really want to delete this entry for the whole course?';
+
+  @override
+  String get blackboardDeleteDialogTitle => 'Delete entry?';
+
+  @override
+  String blackboardDetailsAttachmentsCount(Object value) {
+    return 'Attachments: $value';
+  }
+
+  @override
+  String get blackboardDetailsTitle => 'Details';
+
+  @override
+  String get blackboardDialogSaveTooltip => 'Save entry';
+
+  @override
+  String get blackboardDialogTitleHint => 'Enter title';
+
+  @override
+  String get blackboardEntryDeleted => 'Entry deleted.';
+
+  @override
   String get blackboardErrorCourseMissing => 'Please select a course.';
 
   @override
   String get blackboardErrorTitleMissing =>
       'Please enter a title for the entry.';
+
+  @override
+  String get blackboardMarkAsRead => 'Mark as read';
+
+  @override
+  String get blackboardMarkAsUnread => 'Mark as unread';
+
+  @override
+  String get blackboardPageAddInfoSheet => 'Add notice';
+
+  @override
+  String get blackboardPageEmptyDescription =>
+      'Important announcements can be distributed here as digital notes to students, teachers and parents.';
+
+  @override
+  String get blackboardPageEmptyTitle => 'You have read all notices 👍';
+
+  @override
+  String get blackboardPageFabTooltip => 'New notice';
+
+  @override
+  String blackboardReadByInfoVisibleForRole(String role) {
+    return 'This information is visible to you as $role.';
+  }
+
+  @override
+  String blackboardReadByPercent(int percent) {
+    return 'Read by: $percent%';
+  }
+
+  @override
+  String get blackboardReadByRoleAdmin => 'Admin';
+
+  @override
+  String get blackboardReadByRoleAuthor => 'Author';
+
+  @override
+  String get blackboardReadByUsersPlusDescription =>
+      'Get Sharezone Plus to see who has already read the notice.';
+
+  @override
+  String get blackboardReadByUsersTitle => 'Read by';
+
+  @override
+  String get blackboardRemoveAttachment => 'Remove attachment';
+
+  @override
+  String get blackboardSelectCoverImage => 'Select cover image';
+
+  @override
+  String get blackboardSendNotificationDescription =>
+      'Send a notification to your course members that you created a new entry.';
+
+  @override
+  String get bnbTutorialDescription =>
+      'Drag the bottom navigation bar upwards to access more features.';
+
+  @override
+  String get bnbTutorialSemanticsLabel =>
+      'Diagram: How the navigation bar is pulled up to show more navigation items.';
+
+  @override
+  String get calendricalEventsAddEvent => 'Add event';
+
+  @override
+  String get calendricalEventsAddExam => 'Add exam';
+
+  @override
+  String get calendricalEventsCreateEventTooltip => 'Create new event';
+
+  @override
+  String get calendricalEventsCreateExamTooltip => 'Create new exam';
+
+  @override
+  String get calendricalEventsCreateNew => 'Create new';
+
+  @override
+  String get calendricalEventsEmptyTitle => 'No upcoming events or exams.';
+
+  @override
+  String get calendricalEventsFabTooltip => 'New exam or event';
+
+  @override
+  String get calendricalEventsSwitchToGrid => 'Switch to tiles';
+
+  @override
+  String get calendricalEventsSwitchToList => 'Switch to list';
 
   @override
   String get changeEmailAddressCurrentEmailTextfieldLabel => 'Current';
@@ -155,6 +369,10 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get changeEmailAddressPasswordTextfieldLabel => 'Password';
 
   @override
+  String get changeEmailAddressSubmitSnackbar =>
+      'New email address is being sent to headquarters...';
+
+  @override
   String get changeEmailAddressTitle => 'Change Email';
 
   @override
@@ -164,6 +382,27 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get changeEmailAddressWhyWeNeedTheEmailInfoTitle =>
       'Why do we need your email?';
+
+  @override
+  String get changeEmailReauthenticationDialogBody =>
+      'After changing the email address, you must be signed out and signed in again. After that you can continue using the app as usual.\n\nTap \"Continue\" to sign out and sign in to Sharezone.\n\nIt may happen that the sign-in does not work (e.g. because the email address has not yet been confirmed). In that case, sign in manually.';
+
+  @override
+  String get changeEmailReauthenticationDialogTitle => 'Re-authentication';
+
+  @override
+  String get changeEmailVerifyDialogAfterWord => 'After';
+
+  @override
+  String get changeEmailVerifyDialogBodyPrefix =>
+      'We sent you a link. Please click the link now to confirm your email address. Also check your spam folder.\n\n';
+
+  @override
+  String get changeEmailVerifyDialogBodySuffix =>
+      ' you have confirmed the new email address, tap \"Continue\".';
+
+  @override
+  String get changeEmailVerifyDialogTitle => 'Confirm new email address';
 
   @override
   String get changePasswordCurrentPasswordTextfieldLabel => 'Current Password';
@@ -259,13 +498,67 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get changeTypeOfUserTitle => 'Change Account Type';
 
   @override
+  String get changelogPageTitle => 'What\'s new?';
+
+  @override
+  String get changelogSectionBugFixes => 'Bug fixes:';
+
+  @override
+  String get changelogSectionImprovements => 'Improvements:';
+
+  @override
+  String get changelogSectionNewFeatures => 'New features:';
+
+  @override
+  String changelogUpdatePromptStore(String store) {
+    return 'We noticed that you have an outdated app version installed. Please download the latest version from the $store now! 👍';
+  }
+
+  @override
+  String get changelogUpdatePromptTitle => 'New update available!';
+
+  @override
+  String get changelogUpdatePromptWeb =>
+      'We noticed that you are using an outdated app version. Reload the page to get the latest version! 👍';
+
+  @override
+  String get commentActionsCopyText => 'Copy text';
+
+  @override
+  String get commentActionsReport => 'Report comment';
+
+  @override
+  String get commentDeletePrompt =>
+      'Do you really want to delete the comment for everyone?';
+
+  @override
+  String get commentDeletedConfirmation => 'Comment deleted.';
+
+  @override
+  String get commentSectionReplyPrompt => 'Ask a follow-up question...';
+
+  @override
+  String commentsSectionTitle(Object value) {
+    return 'Comments: $value';
+  }
+
+  @override
   String get commonActionBack => 'Back';
 
   @override
   String get commonActionChange => 'Change';
 
   @override
+  String get commonActionRename => 'Rename';
+
+  @override
+  String get commonActionsAdd => 'Add';
+
+  @override
   String get commonActionsAlright => 'Alright';
+
+  @override
+  String get commonActionsBack => 'Back';
 
   @override
   String get commonActionsCancel => 'Cancel';
@@ -289,22 +582,67 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get commonActionsContinue => 'Continue';
 
   @override
+  String get commonActionsCreate => 'Create';
+
+  @override
+  String get commonActionsCreateUppercase => 'CREATE';
+
+  @override
   String get commonActionsDelete => 'Delete';
 
   @override
   String get commonActionsDeleteUppercase => 'DELETE';
 
   @override
+  String get commonActionsDone => 'Done';
+
+  @override
+  String get commonActionsEdit => 'Edit';
+
+  @override
+  String get commonActionsHelp => 'Help';
+
+  @override
+  String get commonActionsJoin => 'Join';
+
+  @override
   String get commonActionsLeave => 'Leave';
+
+  @override
+  String get commonActionsNo => 'No';
+
+  @override
+  String get commonActionsNotNow => 'Not now';
 
   @override
   String get commonActionsOk => 'OK';
 
   @override
+  String get commonActionsReport => 'Report';
+
+  @override
   String get commonActionsSave => 'Save';
 
   @override
+  String get commonActionsSend => 'Send';
+
+  @override
+  String get commonActionsShare => 'Share';
+
+  @override
+  String get commonActionsSignOut => 'Sign out';
+
+  @override
+  String get commonActionsSignOutUppercase => 'SIGN OUT';
+
+  @override
+  String get commonActionsSkip => 'Skip';
+
+  @override
   String get commonActionsYes => 'Yes';
+
+  @override
+  String get commonDate => 'Date';
 
   @override
   String commonDisplayError(String? error) {
@@ -331,6 +669,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get commonErrorEmailMissing => 'Please enter your email.';
+
+  @override
+  String get commonErrorGeneric => 'An error occurred.';
 
   @override
   String get commonErrorIncorrectData => 'Please enter the data correctly!';
@@ -378,6 +719,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'That\'s the same name as before 🙈';
 
   @override
+  String get commonErrorTitle => 'Error';
+
+  @override
   String get commonErrorTitleMissing => 'Please enter a title!';
 
   @override
@@ -406,7 +750,13 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'The password you entered is incorrect.';
 
   @override
+  String get commonFieldName => 'Name';
+
+  @override
   String get commonLoadingPleaseWait => 'Please wait...';
+
+  @override
+  String get commonPleaseWaitMoment => 'Please wait a moment.';
 
   @override
   String get commonStatusFailed => 'Failed';
@@ -429,7 +779,16 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get commonStatusUnknownErrorTitle => 'Unknown error';
 
   @override
+  String get commonTextCopiedToClipboard => 'Text copied to clipboard';
+
+  @override
+  String get commonTitle => 'Title';
+
+  @override
   String get commonTitleNote => 'Note';
+
+  @override
+  String get commonUnknownError => 'An error occurred.';
 
   @override
   String get contactSupportButton => 'Contact support';
@@ -444,7 +803,451 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get countrySwitzerland => 'Switzerland';
 
   @override
+  String get courseActionsDeleteUppercase => 'DELETE COURSE';
+
+  @override
+  String get courseActionsKickUppercase => 'KICK FROM COURSE';
+
+  @override
+  String get courseActionsLeaveUppercase => 'LEAVE COURSE';
+
+  @override
+  String get courseAllowJoinExplanation =>
+      'Use this setting to control whether new members can join the course.';
+
+  @override
+  String get courseCreateAbbreviationHint => 'e.g. M';
+
+  @override
+  String get courseCreateAbbreviationLabel => 'Course abbreviation';
+
+  @override
+  String get courseCreateNameDescription =>
+      'The course name is mainly for teachers so they can distinguish courses with the same subject (e.g. \'Math class 8A\' and \'Math class 8B\').';
+
+  @override
+  String get courseCreateNameHint => 'e.g. Math advanced course Q2';
+
+  @override
+  String get courseCreateSubjectHint => 'e.g. Mathematics';
+
+  @override
+  String get courseCreateSubjectRequiredLabel => 'Course subject (required)';
+
+  @override
+  String get courseCreateTitle => 'Create course';
+
+  @override
+  String courseDeleteDialogDescription(String courseName) {
+    return 'Do you really want to permanently delete the course \"$courseName\"?\n\nAll lessons & events in the timetable, homework and blackboard entries will be deleted.\n\nNobody will be able to access this course anymore!';
+  }
+
+  @override
+  String get courseDeleteDialogTitle => 'Delete course?';
+
+  @override
+  String get courseDeleteSuccess => 'You successfully deleted the course.';
+
+  @override
+  String get courseDesignColorChangeFailed => 'Color could not be changed.';
+
+  @override
+  String get courseDesignCourseColorChanged =>
+      'Color was successfully changed for the whole course.';
+
+  @override
+  String get courseDesignPersonalColorRemoved => 'Personal color removed.';
+
+  @override
+  String get courseDesignPersonalColorSet => 'Personal color set.';
+
+  @override
+  String get courseDesignPlusColorsHint =>
+      'Not enough colors? Unlock 200+ extra colors with Sharezone Plus.';
+
+  @override
+  String get courseDesignRemovePersonalColor => 'Remove personal color';
+
+  @override
+  String get courseDesignTypeCourseSubtitle =>
+      'Color applies to the whole course';
+
+  @override
+  String get courseDesignTypeCourseTitle => 'Course';
+
+  @override
+  String get courseDesignTypePersonalSubtitle =>
+      'Applies only to you and overrides the course color';
+
+  @override
+  String get courseDesignTypePersonalTitle => 'Personal';
+
+  @override
+  String get courseEditSuccess => 'The course was edited successfully!';
+
+  @override
+  String get courseEditTitle => 'Edit course';
+
+  @override
+  String get courseFieldsAbbreviationLabel => 'Subject abbreviation';
+
+  @override
+  String get courseFieldsNameLabel => 'Course name';
+
+  @override
+  String get courseFieldsSubjectLabel => 'Subject';
+
+  @override
+  String get courseJoinNotificationAlreadyMember =>
+      'You already joined this group';
+
+  @override
+  String get courseJoinNotificationGroupNotFound => 'Group not found';
+
+  @override
+  String get courseJoinNotificationJoinForbidden =>
+      'Joining is forbidden. Contact the group admin.';
+
+  @override
+  String courseJoinNotificationJoinedClass(Object groupName) {
+    return 'You joined class \"$groupName\"';
+  }
+
+  @override
+  String courseJoinNotificationJoinedCourse(Object groupName) {
+    return 'You joined course \"$groupName\"';
+  }
+
+  @override
+  String courseJoinNotificationLoading(Object sharecode) {
+    return 'Joining $sharecode...';
+  }
+
+  @override
+  String get courseJoinNotificationNoInternet => 'No internet connection';
+
+  @override
+  String get courseJoinNotificationUnknownError =>
+      'An error occurred. Please contact support.';
+
+  @override
+  String courseJoinNotificationUnknownErrorWithReason(Object reason) {
+    return 'An error occurred: $reason. Please contact support.';
+  }
+
+  @override
+  String get courseLeaveAndDeleteDialogDescription =>
+      'Do you really want to leave the course? Since you are the last member, the course will be deleted.';
+
+  @override
+  String get courseLeaveAndDeleteDialogTitle => 'Leave and delete course?';
+
+  @override
+  String get courseLeaveDialogDescription =>
+      'Do you really want to leave the course?';
+
+  @override
+  String get courseLeaveDialogTitle => 'Leave course?';
+
+  @override
+  String get courseLeaveSuccess => 'You successfully left the course.';
+
+  @override
+  String courseLongPressTitle(String courseName) {
+    return 'Course: $courseName';
+  }
+
+  @override
+  String get courseMemberOptionsAloneHint =>
+      'Since you are the only one in this course, you cannot edit your role.';
+
+  @override
+  String get courseMemberOptionsOnlyAdminHint =>
+      'You are the only admin in this course. Therefore, you cannot remove your own rights.';
+
+  @override
+  String get courseSelectColorsTooltip => 'Select colors';
+
+  @override
+  String courseTemplateAlreadyExistsDescription(String subject) {
+    return 'You already created a course for the subject $subject. Do you want to create another one?';
+  }
+
+  @override
+  String get courseTemplateAlreadyExistsTitle => 'Course already exists';
+
+  @override
+  String courseTemplateCourseCreated(String courseName) {
+    return 'Course \"$courseName\" was created.';
+  }
+
+  @override
+  String get courseTemplateCreateCustomCourseUppercase =>
+      'CREATE CUSTOM COURSE';
+
+  @override
+  String get courseTemplateCustomCourseMissingPrompt =>
+      'Your course is missing?';
+
+  @override
+  String get courseTemplateDeletedCourse => 'Course was deleted.';
+
+  @override
+  String get courseTemplateDeletingCourse => 'Course is being deleted again...';
+
+  @override
+  String get courseTemplateSchoolClassSelectionDescription =>
+      'You are admin of one or more school classes. Select one to link newly created courses to that school class.';
+
+  @override
+  String courseTemplateSchoolClassSelectionInfo(String name) {
+    return 'Courses created from now on will be linked to school class \"$name\".';
+  }
+
+  @override
+  String get courseTemplateSchoolClassSelectionNoneInfo =>
+      'Courses created from now on will not be linked to any school class.';
+
+  @override
+  String get courseTemplateSchoolClassSelectionNoneOption =>
+      'Do not link to any school class';
+
+  @override
+  String get courseTemplateSchoolClassSelectionTitle => 'Select school class';
+
+  @override
+  String get courseTemplateSubjectArt => 'Art';
+
+  @override
+  String get courseTemplateSubjectBiology => 'Biology';
+
+  @override
+  String get courseTemplateSubjectCatholicReligion => 'Catholic religion';
+
+  @override
+  String get courseTemplateSubjectChemistry => 'Chemistry';
+
+  @override
+  String get courseTemplateSubjectComputerScience => 'Computer science';
+
+  @override
+  String get courseTemplateSubjectEconomics => 'Economics';
+
+  @override
+  String get courseTemplateSubjectEnglish => 'English';
+
+  @override
+  String get courseTemplateSubjectEthics => 'Ethics';
+
+  @override
+  String get courseTemplateSubjectFrench => 'French';
+
+  @override
+  String get courseTemplateSubjectGeography => 'Geography';
+
+  @override
+  String get courseTemplateSubjectGeographyErdkunde => 'Geography';
+
+  @override
+  String get courseTemplateSubjectGerman => 'German';
+
+  @override
+  String get courseTemplateSubjectHistory => 'History';
+
+  @override
+  String get courseTemplateSubjectHomeEconomics => 'Home economics';
+
+  @override
+  String get courseTemplateSubjectLatin => 'Latin';
+
+  @override
+  String get courseTemplateSubjectMath => 'Math';
+
+  @override
+  String get courseTemplateSubjectMusic => 'Music';
+
+  @override
+  String get courseTemplateSubjectNaturalSciences => 'Natural sciences';
+
+  @override
+  String get courseTemplateSubjectPedagogy => 'Pedagogy';
+
+  @override
+  String get courseTemplateSubjectPhilosophy => 'Philosophy';
+
+  @override
+  String get courseTemplateSubjectPhysics => 'Physics';
+
+  @override
+  String get courseTemplateSubjectPolitics => 'Politics';
+
+  @override
+  String get courseTemplateSubjectPracticalPhilosophy => 'Practical philosophy';
+
+  @override
+  String get courseTemplateSubjectProtestantReligion => 'Protestant religion';
+
+  @override
+  String get courseTemplateSubjectSocialStudies => 'Social studies';
+
+  @override
+  String get courseTemplateSubjectSpanish => 'Spanish';
+
+  @override
+  String get courseTemplateSubjectSport => 'Sport';
+
+  @override
+  String get courseTemplateSubjectTechnology => 'Technology';
+
+  @override
+  String get courseTemplateSubjectWorkEducation => 'Work education';
+
+  @override
+  String get courseTemplateTitle => 'Templates';
+
+  @override
+  String get courseTemplateUndoUppercase => 'UNDO';
+
+  @override
+  String get dashboardAdSectionAcquireSuffix => ' purchase.';
+
+  @override
+  String get dashboardAdSectionPrefix =>
+      'Sharezone is free thanks to this ad. If you don\'t want to see ads, you can ';
+
+  @override
+  String get dashboardAdSectionSharezonePlusLabel => 'Sharezone Plus';
+
+  @override
+  String get dashboardDebugClearCache => '[DEBUG] Clear cache';
+
+  @override
+  String get dashboardDebugOpenV2Dialog => 'Open V2 dialog';
+
+  @override
+  String get dashboardFabAddBlackboardTitle => 'Blackboard entry';
+
+  @override
+  String get dashboardFabAddHomeworkTitle => 'Homework';
+
+  @override
+  String get dashboardFabCreateHomeworkTooltip => 'Create new homework';
+
+  @override
+  String get dashboardFabCreateLessonTooltip => 'Create new lesson';
+
+  @override
+  String get dashboardFabTooltip => 'Add new items';
+
+  @override
+  String get dashboardHolidayCountdownDayUnitDay => 'day';
+
+  @override
+  String get dashboardHolidayCountdownDayUnitDays => 'days';
+
+  @override
+  String get dashboardHolidayCountdownDisplayError =>
+      'There was an error while displaying holidays.\nIf this happens often, please contact us.';
+
+  @override
+  String get dashboardHolidayCountdownGeneralError =>
+      '💣 Boom... something went wrong. Please restart the app 👍';
+
+  @override
+  String dashboardHolidayCountdownHolidayLine(String text, String title) {
+    return '$title: $text';
+  }
+
+  @override
+  String dashboardHolidayCountdownInDays(int days, String emoji) {
+    return 'In $days days $emoji';
+  }
+
+  @override
+  String get dashboardHolidayCountdownLastDay => 'Last day 😱';
+
+  @override
+  String dashboardHolidayCountdownNow(String emoji) {
+    return 'NOW, WOOOOOOO! $emoji';
+  }
+
+  @override
+  String dashboardHolidayCountdownRemaining(
+    String dayUnit,
+    int days,
+    String emoji,
+  ) {
+    return '$days $dayUnit left $emoji';
+  }
+
+  @override
+  String get dashboardHolidayCountdownSelectStateHint =>
+      'By selecting your region, we can calculate how long you still have to survive school until the holidays finally start 😉';
+
+  @override
+  String get dashboardHolidayCountdownTitle => 'Holiday countdown';
+
+  @override
+  String get dashboardHolidayCountdownTomorrow => 'Tomorrow 😱🎉';
+
+  @override
+  String get dashboardHolidayCountdownUnsupportedStateError =>
+      'Holidays cannot be shown for your selected state! 😫\nYou can change the state in settings.';
+
+  @override
+  String get dashboardHolidayCountdownUnsupportedStateShortError =>
+      'Holidays could not be shown for your state';
+
+  @override
+  String get dashboardNoLessonsToday => 'Yeah! There are no lessons today! 😍';
+
+  @override
+  String get dashboardNoUpcomingEventsInNext14Days =>
+      'No events in the next 14 days! 👻';
+
+  @override
+  String get dashboardNoUrgentHomework =>
+      'No urgent homework 😅\nNow it\'s time for the important things! 😉';
+
+  @override
+  String get dashboardRateOurAppActionTitle => 'Rate app';
+
+  @override
+  String get dashboardRateOurAppText =>
+      'We would be incredibly grateful if you could leave us a rating in the App/Play Store 🐵';
+
+  @override
+  String get dashboardRateOurAppTitle => 'Do you like Sharezone?';
+
+  @override
+  String get dashboardSchoolIsOver => 'Finally, school is over! 😍';
+
+  @override
   String get dashboardSelectStateButton => 'Select state / canton';
+
+  @override
+  String get dashboardUnreadBlackboardTitle => 'Unread notices';
+
+  @override
+  String dashboardUnreadBlackboardTitleWithCount(int count) {
+    return 'Unread notices ($count)';
+  }
+
+  @override
+  String get dashboardUpcomingEventsTitle => 'Upcoming events';
+
+  @override
+  String dashboardUpcomingEventsTitleWithCount(int count) {
+    return 'Upcoming events ($count)';
+  }
+
+  @override
+  String get dashboardUrgentHomeworkTitle => 'Urgent homework';
+
+  @override
+  String dashboardUrgentHomeworkTitleWithCount(int count) {
+    return 'Urgent homework ($count)';
+  }
 
   @override
   String get dateWeekTypeA => 'Week A';
@@ -480,6 +1283,82 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get dateYesterday => 'Yesterday';
 
   @override
+  String get deleteAccountConfirmationCheckbox =>
+      'Ja, ich möchte mein Konto löschen.';
+
+  @override
+  String downloadAppTipActionText(String platform) {
+    return 'Download for $platform';
+  }
+
+  @override
+  String downloadAppTipDescription(String platform) {
+    return 'Install Sharezone as a $platform app. It runs more stable and faster than the web app.';
+  }
+
+  @override
+  String downloadAppTipTitle(String platform) {
+    return 'Download for $platform';
+  }
+
+  @override
+  String get drawerAboutTooltip => 'About us';
+
+  @override
+  String get drawerNavigationTooltip => 'Navigation';
+
+  @override
+  String get drawerOpenSemanticsLabel => 'Open navigation';
+
+  @override
+  String get drawerProfileTooltip => 'Profile';
+
+  @override
+  String dynamicLinksNewLinkNotification(Object link) {
+    return 'New dynamic link:\n$link';
+  }
+
+  @override
+  String feedbackBoxCooldownError(Object coolDown) {
+    return 'Error! Your cool down ($coolDown) has not expired yet.';
+  }
+
+  @override
+  String get feedbackBoxDislikeLabel => 'What do you dislike?';
+
+  @override
+  String get feedbackBoxEmptyError => 'Please enter some text 😉';
+
+  @override
+  String get feedbackBoxGeneralRatingLabel => 'Overall rating:';
+
+  @override
+  String get feedbackBoxGenericError =>
+      'Error! Please try again or send us your feedback by email. :)';
+
+  @override
+  String get feedbackBoxHeardFromLabel => 'How did you hear about Sharezone?';
+
+  @override
+  String get feedbackBoxLikeMostLabel => 'What do you like most?';
+
+  @override
+  String get feedbackBoxMissingLabel => 'What is still missing?';
+
+  @override
+  String get feedbackBoxPageTitle => 'Feedback box';
+
+  @override
+  String get feedbackBoxSubmitUppercase => 'SUBMIT';
+
+  @override
+  String get feedbackBoxWhyWeNeedFeedbackDescription =>
+      'We want to build the best app for organizing school life! To make that happen, we need you! Just fill in the form and send it.\n\nAll questions are optional, of course.';
+
+  @override
+  String get feedbackBoxWhyWeNeedFeedbackTitle => 'Why we need your feedback:';
+
+  @override
   String get feedbackDetailsCommentsTitle => 'Comments:';
 
   @override
@@ -500,10 +1379,1373 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   }
 
   @override
+  String get feedbackHistoryPageEmpty => 'You haven\'t sent feedback yet 😢';
+
+  @override
+  String get feedbackHistoryPageTitle => 'My feedback';
+
+  @override
   String get feedbackNewLineHint => 'Shift + Enter for a new line';
 
   @override
   String get feedbackSendTooltip => 'Send (Enter)';
+
+  @override
+  String get feedbackThankYouRatePromptPrefix =>
+      'Do you like our app? Then we\'d love a rating in the ';
+
+  @override
+  String get feedbackThankYouRatePromptSuffix => ' we\'d be thrilled! 😄';
+
+  @override
+  String get feedbackThankYouTitle => 'Thank you for your feedback!';
+
+  @override
+  String get fileSharingCourseFoldersHeadline => 'Course folders';
+
+  @override
+  String fileSharingDeleteFolderDescription(Object value) {
+    return 'Do you really want to delete the folder named \"$value\"?';
+  }
+
+  @override
+  String get fileSharingDeleteFolderTitle => 'Delete folder?';
+
+  @override
+  String fileSharingDownloadError(Object value) {
+    return 'Error: $value';
+  }
+
+  @override
+  String get fileSharingDownloadingFileMessage => 'File is downloading...';
+
+  @override
+  String get fileSharingFabCameraTitle => 'Camera';
+
+  @override
+  String get fileSharingFabCameraTooltip => 'Open camera';
+
+  @override
+  String get fileSharingFabCreateFolderTitle => 'Create folder';
+
+  @override
+  String get fileSharingFabCreateFolderTooltip => 'Create new folder';
+
+  @override
+  String get fileSharingFabCreateNewTitle => 'Create new';
+
+  @override
+  String get fileSharingFabCreateNewTooltip => 'Create new';
+
+  @override
+  String get fileSharingFabFilesTitle => 'Files';
+
+  @override
+  String get fileSharingFabFilesTooltip => 'Files';
+
+  @override
+  String get fileSharingFabFolderNameHint => 'Folder name';
+
+  @override
+  String get fileSharingFabFolderTitle => 'Folder';
+
+  @override
+  String get fileSharingFabImagesTitle => 'Images';
+
+  @override
+  String get fileSharingFabImagesTooltip => 'Images';
+
+  @override
+  String get fileSharingFabMissingCameraPermission =>
+      'Oh! Camera permission is missing!';
+
+  @override
+  String get fileSharingFabUploadTitle => 'Upload';
+
+  @override
+  String get fileSharingFabUploadTooltip => 'Upload new file';
+
+  @override
+  String get fileSharingFabVideosTitle => 'Videos';
+
+  @override
+  String get fileSharingFabVideosTooltip => 'Videos';
+
+  @override
+  String get fileSharingFoldersHeadline => 'Folders';
+
+  @override
+  String get fileSharingMoveEmptyFoldersMessage =>
+      'There are no other folders here... Navigate between folders using the bar at the top.';
+
+  @override
+  String get fileSharingNewNameHint => 'New name';
+
+  @override
+  String get fileSharingNoCourseFoldersFoundDescription =>
+      'No folders were found because you haven\'t joined any courses yet. Just join a course or create your own course.';
+
+  @override
+  String get fileSharingNoFilesFoundDescription =>
+      'Just upload a file now to share it with your course 👍';
+
+  @override
+  String get fileSharingNoFilesFoundTitle => 'No files found 😶';
+
+  @override
+  String get fileSharingNoFoldersFoundTitle => 'No folders found! 😬';
+
+  @override
+  String get fileSharingPageHeaderTitleOverview => 'Course folder';
+
+  @override
+  String get fileSharingPreparingDownloadMessage =>
+      'The file is being beamed to your device...';
+
+  @override
+  String get fileSharingRenameActionUppercase => 'RENAME';
+
+  @override
+  String get fileSharingRenameFolderTitle => 'Rename folder';
+
+  @override
+  String get filesAddAttachment => 'Add attachment';
+
+  @override
+  String filesCreator(Object value) {
+    return 'by $value';
+  }
+
+  @override
+  String filesDeleteDialogDescription(String fileName) {
+    return 'Do you really want to delete the file named \"$fileName\"?';
+  }
+
+  @override
+  String get filesDeleteDialogTitle => 'Delete file?';
+
+  @override
+  String get filesDisplayErrorTitle => 'Display error';
+
+  @override
+  String get filesDownloadBrokenFileError =>
+      'The file is corrupted and cannot be downloaded.';
+
+  @override
+  String get filesDownloadStarted => 'Download started...';
+
+  @override
+  String get filesLoading => 'Loading...';
+
+  @override
+  String get filesMoveAcrossCoursesNotSupported =>
+      'Moving to another course is currently not supported.';
+
+  @override
+  String filesMoveTo(Object value) {
+    return 'Move to $value';
+  }
+
+  @override
+  String get filesMoveUppercase => 'MOVE';
+
+  @override
+  String get filesNoCourseMembershipHint =>
+      'You are not a member of any course yet 😔\nCreate or join a course 😃';
+
+  @override
+  String get filesPrivateVisibleOnlyToYou => 'Private (visible only to you)';
+
+  @override
+  String get filesRenameDialogHint => 'New name';
+
+  @override
+  String get filesRenameDialogTitle => 'Rename file';
+
+  @override
+  String get filesSelectCourseTitle => 'Select a course';
+
+  @override
+  String filesSizeMegabytes(String size) {
+    return 'Size: $size MB';
+  }
+
+  @override
+  String filesUploadError(Object error) {
+    return 'An error occurred: $error';
+  }
+
+  @override
+  String filesUploadProgress(Object progress) {
+    return 'Uploading file to server: $progress/100';
+  }
+
+  @override
+  String filesUploadedOn(String date) {
+    return 'Uploaded on: $date';
+  }
+
+  @override
+  String get gradesCommonName => 'Name';
+
+  @override
+  String get gradesCreateTermCurrentTerm => 'Current term';
+
+  @override
+  String get gradesCreateTermGradingSystemInfo =>
+      'Only grades that use the grading system selected for the term can be included in the term average. For example, if the term uses \"1 - 6\" and you enter a grade using \"15 - 0\", that grade cannot be included in the term average.';
+
+  @override
+  String get gradesCreateTermInvalidNameError => 'Please enter a valid name.';
+
+  @override
+  String gradesCreateTermSaveFailedError(Object error) {
+    return 'The term could not be saved: $error';
+  }
+
+  @override
+  String get gradesCreateTermSaved => 'Term saved.';
+
+  @override
+  String get gradesDetailsDeletePrompt =>
+      'Do you really want to delete this grade?';
+
+  @override
+  String get gradesDetailsDeleteTitle => 'Delete grade';
+
+  @override
+  String get gradesDetailsDeleteTooltip => 'Delete grade';
+
+  @override
+  String get gradesDetailsDeleted => 'Grade deleted.';
+
+  @override
+  String get gradesDetailsDummyDetails => 'This is a test grade for algebra.';
+
+  @override
+  String get gradesDetailsDummyTopic => 'Algebra';
+
+  @override
+  String get gradesDetailsEditTooltip => 'Edit grade';
+
+  @override
+  String get gradesDialogCreateTerm => 'Create term';
+
+  @override
+  String get gradesDialogCustomGradeType => 'Custom grade type';
+
+  @override
+  String get gradesDialogDateHelpDescription =>
+      'The date is the day you received the grade. If you don\'t remember it exactly, you can enter an approximate date.';
+
+  @override
+  String get gradesDialogDateHelpTitle => 'What is the date for?';
+
+  @override
+  String get gradesDialogDifferentGradingSystemInfo =>
+      'The grading system you selected is different from your term\'s grading system. You can still save the grade, but it will not be included in the term average.';
+
+  @override
+  String get gradesDialogEditSubjectDescription =>
+      'You cannot change the subject of an already created grade.\n\nDelete this grade and create it again to choose another subject.';
+
+  @override
+  String get gradesDialogEditSubjectTitle => 'Change subject';
+
+  @override
+  String get gradesDialogEditTermDescription =>
+      'You cannot change the term of an already created grade.\n\nDelete this grade and create it again to choose another term.';
+
+  @override
+  String get gradesDialogEditTermTitle => 'Change term';
+
+  @override
+  String get gradesDialogEnterGradeError => 'Please enter a grade.';
+
+  @override
+  String get gradesDialogEnterTitleError => 'Please enter a title.';
+
+  @override
+  String get gradesDialogGoToSharezonePlus => 'Go to Sharezone Plus';
+
+  @override
+  String get gradesDialogGradeInvalid => 'The grade is invalid.';
+
+  @override
+  String get gradesDialogGradeIsInvalidError =>
+      'The input is not a valid number.';
+
+  @override
+  String get gradesDialogGradeIsOutOfRangeError =>
+      'The grade is outside the valid range.';
+
+  @override
+  String get gradesDialogGradeLabel => 'Grade';
+
+  @override
+  String get gradesDialogGradeTypeLabel => 'Grade type';
+
+  @override
+  String get gradesDialogGradingSystemLabel => 'Grading system';
+
+  @override
+  String get gradesDialogHintFifteenZero => 'e.g. 15.0';
+
+  @override
+  String get gradesDialogHintOnePlus => 'e.g. 1+';
+
+  @override
+  String get gradesDialogHintOneThree => 'e.g. 1.3';
+
+  @override
+  String get gradesDialogHintSeventyEightEight => 'e.g. 78.8';
+
+  @override
+  String get gradesDialogHintSixZero => 'e.g. 6.0';
+
+  @override
+  String get gradesDialogIncludeGradeInAverage => 'Include grade in average';
+
+  @override
+  String gradesDialogInvalidFieldsCombined(Object fieldMessages) {
+    return 'The following fields are missing or invalid: $fieldMessages.';
+  }
+
+  @override
+  String get gradesDialogInvalidGradeField =>
+      'The grade is missing or invalid.';
+
+  @override
+  String get gradesDialogInvalidSubjectField =>
+      'Please select a subject for the grade.';
+
+  @override
+  String get gradesDialogInvalidTermField =>
+      'Please select a term for the grade.';
+
+  @override
+  String get gradesDialogInvalidTitleField =>
+      'The title is missing or invalid.';
+
+  @override
+  String get gradesDialogNoGradeSelected => 'No grade selected';
+
+  @override
+  String get gradesDialogNoSubjectSelected => 'No subject selected';
+
+  @override
+  String get gradesDialogNoTermSelected => 'No term selected';
+
+  @override
+  String get gradesDialogNoTermsYetInfo =>
+      'You haven\'t created any terms yet. Please create a term to add a grade.';
+
+  @override
+  String get gradesDialogNotesLabel => 'Notes';
+
+  @override
+  String get gradesDialogPlusSubjectsLimitInfo =>
+      'You can use at most 3 subjects while testing the grades feature. Buy Sharezone Plus to use all subjects.';
+
+  @override
+  String get gradesDialogRequestAdditionalGradingSystem =>
+      'Request another grading system';
+
+  @override
+  String get gradesDialogRequestAdditionalGradingSystemSubtitle =>
+      'Missing a grading system? Tell us which one you\'d like to use!';
+
+  @override
+  String get gradesDialogSavedSnackBar => 'Grade saved';
+
+  @override
+  String get gradesDialogSelectGrade => 'Select grade';
+
+  @override
+  String get gradesDialogSelectGradeType => 'Select grade type';
+
+  @override
+  String get gradesDialogSelectGradingSystem => 'Select grading system';
+
+  @override
+  String get gradesDialogSelectGradingSystemHint =>
+      'The first value is the best grade. For example, in \"1 - 6\", \"1\" is the best grade.';
+
+  @override
+  String get gradesDialogSelectSubject => 'Select subject';
+
+  @override
+  String get gradesDialogSelectTerm => 'Select term';
+
+  @override
+  String get gradesDialogSubjectLabel => 'Subject';
+
+  @override
+  String get gradesDialogTermLabel => 'Term';
+
+  @override
+  String get gradesDialogTitleHelpDescription =>
+      'If the grade belongs to an exam, you can enter the topic/title to identify it more easily later.';
+
+  @override
+  String get gradesDialogTitleHelpTitle => 'What is the title for?';
+
+  @override
+  String get gradesDialogTitleHint => 'e.g. Linear functions';
+
+  @override
+  String get gradesDialogTitleLabel => 'Title';
+
+  @override
+  String get gradesDialogUnknownCustomGradeType => 'Unknown/Custom grade type';
+
+  @override
+  String gradesDialogUnknownError(Object error) {
+    return 'Unknown error: $error';
+  }
+
+  @override
+  String get gradesDialogZeroWeightGradeTypeInfo =>
+      'The selected grade type currently has a weight of 0. You can still save the grade, but it won\'t affect the subject average. You can adjust the weight in the subject or term settings after saving.';
+
+  @override
+  String get gradesFinalGradeTypeHelpDialogText =>
+      'The final grade is the grade you ultimately receive in a subject, for example on your report card. Sometimes teachers consider additional factors that differ from the default formula (e.g. 50% exams and 50% oral participation). In those cases, you can overwrite Sharezone\'s calculated grade with the final one.\n\nYou can define this for all subjects in a term or customize it per subject.';
+
+  @override
+  String get gradesFinalGradeTypeHelpDialogTitle =>
+      'What is a subject\'s final grade?';
+
+  @override
+  String get gradesFinalGradeTypeHelpTooltip => 'What is the final grade?';
+
+  @override
+  String get gradesFinalGradeTypeSubtitle =>
+      'The calculated subject grade can be overridden by a grade type.';
+
+  @override
+  String get gradesFinalGradeTypeTitle => 'Subject final grade';
+
+  @override
+  String get gradesPageAddGrade => 'Add grade';
+
+  @override
+  String get gradesPageCurrentGradesLabel => 'Current grades';
+
+  @override
+  String get gradesPagePastTermTitle => 'Past term';
+
+  @override
+  String get gradesSettingsPageTitle => 'Grade settings';
+
+  @override
+  String get gradesSettingsSubjectsSubtitle =>
+      'Manage subjects and linked courses';
+
+  @override
+  String get gradesSettingsSubjectsTitle => 'Subjects';
+
+  @override
+  String gradesSubjectSettingsPageTitle(Object subjectDisplayName) {
+    return 'Settings: $subjectDisplayName';
+  }
+
+  @override
+  String get gradesSubjectsPageCourseNotAssigned =>
+      'This course is not assigned to a grade subject yet.';
+
+  @override
+  String gradesSubjectsPageCoursesLabel(Object courseNames) {
+    return 'Courses: $courseNames';
+  }
+
+  @override
+  String get gradesSubjectsPageCoursesWithoutSubject =>
+      'Courses without grade subject';
+
+  @override
+  String get gradesSubjectsPageDeleteDescription =>
+      'Deleting will permanently remove all related grades.';
+
+  @override
+  String gradesSubjectsPageDeleteFailure(Object error) {
+    return 'Subject could not be deleted: $error';
+  }
+
+  @override
+  String get gradesSubjectsPageDeleteSuccess =>
+      'Subject and related grades deleted.';
+
+  @override
+  String gradesSubjectsPageDeleteTitle(Object subjectName) {
+    return 'Delete $subjectName';
+  }
+
+  @override
+  String get gradesSubjectsPageDeleteTooltip => 'Delete subject';
+
+  @override
+  String get gradesSubjectsPageGradeSubjects => 'Grade subjects';
+
+  @override
+  String get gradesSubjectsPageInfoBody =>
+      'In Sharezone, all content (like homework or exams) belongs to a course. Your grades, however, are stored in grade subjects, not courses. That way, your grades stay available even if you leave a course.\n\nAnother advantage: you can sort grades by subject and later track your progress in a subject across multiple years (feature coming soon).\n\nSharezone automatically creates a grade subject as soon as you create a grade in a course.';
+
+  @override
+  String get gradesSubjectsPageInfoHeader => 'Grade subjects vs courses';
+
+  @override
+  String gradesSubjectsPageMultipleGrades(Object count) {
+    return '$count grades';
+  }
+
+  @override
+  String get gradesSubjectsPageNoGrades => 'No grades';
+
+  @override
+  String get gradesSubjectsPageNoGradesRecorded =>
+      'No grades have been recorded for this subject yet.';
+
+  @override
+  String get gradesSubjectsPageSingleGrade => '1 grade';
+
+  @override
+  String get gradesTermDetailsDeleteDescription =>
+      'Do you really want to delete this term including all grades?\n\nThis action cannot be undone.';
+
+  @override
+  String get gradesTermDetailsDeleteTitle => 'Delete term';
+
+  @override
+  String get gradesTermDetailsDeleteTooltip => 'Delete term';
+
+  @override
+  String get gradesTermDetailsEditSubjectTooltip => 'Edit subject grade';
+
+  @override
+  String get gradesTermDetailsPageTitle => 'Term details';
+
+  @override
+  String get gradesTermDialogNameLabel => 'Term name';
+
+  @override
+  String get gradesTermSettingsCourseWeightingDescription =>
+      'If some courses should count double, you can set their weight to 2.0.';
+
+  @override
+  String get gradesTermSettingsCourseWeightingTitle =>
+      'Course weighting for term average';
+
+  @override
+  String get gradesTermSettingsEditNameDescription =>
+      'The name describes the term, e.g. \'10/2\' for the second term of grade 10.';
+
+  @override
+  String get gradesTermSettingsEditNameTitle => 'Rename';
+
+  @override
+  String get gradesTermSettingsEditWeightDescription =>
+      'The weight defines how strongly the course grade affects the term average.';
+
+  @override
+  String get gradesTermSettingsEditWeightTitle => 'Edit weight';
+
+  @override
+  String get gradesTermSettingsNameHint => 'e.g. 10/2';
+
+  @override
+  String get gradesTermSettingsNameRequired => 'Please enter a name.';
+
+  @override
+  String get gradesTermSettingsNoSubjectsYet =>
+      'You haven\'t created any subjects yet.';
+
+  @override
+  String gradesTermSettingsTitle(Object name) {
+    return 'Settings: $name';
+  }
+
+  @override
+  String get gradesTermSettingsWeightDisplayTypeFactor => 'Factor';
+
+  @override
+  String get gradesTermSettingsWeightDisplayTypePercent => 'Percent';
+
+  @override
+  String get gradesTermSettingsWeightDisplayTypeTitle => 'Weighting system';
+
+  @override
+  String get gradesTermSettingsWeightHint => 'e.g. 1.0';
+
+  @override
+  String get gradesTermSettingsWeightInvalid => 'Please enter a number.';
+
+  @override
+  String get gradesTermSettingsWeightLabel => 'Weight';
+
+  @override
+  String get gradesTermTileEditTooltip => 'Edit average';
+
+  @override
+  String get gradesWeightSettingsAddWeight => 'Add new weight';
+
+  @override
+  String get gradesWeightSettingsHelpDialogText =>
+      'In Sharezone, you can define exactly how each subject grade is calculated by setting weights for each grade type. For example, you can configure the final grade to be 50% written exams and 50% oral participation.\n\nThis flexibility helps you model your school\'s grading rules accurately.';
+
+  @override
+  String get gradesWeightSettingsHelpDialogTitle =>
+      'How is the subject grade calculated?';
+
+  @override
+  String get gradesWeightSettingsHelpTooltip => 'How is the grade calculated?';
+
+  @override
+  String get gradesWeightSettingsInvalidWeightInput =>
+      'Please enter a valid number (>= 0).';
+
+  @override
+  String get gradesWeightSettingsPercentHint => 'e.g. 56.5';
+
+  @override
+  String get gradesWeightSettingsPercentLabel => 'Weight in %';
+
+  @override
+  String get gradesWeightSettingsRemoveTooltip => 'Remove';
+
+  @override
+  String get gradesWeightSettingsSubtitle =>
+      'Define grade type weights for calculating the subject grade.';
+
+  @override
+  String get gradesWeightSettingsTitle => 'Subject grade calculation';
+
+  @override
+  String get gradingDialogFieldsGradeValue => 'Grade';
+
+  @override
+  String get gradingDialogFieldsSubject => 'Subject';
+
+  @override
+  String get gradingDialogFieldsTerm => 'Term';
+
+  @override
+  String get gradingDialogFieldsTitle => 'Title';
+
+  @override
+  String get gradingSystemAustrianBehaviouralGrades =>
+      'Austrian behavioural grades';
+
+  @override
+  String get gradingSystemOneToFiveWithDecimals => '1 - 5 (with decimals)';
+
+  @override
+  String get gradingSystemOneToSixWithDecimals => '1 - 6 (with decimals)';
+
+  @override
+  String get gradingSystemOneToSixWithPlusAndMinus => '1 - 6 (+-)';
+
+  @override
+  String get gradingSystemSixToOneWithDecimals => '6 - 1 (with decimals)';
+
+  @override
+  String get gradingSystemZeroToFifteenPoints => '15 - 0 points';
+
+  @override
+  String get gradingSystemZeroToFifteenPointsWithDecimals =>
+      '15 - 0 points (with decimals)';
+
+  @override
+  String get gradingSystemZeroToHundredPercentWithDecimals =>
+      '100% - 0% (with decimals)';
+
+  @override
+  String get groupCourseDetailsLoadError =>
+      'Es gab einen Fehler beim Laden des Kurses.\n\nMöglicherweise bist du nicht mehr ein Teilnehmer dieses Kurses.';
+
+  @override
+  String get groupDesignSelectBaseColorTitle => 'Grundfarbe auswählen';
+
+  @override
+  String get groupHelpDifferenceDescription =>
+      'Course: Represents a school subject.\n\nSchool class: Consists of multiple courses and allows joining all of them with one sharecode.\n\nGroup: The umbrella term for a course and a school class.';
+
+  @override
+  String get groupHelpDifferenceTitle =>
+      'What is the difference between a group, a course and a school class?';
+
+  @override
+  String get groupHelpHowToJoinOverview =>
+      'There are two ways to join a group from classmates or teachers:\n\n1. Scan sharecode via QR code\n2. Enter the sharecode manually';
+
+  @override
+  String get groupHelpHowToJoinTitle => 'How do I join a group?';
+
+  @override
+  String get groupHelpRolesDescription =>
+      'Administrator:\nAn admin manages a group. This means they can edit, delete and remove members. They can also configure all other group settings, such as enabling/disabling joining.\n\nActive member:\nAn active member can create and edit content in a group, such as homework, events and lessons. They have read and write permissions.\n\nPassive member:\nA passive member only has read permissions. No content may be created or edited.';
+
+  @override
+  String get groupHelpRolesTitle =>
+      'Group roles explained: passive member, active member, administrator';
+
+  @override
+  String get groupHelpScanQrCodeDescription =>
+      '1. A person already in the course opens the desired course from the \"Group\" page.\n2. That person taps \"Show QR code\".\n3. A sheet with a QR code opens.\n4. The person who wants to join taps the red button on the \"Groups\" page.\n5. Then they choose \"Join course/class\".\n6. A window opens - the user taps the blue graphic to scan the QR code.\n7. Finally, point the camera at the other person\'s QR code.';
+
+  @override
+  String get groupHelpScanQrCodeTitle => 'Scan sharecode with a QR code';
+
+  @override
+  String get groupHelpTitle => 'Help: Groups';
+
+  @override
+  String get groupHelpTypeSharecodeDescription =>
+      '1. A person already in the course opens the desired course from the \"Groups\" page.\n2. The sharecode is shown right below the course name.\n3. The person who wants to join taps the red button on the \"Groups\" page.\n4. Then they choose \"Join course/class\".\n5. A window opens - now just type in the sharecode from the other person.';
+
+  @override
+  String get groupHelpTypeSharecodeTitle => 'Enter sharecode manually';
+
+  @override
+  String get groupHelpWhatIsSharecodeDescription =>
+      'The sharecode is an access key for a course. Classmates and teachers can use it to join the course.\n\nThanks to the sharecode, members do not need to exchange personal data such as email addresses or private phone numbers - unlike many WhatsApp groups or most email distribution lists.\n\nA course member only sees the name (can also be a pseudonym) of other course members.';
+
+  @override
+  String get groupHelpWhatIsSharecodeTitle => 'What is a sharecode?';
+
+  @override
+  String get groupHelpWhyDifferentSharecodesDescription =>
+      'Every course participant has an individual sharecode.\n\nThis makes it possible to track which user invited whom.\n\nThanks to this feature, referrals can be counted even without using a referral link.';
+
+  @override
+  String get groupHelpWhyDifferentSharecodesTitle =>
+      'Why does each participant in a group have a different sharecode?';
+
+  @override
+  String get groupJoinCourseSelectionParentHint =>
+      'If your child takes electives (e.g. French), you should deselect these courses.';
+
+  @override
+  String get groupJoinCourseSelectionStudentHint =>
+      'If you take electives (e.g. French), you should deselect these courses.';
+
+  @override
+  String get groupJoinCourseSelectionTeacherHint =>
+      'Select the courses you teach.';
+
+  @override
+  String groupJoinCourseSelectionTitle(String groupName) {
+    return 'Courses to join from $groupName';
+  }
+
+  @override
+  String get groupJoinErrorAlreadyMemberDescription =>
+      'You are already a member of this group, so you do not need to join it again.';
+
+  @override
+  String get groupJoinErrorAlreadyMemberTitle =>
+      'An error occurred: Already a member 🤨';
+
+  @override
+  String get groupJoinErrorNoInternetDescription =>
+      'We could not try to join the group because no internet connection could be established. Please check your Wi-Fi or mobile data.';
+
+  @override
+  String get groupJoinErrorNoInternetTitle =>
+      'An error occurred: No internet connection ☠️';
+
+  @override
+  String get groupJoinErrorNotPublicDescription =>
+      'The group currently does not allow joining. This is disabled in the group settings. Please contact an admin of this group.';
+
+  @override
+  String get groupJoinErrorNotPublicTitle =>
+      'An error occurred: Joining forbidden ⛔️';
+
+  @override
+  String get groupJoinErrorSharecodeNotFoundDescription =>
+      'We could not find the entered sharecode. Please check upper/lower case and whether the sharecode is still valid.';
+
+  @override
+  String get groupJoinErrorSharecodeNotFoundTitle =>
+      'An error occurred: Sharecode not found ❌';
+
+  @override
+  String get groupJoinErrorUnknownDescription =>
+      'This might be due to your internet connection. Please check it.';
+
+  @override
+  String get groupJoinErrorUnknownTitle => 'An unknown error occurred 😭';
+
+  @override
+  String groupJoinPasteSharecodeDescription(String sharecode) {
+    return 'Do you want to use the sharecode \"$sharecode\" from your clipboard?';
+  }
+
+  @override
+  String get groupJoinPasteSharecodeTitle => 'Paste sharecode';
+
+  @override
+  String get groupJoinRequireCourseSelectionDescription =>
+      'To join, you need to select the courses you are in.';
+
+  @override
+  String groupJoinRequireCourseSelectionTitle(String groupName) {
+    return 'Class found: $groupName';
+  }
+
+  @override
+  String get groupJoinResultJoinMoreAction => 'Join more';
+
+  @override
+  String get groupJoinResultRetryAction => 'Try again';
+
+  @override
+  String get groupJoinResultSelectCoursesAction => 'Select courses';
+
+  @override
+  String get groupJoinScanQrCodeDescription =>
+      'Scan a QR code to join a group.';
+
+  @override
+  String get groupJoinScanQrCodeTooltip => 'Scan QR code';
+
+  @override
+  String get groupJoinSharecodeHint => 'e.g. Qb32vF';
+
+  @override
+  String get groupJoinSharecodeLabel => 'Sharecode';
+
+  @override
+  String groupJoinSuccessDescription(String groupName) {
+    return '$groupName was added successfully. You are now a member.';
+  }
+
+  @override
+  String get groupJoinSuccessTitle => 'Joined successfully 🎉';
+
+  @override
+  String get groupOnboardingChooseNameTitle =>
+      'Welcher Name soll anderen Schülern, Lehrkräften und Eltern angezeigt werden?';
+
+  @override
+  String get groupOnboardingCreateCoursesTitleOther =>
+      'Which courses should be linked to the class?';
+
+  @override
+  String get groupOnboardingCreateCoursesTitleTeacher =>
+      'Which courses do you teach?';
+
+  @override
+  String get groupOnboardingCreateNewGroupsAction =>
+      'No, I\'d like to create new groups';
+
+  @override
+  String get groupOnboardingCreateSchoolClassTitleParent =>
+      'Wie heißt die Klasse deines Kindes?';
+
+  @override
+  String get groupOnboardingCreateSchoolClassTitleStudent =>
+      'Wie heißt deine Klasse / Stufe?';
+
+  @override
+  String get groupOnboardingCreateSchoolClassTitleTeacher =>
+      'Wie heißt die Klasse?';
+
+  @override
+  String get groupOnboardingFirstPersonHint =>
+      'If a classmate already uses Sharezone, they can give you a share code so you can join their class.';
+
+  @override
+  String get groupOnboardingFirstPersonParentTitle =>
+      'Have groups already been created by students or teachers?';
+
+  @override
+  String get groupOnboardingFirstPersonStudentTitle =>
+      'Have classmates or your teacher already created a course, class, or grade level? 💪';
+
+  @override
+  String get groupOnboardingFirstPersonTeacherTitle =>
+      'Have groups already been created by someone else? 💪';
+
+  @override
+  String get groupOnboardingIsClassTeacherCreateClassAction =>
+      'Yes, I\'d like to create a class';
+
+  @override
+  String get groupOnboardingIsClassTeacherCreateCoursesOnlyAction =>
+      'No, I\'d like to create courses only';
+
+  @override
+  String get groupOnboardingIsClassTeacherTitle =>
+      'Do you lead a class? (class teacher)';
+
+  @override
+  String get groupOnboardingJoinMultipleGroupsAction =>
+      'Yes, I\'d like to join these groups';
+
+  @override
+  String get groupOnboardingJoinSingleGroupAction =>
+      'Yes, I\'d like to join this group';
+
+  @override
+  String get groupOnboardingSchoolClassHint => 'e.g. 10A';
+
+  @override
+  String get groupOnboardingSharecodeGroupTypeCourse => 'des Kurses';
+
+  @override
+  String get groupOnboardingSharecodeGroupTypeSchoolClass => 'der Schulklasse';
+
+  @override
+  String get groupOnboardingSharecodeInviteClassmatesAndTeacher =>
+      'Lade jetzt deine Mitschüler und deinen Lehrer / deine Lehrerin ein!';
+
+  @override
+  String get groupOnboardingSharecodeInviteMixed =>
+      'Lade jetzt andere Schüler, Eltern oder Lehrkräfte ein!';
+
+  @override
+  String get groupOnboardingSharecodeInviteStudents =>
+      'Lade jetzt deine Schüler und Schülerinnen ein!';
+
+  @override
+  String get groupOnboardingSharecodeJoinHint =>
+      'Mitschüler, Lehrer und Eltern können über den Sharecode der Klasse beitreten. Dadurch können Infozettel, Hausausgaben, Termine, Dateien und der Stundenplan gemeinsam organisiert werden.';
+
+  @override
+  String groupOnboardingSharecodeJoinLabel(String groupName, String groupType) {
+    return 'Zum Beitreten $groupType ($groupName):';
+  }
+
+  @override
+  String get groupParticipantsEmpty =>
+      'There are no participants in this group 😭';
+
+  @override
+  String get groupShareActionCopy => 'copy';
+
+  @override
+  String get groupShareActionShare => 'share';
+
+  @override
+  String get groupShareInviteDescription =>
+      'Simply send the join link via any app or show the QR code so your classmates and teachers can scan it 👍🚀';
+
+  @override
+  String get groupShareInviteTargetClass => 'this class';
+
+  @override
+  String get groupShareInviteTargetGroup => 'this group';
+
+  @override
+  String groupShareInviteTitle(String target) {
+    return 'Invite your classmates & teachers to $target!';
+  }
+
+  @override
+  String get groupShareLinkButtonTitle => 'Link';
+
+  @override
+  String get groupShareSharecodeButtonTitle => 'Sharecode';
+
+  @override
+  String get groupsAllowJoinTitle => 'Allow joining';
+
+  @override
+  String get groupsContactSupportLinkText => 'Support';
+
+  @override
+  String get groupsContactSupportPrefix => 'Need help? Just contact our ';
+
+  @override
+  String get groupsContactSupportSuffix => ' 😉';
+
+  @override
+  String get groupsCreateCourseDescription =>
+      'Think of a course as a school subject. Each subject is represented by one course.';
+
+  @override
+  String get groupsCreateSchoolClassDescription =>
+      'A school class consists of multiple courses. When joining the class, members automatically join all linked courses.';
+
+  @override
+  String get groupsEmptyTitle => 'You have not joined any course or class yet!';
+
+  @override
+  String get groupsFabJoinOrCreateTooltip => 'Join/create group';
+
+  @override
+  String get groupsInviteParticipants => 'Invite participants';
+
+  @override
+  String get groupsJoinCourseOrClassDescription =>
+      'If one of your classmates already created a class or course, you can simply join it.';
+
+  @override
+  String get groupsJoinCourseOrClassTitle => 'Join course/class';
+
+  @override
+  String get groupsJoinTitle => 'Join';
+
+  @override
+  String get groupsLinkCopied => 'Link copied';
+
+  @override
+  String groupsMemberCount(Object value) {
+    return 'Number of participants: $value';
+  }
+
+  @override
+  String get groupsMemberOptionsNoAdminRightsHint =>
+      'Since you are not an admin, you do not have permission to manage other members.';
+
+  @override
+  String get groupsMemberYou => 'You';
+
+  @override
+  String get groupsMembersActiveMemberTitle =>
+      'Active member (read and write access)';
+
+  @override
+  String get groupsMembersAdminsTitle => 'Administrators';
+
+  @override
+  String get groupsMembersLegendTitle => 'Legend';
+
+  @override
+  String get groupsMembersPassiveMemberTitle =>
+      'Passive member (read-only access)';
+
+  @override
+  String get groupsPageMyCourses => 'My courses:';
+
+  @override
+  String get groupsPageMySchoolClass => 'My class:';
+
+  @override
+  String get groupsPageMySchoolClasses => 'My classes:';
+
+  @override
+  String get groupsPageTitle => 'Groups';
+
+  @override
+  String get groupsQrCodeHelpText =>
+      'What do I need to do?\nNow your classmate or teacher needs to scan the QR code by clicking \"Join Course\" on the \"My Courses\" page.';
+
+  @override
+  String get groupsQrCodeSubtitle => 'show';
+
+  @override
+  String get groupsQrCodeTitle => 'QR code';
+
+  @override
+  String get groupsRoleActiveMemberDescription => 'Read and write permissions';
+
+  @override
+  String get groupsRoleAdminDescription =>
+      'Read and write permissions & administration';
+
+  @override
+  String get groupsRoleReadOnlyDescription => 'Read permissions';
+
+  @override
+  String get groupsSharecodeCopied => 'Share code copied';
+
+  @override
+  String get groupsSharecodeCopiedToClipboard =>
+      'Sharecode copied to clipboard.';
+
+  @override
+  String get groupsSharecodeLoading => 'Loading sharecode...';
+
+  @override
+  String groupsSharecodeLowercaseCharacter(String character) {
+    return 'lowercase $character';
+  }
+
+  @override
+  String get groupsSharecodePrefix => 'Sharecode: ';
+
+  @override
+  String groupsSharecodeSemanticsLabel(String sharecode) {
+    return 'Sharecode: $sharecode';
+  }
+
+  @override
+  String groupsSharecodeText(String sharecode) {
+    return 'Sharecode: $sharecode';
+  }
+
+  @override
+  String groupsSharecodeUppercaseCharacter(String character) {
+    return 'uppercase $character';
+  }
+
+  @override
+  String get groupsWritePermissionsEveryoneDescription =>
+      'Everyone gets the role \"active member (read and write permissions)\"';
+
+  @override
+  String get groupsWritePermissionsExplanation =>
+      'Use this setting to control which user groups receive write permissions.';
+
+  @override
+  String get groupsWritePermissionsOnlyAdminsDescription =>
+      'Everyone except admins gets the role \"passive member (read-only permissions)\"';
+
+  @override
+  String get groupsWritePermissionsSheetQuestion =>
+      'Who is allowed to create or upload new entries, homework, files, etc.?';
+
+  @override
+  String get groupsWritePermissionsTitle => 'Write permissions';
+
+  @override
+  String get homeworkAddAction => 'Add homework';
+
+  @override
+  String get homeworkBottomBarMoreIdeas => 'More ideas?';
+
+  @override
+  String get homeworkCardViewCompletedByTooltip => 'Show \"Completed by\"';
+
+  @override
+  String get homeworkCardViewSubmissionsTooltip => 'Show submissions';
+
+  @override
+  String get homeworkCompletionPlusDescription =>
+      'Get Sharezone Plus to see who has already marked the homework as completed.';
+
+  @override
+  String get homeworkCompletionReadByTitle => 'Completed by';
+
+  @override
+  String get homeworkDeleteAttachmentsDialogDescription =>
+      'Should homework attachments be deleted from file storage or should only the link between them be removed?';
+
+  @override
+  String get homeworkDeleteAttachmentsDialogTitle => 'Delete attachments too?';
+
+  @override
+  String get homeworkDeleteAttachmentsUnlink => 'Unlink';
+
+  @override
+  String get homeworkDeleteScopeDialogDescription =>
+      'Should homework be deleted only for you or for the entire course?';
+
+  @override
+  String get homeworkDeleteScopeDialogTitle => 'Delete for everyone?';
+
+  @override
+  String get homeworkDeleteScopeOnlyMe => 'Only for me';
+
+  @override
+  String get homeworkDeleteScopeWholeCourse => 'For entire course';
+
+  @override
+  String get homeworkDetailsAdditionalInfo => 'Additional information';
+
+  @override
+  String homeworkDetailsAttachmentsCount(int count) {
+    return 'Attachments: $count';
+  }
+
+  @override
+  String get homeworkDetailsChangeAccountTypeContent =>
+      'If you want to submit homework, your account must be registered as a student. Support can convert your account to a student account so you can submit homework.';
+
+  @override
+  String get homeworkDetailsChangeAccountTypeEmailBody =>
+      'Dear Sharezone team, please change my account type to student.';
+
+  @override
+  String homeworkDetailsChangeAccountTypeEmailSubject(String uid) {
+    return 'Change account type to student [$uid]';
+  }
+
+  @override
+  String get homeworkDetailsChangeAccountTypeTitle => 'Change account type?';
+
+  @override
+  String get homeworkDetailsCourseTitle => 'Course';
+
+  @override
+  String get homeworkDetailsCreatedBy => 'Created by:';
+
+  @override
+  String homeworkDetailsDoneByStudentsCount(int count) {
+    return 'Done by $count students';
+  }
+
+  @override
+  String get homeworkDetailsMarkAsDone => 'Mark as done';
+
+  @override
+  String get homeworkDetailsMarkAsUndone => 'Mark as not done';
+
+  @override
+  String get homeworkDetailsMarkDoneAction => 'Mark done';
+
+  @override
+  String get homeworkDetailsMySubmission => 'My submission';
+
+  @override
+  String get homeworkDetailsNoPermissionTitle => 'No permission';
+
+  @override
+  String get homeworkDetailsNoSubmissionContent =>
+      'You haven\'t submitted anything yet. Do you really want to mark this homework as done without a submission?';
+
+  @override
+  String get homeworkDetailsNoSubmissionTitle => 'No submission yet';
+
+  @override
+  String get homeworkDetailsNoSubmissionYet => 'No submission yet';
+
+  @override
+  String get homeworkDetailsParentsCannotSubmit =>
+      'Parents cannot submit homework';
+
+  @override
+  String get homeworkDetailsPrivateSubtitle =>
+      'This homework is not shared with the course.';
+
+  @override
+  String get homeworkDetailsPrivateTitle => 'Private';
+
+  @override
+  String homeworkDetailsSubmissionsCount(int count) {
+    return '$count submissions';
+  }
+
+  @override
+  String get homeworkDetailsViewCompletionNoPermissionContent =>
+      'For security reasons, a teacher may only view the completion list with admin rights in the respective group.\n\nOtherwise, any student could create a new account as a teacher, join the group and see which students have already completed the homework.';
+
+  @override
+  String get homeworkDetailsViewSubmissionsNoPermissionContent =>
+      'For security reasons, a teacher may only view submissions with admin rights in the respective group.\n\nOtherwise, any student could create a new account as a teacher, join the group and view other students\' submissions.';
+
+  @override
+  String get homeworkDialogCourseChangeDisabled =>
+      'The course cannot be changed afterwards. Please delete the homework and create a new one if you want to change the course.';
+
+  @override
+  String get homeworkDialogDescriptionHint => 'Enter additional information';
+
+  @override
+  String get homeworkDialogDueDateAfterNextLesson => 'Lesson after next';
+
+  @override
+  String get homeworkDialogDueDateChipsPlusDescription =>
+      'With Sharezone Plus you can set homework due dates to the next school day or a lesson in the future with one tap.';
+
+  @override
+  String get homeworkDialogDueDateInXHours => 'In X lessons';
+
+  @override
+  String homeworkDialogDueDateInXLessons(int count) {
+    return '$count.-next lesson';
+  }
+
+  @override
+  String get homeworkDialogDueDateNextLesson => 'Next lesson';
+
+  @override
+  String get homeworkDialogDueDateNextSchoolday => 'Next school day';
+
+  @override
+  String get homeworkDialogEmptyTitleError =>
+      'Please enter a title for the homework!';
+
+  @override
+  String get homeworkDialogNextLessonSuffix => '.-next lesson';
+
+  @override
+  String get homeworkDialogNoCourseSelected => 'No course selected';
+
+  @override
+  String get homeworkDialogNotifyCourseMembers => 'Notify course members';
+
+  @override
+  String get homeworkDialogNotifyCourseMembersDescription =>
+      'Notify course members about new homework.';
+
+  @override
+  String get homeworkDialogNotifyCourseMembersEditing =>
+      'Notify course members about changes';
+
+  @override
+  String get homeworkDialogPrivateSubtitle =>
+      'Do not share homework with the course.';
+
+  @override
+  String get homeworkDialogPrivateTitle => 'Private';
+
+  @override
+  String get homeworkDialogRequiredFieldsMissing =>
+      'Please fill in all required fields!';
+
+  @override
+  String get homeworkDialogSaveTooltip => 'Save homework';
+
+  @override
+  String homeworkDialogSavingFailed(String error) {
+    return 'Homework could not be saved.\n\n$error\n\nIf the error persists, please contact support.';
+  }
+
+  @override
+  String get homeworkDialogSelectLessonOffsetDescription =>
+      'Choose in how many lessons the homework is due.';
+
+  @override
+  String get homeworkDialogSelectLessonOffsetTitle => 'Select lesson offset';
+
+  @override
+  String get homeworkDialogSubmissionTimeTitle => 'Submission time';
+
+  @override
+  String get homeworkDialogTitleHint =>
+      'Enter title (e.g. worksheet no. 1 - 3)';
+
+  @override
+  String homeworkDialogUnknownError(String error) {
+    return 'An unknown error occurred ($error) 😖 Please contact support!';
+  }
+
+  @override
+  String get homeworkDialogWithSubmissionTitle => 'With submission';
+
+  @override
+  String get homeworkEmptyFireDescription =>
+      'You still have homework to do! So stop looking at me and get it done! Do it!';
+
+  @override
+  String get homeworkEmptyFireTitle => 'LET\'S GO! 💥👊';
+
+  @override
+  String get homeworkEmptyGameControllerDescription =>
+      'Great! You don\'t have any homework to do.';
+
+  @override
+  String get homeworkEmptyGameControllerTitle =>
+      'Now it\'s time for the really important things in life! 🤘💪';
+
+  @override
+  String get homeworkFabNewHomeworkTooltip => 'New homework';
+
+  @override
+  String homeworkLongPressTitle(String homeworkTitle) {
+    return 'Homework: $homeworkTitle';
+  }
+
+  @override
+  String get homeworkMarkOverdueAction => 'Check off overdue homework';
+
+  @override
+  String get homeworkMarkOverduePromptTitle =>
+      'Check off all overdue homework?';
 
   @override
   String get homeworkSectionDayAfterTomorrow => 'Day after tomorrow';
@@ -521,9 +2763,110 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get homeworkSectionTomorrow => 'Tomorrow';
 
   @override
+  String get homeworkTabArchivedUppercase => 'ARCHIVED';
+
+  @override
+  String get homeworkTabDoneUppercase => 'DONE';
+
+  @override
+  String get homeworkTabOpenUppercase => 'OPEN';
+
+  @override
+  String get homeworkTeacherNoArchivedTitle =>
+      'All homework with due dates in the past is shown here.';
+
+  @override
+  String get homeworkTeacherNoOpenTitle => 'No homework for the students? 😮😍';
+
+  @override
+  String get homeworkTeacherNoPermissionTitle => 'No permission';
+
+  @override
+  String get homeworkTeacherViewCompletionNoPermissionContent =>
+      'For security reasons, a teacher may only view the completed list in the respective group with admin rights.\n\nOtherwise any student could create a new account as a teacher and join the group to see which classmates have already completed the homework.';
+
+  @override
+  String get homeworkTeacherViewSubmissionsNoPermissionContent =>
+      'For security reasons, a teacher may only view submissions in the respective group with admin rights.\n\nOtherwise any student could create a new account as a teacher and join the group to view other classmates\' submissions.';
+
+  @override
   String homeworkTodoDateTime(String date, String time) {
     return '$date - $time';
   }
+
+  @override
+  String get icalLinksDialogExportCreated =>
+      'The export was created successfully.';
+
+  @override
+  String get icalLinksDialogLessonsComingSoon =>
+      'Diese Option ist demnächst verfügbar.';
+
+  @override
+  String get icalLinksDialogNameHint => 'Enter a name (e.g. My exams)';
+
+  @override
+  String get icalLinksDialogNameMissingError => 'Please enter a name';
+
+  @override
+  String get icalLinksDialogNameMissingErrorWithPeriod =>
+      'Please enter a name.';
+
+  @override
+  String get icalLinksDialogPrivateNote =>
+      'iCal exports are private and only visible to you.';
+
+  @override
+  String get icalLinksDialogSourceMissingError =>
+      'Please select at least one source.';
+
+  @override
+  String get icalLinksDialogSourcesQuestion =>
+      'Which sources should be included in the export?';
+
+  @override
+  String get icalLinksPageBuilding => 'Creating...';
+
+  @override
+  String get icalLinksPageCopyLink => 'Copy link';
+
+  @override
+  String get icalLinksPageEmptyState =>
+      'You haven\'t created any iCal links yet.';
+
+  @override
+  String icalLinksPageErrorSubtitle(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get icalLinksPageHowToAddIcalLinkToCalendarBody =>
+      '1. Copy the iCal link\n2. Open your calendar (e.g. Google Calendar, Apple Calendar)\n3. Add a new calendar\n4. Choose \"Add via URL\" or \"Add via Internet\"\n5. Paste the iCal link\n6. Done! Your timetable and events will now appear in your calendar.';
+
+  @override
+  String get icalLinksPageHowToAddIcalLinkToCalendarHeader =>
+      'How do I add an iCal link to my calendar?';
+
+  @override
+  String get icalLinksPageLinkCopied => 'Link copied to clipboard.';
+
+  @override
+  String get icalLinksPageLinkDeleted => 'Link deleted.';
+
+  @override
+  String get icalLinksPageLinkLoading => 'Loading link...';
+
+  @override
+  String get icalLinksPageLocked => 'Locked';
+
+  @override
+  String get icalLinksPageNewLink => 'New link';
+
+  @override
+  String get icalLinksPageTitle => 'iCal links';
+
+  @override
+  String get icalLinksPageWhatIsAnIcalLinkHeader => 'What is an iCal link?';
 
   @override
   String get imprintTitle => 'Imprint';
@@ -606,6 +2949,45 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get legalTermsOfServiceTitle => 'Terms of Service';
 
   @override
+  String get loginCreateAccount => 'Create new account';
+
+  @override
+  String get loginEmailLabel => 'Email';
+
+  @override
+  String get loginHidePasswordTooltip => 'Hide password';
+
+  @override
+  String get loginPasswordFieldSemanticsLabel => 'Password field';
+
+  @override
+  String get loginPasswordLabel => 'Password';
+
+  @override
+  String get loginResetPasswordButton => 'Reset password';
+
+  @override
+  String get loginShowPasswordTooltip => 'Show password';
+
+  @override
+  String get loginSubmitTooltip => 'Sign in';
+
+  @override
+  String get loginWithAppleButton => 'Sign in with Apple';
+
+  @override
+  String get loginWithGoogleButton => 'Sign in with Google';
+
+  @override
+  String get loginWithQrCodeButton => 'Sign in with QR code';
+
+  @override
+  String get macOsTipActionText => 'Download for Mac';
+
+  @override
+  String get macOsTipTitle => 'Download for Mac';
+
+  @override
   String get memberRoleAdmin => 'Admin';
 
   @override
@@ -619,6 +3001,28 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get memberRoleStandard => 'Passive Member (Read-only permissions)';
+
+  @override
+  String get mobileWelcomeBackgroundImageSemanticsLabel =>
+      'Background image of the welcome page with 5 phones showing the Sharezone app.';
+
+  @override
+  String get mobileWelcomeHeadline =>
+      'Organize everyday school life\ntogether 🚀';
+
+  @override
+  String get mobileWelcomeNewAtSharezoneButton => 'I\'m new to Sharezone 👋';
+
+  @override
+  String get mobileWelcomeSignInButton => 'Sign in';
+
+  @override
+  String get mobileWelcomeSignInWithExistingAccount =>
+      'Sign in with existing account';
+
+  @override
+  String get mobileWelcomeSubHeadline =>
+      'Optionally, you can also use Sharezone completely on your own.';
 
   @override
   String get myProfileActivationCodeTile => 'Enter Activation Code';
@@ -704,6 +3108,278 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get navigationExperimentOptionExtendableBnbWithMoreButton =>
       'New Navigation - With More Button';
+
+  @override
+  String navigationExtendableBnbSemantics(String action) {
+    return '$action die erweiterte Navigationsleiste';
+  }
+
+  @override
+  String get navigationItemAccountPage => 'Profile';
+
+  @override
+  String get navigationItemBlackboard => 'Blackboard';
+
+  @override
+  String get navigationItemEvents => 'Events';
+
+  @override
+  String get navigationItemFeedbackBox => 'Feedback';
+
+  @override
+  String get navigationItemFilesharing => 'Files';
+
+  @override
+  String get navigationItemGrades => 'Grades';
+
+  @override
+  String get navigationItemGroup => 'Groups';
+
+  @override
+  String get navigationItemHomework => 'Homework';
+
+  @override
+  String get navigationItemMore => 'More';
+
+  @override
+  String get navigationItemOverview => 'Overview';
+
+  @override
+  String get navigationItemSettings => 'Settings';
+
+  @override
+  String get navigationItemSharezonePlus => 'Sharezone Plus';
+
+  @override
+  String get navigationItemTimetable => 'Timetable';
+
+  @override
+  String get navigationSemanticsClose => 'Schließt';
+
+  @override
+  String get navigationSemanticsOpen => 'Öffnet';
+
+  @override
+  String get notificationPageBlackboardDescription =>
+      'The creator of a notice can control whether course members are notified about a new notice or changes. Use this option to enable or disable those notifications.';
+
+  @override
+  String get notificationPageBlackboardHeadline => 'Notices';
+
+  @override
+  String get notificationPageBlackboardTitle => 'Notifications for notices';
+
+  @override
+  String get notificationPageCommentsDescription =>
+      'Receive a push notification when someone posts a new comment under homework or a notice.';
+
+  @override
+  String get notificationPageCommentsHeadline => 'Comments';
+
+  @override
+  String get notificationPageCommentsTitle => 'Notifications for comments';
+
+  @override
+  String get notificationPageHomeworkHeadline => 'Open homework';
+
+  @override
+  String get notificationPageHomeworkReminderTitle =>
+      'Reminders for open homework';
+
+  @override
+  String get notificationPageInvalidHomeworkReminderTime =>
+      'Only full and half hours are allowed, e.g. 18:00 or 18:30.';
+
+  @override
+  String get notificationPagePlusDialogDescription =>
+      'With Sharezone Plus you can set homework reminder times individually in 30-minute steps, e.g. 15:00 or 15:30.';
+
+  @override
+  String get notificationPagePlusDialogTitle =>
+      'Reminder time for the day before';
+
+  @override
+  String get notificationPageTimeTitle => 'Time';
+
+  @override
+  String notificationPageTimeValue(String time) {
+    return '$time o\'clock';
+  }
+
+  @override
+  String get notificationPageTitle => 'Notifications';
+
+  @override
+  String get notificationsDialogReplyAction => 'Reply';
+
+  @override
+  String get notificationsErrorDialogMoreInfo => 'More info.';
+
+  @override
+  String get notificationsErrorDialogShortDescription =>
+      'Tapping the notification should have done something else.';
+
+  @override
+  String get onboardingNotificationsConfirmBody =>
+      'Are you sure you do not want to receive notifications?\n\nIf someone posts a notice, adds a comment to homework or writes you a message, you would not receive push notifications.';
+
+  @override
+  String get onboardingNotificationsConfirmTitle => 'No push notifications? 🤨';
+
+  @override
+  String get onboardingNotificationsDescriptionGeneral =>
+      'If someone posts a notice or writes you a message, you will receive a notification and stay up to date 💪';
+
+  @override
+  String get onboardingNotificationsDescriptionStudent =>
+      'We can remind you about open homework 😉 You can also receive notifications when someone posts a notice or writes you a message.';
+
+  @override
+  String get onboardingNotificationsEnable => 'Enable';
+
+  @override
+  String get onboardingNotificationsTitle =>
+      'Enable reminders and notifications';
+
+  @override
+  String get pastCalendricalEventsDummyTitleExam2 => 'Exam #2';
+
+  @override
+  String get pastCalendricalEventsDummyTitleExam3 => 'Exam #3';
+
+  @override
+  String get pastCalendricalEventsDummyTitleExam4 => 'Exam #4';
+
+  @override
+  String get pastCalendricalEventsDummyTitleExam5 => 'Exam #5';
+
+  @override
+  String get pastCalendricalEventsDummyTitleNoSchool => 'No school';
+
+  @override
+  String get pastCalendricalEventsDummyTitleParentTeacherDay =>
+      'Parent-teacher day';
+
+  @override
+  String get pastCalendricalEventsDummyTitleSportsFestival => 'Sports festival';
+
+  @override
+  String get pastCalendricalEventsDummyTitleTest6 => 'Test #6';
+
+  @override
+  String get pastCalendricalEventsPageEmpty => 'No past events';
+
+  @override
+  String pastCalendricalEventsPageError(String error) {
+    return 'Error while loading past events: $error';
+  }
+
+  @override
+  String get pastCalendricalEventsPagePlusDescription =>
+      'Get Sharezone Plus to view all past events.';
+
+  @override
+  String get pastCalendricalEventsPageSortAscending => 'Ascending';
+
+  @override
+  String get pastCalendricalEventsPageSortAscendingSubtitle =>
+      'Oldest events first';
+
+  @override
+  String get pastCalendricalEventsPageSortDescending => 'Descending';
+
+  @override
+  String get pastCalendricalEventsPageSortDescendingSubtitle =>
+      'Newest events first';
+
+  @override
+  String get pastCalendricalEventsPageSortOrderTooltip => 'Sort order';
+
+  @override
+  String get pastCalendricalEventsPageTitle => 'Past events';
+
+  @override
+  String get periodsEditAddLesson => 'Add lesson';
+
+  @override
+  String get periodsEditSaved => 'Class times were changed successfully.';
+
+  @override
+  String get periodsEditTimetableStart => 'Timetable start';
+
+  @override
+  String get predefinedGradeTypesOralParticipation => 'Oral participation';
+
+  @override
+  String get predefinedGradeTypesOther => 'Other';
+
+  @override
+  String get predefinedGradeTypesPresentation => 'Presentation';
+
+  @override
+  String get predefinedGradeTypesSchoolReportGrade => 'Report grade';
+
+  @override
+  String get predefinedGradeTypesVocabularyTest => 'Vocabulary test';
+
+  @override
+  String get predefinedGradeTypesWrittenExam => 'Written exam';
+
+  @override
+  String get privacyDisplaySettingsDensityComfortable => 'Comfortable';
+
+  @override
+  String get privacyDisplaySettingsDensityCompact => 'Compact';
+
+  @override
+  String get privacyDisplaySettingsDensityStandard => 'Standard';
+
+  @override
+  String get privacyDisplaySettingsShowReadIndicator =>
+      'Show \"reading\" indicator';
+
+  @override
+  String get privacyDisplaySettingsTextScalingFactor => 'Text scaling factor';
+
+  @override
+  String get privacyDisplaySettingsThemeMode => 'Dark/Light mode';
+
+  @override
+  String get privacyDisplaySettingsThemeModeAutomatic => 'Automatic';
+
+  @override
+  String get privacyDisplaySettingsThemeModeDark => 'Dark mode';
+
+  @override
+  String get privacyDisplaySettingsThemeModeLight => 'Light mode';
+
+  @override
+  String get privacyDisplaySettingsTitle => 'Display settings';
+
+  @override
+  String get privacyDisplaySettingsVisualDensity => 'Visual density';
+
+  @override
+  String get privacyPolicyChangeAppearance => 'Change appearance';
+
+  @override
+  String get privacyPolicyDownloadPdf => 'Download as PDF';
+
+  @override
+  String get privacyPolicyPageTitle => 'Privacy policy';
+
+  @override
+  String get privacyPolicyPageUpdatedEffectiveDatePrefix =>
+      'This updated privacy policy takes effect on';
+
+  @override
+  String get privacyPolicyPageUpdatedEffectiveDateSuffix => '.';
+
+  @override
+  String get privacyPolicyTableOfContents => 'Table of contents';
+
+  @override
+  String get profileAvatarTooltip => 'My profile';
 
   @override
   String get registerAccountAgeNoticeText =>
@@ -834,6 +3510,101 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get reportReasonViolentContent => 'Violent or repulsive content';
 
   @override
+  String get resetPasswordEmailFieldLabel => 'Email address of your account';
+
+  @override
+  String get resetPasswordErrorMessage =>
+      'Email could not be sent. Please check your entered email address!';
+
+  @override
+  String get resetPasswordSentDialogTitle => 'Email sent';
+
+  @override
+  String get resetPasswordSuccessMessage =>
+      'An email to reset your password has been sent.';
+
+  @override
+  String get schoolClassActionsDeleteUppercase => 'DELETE CLASS';
+
+  @override
+  String get schoolClassActionsKickUppercase => 'KICK FROM CLASS';
+
+  @override
+  String get schoolClassActionsLeaveUppercase => 'LEAVE CLASS';
+
+  @override
+  String get schoolClassAllowJoinExplanation =>
+      'Use this setting to control whether new members can join the course.\n\nThis setting is directly applied to all courses linked to the school class.';
+
+  @override
+  String get schoolClassCoursesAddExisting => 'Add existing course';
+
+  @override
+  String get schoolClassCoursesAddNew => 'Add new course';
+
+  @override
+  String get schoolClassCoursesEmptyDescription =>
+      'No courses have been added to this class yet.\n\nCreate a course now and link it to this class.';
+
+  @override
+  String get schoolClassCoursesSelectCourseDialogHint =>
+      'You can only add courses where you are also an administrator.';
+
+  @override
+  String get schoolClassCoursesSelectCourseDialogTitle => 'Select a course';
+
+  @override
+  String get schoolClassCoursesTitle => 'Courses';
+
+  @override
+  String get schoolClassCreateTitle => 'Create school class';
+
+  @override
+  String get schoolClassEditSuccess =>
+      'The school class was edited successfully!';
+
+  @override
+  String get schoolClassEditTitle => 'Edit school class';
+
+  @override
+  String get schoolClassLeaveConfirmationQuestion =>
+      'Do you really want to leave the school class?';
+
+  @override
+  String get schoolClassLeaveDialogDeleteWithCourses => 'Delete with courses';
+
+  @override
+  String get schoolClassLeaveDialogDeleteWithoutCourses =>
+      'Delete without courses';
+
+  @override
+  String get schoolClassLeaveDialogDescription =>
+      'Do you really want to leave the class?\n\nYou can also decide whether to delete the school\'s courses as well or keep them. If courses are not deleted, they remain available.';
+
+  @override
+  String get schoolClassLeaveDialogTitle => 'Leave class';
+
+  @override
+  String get schoolClassLoadError => 'An error occurred while loading...';
+
+  @override
+  String schoolClassLongPressTitle(String schoolClassName) {
+    return 'Class: $schoolClassName';
+  }
+
+  @override
+  String get schoolClassMemberOptionsAloneHint =>
+      'Since you are the only one in the school class, you cannot edit your role.';
+
+  @override
+  String get schoolClassMemberOptionsOnlyAdminHint =>
+      'You are the only admin in this school class. Therefore, you cannot remove your own rights.';
+
+  @override
+  String get schoolClassWritePermissionsAnnotation =>
+      'This setting is directly applied to all courses linked to the school class.';
+
+  @override
   String selectStateDialogConfirmationSnackBar(Object region) {
     return 'Selected $region';
   }
@@ -850,6 +3621,40 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get selectStateDialogStayAnonymous =>
       'I would like to remain anonymous';
+
+  @override
+  String get settingsLegalLicensesTitle => 'Licenses';
+
+  @override
+  String get settingsLegalTermsTitle => 'Terms of service';
+
+  @override
+  String get settingsOptionMyAccount => 'My account';
+
+  @override
+  String get settingsOptionSourceCode => 'Source code';
+
+  @override
+  String get settingsOptionWebApp => 'Web app';
+
+  @override
+  String get settingsPrivacyPolicyLinkText => 'Privacy policy';
+
+  @override
+  String get settingsPrivacyPolicySentencePrefix =>
+      'More information can be found in our ';
+
+  @override
+  String get settingsPrivacyPolicySentenceSuffix => '.';
+
+  @override
+  String get settingsSectionAppSettings => 'App settings';
+
+  @override
+  String get settingsSectionLegal => 'Legal';
+
+  @override
+  String get settingsSectionMore => 'More';
 
   @override
   String get sharezonePlusAdvantageAddToCalendarDescription =>
@@ -1144,6 +3949,28 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'You have Sharezone Plus for life. If you\'re not satisfied, we\'d love to hear your [feedback](#feedback)!';
 
   @override
+  String get sharezoneV2DialogAnbAcceptanceCheckbox =>
+      'I have read and accept the [terms and conditions](anb).';
+
+  @override
+  String get sharezoneV2DialogChangedLegalFormHeader => 'Changed legal form';
+
+  @override
+  String get sharezoneV2DialogPrivacyPolicyRevisionHeader =>
+      'Privacy policy revision';
+
+  @override
+  String sharezoneV2DialogSubmitError(Object value) {
+    return 'An error occurred: $value. If this keeps happening, contact us at support@sharezone.net';
+  }
+
+  @override
+  String get sharezoneV2DialogTermsHeader => 'Terms of service';
+
+  @override
+  String get sharezoneV2DialogTitle => 'Sharezone v2.0';
+
+  @override
   String get sharezoneWidgetsCenteredErrorMessage =>
       'Unfortunately, an error occurred while loading 😖\nPlease try again later.';
 
@@ -1253,6 +4080,98 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get sharezoneWidgetsTextFieldCannotBeEmptyError =>
       'The text field must not be empty!';
+
+  @override
+  String get signInWithQrCodeLoadingMessage =>
+      'Generating the QR code can take a few seconds...';
+
+  @override
+  String get signInWithQrCodeStep1 => 'Open Sharezone on your phone / tablet';
+
+  @override
+  String get signInWithQrCodeStep2 => 'Open settings in the side navigation';
+
+  @override
+  String get signInWithQrCodeStep3 => 'Tap \"Web app\"';
+
+  @override
+  String get signInWithQrCodeStep4 =>
+      'Tap \"Scan QR code\" and point your camera at your screen';
+
+  @override
+  String get signInWithQrCodeTitle => 'How to sign in with a QR code:';
+
+  @override
+  String get signOutDialogConfirmation => 'Do you really want to sign out?';
+
+  @override
+  String get signUpAdvantageAllInOne => 'All-in-one app for school';
+
+  @override
+  String get signUpAdvantageCloud =>
+      'Share your school planner with your class via the cloud';
+
+  @override
+  String get signUpAdvantageHomeworkReminder => 'Reminders for open homework';
+
+  @override
+  String get signUpAdvantageSaveTime =>
+      'Save a lot of time by organizing together';
+
+  @override
+  String get signUpAdvantagesTitle => 'Benefits of Sharezone';
+
+  @override
+  String get signUpAlreadyHaveAccount =>
+      'Du hast bereits ein Konto? Klicke hier, um dich einzuloggen.';
+
+  @override
+  String get signUpChooseTypeTitle => 'I am...';
+
+  @override
+  String get signUpDataProtectionAesTitle =>
+      'AES 256-bit server-side encryption';
+
+  @override
+  String get signUpDataProtectionAnonymousSignInSubtitle =>
+      'IP address is inevitably stored temporarily';
+
+  @override
+  String get signUpDataProtectionAnonymousSignInTitle =>
+      'Sign in without personal data';
+
+  @override
+  String get signUpDataProtectionDeleteDataTitle => 'Easy data deletion';
+
+  @override
+  String get signUpDataProtectionIsoTitle =>
+      'ISO27001, ISO27012 & ISO27018 certified*';
+
+  @override
+  String get signUpDataProtectionServerLocationSubtitle =>
+      'Except for the authentication server';
+
+  @override
+  String get signUpDataProtectionServerLocationTitle =>
+      'Server location: Frankfurt (Germany)';
+
+  @override
+  String get signUpDataProtectionSocSubtitle =>
+      '* Certification of our hosting provider';
+
+  @override
+  String get signUpDataProtectionSocTitle => 'SOC1, SOC2, & SOC3 certified*';
+
+  @override
+  String get signUpDataProtectionTitle => 'Data protection';
+
+  @override
+  String get signUpDataProtectionTlsTitle =>
+      'TLS encryption during transmission';
+
+  @override
+  String get signUpLegalConsentMarkdown =>
+      'By using our platform, you agree to the [Terms of Service](https://sharezone.net/terms-of-service). We process your data according to our [Privacy Policy](https://sharezone.net/privacy-policy).';
 
   @override
   String get socialDiscord => 'Discord';
@@ -1544,6 +4463,80 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get submissionsListTitle => 'Submissions';
 
   @override
+  String get supportPageBody =>
+      'Found a bug, have feedback, or just a question about Sharezone? Contact us and we\'ll help you!';
+
+  @override
+  String get supportPageDiscordIconSemanticsLabel => 'Discord icon';
+
+  @override
+  String get supportPageDiscordPrivacyContent =>
+      'Please note that Discord\'s [privacy policy](https://discord.com/privacy) applies when using Discord.';
+
+  @override
+  String get supportPageDiscordPrivacyTitle => 'Discord privacy';
+
+  @override
+  String get supportPageDiscordSubtitle => 'Community support';
+
+  @override
+  String get supportPageDiscordTitle => 'Discord';
+
+  @override
+  String supportPageEmailAddress(String email) {
+    return 'Email: $email';
+  }
+
+  @override
+  String get supportPageEmailIconSemanticsLabel => 'Email icon';
+
+  @override
+  String get supportPageEmailTitle => 'Email';
+
+  @override
+  String get supportPageFreeSupportSubtitle =>
+      'Please note that free support can take up to 2 weeks.';
+
+  @override
+  String get supportPageFreeSupportTitle => 'Free support';
+
+  @override
+  String get supportPageHeadline => 'Need help?';
+
+  @override
+  String get supportPagePlusAdvertisingBulletOne =>
+      'Get an email response within a few hours (instead of up to 2 weeks)';
+
+  @override
+  String get supportPagePlusAdvertisingBulletTwo =>
+      'Video call support by appointment (including screen sharing)';
+
+  @override
+  String get supportPagePlusEmailSubtitle =>
+      'Get a response within a few hours.';
+
+  @override
+  String get supportPagePlusSupportSubtitle =>
+      'As a Sharezone Plus user, you get access to our premium support.';
+
+  @override
+  String get supportPagePlusSupportTitle => 'Plus support';
+
+  @override
+  String get supportPageTitle => 'Support';
+
+  @override
+  String get supportPageVideoCallRequiresSignIn =>
+      'You need to be signed in to schedule a video call.';
+
+  @override
+  String get supportPageVideoCallSubtitle =>
+      'By appointment, screen sharing is also possible if needed.';
+
+  @override
+  String get supportPageVideoCallTitle => 'Video call support';
+
+  @override
   String get themeDarkMode => 'Dark Mode';
 
   @override
@@ -1564,6 +4557,11 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get themeNavigationExperimentSectionTitle =>
       'Experiment: New Navigation';
+
+  @override
+  String themeNavigationOptionTitle(int number, String optionName) {
+    return 'Option $number: $optionName';
+  }
 
   @override
   String get themeRateOurAppCardContent =>
@@ -1590,6 +4588,66 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get themeTitle => 'Appearance';
 
   @override
+  String get timetableAddAbWeeksPrefix => ' You can enable A/B weeks in ';
+
+  @override
+  String get timetableAddAbWeeksSettings => 'settings';
+
+  @override
+  String get timetableAddAbWeeksSuffix => '.';
+
+  @override
+  String get timetableAddAlternativeSelectPeriod =>
+      'Alternatively, you can select a period';
+
+  @override
+  String get timetableAddAlternativeSetIndividualTime =>
+      'Alternatively, you can set the time manually';
+
+  @override
+  String get timetableAddAutoRecurringInfo =>
+      'Lessons are automatically added for upcoming weeks as well.';
+
+  @override
+  String get timetableAddChangeTimesInSettingsInfo =>
+      'You can change lesson times in timetable settings.';
+
+  @override
+  String get timetableAddEarlyStartTimeHint =>
+      'Please note that lessons are only shown starting at 7 AM.';
+
+  @override
+  String get timetableAddJoinCourseAction => 'Join course';
+
+  @override
+  String get timetableAddLessonTitle => 'Add lesson';
+
+  @override
+  String get timetableAddNoCourseMembershipHint =>
+      'You are not a member of any course yet 😔\nCreate a new course or join one 😃';
+
+  @override
+  String get timetableAddRoomAndTeacherOptionalTitle =>
+      'Add a room & a teacher (optional)';
+
+  @override
+  String get timetableAddSelectCourseTitle => 'Select a course';
+
+  @override
+  String get timetableAddSelectPeriodQuestion =>
+      'In which period does the new lesson take place?';
+
+  @override
+  String get timetableAddSelectWeekTypeTitle => 'Select a week type';
+
+  @override
+  String get timetableAddSelectWeekdayTitle => 'Select a weekday';
+
+  @override
+  String get timetableAddUnknownError =>
+      'An unknown error occurred. Please contact support!';
+
+  @override
   String timetableDeleteAllDialogDeleteCountdown(int seconds) {
     return 'Delete ($seconds)';
   }
@@ -1603,6 +4661,43 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get timetableDeleteAllSuggestionTitle => 'Delete entire timetable?';
+
+  @override
+  String get timetableEditCourseLocked =>
+      'The course cannot be changed afterwards.';
+
+  @override
+  String get timetableEditEndTime => 'End time';
+
+  @override
+  String timetableEditEventTitle(String eventType) {
+    return 'Edit $eventType';
+  }
+
+  @override
+  String get timetableEditLessonTitle => 'Edit lesson';
+
+  @override
+  String get timetableEditNoPeriodSelected => 'No lesson selected';
+
+  @override
+  String timetableEditPeriodSelected(int number) {
+    return 'Lesson $number';
+  }
+
+  @override
+  String get timetableEditSelectTime => 'Choose a time';
+
+  @override
+  String timetableEditSelectTimeForPeriod(int number) {
+    return 'Wähle eine Uhrzeit ($number. Stunde)';
+  }
+
+  @override
+  String get timetableEditStartTime => 'Start time';
+
+  @override
+  String get timetableEditTeacherHint => 'e.g. Ms. Stark';
 
   @override
   String get timetableErrorEndTimeBeforeNextLessonStart =>
@@ -1640,6 +4735,235 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get timetableErrorWeekdayMissing => 'Please select a weekday!';
+
+  @override
+  String get timetableEventCardChangeColorAction => 'Change color';
+
+  @override
+  String timetableEventCardEventTitle(Object value) {
+    return 'Event: $value';
+  }
+
+  @override
+  String timetableEventCardExamTitle(Object value) {
+    return 'Exam: $value';
+  }
+
+  @override
+  String get timetableEventDetailsAddToCalendarButton => 'ADD TO CALENDAR';
+
+  @override
+  String get timetableEventDetailsAddToCalendarPlusDescription =>
+      'With Sharezone Plus you can easily add Sharezone events to your local calendar (e.g. Apple or Google Calendar).';
+
+  @override
+  String get timetableEventDetailsAddToCalendarTitle => 'Add event to calendar';
+
+  @override
+  String get timetableEventDetailsDeleteDialog =>
+      'Do you really want to delete this event?';
+
+  @override
+  String get timetableEventDetailsDeletedConfirmation => 'Event deleted';
+
+  @override
+  String get timetableEventDetailsEditedConfirmation =>
+      'Event edited successfully';
+
+  @override
+  String get timetableEventDetailsExamTopics => 'Exam topics';
+
+  @override
+  String get timetableEventDetailsLabel => 'Details';
+
+  @override
+  String timetableEventDetailsReport(String itemType) {
+    return 'Report $itemType';
+  }
+
+  @override
+  String timetableEventDetailsRoom(String room) {
+    return 'Room: $room';
+  }
+
+  @override
+  String get timetableEventDialogDateSelectionNotPossible =>
+      'Selection not possible';
+
+  @override
+  String get timetableEventDialogDateSelectionNotPossibleContent =>
+      'It is currently not possible to create an event or exam spanning multiple days.';
+
+  @override
+  String get timetableEventDialogDescriptionHintEvent =>
+      'Additional information';
+
+  @override
+  String get timetableEventDialogDescriptionHintExam => 'Exam topics';
+
+  @override
+  String get timetableEventDialogEmptyCourse => 'No course selected';
+
+  @override
+  String get timetableEventDialogEmptyCourseError => 'Please choose a course.';
+
+  @override
+  String get timetableEventDialogEmptyTitleError => 'Please enter a title.';
+
+  @override
+  String get timetableEventDialogEndTimeAfterStartTimeError =>
+      'The end time must be after the start time.';
+
+  @override
+  String get timetableEventDialogNotifyCourseMembersEvent =>
+      'Notify course members about the new event.';
+
+  @override
+  String get timetableEventDialogNotifyCourseMembersExam =>
+      'Notify course members about the new exam.';
+
+  @override
+  String get timetableEventDialogNotifyCourseMembersTitle =>
+      'Notify course members';
+
+  @override
+  String get timetableEventDialogSaveEventTooltip => 'Save event';
+
+  @override
+  String get timetableEventDialogSaveExamTooltip => 'Save exam';
+
+  @override
+  String get timetableEventDialogTitleHintEvent =>
+      'Enter title (e.g. sports festival)';
+
+  @override
+  String get timetableEventDialogTitleHintExam =>
+      'Title (e.g. statistics exam)';
+
+  @override
+  String get timetableFabAddTooltip => 'Add lesson/event';
+
+  @override
+  String get timetableFabLessonAddedConfirmation =>
+      'The lesson was added successfully';
+
+  @override
+  String get timetableFabOptionEvent => 'Event';
+
+  @override
+  String get timetableFabOptionExam => 'Exam';
+
+  @override
+  String get timetableFabOptionLesson => 'Lesson';
+
+  @override
+  String get timetableFabOptionSubstitutions => 'Substitution plan';
+
+  @override
+  String get timetableFabSectionCalendar => 'Calendar';
+
+  @override
+  String get timetableFabSectionTimetable => 'Timetable';
+
+  @override
+  String get timetableFabSubstitutionsDialogTitle => 'Substitution plan';
+
+  @override
+  String get timetableFabSubstitutionsStepOne =>
+      '1. Navigate to the affected lesson.';
+
+  @override
+  String get timetableFabSubstitutionsStepThree =>
+      '3. Choose the substitution type.';
+
+  @override
+  String get timetableFabSubstitutionsStepTwo => '2. Tap on the lesson.';
+
+  @override
+  String get timetableLessonDetailsAddHomeworkTooltip => 'Add homework';
+
+  @override
+  String timetableLessonDetailsArrowLocation(String location) {
+    return '-> $location';
+  }
+
+  @override
+  String get timetableLessonDetailsChangeColor => 'Change color';
+
+  @override
+  String get timetableLessonDetailsCourseName => 'Course name: ';
+
+  @override
+  String get timetableLessonDetailsDeleteDialogConfirm =>
+      'I understand that this lesson will be deleted for all course members.';
+
+  @override
+  String get timetableLessonDetailsDeleteDialogMessage =>
+      'Do you really want to delete this lesson for the whole course?';
+
+  @override
+  String get timetableLessonDetailsDeleteTitle => 'Delete lesson';
+
+  @override
+  String get timetableLessonDetailsDeletedConfirmation => 'Lesson deleted';
+
+  @override
+  String get timetableLessonDetailsEditedConfirmation =>
+      'Lesson edited successfully';
+
+  @override
+  String get timetableLessonDetailsRoom => 'Room: ';
+
+  @override
+  String get timetableLessonDetailsSubstitutionPlusDescription =>
+      'Unlock the substitution plan with Sharezone Plus to mark e.g. canceled lessons.\n\nEven course members without Sharezone Plus can view the substitution plan (but cannot edit it).';
+
+  @override
+  String get timetableLessonDetailsTeacher => 'Teacher: ';
+
+  @override
+  String get timetableLessonDetailsTeacherInTimetableDescription =>
+      'With Sharezone Plus you can add the teacher to each lesson in the timetable. The teacher is also shown for course members without Sharezone Plus.';
+
+  @override
+  String get timetableLessonDetailsTeacherInTimetableTitle =>
+      'Teacher in timetable';
+
+  @override
+  String timetableLessonDetailsTimeRange(String endTime, String startTime) {
+    return '$startTime - $endTime';
+  }
+
+  @override
+  String timetableLessonDetailsWeekType(String weekType) {
+    return 'Week type: $weekType';
+  }
+
+  @override
+  String timetableLessonDetailsWeekday(String weekday) {
+    return 'Weekday: $weekday';
+  }
+
+  @override
+  String get timetablePageSettingsTooltip => 'Timetable settings';
+
+  @override
+  String get timetableQuickCreateEmptyTitle =>
+      'You haven\'t joined a course or class yet!';
+
+  @override
+  String get timetableQuickCreateTitle => 'Add lesson';
+
+  @override
+  String get timetableSchoolClassFilterAllClasses => 'All school classes';
+
+  @override
+  String get timetableSchoolClassFilterAllShort => 'All';
+
+  @override
+  String timetableSchoolClassFilterLabel(Object value) {
+    return 'School class: $value';
+  }
 
   @override
   String get timetableSettingsABWeekTileTitle => 'A/B Weeks';
@@ -1735,6 +5059,168 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get timetableSettingsTitle => 'Timetable';
 
   @override
+  String get timetableSubstitutionCancelDialogAction => 'Cancel lesson';
+
+  @override
+  String get timetableSubstitutionCancelDialogDescription =>
+      'Do you really want to cancel this lesson for the entire course?';
+
+  @override
+  String get timetableSubstitutionCancelDialogNotify =>
+      'Notify your course members that the lesson is canceled.';
+
+  @override
+  String get timetableSubstitutionCancelDialogTitle => 'Cancel lesson';
+
+  @override
+  String get timetableSubstitutionCancelLesson => 'Cancel lesson';
+
+  @override
+  String get timetableSubstitutionCancelRestored => 'Canceled lesson restored';
+
+  @override
+  String get timetableSubstitutionCancelSaved =>
+      'Lesson marked as \"Canceled\"';
+
+  @override
+  String get timetableSubstitutionCanceledTitle => 'Lesson canceled';
+
+  @override
+  String get timetableSubstitutionChangeRoom => 'Change room';
+
+  @override
+  String get timetableSubstitutionChangeRoomDialogAction => 'Save room change';
+
+  @override
+  String get timetableSubstitutionChangeRoomDialogDescription =>
+      'Do you really want to change the room for this lesson?';
+
+  @override
+  String get timetableSubstitutionChangeRoomDialogNotify =>
+      'Notify your course members about the room change.';
+
+  @override
+  String get timetableSubstitutionChangeRoomDialogTitle => 'Room change';
+
+  @override
+  String get timetableSubstitutionChangeTeacher => 'Change teacher';
+
+  @override
+  String get timetableSubstitutionChangeTeacherDialogAction => 'Save teacher';
+
+  @override
+  String get timetableSubstitutionChangeTeacherDialogDescription =>
+      'Do you really want to change the substitute teacher?';
+
+  @override
+  String get timetableSubstitutionChangeTeacherDialogNotify =>
+      'Notify your course members about the teacher change.';
+
+  @override
+  String get timetableSubstitutionChangeTeacherDialogTitle =>
+      'Change substitute teacher';
+
+  @override
+  String get timetableSubstitutionEditRoomTooltip => 'Edit room';
+
+  @override
+  String get timetableSubstitutionEditTeacherTooltip => 'Edit teacher';
+
+  @override
+  String timetableSubstitutionEnteredBy(String name) {
+    return 'Entered by: $name';
+  }
+
+  @override
+  String get timetableSubstitutionNewRoomHint => 'e.g. D203';
+
+  @override
+  String get timetableSubstitutionNewRoomLabel => 'New room';
+
+  @override
+  String get timetableSubstitutionNoPermissionSubtitle =>
+      'Please contact your course administrator.';
+
+  @override
+  String get timetableSubstitutionNoPermissionTitle =>
+      'You do not have permission to change the substitution plan.';
+
+  @override
+  String get timetableSubstitutionRemoveAction => 'Remove';
+
+  @override
+  String get timetableSubstitutionRemoveRoomDialogDescription =>
+      'Do you really want to remove the room change for this lesson?';
+
+  @override
+  String get timetableSubstitutionRemoveRoomDialogNotify =>
+      'Notify your course members about the removal.';
+
+  @override
+  String get timetableSubstitutionRemoveRoomDialogTitle => 'Remove room change';
+
+  @override
+  String get timetableSubstitutionRemoveTeacherDialogDescription =>
+      'Do you really want to remove the substitute teacher for this lesson?';
+
+  @override
+  String get timetableSubstitutionRemoveTeacherDialogNotify =>
+      'Notify your course members about the removal.';
+
+  @override
+  String get timetableSubstitutionRemoveTeacherDialogTitle =>
+      'Remove substitute teacher';
+
+  @override
+  String timetableSubstitutionReplacement(String teacher) {
+    return 'Substitute: $teacher';
+  }
+
+  @override
+  String get timetableSubstitutionRestoreDialogAction => 'Restore';
+
+  @override
+  String get timetableSubstitutionRestoreDialogDescription =>
+      'Do you really want to let this lesson take place again?';
+
+  @override
+  String get timetableSubstitutionRestoreDialogNotify =>
+      'Notify your course members that the lesson takes place.';
+
+  @override
+  String get timetableSubstitutionRestoreDialogTitle =>
+      'Restore canceled lesson';
+
+  @override
+  String timetableSubstitutionRoomChanged(String room) {
+    return 'Room change: $room';
+  }
+
+  @override
+  String get timetableSubstitutionRoomRemoved => 'Room change removed';
+
+  @override
+  String get timetableSubstitutionRoomSaved => 'Room change saved';
+
+  @override
+  String timetableSubstitutionSectionForDate(String date) {
+    return 'For $date';
+  }
+
+  @override
+  String get timetableSubstitutionSectionTitle => 'Substitution plan';
+
+  @override
+  String get timetableSubstitutionTeacherRemoved =>
+      'Substitute teacher removed';
+
+  @override
+  String get timetableSubstitutionTeacherSaved => 'Substitute teacher saved';
+
+  @override
+  String get timetableSubstitutionUndoTooltip => 'Undo';
+
+  @override
   String get typeOfUserParent => 'Parent';
 
   @override
@@ -1764,6 +5250,13 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get useAccountInstructionsVideoTitle => 'Video:';
 
   @override
+  String get userCommentFieldEmptyError =>
+      'The comment doesn\'t have any text! 🧐';
+
+  @override
+  String get userCommentFieldHint => 'Share your thoughts...';
+
+  @override
   String get userEditLoadingUserSnackbar => 'Loading information! Please wait.';
 
   @override
@@ -1779,6 +5272,24 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get userEditSubmittingSnackbar => 'Data is being sent to Frankfurt...';
+
+  @override
+  String get webAppSettingsDescription =>
+      'Visit https://web.sharezone.net for more information.';
+
+  @override
+  String get webAppSettingsHeadline => 'Sharezone for web!';
+
+  @override
+  String get webAppSettingsQrCodeHint =>
+      'With QR code sign-in you can sign in to the web app without entering a password. This is especially helpful on public computers.';
+
+  @override
+  String get webAppSettingsScanQrCodeDescription =>
+      'Go to web.sharezone.net and scan the QR code.';
+
+  @override
+  String get webAppSettingsScanQrCodeTitle => 'Scan QR code';
 
   @override
   String websiteAllInOneFeatureImageLabel(String feature) {
@@ -2108,6 +5619,12 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get websiteWelcomeHeadlineSemanticLabel =>
       'Headline of the Sharezone app';
+
+  @override
+  String get weekdaysEditSaved => 'Active weekdays were changed successfully.';
+
+  @override
+  String get weekdaysEditTitle => 'School days';
 
   @override
   String get writePermissionEveryone => 'Everyone';

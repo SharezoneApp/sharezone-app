@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'bloc/enter_activation_code_bloc.dart';
@@ -31,7 +32,7 @@ class EnterActivationCodeResultDialog {
         ),
         actions: [
           ActionItem(
-            title: "Fertig",
+            title: context.l10n.activationCodeResultDoneAction,
             color: Theme.of(context).primaryColor,
             textColor: Colors.white,
             onSelect: () async {
@@ -50,7 +51,7 @@ class EnterActivationCodeResultDialog {
         ),
         actions: [
           ActionItem(
-            title: "Nochmal versuchen",
+            title: context.l10n.groupJoinResultRetryAction,
             onSelect: () => enterActivationCodeBloc.retry(context),
           ),
         ],

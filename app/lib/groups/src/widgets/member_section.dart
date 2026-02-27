@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/groups/src/models/splitted_member_list.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'member_list.dart';
@@ -45,19 +46,19 @@ class MemberSection extends StatelessWidget {
                   : Column(
                     children: <Widget>[
                       MemberList(
-                        title: "Administratoren",
+                        title: context.l10n.groupsMembersAdminsTitle,
                         members: splittedMemberList.admins,
                         allMembers: allMembers,
                         onTap: onTap,
                       ),
                       MemberList(
-                        title: "Aktives Mitglied (Schreib- und Leserechte)",
+                        title: context.l10n.groupsMembersActiveMemberTitle,
                         members: splittedMemberList.creator,
                         allMembers: allMembers,
                         onTap: onTap,
                       ),
                       MemberList(
-                        title: "Passives Mitglied (nur Leserechte)",
+                        title: context.l10n.groupsMembersPassiveMemberTitle,
                         members: splittedMemberList.reader,
                         allMembers: allMembers,
                         onTap: onTap,
@@ -81,7 +82,7 @@ class MemberCountText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "Anzahl der Teilnehmer: $memberCount",
+      context.l10n.groupsMemberCount(memberCount),
       style: const TextStyle(color: Colors.grey, fontSize: 13),
     );
   }

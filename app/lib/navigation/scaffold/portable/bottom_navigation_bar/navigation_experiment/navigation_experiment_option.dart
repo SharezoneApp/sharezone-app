@@ -22,7 +22,7 @@ enum NavigationExperimentOption {
 }
 
 extension ToReadableString on NavigationExperimentOption {
-  String getDisplayName(BuildContext context) {
+  String toLocalizedString(BuildContext context) {
     return switch (this) {
       NavigationExperimentOption.drawerAndBnb =>
         context.l10n.navigationExperimentOptionDrawerAndBnb,

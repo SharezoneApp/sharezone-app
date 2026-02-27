@@ -150,7 +150,7 @@ class _LoadingPlaceholder extends StatelessWidget {
             afterDeadlineSubmissions: [
               CreatedSubmissionView(
                 abbreviation: 'B',
-                username: 'Thaddäus Tentakel',
+                username: 'Squidward Tentacles',
                 submittedFiles: [],
                 lastActionDateTime: clock.now(),
                 wasEditedAfterwards: false,

@@ -32,7 +32,7 @@ class DrawerTile extends StatelessWidget {
   /// Default is [navigationItem.getIcon()]
   final Widget? icon;
 
-  /// Default is [navigationItem.getName()]
+  /// Default is [navigationItem.getName(context)]
   final String? title;
 
   final String? subtitle;
@@ -58,7 +58,7 @@ class DrawerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
-    final title = this.title ?? navigationItem!.getName();
+    final title = this.title ?? navigationItem!.getName(context);
     final icon = this.icon ?? navigationItem!.getIcon();
 
     return StreamBuilder<NavigationItem>(

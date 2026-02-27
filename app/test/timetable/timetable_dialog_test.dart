@@ -15,14 +15,21 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/timetable/timetable_add_event/src/timetable_add_event_dialog_src.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:time/time.dart';
 
 import '../homework/homework_dialog_test.dart';
 import '../homework/homework_dialog_test.mocks.dart';
-@GenerateNiceMocks([MockSpec<EventDialogApi>()])
 import 'timetable_dialog_test.mocks.dart';
 import 'timetable_dialog_tester.dart';
 
+SharezoneLocalizations _l10n(WidgetTester tester) {
+  return SharezoneLocalizations.of(
+    tester.element(find.byType(TimetableAddEventDialog)),
+  )!;
+}
+
+@GenerateNiceMocks([MockSpec<EventDialogApi>()])
 void main() {
   group('event add dialog', () {
     late MockEventDialogApi api;
@@ -168,7 +175,10 @@ void main() {
 
         await dt.pumpDialog(isExam: false);
 
-        expect(find.text(EventDialogErrorStrings.emptyTitle), findsNothing);
+        expect(
+          find.text(_l10n(tester).timetableEventDialogEmptyTitleError),
+          findsNothing,
+        );
       },
     );
 
@@ -180,7 +190,10 @@ void main() {
 
         await dt.tapSaveButton();
 
-        expect(find.text(EventDialogErrorStrings.emptyTitle), findsOneWidget);
+        expect(
+          find.text(_l10n(tester).timetableEventDialogEmptyTitleError),
+          findsOneWidget,
+        );
       },
     );
 
@@ -194,7 +207,10 @@ void main() {
         await dt.enterTitle('Foo');
         await tester.pumpAndSettle();
 
-        expect(find.text(EventDialogErrorStrings.emptyTitle), findsNothing);
+        expect(
+          find.text(_l10n(tester).timetableEventDialogEmptyTitleError),
+          findsNothing,
+        );
       },
     );
 
@@ -206,7 +222,10 @@ void main() {
 
         await dt.tapSaveButton();
 
-        expect(find.text(EventDialogErrorStrings.emptyCourse), findsOneWidget);
+        expect(
+          find.text(_l10n(tester).timetableEventDialogEmptyCourseError),
+          findsOneWidget,
+        );
       },
     );
 
@@ -221,7 +240,10 @@ void main() {
       await dt.tapSaveButton();
       await dt.selectCourse('Foo course');
 
-      expect(find.text(EventDialogErrorStrings.emptyCourse), findsNothing);
+      expect(
+        find.text(_l10n(tester).timetableEventDialogEmptyCourseError),
+        findsNothing,
+      );
     });
 
     testWidgets(
@@ -234,14 +256,18 @@ void main() {
         await dt.selectEndTime(const TimeOfDay(hour: 13, minute: 15));
         await dt.tapSaveButton();
         expect(
-          find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
+          find.text(
+            _l10n(tester).timetableEventDialogEndTimeAfterStartTimeError,
+          ),
           findsOneWidget,
         );
 
         await dt.tapSaveButton();
         await dt.selectEndTime(const TimeOfDay(hour: 12, minute: 00));
         expect(
-          find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
+          find.text(
+            _l10n(tester).timetableEventDialogEndTimeAfterStartTimeError,
+          ),
           findsOneWidget,
         );
       },
@@ -255,13 +281,17 @@ void main() {
         await dt.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
         await dt.selectEndTime(const TimeOfDay(hour: 13, minute: 15));
         expect(
-          find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
+          find.text(
+            _l10n(tester).timetableEventDialogEndTimeAfterStartTimeError,
+          ),
           findsNothing,
         );
 
         await dt.selectEndTime(const TimeOfDay(hour: 12, minute: 00));
         expect(
-          find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
+          find.text(
+            _l10n(tester).timetableEventDialogEndTimeAfterStartTimeError,
+          ),
           findsNothing,
         );
       },
@@ -278,7 +308,9 @@ void main() {
         await dt.tapSaveButton();
         await dt.selectEndTime(const TimeOfDay(hour: 15, minute: 30));
         expect(
-          find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
+          find.text(
+            _l10n(tester).timetableEventDialogEndTimeAfterStartTimeError,
+          ),
           findsNothing,
         );
       },
@@ -293,7 +325,9 @@ void main() {
         await dt.selectStartTime(const TimeOfDay(hour: 13, minute: 15));
         await dt.selectEndTime(const TimeOfDay(hour: 15, minute: 30));
         expect(
-          find.text(EventDialogErrorStrings.endTimeMustBeAfterStartTime),
+          find.text(
+            _l10n(tester).timetableEventDialogEndTimeAfterStartTimeError,
+          ),
           findsNothing,
         );
       },

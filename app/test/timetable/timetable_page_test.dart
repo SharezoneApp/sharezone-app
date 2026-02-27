@@ -18,6 +18,7 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../../test_goldens/timetable/timetable_page_test.mocks.dart';
 import 'mock/mock_course_gateway.dart';
@@ -78,6 +79,10 @@ void main() {
               Provider<SubscriptionService>.value(value: subscriptionService),
             ],
             child: MaterialApp(
+              locale: const Locale('de'),
+              localizationsDelegates:
+                  SharezoneLocalizations.localizationsDelegates,
+              supportedLocales: SharezoneLocalizations.supportedLocales,
               home: BlocProvider(
                 bloc: bloc,
                 child: const SingleChildScrollView(
@@ -123,7 +128,18 @@ void main() {
         (tester) async {
           await pumpSchoolClassSelection(tester);
 
-          expect(find.text('Schulklasse: Alle'), findsOneWidget);
+          final context = tester.element(
+            find.byType(SchoolClassFilterBottomBar),
+          );
+          final l10n = SharezoneLocalizations.of(context)!;
+          expect(
+            find.text(
+              l10n.timetableSchoolClassFilterLabel(
+                l10n.timetableSchoolClassFilterAllShort,
+              ),
+            ),
+            findsOneWidget,
+          );
         },
       );
 
@@ -157,15 +173,26 @@ void main() {
         'If a user opens school class menu, all school classes should be shown',
         (tester) async {
           await pumpSchoolClassSelection(tester);
-          expect(find.text('Alle Schulklassen'), findsNothing);
+          final context = tester.element(
+            find.byType(SchoolClassFilterBottomBar),
+          );
+          final l10n = SharezoneLocalizations.of(context)!;
+
+          expect(
+            find.text(l10n.timetableSchoolClassFilterAllClasses),
+            findsNothing,
+          );
           expect(find.text(klasse5b.name), findsNothing);
           expect(find.text(klasse10a.name), findsNothing);
 
           // Öffne Schulklassen-Auswahl-Menü
           await tester.tap(find.byIcon(Icons.group));
-          await tester.pump();
+          await tester.pumpAndSettle();
 
-          expect(find.text('Alle Schulklassen'), findsOneWidget);
+          expect(
+            find.text(l10n.timetableSchoolClassFilterAllClasses),
+            findsOneWidget,
+          );
           expect(find.text(klasse5b.name), findsOneWidget);
           expect(find.text(klasse10a.name), findsOneWidget);
         },

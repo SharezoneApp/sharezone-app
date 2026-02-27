@@ -9,8 +9,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:sharezone/settings/src/subpages/changelog_page.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/settings/src/subpages/changelog_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
+import '../flutter_test_config.dart';
 
 void main() {
   group(UpdatePromptCard, () {
@@ -28,6 +31,9 @@ void main() {
 
         await tester.pumpWidget(
           const MaterialApp(
+            localizationsDelegates:
+                SharezoneLocalizations.localizationsDelegates,
+            supportedLocales: defaultLocales,
             home: Scaffold(
               body: Padding(
                 padding: EdgeInsets.all(8.0),

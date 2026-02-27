@@ -462,7 +462,7 @@ class _DeleteAccountDialogContentState
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final provider = api.user.authUser!.provider;
-    const text = "Ja, ich möchte mein Konto löschen.";
+    final text = context.l10n.deleteAccountConfirmationCheckbox;
 
     if (ThemePlatform.isCupertino) {
       return CupertinoAlertDialog(
@@ -478,8 +478,10 @@ class _DeleteAccountDialogContentState
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     const SizedBox(height: 16),
-                    const Text(
-                      "Bitte gib dein Passwort ein, um deinen Account zu löschen.",
+                    Text(
+                      context
+                          .l10n
+                          .myProfileDeleteAccountDialogPleaseEnterYourPassword,
                     ),
                     Material(
                       color: Colors.transparent,
@@ -488,7 +490,10 @@ class _DeleteAccountDialogContentState
                         onEditingComplete: () async => tryToDeleteUser(context),
                         autofocus: false,
                         decoration: InputDecoration(
-                          labelText: 'Passwort',
+                          labelText:
+                              context
+                                  .l10n
+                                  .changeEmailAddressPasswordTextfieldLabel,
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {

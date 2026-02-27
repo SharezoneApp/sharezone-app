@@ -17,6 +17,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -43,7 +44,10 @@ class _InnerWebAppSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Web-App"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(context.l10n.websiteNavWebApp),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: SafeArea(
@@ -76,13 +80,15 @@ class _Header extends StatelessWidget {
         ),
       ),
       children: <Widget>[
-        const Text("Sharezone für's Web!", style: TextStyle(fontSize: 26)),
+        Text(
+          context.l10n.webAppSettingsHeadline,
+          style: const TextStyle(fontSize: 26),
+        ),
         const SizedBox(height: 4),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: MarkdownBody(
-            data:
-                "Besuche für weitere Informationen einfach https://web.sharezone.net.",
+            data: context.l10n.webAppSettingsDescription,
             selectable: true,
             styleSheet: MarkdownStyleSheet.fromTheme(
               Theme.of(context),
@@ -103,10 +109,8 @@ class _ScanQrCode extends StatelessWidget {
   Future<String?> _scanQRCode(BuildContext context) async {
     return showQrCodeScanner(
       context,
-      title: const Text('QR-Code scannen'),
-      description: const Text(
-        'Geh auf web.sharezone.net und scanne den QR-Code.',
-      ),
+      title: Text(context.l10n.webAppSettingsScanQrCodeTitle),
+      description: Text(context.l10n.webAppSettingsScanQrCodeDescription),
       settings: const RouteSettings(name: 'scan-web-login-qr-code-page'),
     );
   }
@@ -125,7 +129,7 @@ class _ScanQrCode extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          title: "QR-Code scannen",
+          title: context.l10n.webAppSettingsScanQrCodeTitle,
           onTap: () async {
             final qrCode = await _scanQRCode(context);
             if (qrCode != null && context.mounted) {
@@ -138,9 +142,9 @@ class _ScanQrCode extends StatelessWidget {
           },
         ),
         const SizedBox(height: 6),
-        const Text(
-          "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
-          style: TextStyle(color: Colors.grey, fontSize: 11.5),
+        Text(
+          context.l10n.webAppSettingsQrCodeHint,
+          style: const TextStyle(color: Colors.grey, fontSize: 11.5),
           textAlign: TextAlign.center,
         ),
       ],

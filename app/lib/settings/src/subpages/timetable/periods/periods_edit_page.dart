@@ -23,7 +23,7 @@ import 'package:user/user.dart';
 void _showConfirmSnackBarOfSavingPeriods(BuildContext context) {
   showSnackSec(
     context: context,
-    text: "Die Stundenzeiten wurden erfolgreich geändert.",
+    text: context.l10n.periodsEditSaved,
     behavior: SnackBarBehavior.fixed,
   );
 }
@@ -102,7 +102,10 @@ class __PeriodsEditPageState extends State<_PeriodsEditPage> {
         child: Scaffold(
           key: scaffoldKey,
           backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
-          appBar: AppBar(title: const Text("Stundenzeiten"), centerTitle: true),
+          appBar: AppBar(
+            title: Text(context.l10n.timetableSettingsPeriodsFieldTileTitle),
+            centerTitle: true,
+          ),
           body: StreamBuilder<Periods>(
             stream: bloc.periods,
             builder: (context, snapshot) {
@@ -147,7 +150,7 @@ class _PeriodsEditFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      tooltip: 'Speichern',
+      tooltip: context.l10n.commonActionsSave,
       onPressed: () => _submit(context),
       child: const Icon(Icons.done),
     );
@@ -173,7 +176,7 @@ class _AddTile extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 24),
                   child: Text(
-                    "Stunde hinzufügen",
+                    context.l10n.periodsEditAddLesson,
                     style: TextStyle(
                       fontSize: 16,
                       color: Theme.of(context).primaryColor,
@@ -198,7 +201,7 @@ class _TimetableStart extends StatelessWidget {
       builder: (context, snapshot) {
         final time = snapshot.data ?? Time(hour: 7, minute: 30);
         return ListTile(
-          title: const Text("Stundenplanbeginn"),
+          title: Text(context.l10n.periodsEditTimetableStart),
           subtitle: Text(time.format(context)),
           onTap: () async {
             final newTime = await selectTime(
@@ -261,8 +264,10 @@ class _PeriodTile extends StatelessWidget {
                             final newTime = await selectTime(
                               context,
                               initialTime: period.startTime,
-                              title:
-                                  "Wähle eine Uhrzeit (${period.number}. Stunde)",
+                              title: context.l10n
+                                  .timetableEditSelectTimeForPeriod(
+                                    period.number,
+                                  ),
                             );
                             if (newTime != null) {
                               bloc.editPeriodStartTime(period.number, newTime);

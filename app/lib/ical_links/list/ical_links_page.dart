@@ -8,6 +8,7 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/ical_links/dialog/ical_links_dialog.dart';
@@ -25,7 +26,7 @@ class ICalLinksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('iCal-Links')),
+      appBar: AppBar(title: Text(context.l10n.icalLinksPageTitle)),
       body: const SingleChildScrollView(
         child: MaxWidthConstraintBox(
           child: SafeArea(child: Column(children: [_Header(), _Body()])),
@@ -43,8 +44,8 @@ class _Fab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ModalFloatingActionButton(
       icon: const Icon(Icons.add),
-      tooltip: 'Neuer Link',
-      label: 'Neuer Link',
+      tooltip: context.l10n.icalLinksPageNewLink,
+      label: context.l10n.icalLinksPageNewLink,
       onPressed: () => Navigator.pushNamed(context, ICalLinksDialog.tag),
     );
   }
@@ -78,7 +79,7 @@ class _Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     final view = ICalLinkView(
       id: const ICalLinkId('1'),
-      name: 'Mein Stundenplan',
+      name: 'My timetable',
       sources: [],
       status: ICalLinkStatus.available,
       url: Uri.parse('https://ical.sharezone.net/...'),
@@ -125,11 +126,11 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(8),
+    return Padding(
+      padding: const EdgeInsets.all(8),
       child: Center(
         child: Text(
-          'Du hast noch keine iCal-Links erstellt.',
+          context.l10n.icalLinksPageEmptyState,
           textAlign: TextAlign.center,
         ),
       ),
@@ -154,19 +155,19 @@ class _Header extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ExpansionCard(
-                header: const Text('Was ist ein iCal Link?'),
-                body: const Text(
-                  'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.',
+                header: Text(context.l10n.icalLinksPageWhatIsAnIcalLinkHeader),
+                body: Text(
+                  context.l10n.timetableSettingsIcalLinksPlusDialogContent,
                 ),
                 backgroundColor: color,
               ),
               const SizedBox(height: 16),
               ExpansionCard(
-                header: const Text(
-                  'Wie füge ich einen iCal-Link zu meinem Kalender hinzu?',
+                header: Text(
+                  context.l10n.icalLinksPageHowToAddIcalLinkToCalendarHeader,
                 ),
-                body: const Text(
-                  '1. Kopiere den iCal-Link\n2. Öffne deinen Kalender (z.B. Google Kalender, Apple Kalender)\n3. Füge einen neuen Kalender hinzu\n4. Wähle "Über URL hinzufügen" oder "Über das Internet hinzufügen"\n5. Füge den iCal-Link ein\n6. Fertig! Dein Stundenplan und deine Termine werden nun in deinem Kalender angezeigt.',
+                body: Text(
+                  context.l10n.icalLinksPageHowToAddIcalLinkToCalendarBody,
                 ),
                 backgroundColor: color,
               ),
@@ -186,11 +187,11 @@ class _LinkTile extends StatelessWidget {
   final bool isLoading;
 
   Future<void> copyUrlToClipboard(BuildContext context) async {
-    await Clipboard.setData(ClipboardData(text: '${view.url}'));
+    await Clipboard.setData(ClipboardData(text: view.url.toString()));
   }
 
   void showCopyConformationSnackBar(BuildContext context) {
-    showSnackSec(context: context, text: 'Link in Zwischenablage kopiert.');
+    showSnackSec(context: context, text: context.l10n.icalLinksPageLinkCopied);
   }
 
   void deleteLink(BuildContext context) {
@@ -198,7 +199,7 @@ class _LinkTile extends StatelessWidget {
   }
 
   void showDeletedLinkSnackBar(BuildContext context) {
-    showSnackSec(context: context, text: 'Link gelöscht.');
+    showSnackSec(context: context, text: context.l10n.icalLinksPageLinkDeleted);
   }
 
   @override
@@ -241,15 +242,15 @@ class _LinkTile extends StatelessWidget {
                   child: ListTile(
                     mouseCursor: view.hasUrl ? cursor : null,
                     leading: const Icon(Icons.content_copy),
-                    title: const Text('Link kopieren'),
+                    title: Text(context.l10n.icalLinksPageCopyLink),
                   ),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: _LinkAction.delete,
                   child: ListTile(
                     mouseCursor: cursor,
-                    leading: Icon(Icons.delete),
-                    title: Text('Löschen'),
+                    leading: const Icon(Icons.delete),
+                    title: Text(context.l10n.commonActionsDelete),
                   ),
                 ),
               ];
@@ -266,9 +267,9 @@ class _Subtitle extends StatelessWidget {
 
   final ICalLinkView view;
 
-  String getSubtitle() {
+  String getSubtitle(BuildContext context) {
     if (view.hasError) {
-      return 'Fehler: ${view.error}';
+      return context.l10n.icalLinksPageErrorSubtitle(view.error ?? '');
     }
 
     if (view.hasUrl) {
@@ -276,9 +277,9 @@ class _Subtitle extends StatelessWidget {
     }
 
     return switch (view.status) {
-      ICalLinkStatus.available => 'Link wird geladen...',
-      ICalLinkStatus.building => 'Wird erstellt...',
-      ICalLinkStatus.locked => 'Gesperrt',
+      ICalLinkStatus.available => context.l10n.icalLinksPageLinkLoading,
+      ICalLinkStatus.building => context.l10n.icalLinksPageBuilding,
+      ICalLinkStatus.locked => context.l10n.icalLinksPageLocked,
     };
   }
 
@@ -298,7 +299,7 @@ class _Subtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = getSubtitle();
+    final text = getSubtitle(context);
     final hasError = view.hasError;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),

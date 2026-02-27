@@ -19,6 +19,7 @@ import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Open the blackboard page and returns true, if the user added a blackboard item
@@ -78,7 +79,7 @@ class _BlackboardPageFAB extends StatelessWidget {
     return ModalFloatingActionButton(
       onPressed:
           () => openBlackboardDialogAndShowConfirmationIfSuccessful(context),
-      tooltip: "Neuen Infozettel",
+      tooltip: context.l10n.blackboardPageFabTooltip,
       heroTag: 'sharezone-fab',
       icon: const Icon(Icons.add),
     );
@@ -131,15 +132,13 @@ class _NoItemsFound extends StatelessWidget {
       child: PlaceholderWidgetWithAnimation(
         svgPath: 'assets/icons/megaphone.svg',
         animateSVG: true,
-        title: 'Du hast alle Infozettel gelesen 👍',
+        title: context.l10n.blackboardPageEmptyTitle,
         description: Column(
           children: <Widget>[
-            const Text(
-              'Hier können wichtige Ankündigungen in Form eines digitalen Zettels an Schüler, Lehrkräfte und Eltern ausgeteilt werden. Ideal für beispielsweise den Elternsprechtag, den Wandertag, das Sportfest, usw.',
-            ),
+            Text(context.l10n.blackboardPageEmptyDescription),
             const SizedBox(height: 16),
             CardListTile(
-              title: const Text('Infozettel hinzufügen'),
+              title: Text(context.l10n.blackboardPageAddInfoSheet),
               leading: const Icon(Icons.add_circle_outline),
               centerTitle: true,
               onTap:

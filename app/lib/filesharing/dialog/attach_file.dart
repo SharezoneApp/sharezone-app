@@ -17,6 +17,7 @@ import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/dialog/file_card.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AttachFile extends StatelessWidget {
@@ -139,7 +140,7 @@ class _AddLocalFile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.attach_file),
-      title: const Text("Anhang hinzufügen"),
+      title: Text(context.l10n.filesAddAttachment),
       onTap: () async {
         if (PlatformCheck.isDesktopOrWeb) {
           final analytics =
@@ -200,7 +201,7 @@ class _PickDocumentTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
     return LongPressDialogTile(
-      title: "Dokument",
+      title: context.l10n.attachFileDocumentTitle,
       iconData: Icons.insert_drive_file,
       onTap: () async {
         Navigator.pop(context);
@@ -225,7 +226,7 @@ class _PickPictureTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
     return LongPressDialogTile(
-      title: "Bilder",
+      title: context.l10n.fileSharingFabImagesTitle,
       iconData: Icons.photo,
       onTap: () async {
         Navigator.pop(context);
@@ -257,7 +258,7 @@ class _PickVideoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
     return LongPressDialogTile(
-      title: "Videos",
+      title: context.l10n.fileSharingFabVideosTitle,
       iconData: Icons.videocam,
       onTap: () async {
         Navigator.pop(context);
@@ -302,7 +303,7 @@ class _OpenCameraTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
     return LongPressDialogTile(
-      title: "Kamera",
+      title: context.l10n.fileSharingFabCameraTitle,
       iconData: Icons.photo_camera,
       onTap: () async {
         final hasPermissions = await _checkCameraPermission();
@@ -319,7 +320,7 @@ class _OpenCameraTile extends StatelessWidget {
           if (context.mounted) {
             Navigator.pop(
               context,
-              "Die App hat leider keinen Zugang zur Kamera...",
+              context.l10n.attachFileCameraPermissionError,
             );
           }
         }

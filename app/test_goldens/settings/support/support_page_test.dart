@@ -14,8 +14,10 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/support/support_page_controller.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+import '../../flutter_test_config.dart';
 import 'support_page_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<SupportPageController>()])
@@ -42,7 +44,11 @@ void main() {
           ],
           child: const SupportPage(),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 

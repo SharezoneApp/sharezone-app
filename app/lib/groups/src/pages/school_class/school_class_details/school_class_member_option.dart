@@ -16,6 +16,7 @@ import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/groups/src/widgets/member_list.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 Future<void> showSchoolClassMemberOptionsSheet({
   required BuildContext context,
@@ -146,17 +147,17 @@ class _PermissionRadioGroup extends StatelessWidget {
         children: [
           _RoleTile(
             role: MemberRole.admin,
-            description: "Schreib- und Leserechte & Verwaltung",
+            description: context.l10n.groupsRoleAdminDescription,
             enabled: enabled,
           ),
           _RoleTile(
             role: MemberRole.creator,
-            description: "Schreib- und Leserechte",
+            description: context.l10n.groupsRoleActiveMemberDescription,
             enabled: enabled,
           ),
           _RoleTile(
             role: MemberRole.standard,
-            description: "Leserechte",
+            description: context.l10n.groupsRoleReadOnlyDescription,
             enabled: enabled,
           ),
         ],
@@ -172,9 +173,9 @@ class _AloneInCourse extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: 24,
       ).add(const EdgeInsets.only(top: 12)),
-      child: const Text(
-        "Da du der einzige in der Schulklasse bist, kannst du deine Rolle nicht bearbeiten.",
-        style: TextStyle(color: Colors.grey, fontSize: 11),
+      child: Text(
+        context.l10n.schoolClassMemberOptionsAloneHint,
+        style: const TextStyle(color: Colors.grey, fontSize: 11),
         textAlign: TextAlign.center,
       ),
     );
@@ -188,9 +189,9 @@ class _NoPermissions extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: 24,
       ).add(const EdgeInsets.only(top: 12)),
-      child: const Text(
-        "Da du kein Admin bist, hast du keine Rechte, um andere Mitglieder zu verwalten.",
-        style: TextStyle(color: Colors.grey, fontSize: 11),
+      child: Text(
+        context.l10n.groupsMemberOptionsNoAdminRightsHint,
+        style: const TextStyle(color: Colors.grey, fontSize: 11),
         textAlign: TextAlign.center,
       ),
     );
@@ -204,9 +205,9 @@ class _OnlyAdminHint extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: 24,
       ).add(const EdgeInsets.only(top: 12)),
-      child: const Text(
-        "Du bist der einzige Admin in dieser Schulklasse. Daher kannst du dir keine Rechte entziehen.",
-        style: TextStyle(color: Colors.grey, fontSize: 11),
+      child: Text(
+        context.l10n.schoolClassMemberOptionsOnlyAdminHint,
+        style: const TextStyle(color: Colors.grey, fontSize: 11),
         textAlign: TextAlign.center,
       ),
     );
@@ -225,7 +226,7 @@ class _LeaveCourse extends StatelessWidget {
         Future<AppFunctionsResult<bool>> kickUser = bloc.leaveSchoolClass();
         showAppFunctionStateDialog(context, kickUser);
       },
-      child: const Text("SCHULKLASSE VERLASSEN"),
+      child: Text(context.l10n.schoolClassActionsLeaveUppercase),
     );
   }
 }
@@ -251,7 +252,7 @@ class _KickUser extends StatelessWidget {
                 showAppFunctionStateDialog(context, kickUser);
               }
               : null,
-      child: const Text("AUS DER SCHULKLASSE KICKEN"),
+      child: Text(context.l10n.schoolClassActionsKickUppercase),
     );
   }
 }

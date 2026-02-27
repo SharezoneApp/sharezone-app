@@ -106,7 +106,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
 
   void _showMessageToFillFormularCompleteSnackBar() {
     showSnackSec(
-      text: "Füll das Formular komplett aus! 😉",
+      text: l10n.authEmailAndPasswordLinkFillFormComplete,
       key: scaffoldMessengerKey,
     );
   }

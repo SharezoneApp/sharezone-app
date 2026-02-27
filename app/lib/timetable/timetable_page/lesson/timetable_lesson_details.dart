@@ -12,6 +12,7 @@ import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';
@@ -75,21 +76,21 @@ Future<void> onLessonLongPress(BuildContext context, Lesson lesson) async {
   final result = await showLongPressAdaptiveDialog<_LessonLongPressResult>(
     context: context,
     longPressList: [
-      const LongPress(
-        title: "Farbe ändern",
+      LongPress(
+        title: context.l10n.timetableLessonDetailsChangeColor,
         popResult: _LessonLongPressResult.changeDesign,
-        icon: Icon(Icons.color_lens),
+        icon: const Icon(Icons.color_lens),
       ),
-      if (hasPermissionsToManageLessons) ...const [
+      if (hasPermissionsToManageLessons) ...[
         LongPress(
-          title: "Bearbeiten",
+          title: context.l10n.commonActionsEdit,
           popResult: _LessonLongPressResult.edit,
-          icon: Icon(Icons.edit),
+          icon: const Icon(Icons.edit),
         ),
         LongPress(
-          title: "Löschen",
+          title: context.l10n.commonActionsDelete,
           popResult: _LessonLongPressResult.delete,
-          icon: Icon(Icons.delete),
+          icon: const Icon(Icons.delete),
         ),
       ],
     ],
@@ -129,7 +130,7 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
         content: content(),
         actions: <Widget>[
           CupertinoDialogAction(
-            child: const Text("Abbrechen"),
+            child: Text(context.l10n.commonActionsCancel),
             onPressed: () => Navigator.pop(context, false),
           ),
           if (confirm)
@@ -137,13 +138,13 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
               onPressed: () => Navigator.pop(context, true),
               isDefaultAction: true,
               isDestructiveAction: true,
-              child: const Text("Löschen"),
+              child: Text(context.l10n.commonActionsDelete),
             ),
         ],
       );
     }
     return AlertDialog(
-      title: const Text("Stunde löschen"),
+      title: Text(context.l10n.timetableLessonDetailsDeleteTitle),
       content: content(),
       contentPadding: const EdgeInsets.only(),
       actions: <Widget>[
@@ -153,7 +154,7 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).colorScheme.error,
           ),
-          child: const Text("LÖSCHEN"),
+          child: Text(context.l10n.commonActionsDeleteUppercase),
         ),
       ],
     );
@@ -164,15 +165,12 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.fromLTRB(24, 8, 24, 0),
-          child: Text(
-            "Möchtest du wirklich die Schulstunde für den gesamten Kurs löschen?",
-          ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
+          child: Text(context.l10n.timetableLessonDetailsDeleteDialogMessage),
         ),
         DeleteConfirmationCheckbox(
-          text:
-              "Mir ist bewusst, dass die Stunde für alle Teilnehmer aus dem Kurs gelöscht wird.",
+          text: context.l10n.timetableLessonDetailsDeleteDialogConfirm,
           confirm: confirm,
           onChanged: (value) {
             if (value == null) return;
@@ -251,8 +249,8 @@ void _showPlusDialog(BuildContext context) {
   showSharezonePlusFeatureInfoDialog(
     context: context,
     navigateToPlusPage: () => navigateToSharezonePlusPage(context),
-    description: const Text(
-      'Schalte mit Sharezone Plus den Vertretungsplan frei, um z.B. den Entfall einer Schulstunden zu markieren.\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern).',
+    description: Text(
+      context.l10n.timetableLessonDetailsSubstitutionPlusDescription,
     ),
   );
 }
@@ -280,7 +278,7 @@ Future<void> _deleteLessonAndShowConfirmationSnackbar(
   if (!context.mounted) return;
 
   showSnackSec(
-    text: 'Schulstunde wurde gelöscht',
+    text: context.l10n.timetableLessonDetailsDeletedConfirmation,
     context: context,
     seconds: 2,
     behavior: SnackBarBehavior.fixed,
@@ -308,7 +306,7 @@ Future<void> _openTimetableEditPage(BuildContext context, Lesson lesson) async {
     if (!context.mounted) return;
 
     showSnackSec(
-      text: 'Schulstunde wurde erfolgreich bearbeitet',
+      text: context.l10n.timetableLessonDetailsEditedConfirmation,
       context: context,
       behavior: SnackBarBehavior.fixed,
       seconds: 2,
@@ -360,7 +358,7 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: const Icon(Icons.note_add),
-                tooltip: 'Hausaufgabe hinzufügen',
+                tooltip: context.l10n.timetableLessonDetailsAddHomeworkTooltip,
                 color: getIconGrey(context),
                 onPressed:
                     () =>
@@ -433,7 +431,7 @@ class _LessonBasicSection extends StatelessWidget {
                 fontSize: 16,
               ),
               children: <TextSpan>[
-                const TextSpan(text: "Kursname: "),
+                TextSpan(text: context.l10n.timetableLessonDetailsCourseName),
                 TextSpan(
                   text: courseName,
                   style: TextStyle(color: design?.color),
@@ -444,18 +442,29 @@ class _LessonBasicSection extends StatelessWidget {
         ),
         ListTile(
           leading: const Icon(Icons.access_time),
-          title: Text("${lesson.startTime} - ${lesson.endTime}"),
+          title: Text(
+            context.l10n.timetableLessonDetailsTimeRange(
+              lesson.startTime.toString(),
+              lesson.endTime.toString(),
+            ),
+          ),
         ),
         ListTile(
           leading: const Icon(Icons.event),
           title: Text(
-            "Wochentag: ${lesson.weekday.toLocalizedString(context)}",
+            context.l10n.timetableLessonDetailsWeekday(
+              lesson.weekday.toLocalizedString(context),
+            ),
           ),
         ),
         if (isABWeekEnabled)
           ListTile(
             leading: const Icon(Icons.swap_horiz),
-            title: Text("Wochentyp: ${getWeekTypeText(lesson.weektype)}"),
+            title: Text(
+              context.l10n.timetableLessonDetailsWeekType(
+                getWeekTypeText(lesson.weektype),
+              ),
+            ),
           ),
         _Location(lesson: lesson, date: date),
         _Teacher(lesson: lesson, date: date),
@@ -484,7 +493,7 @@ class _Teacher extends StatelessWidget {
       leading: const Icon(Icons.person),
       title: Text.rich(
         TextSpan(
-          text: 'Lehrkraft: ',
+          text: context.l10n.timetableLessonDetailsTeacher,
           children: [
             TextSpan(
               text: getTitle(),
@@ -495,7 +504,10 @@ class _Teacher extends StatelessWidget {
           ],
         ),
       ),
-      subtitle: hasNewTeacher ? Text('Vertretung: $newTeacher') : null,
+      subtitle:
+          hasNewTeacher
+              ? Text(context.l10n.timetableSubstitutionReplacement(newTeacher))
+              : null,
     );
   }
 }
@@ -504,9 +516,9 @@ Future<void> showTeachersInTimetablePlusDialog(BuildContext context) {
   return showSharezonePlusFeatureInfoDialog(
     context: context,
     navigateToPlusPage: () => navigateToSharezonePlusPage(context),
-    title: const Text("Lehrkraft im Stundenplan"),
-    description: const Text(
-      "Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt.",
+    title: Text(context.l10n.timetableLessonDetailsTeacherInTimetableTitle),
+    description: Text(
+      context.l10n.timetableLessonDetailsTeacherInTimetableDescription,
     ),
   );
 }
@@ -526,7 +538,7 @@ class _Location extends StatelessWidget {
       leading: const Icon(Icons.place),
       title: Row(
         children: [
-          const Text("Raum: "),
+          Text(context.l10n.timetableLessonDetailsRoom),
           Text(
             lesson.place ?? "-",
             style: TextStyle(
@@ -536,7 +548,7 @@ class _Location extends StatelessWidget {
           ),
           if (newLocation != null) ...[
             const SizedBox(width: 4),
-            Text('-> $newLocation'),
+            Text(context.l10n.timetableLessonDetailsArrowLocation(newLocation)),
           ],
         ],
       ),
@@ -552,7 +564,7 @@ class DeleteIcon extends StatelessWidget {
     return IconButton(
       onPressed: () => Navigator.pop(context, _LessonDialogAction.delete),
       icon: const Icon(Icons.delete),
-      tooltip: 'Löschen',
+      tooltip: context.l10n.commonActionsDelete,
       color: getIconGrey(context),
     );
   }
@@ -566,7 +578,7 @@ class _EditIcon extends StatelessWidget {
     return IconButton(
       onPressed: () => Navigator.pop(context, _LessonDialogAction.edit),
       icon: const Icon(Icons.edit),
-      tooltip: 'Bearbeiten',
+      tooltip: context.l10n.commonActionsEdit,
       color: getIconGrey(context),
     );
   }
@@ -580,7 +592,7 @@ class _ChangeColorIcon extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.color_lens),
       color: getIconGrey(context),
-      tooltip: 'Farbe ändern',
+      tooltip: context.l10n.timetableLessonDetailsChangeColor,
       onPressed: () => Navigator.pop(context, _LessonDialogAction.design),
     );
   }

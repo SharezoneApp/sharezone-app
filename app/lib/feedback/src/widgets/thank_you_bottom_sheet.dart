@@ -14,6 +14,7 @@ import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -58,7 +59,7 @@ class ThankYouBottomSheetChild extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                "Vielen Dank für dein Feedback!",
+                context.l10n.feedbackThankYouTitle,
                 style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
@@ -68,9 +69,8 @@ class ThankYouBottomSheetChild extends StatelessWidget {
               child: Text.rich(
                 TextSpan(
                   children: <TextSpan>[
-                    const TextSpan(
-                      text:
-                          "Dir gefällt unsere App? Dann würden wir uns über eine Bewertung im ",
+                    TextSpan(
+                      text: context.l10n.feedbackThankYouRatePromptPrefix,
                     ),
                     TextSpan(
                       text:
@@ -89,7 +89,9 @@ class ThankYouBottomSheetChild extends StatelessWidget {
                               );
                             },
                     ),
-                    const TextSpan(text: " riesig freuen! 😄"),
+                    TextSpan(
+                      text: context.l10n.feedbackThankYouRatePromptSuffix,
+                    ),
                   ],
                   style: const TextStyle(color: Colors.grey, fontSize: 16),
                 ),

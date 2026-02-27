@@ -11,15 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/auth/login_button.dart';
 import 'package:sharezone/comments/comments_bloc.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class UserCommentField extends StatefulWidget {
-  final String textFieldMessage;
+  final String? textFieldMessage;
   final String userAbbreviation;
 
   const UserCommentField({
     super.key,
-    this.textFieldMessage = "Gib deinen Senf ab...",
+    this.textFieldMessage,
     this.userAbbreviation = "?",
   });
 
@@ -45,7 +46,8 @@ class _UserCommentFieldState extends State<UserCommentField> {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          hintText: widget.textFieldMessage,
+          hintText:
+              widget.textFieldMessage ?? context.l10n.userCommentFieldHint,
           border: const OutlineInputBorder(),
           suffixIcon: ContinueRoundButton(
             onTap: () {
@@ -57,7 +59,7 @@ class _UserCommentFieldState extends State<UserCommentField> {
               } else {
                 showSnackSec(
                   context: context,
-                  text: 'Der Kommentar hat doch gar keinen Text! 🧐',
+                  text: context.l10n.userCommentFieldEmptyError,
                 );
               }
             },

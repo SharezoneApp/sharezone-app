@@ -9,6 +9,7 @@
 import 'package:analytics/analytics.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_analytics.dart';
@@ -60,16 +61,17 @@ class _SaveButton extends StatelessWidget {
   const _SaveButton();
 
   void showConfirmationSnackBar(BuildContext context) {
-    showSnackSec(context: context, text: "Halbjahr gespeichert.");
+    showSnackSec(context: context, text: context.l10n.gradesCreateTermSaved);
   }
 
   void showErrorSnackBar(BuildContext context, TermException e) {
     showSnackSec(
       context: context,
       text: switch (e) {
-        InvalidTermNameException() => 'Bitte gib einen gültigen Namen ein.',
-        CouldNotSaveTermException() =>
-          'Das Halbjahr konnte nicht gespeichert werden: $e',
+        InvalidTermNameException() =>
+          context.l10n.gradesCreateTermInvalidNameError,
+        CouldNotSaveTermException() => context.l10n
+            .gradesCreateTermSaveFailedError(e),
       },
     );
   }
@@ -93,7 +95,7 @@ class _SaveButton extends StatelessWidget {
             showErrorSnackBar(context, e);
           }
         },
-        child: const Text("Speichern"),
+        child: Text(context.l10n.commonActionsSave),
       ),
     );
   }
@@ -114,8 +116,8 @@ class _NameField extends StatelessWidget {
           title: TextField(
             autofocus: true,
             decoration: InputDecoration(
-              labelText: "Name",
-              hintText: "z.B. 10/2",
+              labelText: context.l10n.gradesCommonName,
+              hintText: context.l10n.gradesTermSettingsNameHint,
               errorText: view.nameErrorText,
             ),
             onChanged: controller.setName,
@@ -124,7 +126,7 @@ class _NameField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 56, right: 12),
           child: Text(
-            "Der Name beschreibt das Halbjahr, z.B. '10/2' für das zweite Halbjahr der 10. Klasse.",
+            context.l10n.gradesTermSettingsEditNameDescription,
             style: TextStyle(
               color: Theme.of(
                 context,
@@ -147,7 +149,7 @@ class _GradingSystem extends StatelessWidget {
           (controller) => controller.view.gradingSystem,
         );
     return GradingSystemBase(
-      currentGradingSystemName: gradingSystem.displayName,
+      currentGradingSystemName: gradingSystem.toLocalizedString(context),
       onGradingSystemChanged: (res) {
         final controller = context.read<CreateTermPageController>();
         controller.setGradingSystem(res);
@@ -175,11 +177,11 @@ class GradingSystemBase extends StatelessWidget {
           context: context,
           builder:
               (context) => SimpleDialog(
-                title: const Text("Notensystem auswählen"),
+                title: Text(context.l10n.gradesDialogSelectGradingSystem),
                 children: [
                   for (final gradingSystem in GradingSystem.values)
                     ListTile(
-                      title: Text(gradingSystem.displayName),
+                      title: Text(gradingSystem.toLocalizedString(context)),
                       onTap: () {
                         Navigator.of(
                           context,
@@ -199,14 +201,14 @@ class GradingSystemBase extends StatelessWidget {
         children: [
           ListTile(
             leading: SavedGradeIcons.gradingSystem,
-            title: const Text("Notensystem"),
+            title: Text(context.l10n.gradesDialogGradingSystemLabel),
             subtitle: Text(currentGradingSystemName),
             mouseCursor: SystemMouseCursors.click,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 58, bottom: 12),
             child: Text(
-              'Nur Noten von dem Notensystem, welches für das Halbjahr festlegt wurde, können für den Schnitt des Halbjahres berücksichtigt werden. Solltest du beispielsweise für das Halbjahr das Notensystem "1 - 6" festlegen und eine Note mit dem Notensystem "15 - 0" eintragen, kann diese Note für den Halbjahresschnitt nicht berücksichtigt werden.',
+              context.l10n.gradesCreateTermGradingSystemInfo,
               style: TextStyle(
                 color: Theme.of(
                   context,
@@ -254,7 +256,7 @@ class ActiveTermSwitchBase extends StatelessWidget {
     return ListTile(
       leading: const Icon(Icons.calendar_today),
       onTap: () => onActiveTermChanged(!isActiveTerm),
-      title: const Text("Aktuelles Halbjahr"),
+      title: Text(context.l10n.gradesCreateTermCurrentTerm),
       trailing: Switch(value: isActiveTerm, onChanged: onActiveTermChanged),
     );
   }
