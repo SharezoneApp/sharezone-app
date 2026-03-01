@@ -34,7 +34,7 @@ dependencies:
   clock: ^1.1.2
   cloud_firestore: ^6.0.2
   firebase_auth: ^6.1.0
-  google_sign_in: ^6.2.2
+  google_sign_in: ^7.2.0
   meta: ^1.16.0
   rxdart: ^0.28.0
 
