@@ -61,7 +61,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Remove "safe to test" label, if PR is from a fork
-        uses: nilsreichardt/remove-safe-to-test-label@fa5ba56bf90708077fe7e65b50034d4c0a3ca532
+        uses: nilsreichardt/remove-safe-to-test-label@629b78e2057e150e0e59fe7a7b71b528446a6dc0
 
   # We can't use the official "paths" filter because it has no support for merge
   # groups and we would need some kind of fallback CI when a check is required
