@@ -271,6 +271,12 @@ class MockGradesService extends _i1.Mock implements _i3.GradesService {
             returnValueForMissingStub: null,
           )
           as _i3.Subject?);
+
+  @override
+  void deleteSubject(_i5.SubjectId? id) => super.noSuchMethod(
+    Invocation.method(#deleteSubject, [id]),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [CrashAnalytics].
