@@ -16,17 +16,16 @@ class AutoIdGenerator {
   static const String alphabet =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-  static final Random _random = Random();
+  static final Random _secureRandom = Random.secure();
+  static final _alphabetCodeUnits = alphabet.codeUnits;
 
   /// Automatically Generates a random new Id
   static String autoId() {
-    final stringBuffer = StringBuffer();
-    const maxRandom = alphabet.length;
-
-    for (var i = 0; i < idLength; ++i) {
-      stringBuffer.write(alphabet[_random.nextInt(maxRandom)]);
-    }
-
-    return stringBuffer.toString();
+    final codes = List<int>.generate(
+      idLength,
+      (_) =>
+          _alphabetCodeUnits[_secureRandom.nextInt(_alphabetCodeUnits.length)],
+    );
+    return String.fromCharCodes(codes);
   }
 }
