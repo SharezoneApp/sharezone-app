@@ -153,7 +153,7 @@ dependencies:
   retry: ^3.1.2
   rxdart: ^0.28.0
   scrollable_positioned_list: ^0.3.8
-  share_plus: ^10.1.4
+  share_plus: ^12.0.1
   shared_preferences: ^2.5.2
   sharezone_common:
     path: ../lib/sharezone_common
