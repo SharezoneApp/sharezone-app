@@ -117,7 +117,7 @@ jobs:
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
     steps:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
-        uses: nilsreichardt/verify-safe-to-test-label@1d027afe611c51da9fcab7583e1b0946e1386144
+        uses: nilsreichardt/verify-safe-to-test-label@a65b1d76a873fe060b8ece697f238ef8805e6e23
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
