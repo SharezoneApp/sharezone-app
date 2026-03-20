@@ -10,12 +10,10 @@ import 'package:group_domain_models/group_domain_models.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc.dart'
-    as _i2;
-import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart'
     as _i5;
 import 'package:sharezone/groups/src/pages/course/create/models/course_template.dart'
     as _i7;
-import 'package:sharezone_localizations/sharezone_localizations.dart' as _i9;
+import 'package:sharezone_localizations/sharezone_localizations.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -32,9 +30,9 @@ import 'package:sharezone_localizations/sharezone_localizations.dart' as _i9;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
-class _FakeCourseCreateBloc_0 extends _i1.SmartFake
-    implements _i2.CourseCreateBloc {
-  _FakeCourseCreateBloc_0(Object parent, Invocation parentInvocation)
+class _FakeSharezoneLocalizations_0 extends _i1.SmartFake
+    implements _i2.SharezoneLocalizations {
+  _FakeSharezoneLocalizations_0(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -49,49 +47,25 @@ class _FakeCourseId_2 extends _i1.SmartFake implements _i4.CourseId {
     : super(parent, parentInvocation);
 }
 
-/// A class which mocks [CourseCreateBlocFactory].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockCourseCreateBlocFactory extends _i1.Mock
-    implements _i5.CourseCreateBlocFactory {
-  @override
-  _i2.CourseCreateBloc create({
-    required _i9.SharezoneLocalizations l10n,
-    _i4.SchoolClassId? schoolClassId,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(#create, [], {
-              #l10n: l10n,
-              #schoolClassId: schoolClassId,
-            }),
-            returnValue: _FakeCourseCreateBloc_0(
-              this,
-              Invocation.method(#create, [], {
-                #l10n: l10n,
-                #schoolClassId: schoolClassId,
-              }),
-            ),
-            returnValueForMissingStub: _FakeCourseCreateBloc_0(
-              this,
-              Invocation.method(#create, [], {
-                #l10n: l10n,
-                #schoolClassId: schoolClassId,
-              }),
-            ),
-          )
-          as _i2.CourseCreateBloc);
-
-  @override
-  void dispose() => super.noSuchMethod(
-    Invocation.method(#dispose, []),
-    returnValueForMissingStub: null,
-  );
-}
-
 /// A class which mocks [CourseCreateBloc].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
+class MockCourseCreateBloc extends _i1.Mock implements _i5.CourseCreateBloc {
+  @override
+  _i2.SharezoneLocalizations get l10n =>
+      (super.noSuchMethod(
+            Invocation.getter(#l10n),
+            returnValue: _FakeSharezoneLocalizations_0(
+              this,
+              Invocation.getter(#l10n),
+            ),
+            returnValueForMissingStub: _FakeSharezoneLocalizations_0(
+              this,
+              Invocation.getter(#l10n),
+            ),
+          )
+          as _i2.SharezoneLocalizations);
+
   @override
   bool get hasSchoolClassId =>
       (super.noSuchMethod(
