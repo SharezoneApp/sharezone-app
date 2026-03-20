@@ -9,7 +9,8 @@
 import 'dart:math';
 
 String randomString(int length) {
-  var rand = Random();
+  // Use Random.secure() to prevent predictability of random strings
+  var rand = Random.secure();
   var codeUnits = List.generate(length, (index) {
     return rand.nextInt(33) + 89;
   });
@@ -18,7 +19,8 @@ String randomString(int length) {
 }
 
 String randomIDString(int length) {
-  var rand = Random();
+  // Use Random.secure() to prevent predictability of generated IDs
+  var rand = Random.secure();
   const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   String result = "";
