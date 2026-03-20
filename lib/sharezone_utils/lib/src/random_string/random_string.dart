@@ -8,22 +8,26 @@
 
 import 'dart:math';
 
+// Optimized: Reuse Random instance to avoid initialization overhead.
+final _random = Random();
+
 String randomString(int length) {
-  var rand = Random();
+  // Optimized: Use List.generate to avoid O(N^2) string concatenation.
   var codeUnits = List.generate(length, (index) {
-    return rand.nextInt(33) + 89;
+    return _random.nextInt(33) + 89;
   });
 
   return String.fromCharCodes(codeUnits);
 }
 
 String randomIDString(int length) {
-  var rand = Random();
   const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  String result = "";
-  for (var i = 0; i < length; i++) {
-    result += chars[rand.nextInt(chars.length)];
-  }
-  return result;
+  // Optimized: Use String.fromCharCodes with List.generate to avoid O(N^2) string concatenation.
+  // Accessing code units directly is more efficient than creating intermediate 1-char strings.
+  return String.fromCharCodes(
+    List.generate(length, (_) {
+      return chars.codeUnitAt(_random.nextInt(chars.length));
+    }),
+  );
 }
