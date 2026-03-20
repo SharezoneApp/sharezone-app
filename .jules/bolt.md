@@ -1,0 +1,4 @@
+## 2024-03-01 - [Fast String Concatenation and Secure Random]
+
+**Learning:** String concatenation using `+=` inside loops is very slow for large iterations (O(N^2)). Using `StringBuffer` or allocating a `List<int>` and using `String.fromCharCodes` is significantly faster (O(N)). Additionally, `Random.secure()` has a slight performance overhead but is essential for IDs to prevent predictability. Caching `Random.secure()` instances avoids initialization overhead.
+**Action:** Replace `+=` string concatenation with `String.fromCharCodes` inside random string generators. Cache `Random.secure()` to save instantiation time.
