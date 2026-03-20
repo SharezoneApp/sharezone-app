@@ -54,18 +54,20 @@ permissions: {}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # It's important that we run this job first, because we need to remove the
-  # "safe to test" label when the PR comes from a fork in order to ensure that
-  # every change is reviewed for security implications.
-  remove-safe-to-build-label:
+  # It's important that we run this job first, because we need to verify that
+  # this PR has the "safe to test" label when the PR comes from a fork in order
+  # to ensure that every change is reviewed for security implications.
+  verify-safe-to-test-label:
     runs-on: ubuntu-24.04
     permissions:
-      # Required by the remove-safe-to-test-label action
-      contents: read
-      pull-requests: write
+      pull-requests: write # required for require-reapproval parameter
     steps:
-      - name: Remove "safe to test" label, if PR is from a fork
-        uses: nilsreichardt/remove-safe-to-test-label@fa5ba56bf90708077fe7e65b50034d4c0a3ca532
+      - name: Ensure PR has "safe to test" label, if PR is from a fork
+        uses: nilsreichardt/verify-safe-to-test-label@a65b1d76a873fe060b8ece697f238ef8805e6e23
+        with:
+          # Removes the "safe to test" on every workflow run to ensure that
+          # every change is reviewed for security implications.
+          require-reapproval: true
 
   # We can't use the official "paths" filter because it has no support for merge
   # groups and we would need some kind of fallback CI when a check is required
@@ -76,7 +78,7 @@ jobs:
   # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
   #   (workaround for required checks with path filters)
   changes:
-    needs: remove-safe-to-build-label
+    needs: verify-safe-to-test-label
     runs-on: ubuntu-24.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
@@ -137,9 +139,6 @@ jobs:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
     steps:
-      - name: Ensure PR has "safe to test" label, if PR is from a fork
-        uses: nilsreichardt/verify-safe-to-test-label@1d027afe611c51da9fcab7583e1b0946e1386144
-
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           # Because we are using the "pull_request_target" event, we need to
