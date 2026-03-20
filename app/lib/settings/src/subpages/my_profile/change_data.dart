@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/auth/authentification_localization_mapper.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 /// Soll unter den TextFeldern anzeigt werden, bei denen man seinen Namen, E-Mail Adresse, etc. ändern kann
 /// Informatiert den Nutzer, wie wir mit seinen Daten umgehen.
@@ -48,12 +49,12 @@ class InfoMessage extends StatelessWidget {
     return Text.rich(
       TextSpan(
         children: <TextSpan>[
-          const TextSpan(
-            style: TextStyle(color: Colors.grey),
-            text: "Mehr Informationen erhältst du in unserer ",
+          TextSpan(
+            style: const TextStyle(color: Colors.grey),
+            text: context.l10n.settingsPrivacyPolicySentencePrefix,
           ),
           TextSpan(
-            text: "Datenschutzerklärung",
+            text: context.l10n.settingsPrivacyPolicyLinkText,
             style: TextStyle(color: Theme.of(context).primaryColor),
             recognizer:
                 TapGestureRecognizer()
@@ -61,7 +62,10 @@ class InfoMessage extends StatelessWidget {
                     Navigator.pushNamed(context, PrivacyPolicyPage.tag);
                   },
           ),
-          const TextSpan(style: TextStyle(color: Colors.grey), text: "."),
+          TextSpan(
+            style: const TextStyle(color: Colors.grey),
+            text: context.l10n.settingsPrivacyPolicySentenceSuffix,
+          ),
         ],
       ),
     );

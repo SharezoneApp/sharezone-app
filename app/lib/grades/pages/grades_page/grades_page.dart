@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
@@ -47,7 +48,7 @@ class _FAB extends StatelessWidget {
     return ModalFloatingActionButton(
       onPressed: () => Navigator.pushNamed(context, GradesDialog.tag),
       icon: const Icon(Icons.add),
-      tooltip: 'Neue Note',
+      tooltip: context.l10n.gradesPageAddGrade,
     );
   }
 }
@@ -76,7 +77,7 @@ class _SettingsIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: 'Einstellungen',
+      tooltip: context.l10n.gradesSettingsPageTitle,
       icon: const Icon(Icons.settings),
       onPressed: () => Navigator.pushNamed(context, GradesSettingsPage.tag),
     );
@@ -189,7 +190,7 @@ class _Empty extends StatelessWidget {
                       child: CardListTile(
                         leading: const Icon(Icons.add_circle_outline),
                         centerTitle: true,
-                        title: const Text("Note eintragen"),
+                        title: Text(context.l10n.gradesPageAddGrade),
                         onTap:
                             () =>
                                 Navigator.pushNamed(context, GradesDialog.tag),
@@ -217,10 +218,10 @@ class _EmptyTerm3 extends StatelessWidget {
         scale: 0.8,
         child: Transform(
           transform: Matrix4.translationValues(0, -110, 0),
-          child: const CustomCard(
+          child: CustomCard(
             child: TermTile(
-              termId: TermId('8/2'),
-              displayName: 'Vergangenes Halbjahr',
+              termId: const TermId('8/2'),
+              displayName: context.l10n.gradesPagePastTermTitle,
               avgGrade: ("3,8", GradePerformance.bad),
               title: '8/2',
               showEditButton: false,
@@ -243,10 +244,10 @@ class _EmptyTerm2 extends StatelessWidget {
         scale: 0.9,
         child: Transform(
           transform: Matrix4.translationValues(0, -55, 0),
-          child: const CustomCard(
+          child: CustomCard(
             child: TermTile(
-              termId: TermId('9/1'),
-              displayName: 'Vergangenes Halbjahr',
+              termId: const TermId('9/1'),
+              displayName: context.l10n.gradesPagePastTermTitle,
               avgGrade: ("2,6", GradePerformance.satisfactory),
               title: '9/1',
               showEditButton: false,
@@ -263,12 +264,12 @@ class _EmptyTerm1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(top: 70),
+    return Padding(
+      padding: const EdgeInsets.only(top: 70),
       child: CustomCard(
         child: TermTile(
-          termId: TermId('9/2'),
-          displayName: 'Aktuelles Halbjahr',
+          termId: const TermId('9/2'),
+          displayName: context.l10n.gradesCreateTermCurrentTerm,
           avgGrade: ("1,3", GradePerformance.good),
           title: '9/2',
           showEditButton: false,
@@ -333,7 +334,7 @@ class _CurrentTerm extends StatelessWidget {
           children: [
             TermTile(
               termId: id,
-              title: 'Aktuelles Halbjahr',
+              title: context.l10n.gradesCreateTermCurrentTerm,
               displayName: displayName,
               avgGrade: avgGrade,
               showEditButton: false,
@@ -341,11 +342,11 @@ class _CurrentTerm extends StatelessWidget {
             if (subjects.isNotEmpty) ...[
               const Divider(height: 0),
               const SizedBox(height: 6),
-              const Padding(
-                padding: EdgeInsets.only(left: 12),
+              Padding(
+                padding: const EdgeInsets.only(left: 12),
                 child: Text(
-                  'Aktuelle Noten',
-                  style: TextStyle(color: Colors.grey),
+                  context.l10n.gradesPageCurrentGradesLabel,
+                  style: const TextStyle(color: Colors.grey),
                 ),
               ),
               for (final subject in subjects)
@@ -393,7 +394,7 @@ class _PastTerm extends StatelessWidget {
           onTap: () => openTermDetailsPage(context, id),
           child: TermTile(
             termId: id,
-            title: 'Vergangenes Halbjahr',
+            title: context.l10n.gradesPagePastTermTitle,
             displayName: displayName,
             avgGrade: avgGrade,
             showEditButton: false,

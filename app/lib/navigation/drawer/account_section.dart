@@ -23,7 +23,7 @@ class _AccountSection extends StatelessWidget {
       builder: (context, snapshot) {
         final user = snapshot.data ?? AppUser.create(id: "Id");
         return Tooltip(
-          message: 'Profile',
+          message: context.l10n.drawerProfileTooltip,
           child: InkWell(
             onTap: () {
               final drawerController =

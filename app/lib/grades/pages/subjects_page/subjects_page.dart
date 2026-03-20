@@ -8,6 +8,7 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
@@ -32,7 +33,7 @@ class SubjectsPage extends StatelessWidget {
       builder: (context, _) {
         final state = context.watch<SubjectsPageController>().state;
         return Scaffold(
-          appBar: AppBar(title: const Text('Fächer')),
+          appBar: AppBar(title: Text(context.l10n.gradesSettingsSubjectsTitle)),
           body: AnimatedSwitcher(
             duration: const Duration(milliseconds: 250),
             child: switch (state) {
@@ -86,7 +87,9 @@ class _Loaded extends StatelessWidget {
               const _CourseVsSubjectsInfo(),
               const SizedBox(height: 12),
               if (view.hasGradeSubjects) ...[
-                const _SectionHeader(title: 'Notenfächer'),
+                _SectionHeader(
+                  title: context.l10n.gradesSubjectsPageGradeSubjects,
+                ),
                 const SizedBox(height: 12),
                 for (final subject in view.gradeSubjects) ...[
                   _SubjectTile(subject: subject),
@@ -94,7 +97,9 @@ class _Loaded extends StatelessWidget {
                 ],
               ],
               if (view.hasCoursesWithoutSubject) ...[
-                const _SectionHeader(title: 'Kurse ohne Notenfach'),
+                _SectionHeader(
+                  title: context.l10n.gradesSubjectsPageCoursesWithoutSubject,
+                ),
                 const SizedBox(height: 12),
                 for (final subject in view.coursesWithoutSubject) ...[
                   _CourseTile(subject: subject),
@@ -126,15 +131,8 @@ class _CourseVsSubjectsInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Notenfächer vs Kurse'),
-      body: const Text(
-        '''In Sharezone werden alle Inhalte (wie Hausaufgaben oder Prüfungen) einem Kurs zugeordnet. Deine Noten werden jedoch in Notenfächern gespeichert - nicht in Kursen. So bleiben sie erhalten, auch wenn du einen Kurs verlässt.
-
-Das hat noch einen Vorteil: Du kannst deine Noten nach Fächern sortieren und später deine Entwicklung in einem Fach über mehrere Jahre hinweg verfolgen (diese Funktion ist bald verfügbar).
-
-Sharezone legt automatisch ein Notenfach an, sobald du eine Note in einem Kurs erstellst.
-''',
-      ),
+      header: Text(context.l10n.gradesSubjectsPageInfoHeader),
+      body: Text(context.l10n.gradesSubjectsPageInfoBody),
       backgroundColor: Theme.of(
         context,
       ).colorScheme.primary.withValues(alpha: 0.1),
@@ -163,18 +161,18 @@ class _SubjectTile extends StatelessWidget {
         if (!context.mounted) return;
         showSnackSec(
           context: context,
-          text: 'Fach und zugehörige Noten gelöscht.',
+          text: context.l10n.gradesSubjectsPageDeleteSuccess,
         );
       } catch (error) {
         if (!context.mounted) return;
         showSnackSec(
           context: context,
-          text: 'Fach konnte nicht gelöscht werden: $error',
+          text: context.l10n.gradesSubjectsPageDeleteFailure(error),
         );
       }
     }
 
-    final subtitle = _buildSubtitle();
+    final subtitle = _buildSubtitle(context);
     final theme = Theme.of(context).textTheme;
     return CardListTile(
       leading: SubjectAvatar(
@@ -184,27 +182,30 @@ class _SubjectTile extends StatelessWidget {
       title: Text(subject.name, style: theme.titleMedium),
       subtitle: subtitle != null ? Text(subtitle) : null,
       trailing: IconButton(
-        tooltip: 'Fach löschen',
+        tooltip: context.l10n.gradesSubjectsPageDeleteTooltip,
         icon: const Icon(Icons.delete_outline),
         onPressed: handleDelete,
       ),
     );
   }
 
-  String? _buildSubtitle() {
+  String? _buildSubtitle(BuildContext context) {
     final parts = <String>[];
 
     if (subject.hasGrades) {
       final gradeCount = subject.grades.length;
-      final gradeLabel = gradeCount == 1 ? '1 Note' : '$gradeCount Noten';
+      final gradeLabel =
+          gradeCount == 1
+              ? context.l10n.gradesSubjectsPageSingleGrade
+              : context.l10n.gradesSubjectsPageMultipleGrades(gradeCount);
       parts.add(gradeLabel);
     } else {
-      parts.add('Keine Noten');
+      parts.add(context.l10n.gradesSubjectsPageNoGrades);
     }
 
     if (subject.connectedCourses.isNotEmpty) {
       final names = subject.connectedCourses.map((c) => c.name).join(', ');
-      parts.add('Kurse: $names');
+      parts.add(context.l10n.gradesSubjectsPageCoursesLabel(names));
     }
 
     return parts.isEmpty ? null : parts.join(' · ');
@@ -221,8 +222,8 @@ class _CourseTile extends StatelessWidget {
     final courseNames = subject.connectedCourses.map((c) => c.name).join(', ');
     final subtitle =
         courseNames.isEmpty
-            ? 'Dieser Kurs ist noch keinem Notenfach zugeordnet.'
-            : 'Kurse: $courseNames';
+            ? context.l10n.gradesSubjectsPageCourseNotAssigned
+            : context.l10n.gradesSubjectsPageCoursesLabel(courseNames);
     return CardListTile(
       leading: SubjectAvatar(
         abbreviation: subject.abbreviation,
@@ -245,18 +246,16 @@ class _DeleteSubjectDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 420,
       child: AlertDialog(
-        title: Text('${subject.name} löschen'),
+        title: Text(context.l10n.gradesSubjectsPageDeleteTitle(subject.name)),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Beim Löschen werden alle zugehörigen Noten dauerhaft entfernt.',
-              ),
+              Text(context.l10n.gradesSubjectsPageDeleteDescription),
               const SizedBox(height: 12),
               if (grades.isEmpty)
-                const Text('Für dieses Fach wurden noch keine Noten erfasst.')
+                Text(context.l10n.gradesSubjectsPageNoGradesRecorded)
               else
                 _GradesList(grades: grades),
             ],
@@ -265,12 +264,12 @@ class _DeleteSubjectDialog extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Abbrechen'),
+            child: Text(context.l10n.commonActionsCancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Löschen'),
+            child: Text(context.l10n.commonActionsDelete),
           ),
         ],
       ),

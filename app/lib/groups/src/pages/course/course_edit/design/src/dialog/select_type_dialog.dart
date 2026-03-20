@@ -43,8 +43,8 @@ class _CourseDesign extends StatelessWidget {
     final bloc = BlocProvider.of<CourseEditDesignBloc>(context);
     return _DesignTypeSection.left(
       stream: bloc.courseDesign,
-      title: "Kurs",
-      subtitle: "Farbe gilt für den gesamten Kurs",
+      title: context.l10n.courseDesignTypeCourseTitle,
+      subtitle: context.l10n.courseDesignTypeCourseSubtitle,
       type: EditDesignType.course,
     );
   }
@@ -58,8 +58,8 @@ class _PersonalDesign extends StatelessWidget {
     final bloc = BlocProvider.of<CourseEditDesignBloc>(context);
     return _DesignTypeSection.right(
       stream: bloc.personalDesign,
-      title: "Persönlich",
-      subtitle: "Gilt nur für dich und liegt über der Kursfarbe",
+      title: context.l10n.courseDesignTypePersonalTitle,
+      subtitle: context.l10n.courseDesignTypePersonalSubtitle,
       type: EditDesignType.personal,
     );
   }

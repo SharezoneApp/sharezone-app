@@ -37,9 +37,19 @@ class SubjectsPageLoaded extends SubjectsPageState {
   const SubjectsPageLoaded(this.view);
 }
 
+class SubjectsPageControllerTranslations {
+  final BuildContext context;
+
+  const SubjectsPageControllerTranslations(this.context);
+
+  String? predefinedTypeDisplayName(PredefinedGradeTypes? type) =>
+      type?.toLocalizedString(context);
+}
+
 class SubjectsPageController extends ChangeNotifier {
   final GradesService gradesService;
   final Stream<List<Course>> coursesStream;
+  final SubjectsPageControllerTranslations translations;
 
   SubjectsPageState state = const SubjectsPageLoading();
 
@@ -52,6 +62,7 @@ class SubjectsPageController extends ChangeNotifier {
   SubjectsPageController({
     required this.gradesService,
     required this.coursesStream,
+    required this.translations,
   }) {
     _terms = gradesService.terms.value;
     _updateView();
@@ -105,8 +116,10 @@ class SubjectsPageController extends ChangeNotifier {
         gradeTypes.map((gradeType) {
           final gradeTypeDisplayName =
               gradeType.displayName ??
-              gradeType.predefinedType?.toUiString() ??
-              'Unbekannt';
+              translations.predefinedTypeDisplayName(
+                gradeType.predefinedType,
+              ) ??
+              'Unknown';
 
           return MapEntry(gradeType.id, gradeTypeDisplayName);
         }).toMap();
@@ -164,7 +177,7 @@ class SubjectsPageController extends ChangeNotifier {
             displayValue: _formatGradeValue(grade.value),
             termName: term.name,
             date: grade.date,
-            gradeTypeName: gradeTypeNames[grade.gradeTypeId] ?? 'Unbekannt',
+            gradeTypeName: gradeTypeNames[grade.gradeTypeId] ?? 'Unknown',
           ),
         );
       }

@@ -13,6 +13,7 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone/util/api.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum _DeleteDialogOptions { all, onlyUser }
@@ -26,16 +27,15 @@ Future<void> deleteHomeworkDialogsEntry(
 }) async {
   final option = await showColumnActionsAdaptiveDialog<_DeleteDialogOptions>(
     context: context,
-    title: "Für alle löschen?",
-    messsage:
-        "Soll die Hausaufgabe nur für dich oder für den gesamten Kurs gelöscht werden?",
-    actions: const [
+    title: context.l10n.homeworkDeleteScopeDialogTitle,
+    messsage: context.l10n.homeworkDeleteScopeDialogDescription,
+    actions: [
       AdaptiveDialogAction(
-        title: "Nur für mich",
+        title: context.l10n.homeworkDeleteScopeOnlyMe,
         popResult: _DeleteDialogOptions.onlyUser,
       ),
       AdaptiveDialogAction(
-        title: "Für gesamten Kurs",
+        title: context.l10n.homeworkDeleteScopeWholeCourse,
         popResult: _DeleteDialogOptions.all,
       ),
     ],
@@ -103,16 +103,15 @@ Future<void> _showAttachmentsDeleteOrRemainDialog(
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final option = await showColumnActionsAdaptiveDialog<AttachmentOperation>(
     context: context,
-    title: "Anhänge ebenfalls löschen?",
-    messsage:
-        "Sollen die Anhänge der Hausaufgabe aus der Dateiablage gelöscht oder die Verknüpfung zwischen beiden aufgehoben werden?",
+    title: context.l10n.homeworkDeleteAttachmentsDialogTitle,
+    messsage: context.l10n.homeworkDeleteAttachmentsDialogDescription,
     actions: [
-      const AdaptiveDialogAction(
-        title: "Entknüpfen",
+      AdaptiveDialogAction(
+        title: context.l10n.homeworkDeleteAttachmentsUnlink,
         popResult: AttachmentOperation.unlink,
       ),
       AdaptiveDialogAction(
-        title: "Löschen",
+        title: context.l10n.commonActionsDelete,
         popResult: AttachmentOperation.delete,
         isDefaultAction: true,
         isDestructiveAction: true,

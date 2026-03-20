@@ -14,8 +14,10 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+import '../../../../../../../../flutter_test_config.dart';
 import 'select_design_dialog_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<SubscriptionService>()])
@@ -36,6 +38,9 @@ void main() {
           create: (_) => subscriptionService,
           child: MaterialApp(
             theme: theme,
+            localizationsDelegates:
+                SharezoneLocalizations.localizationsDelegates,
+            supportedLocales: defaultLocales,
             home: Scaffold(
               body: Center(
                 child: Builder(

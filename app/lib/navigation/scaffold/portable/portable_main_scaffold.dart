@@ -74,7 +74,7 @@ class _PortableMainScaffoldState extends State<PortableMainScaffold> {
                 appBar: AppBar(
                   title: Text(
                     widget.appBarConfiguration?.title ??
-                        widget.navigationItem.getName(),
+                        widget.navigationItem.getName(context),
                   ),
                   centerTitle: isOldNav,
                   elevation: widget.appBarConfiguration?.elevation,

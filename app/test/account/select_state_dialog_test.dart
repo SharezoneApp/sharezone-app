@@ -80,7 +80,9 @@ void main() {
 
       final context = tester.element(find.byType(FilledButton));
       final expectedSnackBarText = context.l10n
-          .selectStateDialogConfirmationSnackBar(state.getDisplayName(context));
+          .selectStateDialogConfirmationSnackBar(
+            state.toLocalizedString(context),
+          );
       expect(find.text(expectedSnackBarText), findsOneWidget);
     });
 

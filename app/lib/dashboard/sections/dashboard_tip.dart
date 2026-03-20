@@ -32,6 +32,19 @@ class _DashboardTipCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isRateOurAppTip = dashboardTip is RateOurAppTip;
+    final title =
+        isRateOurAppTip
+            ? context.l10n.dashboardRateOurAppTitle
+            : dashboardTip.title;
+    final text =
+        isRateOurAppTip
+            ? context.l10n.dashboardRateOurAppText
+            : dashboardTip.text;
+    final actionTitle =
+        isRateOurAppTip
+            ? context.l10n.dashboardRateOurAppActionTitle
+            : dashboardTip.action.title;
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
       child: AnimatedSwitcher(
@@ -43,21 +56,21 @@ class _DashboardTipCard extends StatelessWidget {
               Theme.of(context).isDarkTheme
                   ? Colors.deepOrange[700]!
                   : Colors.amberAccent,
-          title: dashboardTip.title,
-          content: Text(dashboardTip.text),
+          title: title,
+          content: Text(text),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
                 foregroundColor: darkBlueColor, // foreground
               ),
-              child: const Text("SCHLIEßEN"),
+              child: Text(context.l10n.commonActionsCloseUppercase),
               onPressed: () => dashboardTip.markAsShown(),
             ),
             TextButton(
               style: TextButton.styleFrom(
                 foregroundColor: darkBlueColor, // foreground
               ),
-              child: Text(dashboardTip.action.title.toUpperCase()),
+              child: Text(actionTitle.toUpperCase()),
               onPressed: () {
                 dashboardTip.markAsShown();
                 dashboardTip.action.onTap(context);

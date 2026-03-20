@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'authentification_localization_mapper.dart';
@@ -42,11 +43,6 @@ class ResetPasswordPage extends StatelessWidget {
 
 class _ResetPasswordPage extends StatefulWidget {
   const _ResetPasswordPage({required this.loginMail});
-
-  static const String erfolg =
-      "E-Mail zum Passwort zurücksetzen wurde gesendet. Wehe du vergisst dein Passwort nochmal ;)";
-  static const String error =
-      "E-Mail konnte nicht gesendet werden. Überprüfe deine eingegebene E-Mail-Adresse!";
 
   final String? loginMail;
 
@@ -142,7 +138,7 @@ class _EmailField extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
             onChanged: bloc.changeEmail,
             decoration: InputDecoration(
-              labelText: "E-Mail Adresse deines Kontos",
+              labelText: context.l10n.resetPasswordEmailFieldLabel,
               icon: const Icon(Icons.mail),
               errorText: mapAuthentificationValidationErrorMessage(
                 context,
@@ -159,7 +155,7 @@ class _EmailField extends StatelessWidget {
                     .then((_) {
                       if (!context.mounted) return;
                       showSnack(
-                        text: _ResetPasswordPage.erfolg,
+                        text: context.l10n.resetPasswordSuccessMessage,
                         duration: const Duration(seconds: 5),
                         context: context,
                       );
@@ -168,7 +164,7 @@ class _EmailField extends StatelessWidget {
                       log('$e', error: e, stackTrace: s);
                       if (!context.mounted) return;
                       showSnack(
-                        text: _ResetPasswordPage.error,
+                        text: context.l10n.resetPasswordErrorMessage,
                         duration: const Duration(seconds: 5),
                         context: context,
                       );
@@ -195,7 +191,7 @@ class _SubmitButton extends StatelessWidget {
           (context, snapshot) => Align(
             alignment: Alignment.centerRight,
             child: ContinueRoundButton(
-              tooltip: 'Passwort zurücksetzen',
+              tooltip: context.l10n.loginResetPasswordButton,
               onTap: () {
                 FocusManager.instance.primaryFocus?.unfocus();
                 sendDataToFrankfurtSnackBar(context);
@@ -210,7 +206,7 @@ class _SubmitButton extends StatelessWidget {
                           log('$e', error: e, stackTrace: s);
                           if (!context.mounted) return;
                           showSnack(
-                            text: _ResetPasswordPage.error,
+                            text: context.l10n.resetPasswordErrorMessage,
                             duration: const Duration(seconds: 5),
                             context: context,
                           );
@@ -226,9 +222,12 @@ class _SubmitButton extends StatelessWidget {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     showLeftRightAdaptiveDialog(
       context: context,
-      title: "E-Mail wurde verschickt",
-      content: const Text(_ResetPasswordPage.erfolg),
-      left: const AdaptiveDialogAction(isDefaultAction: true, title: 'Ok'),
+      title: context.l10n.resetPasswordSentDialogTitle,
+      content: Text(context.l10n.resetPasswordSuccessMessage),
+      left: AdaptiveDialogAction(
+        isDefaultAction: true,
+        title: context.l10n.commonActionsOk,
+      ),
     );
   }
 }

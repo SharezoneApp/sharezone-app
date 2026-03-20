@@ -64,7 +64,7 @@ class _AboutHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AvatarCard(
-      svgPath: "assets/logo",
+      svgPath: "assets/logo.svg",
       crossAxisAlignment: CrossAxisAlignment.center,
       avatarBackgroundColor: Colors.white,
       children: <Widget>[

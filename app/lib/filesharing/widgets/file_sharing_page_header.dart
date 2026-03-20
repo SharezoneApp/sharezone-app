@@ -14,6 +14,7 @@ import 'package:sharezone/filesharing/logic/file_sharing_page_state_bloc.dart';
 import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
 import 'package:sharezone/filesharing/widgets/view_mode_toggle.dart';
 import 'package:key_value_store/key_value_store.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class FileSharingPageHeader extends StatelessWidget
     implements PreferredSizeWidget {
@@ -76,7 +77,7 @@ class FileSharingPageHeader extends StatelessWidget
 
   Widget _getTitleOverview(BuildContext context) {
     return Text(
-      "Kursordner",
+      context.l10n.fileSharingPageHeaderTitleOverview,
       style: TextStyle(color: Theme.of(context).primaryColor),
     );
   }

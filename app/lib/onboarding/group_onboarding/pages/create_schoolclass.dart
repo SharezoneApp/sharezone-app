@@ -19,6 +19,7 @@ import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_blo
 import 'package:sharezone/onboarding/group_onboarding/pages/create_courses.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
@@ -77,12 +78,12 @@ class _GroupOnboardingCreateSchoolClassState
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
     switch (bloc.typeOfUser) {
       case TypeOfUser.teacher:
-        return 'Wie heißt die Klasse?';
+        return context.l10n.groupOnboardingCreateSchoolClassTitleTeacher;
       case TypeOfUser.parent:
-        return 'Wie heißt die Klasse deines Kindes?';
+        return context.l10n.groupOnboardingCreateSchoolClassTitleParent;
       case TypeOfUser.student:
       default:
-        return 'Wie heißt deine Klasse / Stufe?';
+        return context.l10n.groupOnboardingCreateSchoolClassTitleStudent;
     }
   }
 }
@@ -121,9 +122,9 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
                         onEditingComplete: () {
                           if (isValid) onSubmit(context, name);
                         },
-                        decoration: const InputDecoration(
-                          hintText: 'z.B. 10A',
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          hintText: context.l10n.groupOnboardingSchoolClassHint,
+                          border: const OutlineInputBorder(),
                         ),
                         textCapitalization: TextCapitalization.sentences,
                       ),
@@ -140,7 +141,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
                               : Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
                                 child: ContinueRoundButton(
-                                  tooltip: 'Weiter',
+                                  tooltip: context.l10n.commonActionsContinue,
                                   onTap:
                                       isValid
                                           ? () => onSubmit(context, name)

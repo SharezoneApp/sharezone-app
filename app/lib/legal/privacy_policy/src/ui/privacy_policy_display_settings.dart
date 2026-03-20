@@ -9,6 +9,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class DisplaySettingsDialog extends StatelessWidget {
@@ -37,7 +38,7 @@ class DisplaySettingsDialog extends StatelessWidget {
                 ),
               ),
               child: SimpleDialog(
-                title: const Text('Anzeigeeinstellungen'),
+                title: Text(context.l10n.privacyDisplaySettingsTitle),
                 children: [
                   _TextSize(themeSettings: themeSettings),
                   const SizedBox(height: 20),
@@ -84,7 +85,7 @@ class _TextSize extends StatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Text(
-            'Textskalierungsfaktor',
+            context.l10n.privacyDisplaySettingsTextScalingFactor,
             style: Theme.of(context).textTheme.labelLarge,
           ),
           DecoratedBox(
@@ -142,7 +143,7 @@ class _LightOrDarkMode extends StatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Text(
-            'Dunkel-/Hellmodus',
+            context.l10n.privacyDisplaySettingsThemeMode,
             style: Theme.of(context).textTheme.labelLarge,
           ),
           const SizedBox(width: 10),
@@ -182,7 +183,7 @@ class _LightOrDarkMode extends StatelessWidget {
                   Icon(Icons.settings_brightness),
                 ],
               ),
-              Text(_getText()!),
+              Text(_getText(context)!),
             ],
           ),
         ],
@@ -190,11 +191,12 @@ class _LightOrDarkMode extends StatelessWidget {
     );
   }
 
-  String? _getText() {
+  String? _getText(BuildContext context) {
     return <ThemeBrightness, String>{
-      ThemeBrightness.dark: 'Dunkler Modus',
-      ThemeBrightness.light: 'Heller Modus',
-      ThemeBrightness.system: 'Automatisch',
+      ThemeBrightness.dark: context.l10n.privacyDisplaySettingsThemeModeDark,
+      ThemeBrightness.light: context.l10n.privacyDisplaySettingsThemeModeLight,
+      ThemeBrightness.system:
+          context.l10n.privacyDisplaySettingsThemeModeAutomatic,
     }[themeSettings.themeBrightness];
   }
 }
@@ -211,7 +213,7 @@ class _VisualDensity extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text(
-          'Visuelle Kompaktheit',
+          context.l10n.privacyDisplaySettingsVisualDensity,
           style: Theme.of(context).textTheme.labelLarge,
         ),
         const SizedBox(width: 10),
@@ -220,19 +222,23 @@ class _VisualDensity extends StatelessWidget {
           items: [
             DropdownMenuItem<VisualDensitySetting>(
               value: VisualDensitySetting.standard(),
-              child: const Text('Standard'),
+              child: Text(context.l10n.privacyDisplaySettingsDensityStandard),
             ),
             DropdownMenuItem<VisualDensitySetting>(
               value: VisualDensitySetting.compact(),
-              child: const Text('Kompakt'),
+              child: Text(context.l10n.privacyDisplaySettingsDensityCompact),
             ),
             DropdownMenuItem<VisualDensitySetting>(
               value: VisualDensitySetting.comfortable(),
-              child: const Text('Komfortabel'),
+              child: Text(
+                context.l10n.privacyDisplaySettingsDensityComfortable,
+              ),
             ),
             DropdownMenuItem<VisualDensitySetting>(
               value: VisualDensitySetting.adaptivePlatformDensity(),
-              child: const Text('Automatisch'),
+              child: Text(
+                context.l10n.privacyDisplaySettingsThemeModeAutomatic,
+              ),
             ),
           ],
           onChanged: (visualDensity) {
@@ -257,7 +263,7 @@ class _DrawDebugThresholdIndicator extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text(
-          '"Am Lesen"-Indikator anzeigen',
+          context.l10n.privacyDisplaySettingsShowReadIndicator,
           style: Theme.of(context).textTheme.labelLarge,
         ),
         const SizedBox(width: 10),

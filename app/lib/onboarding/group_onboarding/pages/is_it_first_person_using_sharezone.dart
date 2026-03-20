@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/hint_text.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 import '../widgets/text_button.dart';
@@ -27,9 +28,9 @@ class GroupOnboardingIsItFirstPersonUsingSharezone extends StatelessWidget {
   Widget build(BuildContext context) {
     return GroupOnboardingPageTemplate(
       title: _getString(context),
-      bottomNavigationBar: const SafeArea(
+      bottomNavigationBar: SafeArea(
         child: GroupOnboardingHintText(
-          "Wenn ein Mitschüler schon Sharezone verwendet, kann dir dieser einen Sharecode geben, damit du seiner Klasse beitreten kannst.",
+          context.l10n.groupOnboardingFirstPersonHint,
         ),
       ),
       children: const [_JoinGroupButton(), _CreateGroupsButton()],
@@ -40,12 +41,12 @@ class GroupOnboardingIsItFirstPersonUsingSharezone extends StatelessWidget {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
     switch (bloc.typeOfUser) {
       case TypeOfUser.student:
-        return "Haben Mitschüler oder dein Lehrer / deine Lehrerin schon einen Kurs, eine Klasse oder Stufe erstellt? 💪";
+        return context.l10n.groupOnboardingFirstPersonStudentTitle;
       case TypeOfUser.parent:
-        return "Wurden bereits Gruppen von Schülern oder Lehrkräften erstellt?";
+        return context.l10n.groupOnboardingFirstPersonParentTitle;
       case TypeOfUser.teacher:
       default:
-        return "Wurden bereits Gruppen von einer anderen Person erstellt? 💪";
+        return context.l10n.groupOnboardingFirstPersonTeacherTitle;
     }
   }
 }
@@ -60,8 +61,8 @@ class _JoinGroupButton extends StatelessWidget {
       icon: const Icon(Icons.vpn_key),
       text:
           bloc.isStudent
-              ? "Ja, ich möchte dieser Gruppe beitreten"
-              : "Ja, ich möchte diesen Gruppen beitreten",
+              ? context.l10n.groupOnboardingJoinSingleGroupAction
+              : context.l10n.groupOnboardingJoinMultipleGroupsAction,
       onTap:
           () => Navigator.push(
             context,
@@ -81,7 +82,7 @@ class _CreateGroupsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GroupOnboardingTextButton(
       icon: const Icon(Icons.add_circle_outline),
-      text: "Nein, ich möchte neue Gruppen erstellen",
+      text: context.l10n.groupOnboardingCreateNewGroupsAction,
       onTap: () {
         final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
         if (bloc.isTeacher) {

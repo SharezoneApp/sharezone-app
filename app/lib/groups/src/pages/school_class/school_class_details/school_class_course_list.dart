@@ -16,6 +16,7 @@ import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class SchoolClassCoursesList extends StatelessWidget {
   const SchoolClassCoursesList({super.key, required this.schoolClassID});
@@ -67,7 +68,10 @@ class _List extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(left: 16, top: 16),
-          child: Text("Kurse", style: Theme.of(context).textTheme.titleLarge),
+          child: Text(
+            context.l10n.schoolClassCoursesTitle,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
         ),
         const SizedBox(height: 4),
         for (final course in courses)
@@ -76,10 +80,8 @@ class _List extends StatelessWidget {
             schoolClassId: schoolClassId,
           ),
         if (courses.isEmpty)
-          const ListTile(
-            title: Text(
-              "Es wurden noch keine Kurse zu dieser Klasse hinzugefügt.\n\nErstelle jetzt einen Kurs, der mit der Klasse verknüpft ist.",
-            ),
+          ListTile(
+            title: Text(context.l10n.schoolClassCoursesEmptyDescription),
           ),
         if (isAdmin) _AddExistingCourse(schoolClassId),
         if (isAdmin) _AddNewCourse(schoolClassId),
@@ -123,7 +125,7 @@ class _AddExistingCourse extends StatelessWidget {
       builder: (context, snapshot) {
         return _SchoolCoursesActions(
           iconData: Icons.group_add,
-          title: "Existierenden Kurs hinzufügen",
+          title: context.l10n.schoolClassCoursesAddExisting,
           onTap: () async {
             if (snapshot.hasData) {
               final courseList = snapshot.data!;
@@ -137,7 +139,7 @@ class _AddExistingCourse extends StatelessWidget {
             } else {
               showSnackSec(
                 context: context,
-                text: 'Bitte warten einen kurzen Augenblick.',
+                text: context.l10n.commonPleaseWaitMoment,
                 seconds: 2,
               );
             }
@@ -156,13 +158,13 @@ class _AddExistingCourse extends StatelessWidget {
       builder: (context) {
         _sortCourseListByAlphabet(courseList);
         return SimpleDialog(
-          title: const Text("Wähle einen Kurs aus"),
+          title: Text(context.l10n.schoolClassCoursesSelectCourseDialogTitle),
           children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.fromLTRB(24, 0, 24, 6),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 6),
               child: Text(
-                "Du kannst nur Kurse hinzufügen, in denen du auch Administrator bist.",
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+                context.l10n.schoolClassCoursesSelectCourseDialogHint,
+                style: const TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ),
             Column(
@@ -225,7 +227,7 @@ class _AddNewCourse extends StatelessWidget {
   Widget build(BuildContext context) {
     return _SchoolCoursesActions(
       iconData: Icons.add,
-      title: "Neuen Kurs hinzufügen",
+      title: context.l10n.schoolClassCoursesAddNew,
       onTap:
           () => Navigator.push(
             context,

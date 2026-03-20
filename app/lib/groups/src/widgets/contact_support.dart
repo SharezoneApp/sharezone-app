@@ -9,6 +9,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/support/support_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ContactSupport extends StatelessWidget {
@@ -32,12 +33,9 @@ class ContactSupport extends StatelessWidget {
                 TextSpan(
                   style: const TextStyle(color: Colors.grey, fontSize: 16),
                   children: <TextSpan>[
-                    const TextSpan(
-                      text:
-                          "Du brauchst Hilfe? Dann kontaktiere einfach unseren ",
-                    ),
+                    TextSpan(text: context.l10n.groupsContactSupportPrefix),
                     TextSpan(
-                      text: "Support",
+                      text: context.l10n.groupsContactSupportLinkText,
                       style: linkStyle(context),
                       recognizer:
                           TapGestureRecognizer()
@@ -47,7 +45,7 @@ class ContactSupport extends StatelessWidget {
                                   SupportPage.tag,
                                 ),
                     ),
-                    const TextSpan(text: " 😉"),
+                    TextSpan(text: context.l10n.groupsContactSupportSuffix),
                   ],
                 ),
                 textAlign: TextAlign.center,

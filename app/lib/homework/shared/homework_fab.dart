@@ -8,6 +8,7 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../homework_dialog/open_homework_dialog.dart';
@@ -19,7 +20,7 @@ class HomeworkFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ModalFloatingActionButton(
       icon: const Icon(Icons.add),
-      tooltip: "Neue Hausaufgabe",
+      tooltip: context.l10n.homeworkFabNewHomeworkTooltip,
       onPressed: () async {
         AnalyticsProvider.ofOrNullObject(
           context,

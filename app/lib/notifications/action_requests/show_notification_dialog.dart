@@ -10,6 +10,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:notifications/notifications.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
 
@@ -123,18 +124,18 @@ class ShowNotificationDialogExecutor
             title: actionRequest.title,
             content: actionRequest.hasBody ? Text(actionRequest.body!) : null,
             defaultValue: false,
-            right: const AdaptiveDialogAction<bool>(
+            right: AdaptiveDialogAction<bool>(
               isDefaultAction: true,
               popResult: true,
-              title: "Antworten",
+              title: getCurrentContext().l10n.notificationsDialogReplyAction,
             ),
           ))!;
       if (confirmed) {
         UrlLauncherExtended().tryLaunchMailOrThrow(
           "support@sharezone.net",
-          subject: 'Rückmeldung zur Support-Notification',
+          subject: 'Feedback on support notification',
           body:
-              'Liebes Sharezone-Team,\n\nihr habt folgende Nachricht geschrieben:\n${actionRequest.title}; ${actionRequest.body}\n\nMein Anliegen:\n_',
+              'Dear Sharezone team,\n\nyou sent the following message:\n${actionRequest.title}; ${actionRequest.body}\n\nMy request:\n_',
         );
       }
     });
@@ -147,9 +148,9 @@ class ShowNotificationDialogExecutor
         title: actionRequest.title,
         content: actionRequest.hasBody ? Text(actionRequest.body!) : null,
         defaultValue: false,
-        left: const AdaptiveDialogAction<bool>(
+        left: AdaptiveDialogAction<bool>(
           isDefaultAction: true,
-          title: "Ok",
+          title: getCurrentContext().l10n.commonActionsOk,
         ),
       );
     });

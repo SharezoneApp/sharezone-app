@@ -13,6 +13,7 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/support/support_page_controller.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'support_page_test.mocks.dart';
 
@@ -38,7 +39,12 @@ void main() {
               value: controller,
             ),
           ],
-          child: const MaterialApp(home: SupportPage()),
+          child: const MaterialApp(
+            home: SupportPage(),
+            localizationsDelegates:
+                SharezoneLocalizations.localizationsDelegates,
+            supportedLocales: SharezoneLocalizations.supportedLocales,
+          ),
         ),
       );
     }

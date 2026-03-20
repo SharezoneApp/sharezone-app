@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'course_settings.dart';
@@ -30,7 +31,7 @@ class WritePermissions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: const Text("Schreibrechte"),
+      title: Text(context.l10n.groupsWritePermissionsTitle),
       subtitle: Text(initialWritePermission.toLocalizedString(context)),
       onTap:
           () => showWritePermissionOptionsSheet(
@@ -44,7 +45,7 @@ class WritePermissions extends StatelessWidget {
       onLongPress:
           () => showExplanation(
             context,
-            "Mit dieser Einstellung kann reguliert werden, welche Nutzergruppen Schreibrechte erhalten.",
+            context.l10n.groupsWritePermissionsExplanation,
           ),
     );
   }
@@ -100,8 +101,8 @@ class _WritePermissionSheet extends StatelessWidget {
                   ).add(const EdgeInsets.only(top: 16)),
                   child: Column(
                     children: <Widget>[
-                      const Text(
-                        "Wer ist dazu berechtigt, neue Einträge, neue Hausaufgaben, neue Dateien, etc. zu erstellen, bzw. hochzuladen?",
+                      Text(
+                        context.l10n.groupsWritePermissionsSheetQuestion,
                         style: textStyle,
                         textAlign: TextAlign.center,
                       ),
@@ -154,17 +155,15 @@ class _PermissionRadioGroup extends StatelessWidget {
           _WritePermissionTile(
             writePermission: WritePermission.everyone,
             currentPermission: currentPermission,
-            title: "Alle",
-            subtitle:
-                'Jeder erhält die Rolle ”aktives Mitglied (Lese- und Schreibrechte)"',
+            title: context.l10n.writePermissionEveryone,
+            subtitle: context.l10n.groupsWritePermissionsEveryoneDescription,
             onChange: onChange,
           ),
           _WritePermissionTile(
             writePermission: WritePermission.onlyAdmins,
             currentPermission: currentPermission,
-            title: "Nur Admins",
-            subtitle:
-                'Alle, außer die Admins, erhalten die Rolle "passives Mitglied (Nur Leserechte)"',
+            title: context.l10n.writePermissionOnlyAdmins,
+            subtitle: context.l10n.groupsWritePermissionsOnlyAdminsDescription,
             onChange: onChange,
           ),
         ],

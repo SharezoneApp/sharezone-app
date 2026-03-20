@@ -12,6 +12,7 @@ import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_blo
 import 'package:sharezone/onboarding/group_onboarding/pages/create_schoolclass.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../widgets/text_button.dart';
 import 'create_courses.dart';
@@ -23,10 +24,10 @@ class GroupOnboardingIsClassTeacher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GroupOnboardingPageTemplate(
-      title: "Leitest du eine Klasse? (Klassenlehrer)",
-      bottomNavigationBar: OnboardingNavigationBar(),
-      children: [_ClassTeacherButton(), _CourseTeacherButton()],
+    return GroupOnboardingPageTemplate(
+      title: context.l10n.groupOnboardingIsClassTeacherTitle,
+      bottomNavigationBar: const OnboardingNavigationBar(),
+      children: const [_ClassTeacherButton(), _CourseTeacherButton()],
     );
   }
 }
@@ -38,7 +39,7 @@ class _ClassTeacherButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
     return GroupOnboardingTextButton(
-      text: "Ja, ich möchte eine Klasse erstellen",
+      text: context.l10n.groupOnboardingIsClassTeacherCreateClassAction,
       onTap: () {
         bloc.setTeacherType(TeacherType.classTeacher);
         Navigator.push(
@@ -60,7 +61,7 @@ class _CourseTeacherButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
     return GroupOnboardingTextButton(
-      text: "Nein, ich möchte nur Kurse erstellen",
+      text: context.l10n.groupOnboardingIsClassTeacherCreateCoursesOnlyAction,
       onTap: () {
         bloc.setTeacherType(TeacherType.courseTeacher);
         Navigator.push(
