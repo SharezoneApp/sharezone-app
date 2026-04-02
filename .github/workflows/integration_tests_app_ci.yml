@@ -238,7 +238,7 @@ jobs:
           cache: true
 
       - name: Install chromedriver
-        uses: nanasess/setup-chromedriver@e93e57b843c0c92788f22483f1a31af8ee48db25
+        uses: nanasess/setup-chromedriver@c75c3d53d445b96d41dbf2355797b470953c6c30
 
       - name: Run integration tests
         working-directory: app
