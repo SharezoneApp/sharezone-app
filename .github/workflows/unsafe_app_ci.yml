@@ -146,7 +146,11 @@ jobs:
           # checkout the PR head commit instead of the merge commit.
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+      - name: Set Flutter version from FVM config file to environment variables
+        id: fvm-config-action
+        uses: kuhnroyal/flutter-fvm-config-action@fcdb62b682dade6f0d9e0c6eae6acc647ca8c31d
+
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           flutter-version-file: .fvmrc
           cache: true
