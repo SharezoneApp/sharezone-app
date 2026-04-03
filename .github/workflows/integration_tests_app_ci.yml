@@ -90,14 +90,9 @@ jobs:
           distribution: "oracle"
           java-version: "17"
 
-      - name: Set Flutter version from FVM config file to environment variables
-        id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@fcdb62b682dade6f0d9e0c6eae6acc647ca8c31d
-
-      - uses: subosito/flutter-action@main
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version-file: .fvmrc
           cache: true
 
       - name: Install patrol cli
@@ -176,14 +171,9 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - name: Set Flutter version from FVM config file to environment variables
-        id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@fcdb62b682dade6f0d9e0c6eae6acc647ca8c31d
-
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version-file: .fvmrc
           cache: true
 
       - uses: futureware-tech/simulator-action@6a2cef2c27540a25595e53c969fd85988700d451
@@ -227,14 +217,9 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - name: Set Flutter version from FVM config file to environment variables
-        id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@fcdb62b682dade6f0d9e0c6eae6acc647ca8c31d
-
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version-file: .fvmrc
           cache: true
 
       - name: Install chromedriver
@@ -307,14 +292,9 @@ jobs:
           keychain add-certificates
           xcode-project use-profiles
 
-      - name: Set Flutter version from FVM config file to environment variables
-        id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@fcdb62b682dade6f0d9e0c6eae6acc647ca8c31d
-
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          flutter-version-file: .fvmrc
           cache: true
 
       # We need to install the FlutterFire CLI because we have Build Phases in
