@@ -223,7 +223,9 @@ class _FreeEmailTile extends StatelessWidget {
       onPressed: () async {
         try {
           final controller = context.read<SupportPageController>();
-          await controller.sendEmailToFreeSupport();
+          await controller.sendEmailToFreeSupport(
+            subject: context.l10n.supportPageEmailSubject,
+          );
         } on Exception catch (_) {
           if (!context.mounted) return;
           showSnackSec(
@@ -253,7 +255,9 @@ class _PlusEmailTile extends StatelessWidget {
       onPressed: () async {
         try {
           final controller = context.read<SupportPageController>();
-          await controller.sendEmailToPlusSupport();
+          await controller.sendEmailToPlusSupport(
+            subject: context.l10n.supportPagePlusEmailSubject,
+          );
         } on Exception catch (_) {
           if (!context.mounted) return;
           showSnackSec(

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharezonePlusPageHeader extends StatelessWidget {
@@ -35,7 +36,7 @@ class SharezonePlusPageHeader extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Text(
-          'Entfalte das gesamte Potential für einen stressfreien Schulalltag.',
+          context.l10n.sharezonePlusPageHeaderSubtitle,
           style: Theme.of(context).textTheme.bodyMedium,
           textAlign: TextAlign.center,
         ),

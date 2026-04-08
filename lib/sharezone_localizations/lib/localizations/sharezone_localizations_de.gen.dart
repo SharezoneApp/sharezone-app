@@ -1,11 +1,3 @@
-// Copyright (c) 2026 Sharezone UG (haftungsbeschränkt)
-// Licensed under the EUPL-1.2-or-later.
-//
-// You may obtain a copy of the Licence at:
-// https://joinup.ec.europa.eu/software/page/eupl
-//
-// SPDX-License-Identifier: EUPL-1.2
-
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'sharezone_localizations.gen.dart';
@@ -3910,6 +3902,12 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get sharezonePlusFaqWhoIsBehindTitle => 'Wer steht hinter Sharezone?';
 
   @override
+  String get sharezonePlusFeatureInfoDialogBack => 'ZURÜCK';
+
+  @override
+  String get sharezonePlusFeatureInfoDialogLearnMore => 'MEHR ERFAHREN';
+
+  @override
   String get sharezonePlusFeatureUnavailable =>
       'Dieses Feature ist nur mit \"Sharezone Plus\" verfügbar.';
 
@@ -3952,6 +3950,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Der Token für den Link konnte nicht geladen werden.';
 
   @override
+  String get sharezonePlusPageHeaderSubtitle =>
+      'Entfalte das gesamte Potential für einen stressfreien Schulalltag.';
+
+  @override
   String get sharezonePlusPurchasePeriodLifetime =>
       'Lebenslang (einmaliger Kauf)';
 
@@ -3963,6 +3965,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get sharezonePlusSubscribeAction => 'Abonnieren';
+
+  @override
+  String get sharezonePlusSupportNote =>
+      'Du hast noch Fragen zu Sharezone Plus? Schreib uns an [plus@sharezone.net](mailto:plus@sharezone.net) eine E-Mail und wir helfen dir gerne weiter.';
 
   @override
   String get sharezonePlusTestFlightContent =>
@@ -3978,6 +3984,17 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   @override
   String get sharezonePlusUnsubscribeLifetimeText =>
       'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!';
+
+  @override
+  String get sharezonePlusWhyCardImageSemanticLabel =>
+      'Ein Bild von Jonas und Nils.';
+
+  @override
+  String get sharezonePlusWhyCardText =>
+      'Neben einem Studium können wir, Jonas und Nils, die monatlichen Kosten von 1.000 € für Sharezone nicht selbst tragen. Daher haben wir Sharezone Plus entwickelt - der Schlüssel zur Fortführung und Werbefreiheit unserer App.';
+
+  @override
+  String get sharezonePlusWhyCardTitle => 'Warum kostet Sharezone Plus Geld?';
 
   @override
   String get sharezoneV2DialogAnbAcceptanceCheckbox =>
@@ -4531,6 +4548,9 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get supportPageEmailIconSemanticsLabel => 'E-Mail Icon';
 
   @override
+  String get supportPageEmailSubject => 'Meine Anfrage';
+
+  @override
   String get supportPageEmailTitle => 'E-Mail';
 
   @override
@@ -4550,6 +4570,9 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   @override
   String get supportPagePlusAdvertisingBulletTwo =>
       'Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)';
+
+  @override
+  String get supportPagePlusEmailSubject => '[💎 Plus Support] Meine Anfrage';
 
   @override
   String get supportPagePlusEmailSubtitle =>

@@ -127,15 +127,12 @@ class SupportPageController extends ChangeNotifier {
     return url;
   }
 
-  Future<void> sendEmailToFreeSupport() async {
-    await _openEmailApp(email: freeSupportEmail, subject: 'Meine Anfrage');
+  Future<void> sendEmailToFreeSupport({required String subject}) async {
+    await _openEmailApp(email: freeSupportEmail, subject: subject);
   }
 
-  Future<void> sendEmailToPlusSupport() async {
-    await _openEmailApp(
-      email: plusSupportEmail,
-      subject: '[💎 Plus Support] Meine Anfrage',
-    );
+  Future<void> sendEmailToPlusSupport({required String subject}) async {
+    await _openEmailApp(email: plusSupportEmail, subject: subject);
   }
 
   Future<void> _openEmailApp({

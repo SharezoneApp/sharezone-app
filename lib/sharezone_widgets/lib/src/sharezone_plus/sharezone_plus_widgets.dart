@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharezonePlusBadge extends StatelessWidget {
@@ -182,9 +183,9 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
                             ),
                             foregroundColor: fontColor,
                           ),
-                          child: const Text(
-                            'MEHR ERFAHREN',
-                            style: TextStyle(letterSpacing: 0.5),
+                          child: Text(
+                            context.l10n.sharezonePlusFeatureInfoDialogLearnMore,
+                            style: const TextStyle(letterSpacing: 0.5),
                           ),
                         ),
                       ),

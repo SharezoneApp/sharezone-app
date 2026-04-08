@@ -1,11 +1,3 @@
-// Copyright (c) 2026 Sharezone UG (haftungsbeschränkt)
-// Licensed under the EUPL-1.2-or-later.
-//
-// You may obtain a copy of the Licence at:
-// https://joinup.ec.europa.eu/software/page/eupl
-//
-// SPDX-License-Identifier: EUPL-1.2
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -6781,6 +6773,18 @@ abstract class SharezoneLocalizations {
   /// **'Wer steht hinter Sharezone?'**
   String get sharezonePlusFaqWhoIsBehindTitle;
 
+  /// No description provided for @sharezonePlusFeatureInfoDialogBack.
+  ///
+  /// In de, this message translates to:
+  /// **'ZURÜCK'**
+  String get sharezonePlusFeatureInfoDialogBack;
+
+  /// No description provided for @sharezonePlusFeatureInfoDialogLearnMore.
+  ///
+  /// In de, this message translates to:
+  /// **'MEHR ERFAHREN'**
+  String get sharezonePlusFeatureInfoDialogLearnMore;
+
   /// No description provided for @sharezonePlusFeatureUnavailable.
   ///
   /// In de, this message translates to:
@@ -6841,6 +6845,12 @@ abstract class SharezoneLocalizations {
   /// **'Der Token für den Link konnte nicht geladen werden.'**
   String get sharezonePlusLinkTokenLoadFailed;
 
+  /// No description provided for @sharezonePlusPageHeaderSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Entfalte das gesamte Potential für einen stressfreien Schulalltag.'**
+  String get sharezonePlusPageHeaderSubtitle;
+
   /// No description provided for @sharezonePlusPurchasePeriodLifetime.
   ///
   /// In de, this message translates to:
@@ -6865,6 +6875,12 @@ abstract class SharezoneLocalizations {
   /// **'Abonnieren'**
   String get sharezonePlusSubscribeAction;
 
+  /// No description provided for @sharezonePlusSupportNote.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast noch Fragen zu Sharezone Plus? Schreib uns an [plus@sharezone.net](mailto:plus@sharezone.net) eine E-Mail und wir helfen dir gerne weiter.'**
+  String get sharezonePlusSupportNote;
+
   /// No description provided for @sharezonePlusTestFlightContent.
   ///
   /// In de, this message translates to:
@@ -6888,6 +6904,24 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!'**
   String get sharezonePlusUnsubscribeLifetimeText;
+
+  /// No description provided for @sharezonePlusWhyCardImageSemanticLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Bild von Jonas und Nils.'**
+  String get sharezonePlusWhyCardImageSemanticLabel;
+
+  /// No description provided for @sharezonePlusWhyCardText.
+  ///
+  /// In de, this message translates to:
+  /// **'Neben einem Studium können wir, Jonas und Nils, die monatlichen Kosten von 1.000 € für Sharezone nicht selbst tragen. Daher haben wir Sharezone Plus entwickelt - der Schlüssel zur Fortführung und Werbefreiheit unserer App.'**
+  String get sharezonePlusWhyCardText;
+
+  /// No description provided for @sharezonePlusWhyCardTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Warum kostet Sharezone Plus Geld?'**
+  String get sharezonePlusWhyCardTitle;
 
   /// No description provided for @sharezoneV2DialogAnbAcceptanceCheckbox.
   ///
@@ -7867,6 +7901,12 @@ abstract class SharezoneLocalizations {
   /// **'E-Mail Icon'**
   String get supportPageEmailIconSemanticsLabel;
 
+  /// No description provided for @supportPageEmailSubject.
+  ///
+  /// In de, this message translates to:
+  /// **'Meine Anfrage'**
+  String get supportPageEmailSubject;
+
   /// No description provided for @supportPageEmailTitle.
   ///
   /// In de, this message translates to:
@@ -7902,6 +7942,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)'**
   String get supportPagePlusAdvertisingBulletTwo;
+
+  /// No description provided for @supportPagePlusEmailSubject.
+  ///
+  /// In de, this message translates to:
+  /// **'[💎 Plus Support] Meine Anfrage'**
+  String get supportPagePlusEmailSubject;
 
   /// No description provided for @supportPagePlusEmailSubtitle.
   ///
