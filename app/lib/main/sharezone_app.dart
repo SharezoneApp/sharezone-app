@@ -196,8 +196,14 @@ class _SharezoneAppState extends State<SharezoneApp>
                     (context) =>
                         const UseAccountOnMultipleDevicesInstructions(),
                 MyProfilePage.tag: (context) => const MyProfilePage(),
-                BlackboardDialogChoosePicture.tag:
-                    (context) => const BlackboardDialogChoosePicture(),
+                BlackboardDialogChoosePicture.tag: (context) {
+                  final args =
+                      ModalRoute.of(context)?.settings.arguments
+                          as BlackboardDialogChoosePictureArgs?;
+                  return BlackboardDialogChoosePicture(
+                    courseId: args?.courseId,
+                  );
+                },
                 TimetableAddPage.tag: (context) => const TimetableAddPage(),
                 WebAppSettingsPage.tag: (context) => const WebAppSettingsPage(),
                 ImprintPage.tag: (context) => const ImprintPage(),

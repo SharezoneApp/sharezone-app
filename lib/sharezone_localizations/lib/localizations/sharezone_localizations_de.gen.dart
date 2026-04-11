@@ -2130,6 +2130,24 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Überschrift der Sharezone App';
 
   @override
+  String get blackboardTitleImagePlusDialogTitle => 'Eigenes Titelbild';
+
+  @override
+  String get blackboardTitleImagePlusDialogDescription =>
+      'Mit Sharezone Plus kannst du eigene Bilder als Titelbild für Infozettel hochladen.';
+
+  @override
+  String get blackboardTitleImageSelectCourseFirst =>
+      'Bitte wähle zuerst einen Kurs aus, bevor du ein Titelbild hochlädst.';
+
+  @override
+  String get blackboardTitleImageUploading => 'Titelbild wird hochgeladen...';
+
+  @override
+  String get blackboardTitleImageUploadFailed =>
+      'Titelbild konnte nicht hochgeladen werden. Bitte versuche es erneut.';
+
+  @override
   String get writePermissionEveryone => 'Alle';
 
   @override

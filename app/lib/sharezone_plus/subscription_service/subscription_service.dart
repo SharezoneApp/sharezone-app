@@ -110,6 +110,7 @@ enum SharezonePlusFeature {
   iCalLinks,
   substitutions,
   addTeachersToTimetable,
+  infoSheetTitleImageUpload,
 }
 
 void trySetSharezonePlusAnalyticsUserProperties(

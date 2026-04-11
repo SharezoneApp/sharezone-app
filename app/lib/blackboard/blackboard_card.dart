@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_card_bloc.dart';
 import 'package:sharezone/blackboard/details/blackboard_details.dart';
+import 'package:sharezone/blackboard/blackboard_picture_utils.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_utils/launch_link.dart';
@@ -283,7 +284,7 @@ class _Picture extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage(view.pictureURL!),
+            image: getBlackboardPictureProvider(view.pictureURL!),
           ),
         ),
       ),
