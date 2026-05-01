@@ -176,7 +176,7 @@ jobs:
           flutter-version-file: .fvmrc
           cache: true
 
-      - uses: futureware-tech/simulator-action@82fbf87feb764ca7f516260ebfb464b83638a068
+      - uses: futureware-tech/simulator-action@23a3133dfeb6b4fde3cfbaac0b1e32fae97da389
         id: simulator
         with:
           model: "iPhone 17"
