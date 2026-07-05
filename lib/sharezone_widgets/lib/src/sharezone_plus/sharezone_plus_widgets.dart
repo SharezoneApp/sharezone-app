@@ -28,7 +28,7 @@ class SharezonePlusBadge extends StatelessWidget {
         Icon(Icons.star_rounded, color: color),
         const SizedBox(width: 6),
         Text(
-          'PLUS',
+          context.l10n.sharezonePlusBadgeLabel,
           style: TextStyle(
             fontWeight: FontWeight.w500,
             color: color,
@@ -184,7 +184,9 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
                             foregroundColor: fontColor,
                           ),
                           child: Text(
-                            context.l10n.sharezonePlusFeatureInfoDialogLearnMore,
+                            context
+                                .l10n
+                                .sharezonePlusFeatureInfoDialogLearnMore,
                             style: const TextStyle(letterSpacing: 0.5),
                           ),
                         ),

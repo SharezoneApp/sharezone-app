@@ -1,3 +1,11 @@
+// Copyright (c) 2026 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'sharezone_localizations.gen.dart';
@@ -2755,6 +2763,15 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get homeworkSectionTomorrow => 'Tomorrow';
 
   @override
+  String get homeworkSortByDate => 'Sort by date';
+
+  @override
+  String get homeworkSortBySubject => 'Sort by subject';
+
+  @override
+  String get homeworkSortByWeekday => 'Sort by weekday';
+
+  @override
   String get homeworkTabArchivedUppercase => 'ARCHIVED';
 
   @override
@@ -3767,6 +3784,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get sharezonePlusAdvantageTimetableByClassTitle =>
       'Select timetable by class';
+
+  @override
+  String get sharezonePlusBadgeLabel => 'PLUS';
 
   @override
   String get sharezonePlusBuyAction => 'Buy';

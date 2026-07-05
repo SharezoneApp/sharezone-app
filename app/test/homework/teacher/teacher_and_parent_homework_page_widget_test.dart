@@ -33,6 +33,8 @@ import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:test_randomness/test_randomness.dart';
 import 'package:user/user.dart';
 
+final _l10n = lookupSharezoneLocalizations(const Locale('en'));
+
 class MockTeacherAndParentHomeworkPageBloc
     extends
         Bloc<
@@ -285,10 +287,7 @@ void main() {
 
       await tester.pump();
 
-      expect(
-        find.text(SortButton.sortByDateSortButtonUiString),
-        findsOneWidget,
-      );
+      expect(find.text(_l10n.homeworkSortByDate), findsOneWidget);
 
       homeworkPageBloc.emitNewState(
         _openHomeworksWith(HomeworkSort.subjectSmallestDateAndTitleSort),
@@ -296,10 +295,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(
-        find.text(SortButton.sortBySubjectSortButtonUiString),
-        findsOneWidget,
-      );
+      expect(find.text(_l10n.homeworkSortBySubject), findsOneWidget);
 
       homeworkPageBloc.emitNewState(
         _openHomeworksWith(HomeworkSort.weekdayDateSubjectAndTitle),
@@ -307,10 +303,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(
-        find.text(SortButton.sortByWeekdaySortButtonUiString),
-        findsOneWidget,
-      );
+      expect(find.text(_l10n.homeworkSortByWeekday), findsOneWidget);
     });
 
     Future<void> scrollDownToEndOfArchivedHomeworkList(WidgetTester tester) {
@@ -431,9 +424,7 @@ void main() {
         await tester.tap(_finders.openHomeworkTab.bnbSortButton);
         await tester.pumpAndSettle();
 
-        await tester.tap(
-          find.text(SortButton.sortBySubjectSortButtonUiString).last,
-        );
+        await tester.tap(find.text(_l10n.homeworkSortBySubject).last);
         await tester.pumpAndSettle();
 
         expect(
@@ -465,9 +456,7 @@ void main() {
         await tester.tap(_finders.openHomeworkTab.bnbSortButton);
         await tester.pumpAndSettle();
 
-        await tester.tap(
-          find.text(SortButton.sortByWeekdaySortButtonUiString).last,
-        );
+        await tester.tap(find.text(_l10n.homeworkSortByWeekday).last);
         await tester.pumpAndSettle();
 
         expect(
@@ -499,7 +488,7 @@ void main() {
       await tester.tap(_finders.openHomeworkTab.bnbSortButton);
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text(SortButton.sortByDateSortButtonUiString).last);
+      await tester.tap(find.text(_l10n.homeworkSortByDate).last);
       await tester.pumpAndSettle();
 
       expect(
@@ -530,9 +519,7 @@ void main() {
         await tester.tap(_finders.openHomeworkTab.bnbSortButton);
         await tester.pumpAndSettle();
 
-        await tester.tap(
-          find.text(SortButton.sortBySubjectSortButtonUiString).last,
-        );
+        await tester.tap(find.text(_l10n.homeworkSortBySubject).last);
         await tester.pumpAndSettle();
 
         expect(

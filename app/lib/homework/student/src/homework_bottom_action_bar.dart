@@ -144,13 +144,6 @@ class _MoreIdeas extends StatelessWidget {
 
 @visibleForTesting
 class SortButton extends StatefulWidget {
-  @visibleForTesting
-  static const sortByDateSortButtonUiString = "Sortiere nach Datum";
-  @visibleForTesting
-  static const sortBySubjectSortButtonUiString = "Sortiere nach Fach";
-  @visibleForTesting
-  static const sortByWeekdaySortButtonUiString = "Sortiere nach Wochentag";
-
   const SortButton({
     super.key,
     required this.onSortingChanged,
@@ -167,14 +160,14 @@ class SortButton extends StatefulWidget {
 class _SortButtonState extends State<SortButton> {
   Offset? _tapPosition;
 
-  String _sortString(HomeworkSort sort) {
+  String _sortString(BuildContext context, HomeworkSort sort) {
     switch (sort) {
       case HomeworkSort.smallestDateSubjectAndTitle:
-        return SortButton.sortByDateSortButtonUiString;
+        return context.l10n.homeworkSortByDate;
       case HomeworkSort.subjectSmallestDateAndTitleSort:
-        return SortButton.sortBySubjectSortButtonUiString;
+        return context.l10n.homeworkSortBySubject;
       case HomeworkSort.weekdayDateSubjectAndTitle:
-        return SortButton.sortByWeekdaySortButtonUiString;
+        return context.l10n.homeworkSortByWeekday;
     }
   }
 
@@ -213,7 +206,7 @@ class _SortButtonState extends State<SortButton> {
       builder:
           (context) => _SortSelectionSheet(
             currentSort: currentSort,
-            sortStringBuilder: _sortString,
+            sortStringBuilder: (sort) => _sortString(context, sort),
           ),
     );
   }
@@ -240,7 +233,7 @@ class _SortButtonState extends State<SortButton> {
           PopupMenuItem<HomeworkSort>(
             value: sort,
             child: _SortDesktopMenuTile(
-              title: _sortString(sort),
+              title: _sortString(context, sort),
               isSelected: sort == currentSort,
             ),
           ),
@@ -255,7 +248,7 @@ class _SortButtonState extends State<SortButton> {
       builder: (context, snapshot) {
         final currentSort =
             snapshot.data ?? HomeworkSort.smallestDateSubjectAndTitle;
-        final sortText = _sortString(currentSort);
+        final sortText = _sortString(context, currentSort);
         return Padding(
           padding: const EdgeInsets.only(left: 4),
           child: InkWell(

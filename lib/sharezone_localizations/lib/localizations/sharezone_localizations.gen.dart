@@ -1,3 +1,11 @@
+// Copyright (c) 2026 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -4823,6 +4831,24 @@ abstract class SharezoneLocalizations {
   /// **'Morgen'**
   String get homeworkSectionTomorrow;
 
+  /// No description provided for @homeworkSortByDate.
+  ///
+  /// In de, this message translates to:
+  /// **'Nach Datum sortieren'**
+  String get homeworkSortByDate;
+
+  /// No description provided for @homeworkSortBySubject.
+  ///
+  /// In de, this message translates to:
+  /// **'Nach Fach sortieren'**
+  String get homeworkSortBySubject;
+
+  /// No description provided for @homeworkSortByWeekday.
+  ///
+  /// In de, this message translates to:
+  /// **'Nach Wochentag sortieren'**
+  String get homeworkSortByWeekday;
+
   /// No description provided for @homeworkTabArchivedUppercase.
   ///
   /// In de, this message translates to:
@@ -6610,6 +6636,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Stundenplan nach Klasse auswählen'**
   String get sharezonePlusAdvantageTimetableByClassTitle;
+
+  /// No description provided for @sharezonePlusBadgeLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'PLUS'**
+  String get sharezonePlusBadgeLabel;
 
   /// No description provided for @sharezonePlusBuyAction.
   ///
