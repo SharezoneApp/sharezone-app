@@ -128,7 +128,7 @@ jobs:
           flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(realpath ./bin) >> $GITHUB_PATH
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.9"
 
@@ -218,7 +218,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.9"
 
@@ -277,7 +277,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.9"
 
