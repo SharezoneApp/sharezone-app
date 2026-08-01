@@ -21,6 +21,7 @@ import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
+import '../../../test_goldens/flutter_test_config.dart' show defaultLocales;
 import 'notification_page_test.mocks.dart';
 
 @GenerateNiceMocks([
@@ -58,13 +59,12 @@ void main() {
           ],
           child: BlocProvider<NotificationsBlocFactory>(
             bloc: mockNotificationsBlocFactory,
-            child: const MaterialApp(
-              localizationsDelegates:
-                  SharezoneLocalizations.localizationsDelegates,
-              supportedLocales: SharezoneLocalizations.supportedLocales,
-              home: NotificationPage(),
-            ),
+            child: const NotificationPage(),
           ),
+        ),
+        wrapper: materialAppWrapper(
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
         ),
       );
     }
