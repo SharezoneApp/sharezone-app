@@ -5047,6 +5047,12 @@ abstract class SharezoneLocalizations {
   /// **'Englisch'**
   String get languageEnName;
 
+  /// No description provided for @languageSaveError.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Spracheinstellung konnte nicht gespeichert werden.'**
+  String get languageSaveError;
+
   /// No description provided for @languageSystemName.
   ///
   /// In de, this message translates to:

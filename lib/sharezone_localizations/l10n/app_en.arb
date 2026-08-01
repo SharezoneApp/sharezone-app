@@ -831,6 +831,7 @@
   "imprintTitle": "Imprint",
   "languageDeName": "German",
   "languageEnName": "English",
+  "languageSaveError": "The language setting could not be saved.",
   "languageSystemName": "System",
   "languageTitle": "Language",
   "legalChangeAppearance": "Change appearance",

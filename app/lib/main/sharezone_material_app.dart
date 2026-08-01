@@ -56,7 +56,7 @@ class SharezoneMaterialApp extends StatelessWidget {
               : [const Locale('de', 'DE')],
       locale:
           featureFlagL10n.isl10nEnabled
-              ? localProvider.locale.toLocale()
+              ? localProvider.locale.toFlutterLocale()
               : const Locale('de', 'DE'),
       navigatorObservers: <NavigatorObserver>[
         AnalyticsNavigationObserver(analytics: analytics),

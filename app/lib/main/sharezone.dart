@@ -147,7 +147,6 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                               (context) => AppLocaleProvider(
                                 gateway: FlutterAppLocaleProviderGateway(
                                   keyValueStore: streamingKeyValueStore,
-                                  featureFlagl10n: featureFlagl10n,
                                 ),
                               ),
                         ),

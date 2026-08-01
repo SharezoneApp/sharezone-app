@@ -1405,6 +1405,7 @@
   "imprintTitle": "Impressum",
   "languageDeName": "Deutsch",
   "languageEnName": "Englisch",
+  "languageSaveError": "Die Spracheinstellung konnte nicht gespeichert werden.",
   "languageSystemName": "System",
   "languageTitle": "Sprache",
   "launchMarkdownLinkWithWarningActualLink": "Tatsächliche Adresse",

@@ -2887,6 +2887,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get languageEnName => 'English';
 
   @override
+  String get languageSaveError => 'The language setting could not be saved.';
+
+  @override
   String get languageSystemName => 'System';
 
   @override

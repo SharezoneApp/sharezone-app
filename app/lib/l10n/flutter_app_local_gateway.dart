@@ -8,34 +8,48 @@
 
 import 'dart:convert';
 
-import 'package:sharezone/l10n/feature_flag_l10n.dart';
+import 'package:sharezone/logging/logging.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class FlutterAppLocaleProviderGateway extends AppLocaleProviderGateway {
-  const FlutterAppLocaleProviderGateway({
-    required this.keyValueStore,
-    required this.featureFlagl10n,
-  });
+  FlutterAppLocaleProviderGateway({required this.keyValueStore});
 
-  final FeatureFlagl10n featureFlagl10n;
   final StreamingKeyValueStore keyValueStore;
+  final _logger = szLogger.makeChild('AppLocaleProviderGateway');
 
   @override
   Stream<AppLocale> getLocale() {
-    final defaultValue = jsonEncode(
-      featureFlagl10n.isl10nEnabled
-          ? AppLocale.system.toMap()
-          : AppLocale.en.toMap(),
-    );
+    final defaultValue = jsonEncode(AppLocale.system.toMap());
     return keyValueStore
         .getString('locale', defaultValue: defaultValue)
-        .map((event) => AppLocale.fromMap(jsonDecode(event)));
+        .map(_deserializeLocale);
   }
 
   @override
   Future<void> setLocale(AppLocale locale) async {
     final value = jsonEncode(locale.toMap());
-    keyValueStore.setString('locale', value);
+    try {
+      final didPersist = await keyValueStore.setString('locale', value);
+      if (!didPersist) {
+        throw StateError('The locale preference could not be persisted.');
+      }
+    } catch (error, stackTrace) {
+      _logger.severe(
+        'Could not persist the locale preference.',
+        error,
+        stackTrace,
+      );
+      rethrow;
+    }
+  }
+}
+
+AppLocale _deserializeLocale(String value) {
+  try {
+    return AppLocale.fromJson(jsonDecode(value));
+  } on FormatException {
+    // Older versions may have persisted a plain language tag instead of JSON.
+    return AppLocale.fromLanguageTag(value);
   }
 }
