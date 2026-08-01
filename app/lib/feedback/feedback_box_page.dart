@@ -25,6 +25,7 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const double _padding = 12.0;
@@ -42,13 +43,13 @@ class FeedbackPage extends StatelessWidget {
         if (didPop) return;
         popToOverview(context);
       },
-      child: const SharezoneMainScaffold(
+      child: SharezoneMainScaffold(
         appBarConfiguration: AppBarConfiguration(
-          title: "Feedback-Box",
-          actions: [_HistoryButton()],
+          title: context.l10n.feedbackBoxPageTitle,
+          actions: const [_HistoryButton()],
         ),
         navigationItem: NavigationItem.feedbackBox,
-        body: FeedbackPageBody(),
+        body: const FeedbackPageBody(),
       ),
     );
   }
@@ -72,7 +73,7 @@ class _HistoryButton extends StatelessWidget {
       children: [
         IconButton(
           key: K.openFeedbackHistory,
-          tooltip: "Meine Feedbacks",
+          tooltip: context.l10n.feedbackHistoryPageTitle,
           icon: const Icon(Icons.history),
           onPressed: () {
             _logAnalytics(context);
@@ -184,7 +185,7 @@ class _HeardFromField extends StatelessWidget {
     final bloc = BlocProvider.of<FeedbackBloc>(context);
     return _FeedbackTextField(
       icon: const Icon(Icons.search),
-      labelText: "Wie hast Du von Sharezone erfahren?",
+      labelText: context.l10n.feedbackBoxHeardFromLabel,
       onChanged: bloc.changeHeardFrom,
       stream: bloc.heardFrom,
     );
@@ -199,7 +200,7 @@ class _MissingField extends StatelessWidget {
     final bloc = BlocProvider.of<FeedbackBloc>(context);
     return _FeedbackTextField(
       icon: const Icon(Icons.comment),
-      labelText: "Was fehlt Dir noch?",
+      labelText: context.l10n.feedbackBoxMissingLabel,
       onChanged: bloc.changeMissing,
       stream: bloc.missing,
     );
@@ -214,7 +215,7 @@ class _DislikeField extends StatelessWidget {
     final bloc = BlocProvider.of<FeedbackBloc>(context);
     return _FeedbackTextField(
       icon: const Icon(Icons.thumb_down),
-      labelText: "Was gefällt Dir nicht?",
+      labelText: context.l10n.feedbackBoxDislikeLabel,
       onChanged: bloc.changeDislike,
       stream: bloc.dislike,
     );
@@ -232,9 +233,9 @@ class _GeneralRating extends StatelessWidget {
       child: Column(
         children: <Widget>[
           const SizedBox(height: 6),
-          const Text(
-            "Allgemeine Bewertung:",
-            style: TextStyle(fontWeight: FontWeight.w500),
+          Text(
+            context.l10n.feedbackBoxGeneralRatingLabel,
+            style: const TextStyle(fontWeight: FontWeight.w500),
           ),
           FutureBuilder<double?>(
             future: bloc.rating.first,
@@ -268,7 +269,7 @@ class _LikeField extends StatelessWidget {
     final bloc = BlocProvider.of<FeedbackBloc>(context);
     return _FeedbackTextField(
       icon: const Icon(Icons.thumb_up),
-      labelText: "Was gefällt Dir am besten?",
+      labelText: context.l10n.feedbackBoxLikeMostLabel,
       onChanged: bloc.changeLike,
       stream: bloc.like,
     );
@@ -280,19 +281,18 @@ class _Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(_padding),
+    return Padding(
+      padding: const EdgeInsets.all(_padding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Warum wir Dein Feedback brauchen:",
-            style: TextStyle(fontSize: 16),
+            context.l10n.feedbackBoxWhyWeNeedFeedbackTitle,
+            style: const TextStyle(fontSize: 16),
           ),
           Text(
-            "Wir möchten die beste App zum Organisieren des Schulalltags entwickeln! Damit wir das schaffen, brauchen wir Dich! Fülle einfach das Formular aus und schick es ab."
-            "\n\nAlle Fragen sind selbstverständlich freiwillig.",
-            style: TextStyle(color: Colors.grey),
+            context.l10n.feedbackBoxWhyWeNeedFeedbackDescription,
+            style: const TextStyle(color: Colors.grey),
           ),
         ],
       ),
@@ -331,15 +331,14 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
             if (context.mounted) {
               showSnackSec(
                 context: context,
-                text:
-                    "Error! Dein Cool Down (${e.coolDown}) ist noch nicht abgelaufen.",
+                text: context.l10n.feedbackBoxCooldownError('${e.coolDown}'),
               );
             }
           } on EmptyFeedbackException {
             if (context.mounted) {
               showSnackSec(
                 context: context,
-                text: "Du musst auch schon was reinschreiben 😉",
+                text: context.l10n.feedbackBoxEmptyError,
               );
             }
           } on Exception catch (e, s) {
@@ -351,18 +350,20 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
             if (context.mounted) {
               showSnackSec(
                 context: context,
-                text:
-                    "Error! Versuche es nochmal oder schicke uns dein Feedback gerne auch per Email! :)",
+                text: context.l10n.feedbackBoxGenericError,
               );
             }
           }
         },
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.send, color: Colors.white),
-            SizedBox(width: 8),
-            Text("ABSCHICKEN", style: TextStyle(color: Colors.white)),
+            const Icon(Icons.send, color: Colors.white),
+            const SizedBox(width: 8),
+            Text(
+              context.l10n.feedbackBoxSubmitUppercase,
+              style: const TextStyle(color: Colors.white),
+            ),
           ],
         ),
       ),

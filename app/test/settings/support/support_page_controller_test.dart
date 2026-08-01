@@ -155,7 +155,7 @@ void main() {
         // Workaround to wait for stream subscription in constructor.
         await Future.delayed(Duration.zero);
 
-        await controller.sendEmailToFreeSupport();
+        await controller.sendEmailToFreeSupport(subject: 'Meine Anfrage');
 
         verify(
           urlLauncher.tryLaunchMailOrThrow(
@@ -179,7 +179,9 @@ void main() {
         // Workaround to wait for stream subscription in constructor.
         await Future.delayed(Duration.zero);
 
-        await controller.sendEmailToPlusSupport();
+        await controller.sendEmailToPlusSupport(
+          subject: '[💎 Plus Support] Meine Anfrage',
+        );
 
         verify(
           urlLauncher.tryLaunchMailOrThrow(

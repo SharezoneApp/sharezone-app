@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page.dart';
@@ -73,7 +74,7 @@ class _EditIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: 'Bearbeiten des Schnitts',
+      tooltip: context.l10n.gradesTermTileEditTooltip,
       icon: const Icon(Icons.edit),
       color: Theme.of(context).listTileTheme.iconColor,
       onPressed:

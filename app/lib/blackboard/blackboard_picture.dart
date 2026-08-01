@@ -9,6 +9,7 @@
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -34,7 +35,7 @@ class BlackboardDialogChoosePicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Titelbild auswählen")),
+      appBar: AppBar(title: Text(context.l10n.blackboardSelectCoverImage)),
       body: SafeArea(child: MaxWidthConstraintBox(child: _PictureGrid())),
     );
   }
@@ -81,8 +82,8 @@ class _PictureBox extends StatelessWidget {
             context: context,
             builder:
                 (context) => AlertDialog(
-                  content: const Text(
-                    "Bisher können keine eigenen Bilder aufgenommen/hochgeladen werden 😔\n\nDiese Funktion wird sehr bald verfügbar sein!",
+                  content: Text(
+                    context.l10n.blackboardCustomImageUnavailableMessage,
                   ),
                   actions: <Widget>[
                     TextButton(
@@ -90,7 +91,7 @@ class _PictureBox extends StatelessWidget {
                         foregroundColor: Theme.of(context).primaryColor,
                       ),
                       onPressed: () => Navigator.pop(context),
-                      child: const Text("OK"),
+                      child: Text(context.l10n.commonActionsOk),
                     ),
                   ],
                 ),

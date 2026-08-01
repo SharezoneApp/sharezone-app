@@ -11,7 +11,7 @@ import 'package:sharezone/keys.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 
 class AppBarConfiguration {
-  /// Default is [navigationItem.getName()]
+  /// Default is [navigationItem.getName(context)]
   final String? title;
 
   final List<Widget> actions;
@@ -56,7 +56,7 @@ class _AppBarTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      NavigationItem.overview.getName(),
+      NavigationItem.overview.getName(context),
       style: Theme.of(
         context,
       ).textTheme.titleLarge?.copyWith(color: Colors.white),

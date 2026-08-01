@@ -13,6 +13,7 @@ import 'package:sharezone/groups/src/pages/course/create/pages/course_template_p
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'share_sharecode.dart';
 
@@ -54,8 +55,8 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
   String getTitle(BuildContext context) {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
     if (bloc.isTeacher && bloc.teacherType == TeacherType.courseTeacher) {
-      return 'Welche Kurse unterrichtest du?';
+      return context.l10n.groupOnboardingCreateCoursesTitleTeacher;
     }
-    return 'Welche Kurse sollen mit der Klasse verbunden werden?';
+    return context.l10n.groupOnboardingCreateCoursesTitleOther;
   }
 }

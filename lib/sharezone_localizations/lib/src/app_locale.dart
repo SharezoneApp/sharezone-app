@@ -26,6 +26,12 @@ enum AppLocale {
     };
   }
 
+  /// Returns the locale override that should be passed to [WidgetsApp.locale].
+  ///
+  /// A `null` locale lets Flutter follow the complete list of preferred system
+  /// locales and react to changes to that list while the app is running.
+  Locale? toFlutterLocale() => isSystem() ? null : toLocale();
+
   /// Returns the name of the locale in the native language, e.g. "Deutsch" for
   /// the [AppLocale.de] enum value.
   String getNativeName(BuildContext context) {
@@ -59,15 +65,54 @@ enum AppLocale {
     return PlatformDispatcher.instance.locale;
   }
 
+  /// Resolves the preferred system locales to a locale supported by Sharezone.
+  ///
+  /// This is useful for places outside the widget tree, such as payloads sent
+  /// to services that need the language effectively used by the app.
+  static Locale resolveSystemLocale([List<Locale>? preferredLocales]) {
+    return basicLocaleListResolution(
+      preferredLocales ?? PlatformDispatcher.instance.locales,
+      SharezoneLocalizations.supportedLocales,
+    );
+  }
+
   static AppLocale fromMap(Map<String, dynamic>? map) {
-    if (map == null || map['isSystem'] as bool) {
+    if (map == null) {
       return system;
     }
-    return fromLanguageTag(map['languageTag']);
+
+    final isSystem = map['isSystem'];
+    if (isSystem is! bool || isSystem) {
+      return system;
+    }
+
+    final languageTag = map['languageTag'];
+    if (languageTag is! String || languageTag.trim().isEmpty) {
+      return system;
+    }
+
+    return fromLanguageTag(languageTag);
+  }
+
+  /// Deserializes the persisted locale preference.
+  ///
+  /// Plain language tags are supported for compatibility with older clients.
+  static AppLocale fromJson(Object? json) {
+    return switch (json) {
+      final String languageTag => fromLanguageTag(languageTag),
+      final Map<Object?, Object?> map => fromMap(
+        map.map((key, value) => MapEntry(key.toString(), value)),
+      ),
+      _ => system,
+    };
   }
 
   Map<String, dynamic> toMap() {
-    return {'isSystem': isSystem(), 'languageTag': _toLanguageTag()};
+    return {
+      'isSystem': isSystem(),
+      'languageTag':
+          isSystem() ? resolveSystemLocale().toLanguageTag() : _toLanguageTag(),
+    };
   }
 
   bool isSystem() {
@@ -87,9 +132,10 @@ enum AppLocale {
   ///
   /// If the language tag is not supported, the system locale is returned.
   static AppLocale fromLanguageTag(String languageTag) {
-    final languageCode = languageTag.split('-').first;
+    final languageCode =
+        languageTag.trim().replaceAll('_', '-').split('-').first;
     return AppLocale.values.firstWhere(
-      (element) => element.name == languageCode,
+      (element) => element.name == languageCode.toLowerCase(),
       orElse: () => system,
     );
   }

@@ -23,9 +23,16 @@ class LanguagePage extends StatelessWidget {
       appBar: AppBar(title: Text(context.l10n.languageTitle)),
       body: RadioGroup(
         groupValue: localeProvider.locale,
-        onChanged: (value) {
+        onChanged: (value) async {
           if (value == null) return;
-          localeProvider.locale = value;
+          try {
+            await localeProvider.setLocale(value);
+          } catch (_) {
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(context.l10n.languageSaveError)),
+            );
+          }
         },
         child: ListView(
           padding: const EdgeInsets.all(12),

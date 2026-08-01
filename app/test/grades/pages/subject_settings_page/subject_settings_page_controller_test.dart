@@ -69,8 +69,8 @@ void main() {
         GradeType.writtenExam.id: const Weight.factor(1.5),
       });
       expect(
-        pageController.view.finalGradeTypeDisplayName,
-        GradeType.schoolReportGrade.predefinedType!.toUiString(),
+        pageController.view.finalGradeType,
+        GradeType.schoolReportGrade.predefinedType,
       );
     });
 
@@ -104,8 +104,8 @@ void main() {
         GradeType.writtenExam.id: const Weight.factor(1.5),
       });
       expect(
-        pageController.view.finalGradeTypeDisplayName,
-        GradeType.schoolReportGrade.predefinedType!.toUiString(),
+        pageController.view.finalGradeType,
+        GradeType.schoolReportGrade.predefinedType,
       );
     });
 
@@ -130,8 +130,8 @@ void main() {
         final pageController = createPageController();
 
         expect(
-          pageController.view.finalGradeTypeDisplayName,
-          GradeType.presentation.predefinedType!.toUiString(),
+          pageController.view.finalGradeType,
+          GradeType.presentation.predefinedType,
         );
       },
     );
@@ -157,8 +157,8 @@ void main() {
         final pageController = createPageController();
 
         expect(
-          pageController.view.finalGradeTypeDisplayName,
-          GradeType.writtenExam.predefinedType!.toUiString(),
+          pageController.view.finalGradeType,
+          GradeType.writtenExam.predefinedType,
         );
       },
     );

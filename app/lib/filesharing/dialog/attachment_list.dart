@@ -16,6 +16,7 @@ import 'package:sharezone/filesharing/dialog/file_card.dart';
 import 'package:sharezone/filesharing/logic/open_cloud_file.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
 import 'package:sharezone/filesharing/widgets/sheet.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AttachmentStreamList extends StatelessWidget {
@@ -69,18 +70,23 @@ class _Placeholder extends StatelessWidget {
       return Container();
     }
     return Column(
-      children: [for (final id in initialAttachmentIDs!) emptyFileCard(id)],
+      children: [
+        for (final id in initialAttachmentIDs!) emptyFileCard(context, id),
+      ],
     );
   }
 
-  Widget emptyFileCard(String id) {
+  Widget emptyFileCard(BuildContext context, String id) {
     return GrayShimmer(
       enabled: true,
       key: ValueKey(id),
-      child: const ListTile(
-        leading: FileIcon(fileFormat: FileFormat.image),
-        title: Text("Laden..."),
-        trailing: IconButton(icon: Icon(Icons.more_vert), onPressed: null),
+      child: ListTile(
+        leading: const FileIcon(fileFormat: FileFormat.image),
+        title: Text(context.l10n.filesLoading),
+        trailing: const IconButton(
+          icon: Icon(Icons.more_vert),
+          onPressed: null,
+        ),
       ),
     );
   }

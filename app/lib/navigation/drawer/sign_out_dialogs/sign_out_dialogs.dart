@@ -12,6 +12,7 @@ import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/sign_out_and_delete_anonymous_user.dart';
@@ -37,16 +38,16 @@ Future<bool> _showSignOutWithNormalUserDialog(BuildContext context) async {
     context: context,
     title:
         ThemePlatform.isCupertino
-            ? "Möchtest du dich wirklich abmelden?"
+            ? context.l10n.signOutDialogConfirmation
             : null,
     content:
         !ThemePlatform.isCupertino
-            ? const Text("Möchtest du dich wirklich abmelden?")
+            ? Text(context.l10n.signOutDialogConfirmation)
             : null,
     defaultValue: false,
-    right: const AdaptiveDialogAction(
-      key: ValueKey('sign-out-dialog-action-E2E'),
-      title: "Abmelden",
+    right: AdaptiveDialogAction(
+      key: const ValueKey('sign-out-dialog-action-E2E'),
+      title: context.l10n.commonActionsSignOut,
       popResult: true,
       isDestructiveAction: true,
       isDefaultAction: true,

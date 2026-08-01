@@ -110,7 +110,13 @@ class _TimetableEditEventPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
         appBar: AppBar(
-          title: Text("${isExam ? "Prüfung" : "Termin"} bearbeiten"),
+          title: Text(
+            context.l10n.timetableEditEventTitle(
+              isExam
+                  ? context.l10n.timetableFabOptionExam
+                  : context.l10n.timetableFabOptionEvent,
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: MaxWidthConstraintBox(
@@ -149,7 +155,7 @@ class _TimetableEditFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      tooltip: 'Speichern',
+      tooltip: context.l10n.commonActionsSave,
       heroTag: 'sharezone-fab',
       child: const Icon(Icons.done),
       onPressed: () => _submit(context),
@@ -187,12 +193,14 @@ class _CourseField extends StatelessWidget {
           onTap: () {
             showSnackSec(
               context: context,
-              text: "Der Kurs kann nicht mehr nachträglich geändert werden.",
+              text: context.l10n.timetableEditCourseLocked,
               seconds: 4,
               action:
                   hasPermissionsToManageLessons
                       ? SnackBarAction(
-                        label: 'Termin löschen'.toUpperCase(),
+                        label:
+                            context.l10n.timetableLessonDetailsDeleteTitle
+                                .toUpperCase(),
                         textColor: Colors.lightBlueAccent,
                         onPressed: () async {
                           final confirmed =
@@ -226,9 +234,9 @@ class _TitleField extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: PrefilledTextField(
           prefilledText: initialEvent.title,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: "Titel",
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: context.l10n.commonTitle,
           ),
           onChanged: bloc.changeTitle,
           maxLength: 36,
@@ -252,7 +260,7 @@ class _DateField extends StatelessWidget {
           child: EditDateField(
             date: date,
             onChanged: bloc.changeDate,
-            label: "Datum",
+            label: context.l10n.commonDate,
           ),
         );
       },
@@ -273,7 +281,7 @@ class _StartTimeField extends StatelessWidget {
           child: EditTimeField(
             time: startTime,
             onChanged: bloc.changeStartTime,
-            label: "Startzeit",
+            label: context.l10n.timetableEditStartTime,
           ),
         );
       },
@@ -294,7 +302,7 @@ class _EndTimeField extends StatelessWidget {
           child: EditTimeField(
             time: endTime,
             onChanged: bloc.changeEndTime,
-            label: "Endzeit",
+            label: context.l10n.timetableEditEndTime,
           ),
         );
       },
@@ -316,13 +324,13 @@ class _RoomField extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: PrefilledTextField(
           prefilledText: initialEvent.place,
-          decoration: const InputDecoration(
-            icon: Padding(
+          decoration: InputDecoration(
+            icon: const Padding(
               padding: EdgeInsets.only(left: 6),
               child: Icon(Icons.place),
             ),
-            border: OutlineInputBorder(),
-            labelText: "Raum",
+            border: const OutlineInputBorder(),
+            labelText: context.l10n.timetableLessonDetailsRoom.trim(),
           ),
           maxLength: 32,
           onChanged: bloc.changeRoom,
@@ -342,9 +350,7 @@ class _SendNotificationField extends StatelessWidget {
         final sendNotification = snapshot.data ?? false;
         return ListTile(
           leading: const Icon(Icons.notifications_active),
-          title: const Text(
-            "Kursmitglieder über die Änderungen benachrichtigen",
-          ),
+          title: Text(context.l10n.homeworkDialogNotifyCourseMembersEditing),
           trailing: Switch.adaptive(
             onChanged: bloc.changeSendNotification,
             value: sendNotification,
@@ -377,7 +383,10 @@ class _DetailField extends StatelessWidget {
               child: Icon(Icons.details),
             ),
             border: const OutlineInputBorder(),
-            labelText: isExam ? "Themen der Prüfung" : "Details",
+            labelText:
+                isExam
+                    ? context.l10n.timetableEventDetailsExamTopics
+                    : context.l10n.timetableEventDetailsLabel,
           ),
           onChanged: bloc.changeDetail,
         ),

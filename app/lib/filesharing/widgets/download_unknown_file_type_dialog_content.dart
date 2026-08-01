@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -150,9 +151,9 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
 class _FinishDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const _Dialog(
-      leading: Icon(Icons.check_circle, color: Colors.green),
-      text: "Datei wird heruntergeladen...",
+    return _Dialog(
+      leading: const Icon(Icons.check_circle, color: Colors.green),
+      text: context.l10n.fileSharingDownloadingFileMessage,
     );
   }
 }
@@ -166,7 +167,7 @@ class _ErrorDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return _Dialog(
       leading: Icon(Icons.error, color: Theme.of(context).colorScheme.error),
-      text: "Fehler: $error",
+      text: context.l10n.fileSharingDownloadError(error),
     );
   }
 }
@@ -176,9 +177,9 @@ class _LoadingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _Dialog(
-      leading: AccentColorCircularProgressIndicator(),
-      text: "Die Datei wird auf dein Gerät gebeamt...",
+    return _Dialog(
+      leading: const AccentColorCircularProgressIndicator(),
+      text: context.l10n.fileSharingPreparingDownloadMessage,
     );
   }
 }

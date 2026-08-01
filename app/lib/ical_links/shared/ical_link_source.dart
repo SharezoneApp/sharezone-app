@@ -16,9 +16,9 @@ enum ICalLinkSource {
 
   String getUiName() {
     return switch (this) {
-      ICalLinkSource.lessons => 'Schulstunden',
-      ICalLinkSource.exams => 'Prüfungen',
-      ICalLinkSource.meetings => 'Termine',
+      ICalLinkSource.lessons => 'Lessons',
+      ICalLinkSource.exams => 'Exams',
+      ICalLinkSource.meetings => 'Events',
     };
   }
 

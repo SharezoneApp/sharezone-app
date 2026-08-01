@@ -15,8 +15,10 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/l10n/feature_flag_l10n.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/settings/settings_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+import '../flutter_test_config.dart';
 import 'settings_page_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<SharezoneContext>(), MockSpec<FeatureFlagl10n>()])
@@ -31,7 +33,11 @@ void main() {
             child: const SettingsPageBody(),
           ),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 

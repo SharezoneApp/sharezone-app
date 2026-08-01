@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class HomeworkBottomActionBar extends StatelessWidget {
@@ -106,7 +107,7 @@ class _CompleteOverdue extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.hourglass_full),
-      title: const Text("Überfällige Hausaufgaben abhaken"),
+      title: Text(context.l10n.homeworkMarkOverdueAction),
       onTap: () => Navigator.pop(context, _BottomSheetAction.completeOverdue),
     );
   }
@@ -125,7 +126,7 @@ class _MoreIdeas extends StatelessWidget {
         color: Theme.of(context).iconTheme.color!.withValues(alpha: opacity),
       ),
       title: Text(
-        "Noch Ideen?",
+        context.l10n.homeworkBottomBarMoreIdeas,
         style: TextStyle(
           color: Theme.of(
             context,
@@ -143,13 +144,6 @@ class _MoreIdeas extends StatelessWidget {
 
 @visibleForTesting
 class SortButton extends StatefulWidget {
-  @visibleForTesting
-  static const sortByDateSortButtonUiString = "Sortiere nach Datum";
-  @visibleForTesting
-  static const sortBySubjectSortButtonUiString = "Sortiere nach Fach";
-  @visibleForTesting
-  static const sortByWeekdaySortButtonUiString = "Sortiere nach Wochentag";
-
   const SortButton({
     super.key,
     required this.onSortingChanged,
@@ -166,14 +160,14 @@ class SortButton extends StatefulWidget {
 class _SortButtonState extends State<SortButton> {
   Offset? _tapPosition;
 
-  String _sortString(HomeworkSort sort) {
+  String _sortString(BuildContext context, HomeworkSort sort) {
     switch (sort) {
       case HomeworkSort.smallestDateSubjectAndTitle:
-        return SortButton.sortByDateSortButtonUiString;
+        return context.l10n.homeworkSortByDate;
       case HomeworkSort.subjectSmallestDateAndTitleSort:
-        return SortButton.sortBySubjectSortButtonUiString;
+        return context.l10n.homeworkSortBySubject;
       case HomeworkSort.weekdayDateSubjectAndTitle:
-        return SortButton.sortByWeekdaySortButtonUiString;
+        return context.l10n.homeworkSortByWeekday;
     }
   }
 
@@ -212,7 +206,7 @@ class _SortButtonState extends State<SortButton> {
       builder:
           (context) => _SortSelectionSheet(
             currentSort: currentSort,
-            sortStringBuilder: _sortString,
+            sortStringBuilder: (sort) => _sortString(context, sort),
           ),
     );
   }
@@ -239,7 +233,7 @@ class _SortButtonState extends State<SortButton> {
           PopupMenuItem<HomeworkSort>(
             value: sort,
             child: _SortDesktopMenuTile(
-              title: _sortString(sort),
+              title: _sortString(context, sort),
               isSelected: sort == currentSort,
             ),
           ),
@@ -254,7 +248,7 @@ class _SortButtonState extends State<SortButton> {
       builder: (context, snapshot) {
         final currentSort =
             snapshot.data ?? HomeworkSort.smallestDateSubjectAndTitle;
-        final sortText = _sortString(currentSort);
+        final sortText = _sortString(context, currentSort);
         return Padding(
           padding: const EdgeInsets.only(left: 4),
           child: InkWell(

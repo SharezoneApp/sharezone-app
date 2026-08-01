@@ -15,6 +15,7 @@ import 'package:sharezone/groups/group_join/group_join_page.dart';
 import 'package:sharezone/groups/group_join/widgets/group_join_help.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class GroupOnboardingGroupJoinPage extends StatefulWidget {
   static const tag = 'group-onboarding-group-join-page';
@@ -67,7 +68,10 @@ class _FinishButton extends StatelessWidget {
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      child: Text("Fertig".toUpperCase(), style: const TextStyle(fontSize: 20)),
+      child: Text(
+        context.l10n.commonActionsDone.toUpperCase(),
+        style: const TextStyle(fontSize: 20),
+      ),
       onPressed: () {
         final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
         bloc.finishOnboarding();

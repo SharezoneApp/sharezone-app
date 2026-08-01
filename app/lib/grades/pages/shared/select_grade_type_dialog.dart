@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
 class SelectGradeTypeDialog extends StatelessWidget {
@@ -34,7 +35,7 @@ class SelectGradeTypeDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleDialog(
       contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
-      title: const Text("Notentyp auswählen"),
+      title: Text(context.l10n.gradesDialogSelectGradeType),
       children: [
         for (final gradeType in selectableGradingTypes)
           ListTile(
@@ -42,8 +43,8 @@ class SelectGradeTypeDialog extends StatelessWidget {
                 gradeType.predefinedType?.getIcon() ??
                 const Icon(Icons.help_outline),
             title: Text(
-              gradeType.predefinedType?.toUiString() ??
-                  'Unbekannt/Eigener Notentyp',
+              gradeType.predefinedType?.toLocalizedString(context) ??
+                  context.l10n.gradesDialogUnknownCustomGradeType,
             ),
             onTap: () {
               Navigator.of(context).pop<GradeType?>(gradeType);

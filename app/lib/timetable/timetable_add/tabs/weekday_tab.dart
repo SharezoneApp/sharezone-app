@@ -14,7 +14,7 @@ class _WeekDayTab extends StatelessWidget {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     return _TimetableAddSection(
       index: 2,
-      title: 'Wähle einen Wochentag aus',
+      title: context.l10n.timetableAddSelectWeekdayTitle,
       child: StreamBuilder<WeekDay>(
         stream: bloc.weekDay,
         builder: (context, snapshot) {
@@ -82,7 +82,10 @@ class _WeekDayTile extends StatelessWidget {
           alpha: 0.20,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        child: ListTile(title: Text(getWeekDayText(weekDay)), onTap: onTap),
+        child: ListTile(
+          title: Text(weekDay.toLocalizedString(context)),
+          onTap: onTap,
+        ),
       ),
     );
   }

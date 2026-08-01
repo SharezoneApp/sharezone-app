@@ -19,6 +19,9 @@ import 'package:intl/intl.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
+import '../flutter_test_config.dart';
 
 class FakeHolidayBloc extends Fake implements HolidayBloc {
   StreamController<bool> hasStateSelectedController = StreamController();
@@ -76,6 +79,9 @@ void main() {
           bloc: holidayBloc,
           child: MaterialApp(
             theme: getLightTheme(),
+            localizationsDelegates:
+                SharezoneLocalizations.localizationsDelegates,
+            supportedLocales: defaultLocales,
             home: const Scaffold(
               body: Center(child: HolidayCountdownSection()),
             ),

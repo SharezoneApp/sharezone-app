@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/grades/pages/subjects_page/subjects_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -18,7 +19,7 @@ class GradesSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Noten-Einstellungen')),
+      appBar: AppBar(title: Text(context.l10n.gradesSettingsPageTitle)),
       body: const SingleChildScrollView(
         padding: EdgeInsets.all(12),
         child: SafeArea(child: MaxWidthConstraintBox(child: _SettingsList())),
@@ -47,8 +48,8 @@ class _SubjectsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardListTile(
       leading: const Icon(Icons.menu_book_outlined),
-      title: const Text('Fächer'),
-      subtitle: const Text('Verwalte Fächer und verbundene Kurse'),
+      title: Text(context.l10n.gradesSettingsSubjectsTitle),
+      subtitle: Text(context.l10n.gradesSettingsSubjectsSubtitle),
       onTap: () => Navigator.pushNamed(context, SubjectsPage.tag),
     );
   }

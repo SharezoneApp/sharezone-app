@@ -21,6 +21,7 @@ import 'package:sharezone/keys.dart';
 import 'package:sharezone/settings/settings_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum NavigationItem {
@@ -152,34 +153,35 @@ extension NavigationItemExtension on NavigationItem {
     }
   }
 
-  String getName() {
+  String getName(BuildContext context) {
+    final l10n = context.l10n;
     switch (this) {
       case NavigationItem.overview:
-        return 'Übersicht';
+        return l10n.navigationItemOverview;
       case NavigationItem.homework:
-        return 'Hausaufgaben';
+        return l10n.navigationItemHomework;
       case NavigationItem.group:
-        return 'Gruppen';
+        return l10n.navigationItemGroup;
       case NavigationItem.timetable:
-        return 'Stundenplan';
+        return l10n.navigationItemTimetable;
       case NavigationItem.events:
-        return 'Termine';
+        return l10n.navigationItemEvents;
       case NavigationItem.blackboard:
-        return 'Infozettel';
+        return l10n.navigationItemBlackboard;
       case NavigationItem.grades:
-        return 'Noten';
+        return l10n.navigationItemGrades;
       case NavigationItem.filesharing:
-        return 'Dateien';
+        return l10n.navigationItemFilesharing;
       case NavigationItem.sharezonePlus:
-        return 'Sharezone Plus';
+        return l10n.navigationItemSharezonePlus;
       case NavigationItem.settings:
-        return 'Einstellungen';
+        return l10n.navigationItemSettings;
       case NavigationItem.feedbackBox:
-        return 'Feedback';
+        return l10n.navigationItemFeedbackBox;
       case NavigationItem.accountPage:
-        return 'Profil';
+        return l10n.navigationItemAccountPage;
       case NavigationItem.more:
-        return 'Mehr';
+        return l10n.navigationItemMore;
     }
   }
 

@@ -39,7 +39,7 @@ Future<void> _showSchoolClassConformationSnackbarWithDelay(
   if (!context.mounted) return;
   showSnackSec(
     context: context,
-    text: "Die Schulklasse wurde erfolgreich bearbeitet!",
+    text: context.l10n.schoolClassEditSuccess,
     seconds: 2,
   );
 }
@@ -94,7 +94,7 @@ class _SchoolClassEditPageState extends State<SchoolClassEditPage> {
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
-        appBar: AppBar(title: const Text("Schulklasse bearbeiten")),
+        appBar: AppBar(title: Text(context.l10n.schoolClassEditTitle)),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(12),
           child: MaxWidthConstraintBox(
@@ -118,7 +118,7 @@ class _SchoolClassEditPageFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      tooltip: 'Speichern',
+      tooltip: context.l10n.commonActionsSave,
       child: const Icon(Icons.check),
       onPressed: () => _submit(context),
     );
@@ -142,7 +142,7 @@ class _NameField extends StatelessWidget {
           autofocus: true,
           onEditingComplete: () => _submit(context),
           decoration: InputDecoration(
-            labelText: 'Name',
+            labelText: context.l10n.commonFieldName,
             errorText: snapshot.error?.toString(),
           ),
           maxLength: 32,

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/homework/shared/delete_homework.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'details/blackboard_details.dart';
@@ -36,11 +37,9 @@ Future<void> showDeleteBlackboardItemDialog(
 Future<bool?> _showConfirmDeletingDialog(BuildContext context) async {
   return showLeftRightAdaptiveDialog<bool>(
     context: context,
-    title: "Eintrag löschen?",
+    title: context.l10n.blackboardDeleteDialogTitle,
     defaultValue: false,
-    content: const Text(
-      "Möchtest du wirklich diesen Eintrag für den kompletten Kurs löschen?",
-    ),
+    content: Text(context.l10n.blackboardDeleteDialogDescription),
     left: AdaptiveDialogAction.cancel(context),
     right: AdaptiveDialogAction.delete(context),
   );
@@ -53,27 +52,25 @@ Future<void> _showAttachmentsDeleteOrRemainDialog(
 }) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
 
-  final attachmentsRemainOrDelete = await showColumnActionsAdaptiveDialog<
-    AttachmentOperation
-  >(
-    context: context,
-    title: "Anhänge ebenfalls löschen?",
-    messsage:
-        "Sollen die Anhänge des Eintrags aus der Dateiablage gelöscht oder die Verknüpfung zwischen beiden aufgehoben werden?",
-    actions: [
-      const AdaptiveDialogAction(
-        title: "Entknüpfen",
-        popResult: AttachmentOperation.unlink,
-      ),
-      AdaptiveDialogAction(
-        title: "Löschen",
-        popResult: AttachmentOperation.delete,
-        isDefaultAction: true,
-        isDestructiveAction: true,
-        textColor: Theme.of(context).colorScheme.error,
-      ),
-    ],
-  );
+  final attachmentsRemainOrDelete =
+      await showColumnActionsAdaptiveDialog<AttachmentOperation>(
+        context: context,
+        title: context.l10n.homeworkDeleteAttachmentsDialogTitle,
+        messsage: context.l10n.blackboardDeleteAttachmentsDialogDescription,
+        actions: [
+          AdaptiveDialogAction(
+            title: context.l10n.homeworkDeleteAttachmentsUnlink,
+            popResult: AttachmentOperation.unlink,
+          ),
+          AdaptiveDialogAction(
+            title: context.l10n.commonActionsDelete,
+            popResult: AttachmentOperation.delete,
+            isDefaultAction: true,
+            isDestructiveAction: true,
+            textColor: Theme.of(context).colorScheme.error,
+          ),
+        ],
+      );
 
   if (attachmentsRemainOrDelete != null) {
     api.blackboard.deleteBlackboardItemWithAttachments(

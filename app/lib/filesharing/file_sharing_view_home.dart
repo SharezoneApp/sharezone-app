@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -48,7 +49,9 @@ class FileSharingViewHome extends StatelessWidget {
                 key: ValueKey(snapshot),
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const FileSharingHeadline(title: "Kursordner"),
+                  FileSharingHeadline(
+                    title: context.l10n.fileSharingCourseFoldersHeadline,
+                  ),
                   WrappableList(
                     minWidth: 150,
                     maxElementsPerSection: 3,
@@ -94,12 +97,12 @@ class _CourseFolderCard extends StatelessWidget {
 class _NoCourseFolderFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const PlaceholderWidgetWithAnimation(
+    return PlaceholderWidgetWithAnimation(
       svgPath: "assets/icons/folder.svg",
       animateSVG: true,
-      title: "Keine Ordner gefunden! 😬",
+      title: context.l10n.fileSharingNoFoldersFoundTitle,
       description: Text(
-        "Es wurden keine Ordner gefunden, da du noch keinen Kursen beigetreten bist. Trete einfach einem Kurs bei oder erstelle einen eigenen Kurs.",
+        context.l10n.fileSharingNoCourseFoldersFoundDescription,
       ),
     );
   }

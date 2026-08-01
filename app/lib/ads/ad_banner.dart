@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/ads/ads_controller.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AdBanner extends StatefulWidget {
@@ -112,10 +113,19 @@ class _Placeholder extends StatelessWidget {
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(child: Center(child: Text('Anzeige lädt...'))),
+          Expanded(child: Center(child: _LoadingText())),
           Divider(height: 0),
         ],
       ),
     );
+  }
+}
+
+class _LoadingText extends StatelessWidget {
+  const _LoadingText();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(context.l10n.adsLoading);
   }
 }

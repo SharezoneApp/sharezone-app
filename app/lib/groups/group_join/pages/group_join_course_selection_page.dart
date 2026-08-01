@@ -14,6 +14,7 @@ import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_select_courses_bloc.dart';
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -50,7 +51,11 @@ class _GroupJoinCourseSelectionPage extends StatelessWidget {
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
-        appBar: AppBar(title: Text('Beizutretene Kurse der ${bloc.groupName}')),
+        appBar: AppBar(
+          title: Text(
+            context.l10n.groupJoinCourseSelectionTitle(bloc.groupName),
+          ),
+        ),
         body: const SingleChildScrollView(
           child: SafeArea(child: _OptionalCoursesList()),
         ),
@@ -100,7 +105,7 @@ class _CallToAction extends StatelessWidget {
       builder: (context, snapshot) {
         final typeOfUser = snapshot.data ?? TypeOfUser.student;
         return Text(
-          _matchingTypeOfUserText(typeOfUser),
+          _matchingTypeOfUserText(context, typeOfUser),
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 18),
         );
@@ -108,16 +113,16 @@ class _CallToAction extends StatelessWidget {
     );
   }
 
-  String _matchingTypeOfUserText(TypeOfUser typeOfUser) {
+  String _matchingTypeOfUserText(BuildContext context, TypeOfUser typeOfUser) {
     if (typeOfUser.isTeacher) {
-      return 'Wähle die Kurse aus, in denen du unterrichtest.';
+      return context.l10n.groupJoinCourseSelectionTeacherHint;
     }
 
     if (typeOfUser.isParent) {
-      return 'Falls dein Kind in Wahlfächern (z.B. Französisch) ist, solltest du diese Kurse aus der Auswahl aufheben.';
+      return context.l10n.groupJoinCourseSelectionParentHint;
     }
 
-    return 'Falls du in Wahlfächern (z.B. Französisch) bist, solltest du diese Kurse aus der Auswahl aufheben.';
+    return context.l10n.groupJoinCourseSelectionStudentHint;
   }
 }
 
@@ -136,7 +141,7 @@ class _FinishButton extends StatelessWidget {
         },
         color: context.primaryColor,
         textColor: Colors.white,
-        child: Text("Fertig".toUpperCase()),
+        child: Text(context.l10n.commonActionsDone.toUpperCase()),
       ),
     );
   }
@@ -154,7 +159,7 @@ class _SkipButton extends StatelessWidget {
         Navigator.pop(context);
       },
       style: TextButton.styleFrom(foregroundColor: context.primaryColor),
-      child: Text("Überspringen".toUpperCase()),
+      child: Text(context.l10n.commonActionsSkip.toUpperCase()),
     );
   }
 }

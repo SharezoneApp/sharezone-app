@@ -60,7 +60,11 @@ class _HomeworkSectionTitle extends StatelessWidget {
       builder: (context, snapshot) {
         final numberOfUrgentHomeworks = snapshot.data ?? 0;
         return Text(
-          "Dringende Hausaufgaben ${numberOfUrgentHomeworks != 0 ? "($numberOfUrgentHomeworks)" : ""}",
+          numberOfUrgentHomeworks != 0
+              ? context.l10n.dashboardUrgentHomeworkTitleWithCount(
+                numberOfUrgentHomeworks,
+              )
+              : context.l10n.dashboardUrgentHomeworkTitle,
         );
       },
     );
@@ -78,9 +82,9 @@ class _NoUrgentHomeworks extends StatelessWidget {
           bloc.navigateTo(NavigationItem.homework);
         },
         padding: const EdgeInsets.all(6),
-        child: const Center(
+        child: Center(
           child: Text(
-            "Es stehen keine dringenden Hausaufgaben an 😅\nJetzt ist Zeit für die wichtigen Dinge! 😉",
+            context.l10n.dashboardNoUrgentHomework,
             textAlign: TextAlign.center,
           ),
         ),

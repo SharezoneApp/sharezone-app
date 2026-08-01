@@ -20,6 +20,7 @@ import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart'
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum _FABEventListOption { event, exam }
@@ -76,7 +77,7 @@ class _PastEventsIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: 'Vergangene Termine',
+      tooltip: context.l10n.pastCalendricalEventsPageTitle,
       onPressed: () {
         logAnalytics(context);
         Navigator.pushNamed(context, PastCalendricalEventsPage.tag);
@@ -134,8 +135,10 @@ class _LayoutIconButtonState extends State<_LayoutIconButton>
 
         return IconButton(
           tooltip: switch (layout) {
-            CalendricalEventsPageLayout.list => 'Auf Kacheln umschalten',
-            CalendricalEventsPageLayout.grid => 'Auf Liste umschalten',
+            CalendricalEventsPageLayout.list =>
+              context.l10n.calendricalEventsSwitchToGrid,
+            CalendricalEventsPageLayout.grid =>
+              context.l10n.calendricalEventsSwitchToList,
           },
           onPressed: () {
             bloc.setLayout(switch (layout) {
@@ -265,7 +268,7 @@ class _EventListFAB extends StatelessWidget {
     return ModalFloatingActionButton(
       onPressed: () => openEventListFABSheet(context),
       icon: const Icon(Icons.add),
-      tooltip: 'Neue Prüfung oder Termin',
+      tooltip: context.l10n.calendricalEventsFabTooltip,
     );
   }
 
@@ -301,7 +304,7 @@ class _EventListFABSheet extends StatelessWidget {
           children: <Widget>[
             const SizedBox(height: 20),
             Text(
-              "Neu erstellen",
+              context.l10n.calendricalEventsCreateNew,
               style: TextStyle(
                 color:
                     Theme.of(context).isDarkTheme
@@ -310,30 +313,32 @@ class _EventListFABSheet extends StatelessWidget {
                 fontSize: 18,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
               child: SizedBox(
                 height: 150,
                 child: Stack(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(right: 145),
+                      padding: const EdgeInsets.only(right: 145),
                       child: ModalBottomSheetBigIconButton<_FABEventListOption>(
-                        title: "Termin",
+                        title: context.l10n.timetableFabOptionEvent,
                         alignment: Alignment.center,
                         iconData: Icons.event,
                         popValue: _FABEventListOption.event,
-                        tooltip: "Neuen Termin erstellen",
+                        tooltip:
+                            context.l10n.calendricalEventsCreateEventTooltip,
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 145),
+                      padding: const EdgeInsets.only(left: 145),
                       child: ModalBottomSheetBigIconButton<_FABEventListOption>(
                         alignment: Alignment.center,
-                        title: "Prüfung",
+                        title: context.l10n.timetableFabOptionExam,
                         iconData: Icons.school,
                         popValue: _FABEventListOption.exam,
-                        tooltip: "Neue Prüfung erstellen",
+                        tooltip:
+                            context.l10n.calendricalEventsCreateExamTooltip,
                       ),
                     ),
                   ],
@@ -352,12 +357,12 @@ class _EmptyEventList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: PlaceholderWidgetWithAnimation(
-        iconSize: Size(150, 150),
-        title: "Es stehen keine Termine und Prüfungen in der Zukunft an.",
+        iconSize: const Size(150, 150),
+        title: context.l10n.calendricalEventsEmptyTitle,
         svgPath: "assets/icons/calendar.svg",
-        description: Padding(
+        description: const Padding(
           padding: EdgeInsets.symmetric(vertical: 8),
           child: Column(
             children: <Widget>[
@@ -378,7 +383,7 @@ class _AddEventTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardListTile(
-      title: const Text("Termin eintragen"),
+      title: Text(context.l10n.calendricalEventsAddEvent),
       centerTitle: true,
       onTap:
           () => openEventDialogAndShowConfirmationIfSuccessful(
@@ -395,7 +400,7 @@ class _AddExamTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardListTile(
-      title: const Text("Prüfung eintragen"),
+      title: Text(context.l10n.calendricalEventsAddExam),
       centerTitle: true,
       onTap:
           () => openEventDialogAndShowConfirmationIfSuccessful(

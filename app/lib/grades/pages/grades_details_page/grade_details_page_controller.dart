@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_view.dart';
-import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 
 class GradeDetailsPageController extends ChangeNotifier {
@@ -40,10 +39,10 @@ class GradeDetailsPageController extends ChangeNotifier {
           state = GradeDetailsPageLoaded(
             GradeDetailsView(
               gradeValue: displayGrade(grade.value),
-              gradingSystem: grade.gradingSystem.displayName,
+              gradingSystem: grade.gradingSystem,
               subjectDisplayName: _getSubjectDisplayNameOfGrade(grade.id),
               date: DateFormat.yMd().format(grade.date.toDateTime),
-              gradeType: _getGradeTypeDisplayName(grade.gradeTypeId),
+              gradeType: _getGradeType(grade.gradeTypeId),
               termDisplayName: _getTermDisplayNameOfGrade(grade.id),
               integrateGradeIntoSubjectGrade: grade.isTakenIntoAccount,
               title: grade.title,
@@ -110,14 +109,13 @@ class GradeDetailsPageController extends ChangeNotifier {
     return '?';
   }
 
-  String _getGradeTypeDisplayName(GradeTypeId gradeTypeId) {
-    const unknown = '?';
+  PredefinedGradeTypes _getGradeType(GradeTypeId gradeTypeId) {
     for (final gradeType in GradeType.predefinedGradeTypes) {
       if (gradeType.id == gradeTypeId) {
-        return gradeType.predefinedType?.toUiString() ?? unknown;
+        return gradeType.predefinedType ?? PredefinedGradeTypes.other;
       }
     }
-    return unknown;
+    return PredefinedGradeTypes.other;
   }
 
   void deleteGrade() {

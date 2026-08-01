@@ -29,10 +29,14 @@ class AppLocaleProvider with ChangeNotifier {
 
   AppLocale get locale => _locale;
 
-  set locale(AppLocale newLocale) {
+  Future<void> setLocale(AppLocale newLocale) async {
+    if (_locale == newLocale) return;
+
+    await gateway.setLocale(newLocale);
+    // A streaming gateway will normally have emitted the new value while the
+    // write was in progress. The assignment also supports one-shot gateways.
     if (_locale != newLocale) {
       _locale = newLocale;
-      gateway.setLocale(newLocale);
       notifyListeners();
     }
   }

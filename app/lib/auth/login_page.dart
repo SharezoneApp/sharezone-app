@@ -143,7 +143,10 @@ class _LoginPageState extends State<LoginPage> {
                                         isLoading
                                             ? const _LoadingCircle()
                                             : ContinueRoundButton(
-                                              tooltip: 'Einloggen',
+                                              tooltip:
+                                                  context
+                                                      .l10n
+                                                      .loginSubmitTooltip,
                                               onTap:
                                                   () => handleLoginSubmit(
                                                     context,
@@ -215,15 +218,15 @@ class _DebugLoginButtons extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () => _loginStudent(context),
-              child: const Text("Student"),
+              child: Text(context.l10n.typeOfUserStudent),
             ),
             TextButton(
               onPressed: () => _loginTeacher(context),
-              child: const Text("Teacher"),
+              child: Text(context.l10n.typeOfUserTeacher),
             ),
             TextButton(
               onPressed: () => _loginParent(context),
-              child: const Text("Parent"),
+              child: Text(context.l10n.typeOfUserParent),
             ),
           ],
         ),
@@ -318,7 +321,7 @@ class _RegistrationSection extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             size: 25,
           ),
-          text: 'Neues Konto erstellen',
+          text: context.l10n.loginCreateAccount,
           onTap: () => _openSignUpPage(context),
         ),
       ],
@@ -402,7 +405,7 @@ class EmailLoginField extends StatelessWidget {
           autofocus: autofocus,
           autofillHints: const [AutofillHints.email],
           decoration: InputDecoration(
-            labelText: 'E-Mail',
+            labelText: context.l10n.loginEmailLabel,
             icon: const Icon(Icons.email),
             errorText: mapAuthentificationValidationErrorMessage(
               context,
@@ -446,7 +449,7 @@ class _PasswordFieldState extends State<PasswordField> {
       builder: (context, snapshot) {
         return Semantics(
           textField: true,
-          label: 'Passwortfeld',
+          label: context.l10n.loginPasswordFieldSemanticsLabel,
           enabled: true,
           child: TextField(
             key: K.passwordTextField,
@@ -460,7 +463,7 @@ class _PasswordFieldState extends State<PasswordField> {
                   : AutofillHints.password,
             ],
             decoration: InputDecoration(
-              labelText: 'Passwort',
+              labelText: context.l10n.loginPasswordLabel,
               icon: const Icon(Icons.vpn_key),
               errorText: mapAuthentificationValidationErrorMessage(
                 context,
@@ -469,7 +472,9 @@ class _PasswordFieldState extends State<PasswordField> {
               border: const OutlineInputBorder(),
               suffixIcon: IconButton(
                 tooltip:
-                    obscureText ? 'Passwort anzeigen' : 'Passwort verstecken',
+                    obscureText
+                        ? context.l10n.loginShowPasswordTooltip
+                        : context.l10n.loginHidePasswordTooltip,
                 icon: Icon(
                   obscureText ? Icons.visibility : Icons.visibility_off,
                 ),
@@ -502,7 +507,7 @@ class _ResetPasswordButton extends StatelessWidget {
                 ),
               ),
           child: Text(
-            'Passwort zurücksetzen',
+            context.l10n.loginResetPasswordButton,
             style: TextStyle(
               color:
                   Theme.of(context).isDarkTheme ? Colors.grey : Colors.black54,
@@ -527,7 +532,7 @@ class _LoginWithGoogleButton extends StatelessWidget {
         width: 24,
         height: 24,
       ),
-      text: "Über Google einloggen",
+      text: context.l10n.loginWithGoogleButton,
       onTap: onLogin,
     );
   }
@@ -546,7 +551,7 @@ class _LoginWithQrCodeButton extends StatelessWidget {
           BlendMode.srcIn,
         ),
       ),
-      text: "Über einen Qr-Code einloggen",
+      text: context.l10n.loginWithQrCodeButton,
       onTap: () => Navigator.pushNamed(context, SignInWithQrCodePage.tag),
     );
   }
@@ -570,7 +575,7 @@ class _LoginWithAppleButton extends StatelessWidget {
         ),
       ),
       onTap: onLogin,
-      text: 'Über Apple anmelden',
+      text: context.l10n.loginWithAppleButton,
     );
   }
 }

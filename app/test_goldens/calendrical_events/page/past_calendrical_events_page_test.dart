@@ -21,7 +21,9 @@ import 'package:sharezone/calendrical_events/provider/past_calendrical_events_pa
 import 'package:sharezone/calendrical_events/provider/past_calendrical_events_page_controller_factory.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import '../../flutter_test_config.dart';
 import 'past_calendrical_events_page_test.mocks.dart';
 
 @GenerateNiceMocks([
@@ -67,7 +69,11 @@ void main() {
           value: controllerFactory,
           child: const PastCalendricalEventsPage(),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 

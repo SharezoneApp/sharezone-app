@@ -9,6 +9,7 @@
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -25,7 +26,10 @@ class CourseHelpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Hilfe: Gruppen"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(context.l10n.groupHelpTitle),
+        centerTitle: true,
+      ),
       body: const SingleChildScrollView(child: CourseHelpInnerPage()),
       bottomNavigationBar: const ContactSupport(),
     );
@@ -61,18 +65,9 @@ class _WhatIsASharecode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Was ist ein Sharecode?'),
+      header: Text(context.l10n.groupHelpWhatIsSharecodeTitle),
       body: Text(
-        "Der Sharecode ist ein Zugangsschlüssel für einen Kurs. Mit diesem "
-        "können Mitschüler und Lehrer dem Kurs beitreten."
-        ""
-        "\n\nDank des Sharecodes "
-        "braucht es kein Austauschen persönlicher Daten, wie z.B. der E-Mail Adresse oder der privaten "
-        "Handynummer, unter den Kursmitgliedern - anders als es z.B. bei WhatsApp-Gruppen oder den "
-        "meisten E-Mail Verteilern der Fall ist."
-        ""
-        "\n\nEin Kursmitglied sieht nur den Namen (kann auch ein Pseudonym sein) der anderen "
-        "Kursmitglieder.",
+        context.l10n.groupHelpWhatIsSharecodeDescription,
         style: _descriptionStyle(context),
       ),
     );
@@ -93,22 +88,18 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text("Wie trete ich einer Gruppe bei?"),
+      header: Text(context.l10n.groupHelpHowToJoinTitle),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Um einer Gruppe von deinen Mitschüler oder Lehrern beizutreten, gibt es zwei "
-            "Möglichkeiten:"
-            ""
-            "\n\n1. Sharecode über einen QR-Code scannen"
-            "\n2. Händisch den Sharecode eingeben",
+            context.l10n.groupHelpHowToJoinOverview,
             style: _descriptionStyle(context),
           ),
           const SizedBox(height: 8),
           ExpansionTile(
             title: ExpansionTileTitle(
-              title: "Sharecode mit einem QR-Code scannen",
+              title: context.l10n.groupHelpScanQrCodeTitle,
               icon: Padding(
                 padding: const EdgeInsets.only(left: 2),
                 child: SvgPicture.asset(
@@ -143,14 +134,7 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "1. Eine Person, die sich schon in diesem Kurs befindet, klickt unter der "
-                      "Seite \"Gruppe\" auf den gewünschten Kurs.\n"
-                      "2. Diese Person klickt nun auf den Button \"QR-Code anzeigen\".\n"
-                      "3. Nun öffnet sich unten eine neue Anzeige mit einem QR-Code.\n"
-                      "4. Die Person, die dem Kurs beitreten möchte, klickt unten auf der Seite \"Gruppen\" auf den roten Button.\n"
-                      "5. Als nächstes wählt die Person \"Kurs/Klasse beitreten\".\n"
-                      "6. Jetzt öffnet sich ein Fenster - dort klickt der Nutzer auf die blaue Grafik, um den QR-Code zu scannen.\n"
-                      "7. Abschließend nur noch die Kamera auf den QR-Code der anderen Person halten.",
+                      context.l10n.groupHelpScanQrCodeDescription,
                       style: _descriptionStyle(context),
                     ),
                   ],
@@ -160,7 +144,7 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
           ),
           ExpansionTile(
             title: ExpansionTileTitle(
-              title: "Händisch den Sharecode eingeben",
+              title: context.l10n.groupHelpTypeSharecodeTitle,
               icon: Icon(Icons.keyboard, color: _typeInPublicKeyIconColor),
             ),
             onExpansionChanged: (value) {
@@ -185,12 +169,7 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
                   horizontal: 16,
                 ).add(const EdgeInsets.only(bottom: 16)),
                 child: Text(
-                  "1. Eine Person, die sich schon in diesem Kurs befindet, klickt unter der "
-                  "Seite \"Gruppen\" auf den gewünschten Kurs.\n"
-                  "2. Auf dieser Seite wird nun direkt unter dem Kursnamen der Sharecode angezeigt.\n"
-                  "3. Die Person, die dem Kurs beitreten möchte, klickt unten auf der Seite \"Gruppen\" auf den roten Button.\n"
-                  "4. Als nächstes wählt die Person \"Kurs/Klasse beitreten\".\n"
-                  "5. Jetzt öffnet sich ein Fenster - dort muss dann nur noch der Sharecode von der anderen Person in das Textfeld unten eingeben werden.\n",
+                  context.l10n.groupHelpTypeSharecodeDescription,
                   style: _descriptionStyle(context),
                 ),
               ),
@@ -208,14 +187,9 @@ class _WhyHasEveryMemberOfAGroupADifferentSharecode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text(
-        'Warum hat jeder Teilnehmer aus einer Gruppe einen anderen Sharecode?',
-      ),
+      header: Text(context.l10n.groupHelpWhyDifferentSharecodesTitle),
       body: Text(
-        "Jeder Teilnehmer aus einem Kurs hat einen individuellen Sharecode.\n\n"
-        "Das hat den Grund, dass getrackt werden kann, welcher Nutzer wen eingeladen hat.\n\n"
-        "Dank dieser Funktion zählen auch Weiterempfehlungen ohne die Verwendung eines "
-        "Empfehlunglinks.",
+        context.l10n.groupHelpWhyDifferentSharecodesDescription,
         style: _descriptionStyle(context),
       ),
     );
@@ -229,13 +203,9 @@ class _WhatIsTheDifferenceBetweenAGroupACourseAndASchoolClass
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text(
-        'Was ist der Unterschied zwischen einer Gruppe, einem Kurs und einer Schulklasse?',
-      ),
+      header: Text(context.l10n.groupHelpDifferenceTitle),
       body: Text(
-        "Kurs: Spiegelt ein Schulfach wieder.\n\n"
-        "Schulklasse: Besteht aus mehreren Kursen und ermöglicht das Beitreten all dieser Kurse mit nur einem Sharecode.\n\n"
-        "Gruppe: Ist der Oberbegriff für einen Kurs und eine Schulklasse.",
+        context.l10n.groupHelpDifferenceDescription,
         style: _descriptionStyle(context),
       ),
     );
@@ -248,21 +218,9 @@ class _GroupRolesExplained extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text(
-        'Gruppenrollen erklärt: Was ist ein passives Mitglied, aktives Mitglied, Administrator?',
-      ),
+      header: Text(context.l10n.groupHelpRolesTitle),
       body: Text(
-        "Administrator:\n"
-        "Ein Admin verwaltet eine Gruppe. Das bedeutet, dass er diese bearbeiten, löschen und Teilnehmer rauswerfen kann. "
-        "Zudem kann ein Admin alle weiteren Einstellungen für die Gruppe treffen, wie z.B. das Beitreten "
-        "aktivieren/deaktivieren.\n\n"
-        ""
-        "Aktives Mitglied:\n"
-        "Ein aktives Mitglied in einer Gruppe darf Inhalte erstellen und bearbeiten, sprich Hausaufgaben eintragen, "
-        "Termine eintragen, Schulstunden bearbeiten, etc. Er hat somit Schreib- und Leserechte.\n\n"
-        ""
-        "Passives Mitglied:\n"
-        "Ein passives Mitglied in einer Gruppe hat ausschließlich Leserechte. Somit dürfen keine Inhalte erstellt oder bearbeitet werden.",
+        context.l10n.groupHelpRolesDescription,
         style: _descriptionStyle(context),
       ),
     );

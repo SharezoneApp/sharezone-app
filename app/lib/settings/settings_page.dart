@@ -27,6 +27,7 @@ import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_pag
 import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -89,10 +90,10 @@ class _LegalSection extends StatelessWidget {
     return SafeArea(
       bottom: true,
       child: _SettingsSection(
-        title: "Rechtliches",
+        title: context.l10n.settingsSectionLegal,
         children: <Widget>[
           _SettingsOption(
-            title: "Datenschutzerklärung",
+            title: context.l10n.privacyPolicyPageTitle,
             icon: const Icon(Icons.security),
             onTap: () {
               _logOpenPrivacyPolicy(analytics);
@@ -100,7 +101,7 @@ class _LegalSection extends StatelessWidget {
             },
           ),
           _SettingsOption(
-            title: "Allgemeine Nutzungsbedingungen (ANB)",
+            title: context.l10n.settingsLegalTermsTitle,
             icon: const Icon(Icons.description),
             onTap: () {
               _logOpenPrivacyPolicy(analytics);
@@ -108,7 +109,7 @@ class _LegalSection extends StatelessWidget {
             },
           ),
           _SettingsOption(
-            title: "Impressum",
+            title: context.l10n.imprintTitle,
             icon: const Icon(Icons.account_balance),
             onTap: () {
               _logOpenImprint(context);
@@ -116,7 +117,7 @@ class _LegalSection extends StatelessWidget {
             },
           ),
           _SettingsOption(
-            title: "Lizenzen",
+            title: context.l10n.settingsLegalLicensesTitle,
             icon: const Icon(Icons.layers),
             onTap: () => _openLicensePage(context),
           ),
@@ -150,32 +151,32 @@ class _AppSettingsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final featureFlagl10n = context.watch<FeatureFlagl10n>();
     return _SettingsSection(
-      title: 'App-Einstellungen',
+      title: context.l10n.settingsSectionAppSettings,
       children: <Widget>[
-        const _SettingsOption(
-          title: "Mein Konto",
-          icon: Icon(Icons.account_circle),
+        _SettingsOption(
+          title: context.l10n.settingsOptionMyAccount,
+          icon: const Icon(Icons.account_circle),
           tag: MyProfilePage.tag,
         ),
-        const _SettingsOption(
-          title: "Benachrichtigungen",
-          icon: Icon(Icons.notifications_active),
+        _SettingsOption(
+          title: context.l10n.notificationPageTitle,
+          icon: const Icon(Icons.notifications_active),
           tag: NotificationPage.tag,
         ),
-        const _SettingsOption(
-          title: "Erscheinungsbild",
-          icon: Icon(Icons.color_lens),
+        _SettingsOption(
+          title: context.l10n.themeTitle,
+          icon: const Icon(Icons.color_lens),
           tag: ThemePage.tag,
         ),
-        const _SettingsOption(
-          title: "Stundenplan",
-          icon: Icon(Icons.access_time),
+        _SettingsOption(
+          title: context.l10n.timetableSettingsTitle,
+          icon: const Icon(Icons.access_time),
           tag: TimetableSettingsPage.tag,
         ),
         if (featureFlagl10n.isl10nEnabled)
-          const _SettingsOption(
-            title: "Sprache",
-            icon: Icon(Icons.language),
+          _SettingsOption(
+            title: context.l10n.languageTitle,
+            icon: const Icon(Icons.language),
             tag: LanguagePage.tag,
           ),
       ],
@@ -187,15 +188,15 @@ class _MoreSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SettingsSection(
-      title: "Mehr",
+      title: context.l10n.settingsSectionMore,
       children: <Widget>[
-        const _SettingsOption(
-          title: "Über uns",
-          icon: Icon(Icons.info),
+        _SettingsOption(
+          title: context.l10n.aboutTitle,
+          icon: const Icon(Icons.info),
           tag: AboutPage.tag,
         ),
         _SettingsOption(
-          title: "Quellcode",
+          title: context.l10n.settingsOptionSourceCode,
           icon: SvgPicture.asset(
             'assets/icons/github.svg',
             colorFilter: ColorFilter.mode(
@@ -207,19 +208,19 @@ class _MoreSection extends StatelessWidget {
               () => launchURL('https://sharezone.net/github', context: context),
         ),
         if (!PlatformCheck.isDesktopOrWeb)
-          const _SettingsOption(
-            title: "Web-App",
-            icon: Icon(Icons.desktop_mac),
+          _SettingsOption(
+            title: context.l10n.settingsOptionWebApp,
+            icon: const Icon(Icons.desktop_mac),
             tag: WebAppSettingsPage.tag,
           ),
-        const _SettingsOption(
-          title: "Support",
-          icon: Icon(Icons.question_answer),
+        _SettingsOption(
+          title: context.l10n.supportPageTitle,
+          icon: const Icon(Icons.question_answer),
           tag: SupportPage.tag,
         ),
-        const _SettingsOption(
-          title: "Was ist neu?",
-          icon: Icon(Icons.assignment),
+        _SettingsOption(
+          title: context.l10n.changelogPageTitle,
+          icon: const Icon(Icons.assignment),
           tag: ChangelogPage.tag,
         ),
       ],

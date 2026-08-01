@@ -15,11 +15,11 @@ import 'package:sharezone/widgets/common/picker.dart';
 String getWeekTypeText(WeekType weekDay) {
   switch (weekDay) {
     case WeekType.always:
-      return "Immer (Keine A/B Wochenstunde)";
+      return "Always (no A/B week cycle)";
     case WeekType.a:
-      return "A-Woche";
+      return "A week";
     case WeekType.b:
-      return "B-Woche";
+      return "B week";
   }
 }
 
@@ -48,7 +48,7 @@ Future<WeekType?> selectWeekType(
         trailing:
             isSelected ? const Icon(Icons.done, color: Colors.green) : null,
         onTap: () {
-          log("Ische poppe jetzt: ${getWeekTypeText(item)}");
+          log("Selected week type: ${getWeekTypeText(item)}");
           Navigator.pop(context, item);
         },
       );

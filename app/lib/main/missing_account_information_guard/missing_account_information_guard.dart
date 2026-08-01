@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/main/missing_account_information_guard/missing_account_information_guard_bloc.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 /// Manchmal passiert es, dass ein Nutzer, der noch kein Sharezone Konto hat,
 /// sich über Google Sign bei der Login-Page anmeldet. Passiert das, wird der
@@ -84,7 +85,7 @@ class _SignOutButton extends StatelessWidget {
           foregroundColor: Theme.of(context).colorScheme.error,
         ),
         onPressed: bloc.logOut,
-        child: const Text("ABMELDEN"),
+        child: Text(context.l10n.commonActionsSignOutUppercase),
       ),
     );
   }

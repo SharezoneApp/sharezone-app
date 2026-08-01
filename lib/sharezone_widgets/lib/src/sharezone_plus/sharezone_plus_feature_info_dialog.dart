@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/src/sharezone_plus/sharezone_plus_widgets.dart';
 
 /// Shows a dialog with information about the Sharezone Plus feature.
@@ -58,11 +59,11 @@ class _SharezonePlusFeatureInfoDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('ZURÜCK'),
+          child: Text(context.l10n.sharezonePlusFeatureInfoDialogBack),
         ),
         FilledButton(
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('MEHR ERFAHREN'),
+          child: Text(context.l10n.sharezonePlusFeatureInfoDialogLearnMore),
         ),
       ],
     );

@@ -116,18 +116,18 @@ class MockSupportPageController extends _i1.Mock
           as String);
 
   @override
-  _i5.Future<void> sendEmailToFreeSupport() =>
+  _i5.Future<void> sendEmailToFreeSupport({required String? subject}) =>
       (super.noSuchMethod(
-            Invocation.method(#sendEmailToFreeSupport, []),
+            Invocation.method(#sendEmailToFreeSupport, [], {#subject: subject}),
             returnValue: _i5.Future<void>.value(),
             returnValueForMissingStub: _i5.Future<void>.value(),
           )
           as _i5.Future<void>);
 
   @override
-  _i5.Future<void> sendEmailToPlusSupport() =>
+  _i5.Future<void> sendEmailToPlusSupport({required String? subject}) =>
       (super.noSuchMethod(
-            Invocation.method(#sendEmailToPlusSupport, []),
+            Invocation.method(#sendEmailToPlusSupport, [], {#subject: subject}),
             returnValue: _i5.Future<void>.value(),
             returnValueForMissingStub: _i5.Future<void>.value(),
           )

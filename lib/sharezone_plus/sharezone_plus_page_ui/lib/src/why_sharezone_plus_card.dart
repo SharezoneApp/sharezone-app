@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class WhyPlusSharezoneCard extends StatelessWidget {
@@ -54,7 +55,7 @@ class _WhyPlusSharezoneImage extends StatelessWidget {
           'packages/sharezone_plus_page_ui/assets/jonas-nils.png',
           fit: BoxFit.cover,
           width: double.infinity,
-          semanticLabel: 'Ein Bild von Jonas und Nils.',
+          semanticLabel: context.l10n.sharezonePlusWhyCardImageSemanticLabel,
         ),
       ),
     );
@@ -67,7 +68,7 @@ class _WhyPlusSharezoneHeadline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Warum kostet Sharezone Plus Geld?',
+      context.l10n.sharezonePlusWhyCardTitle,
       style: Theme.of(context).textTheme.headlineSmall,
     );
   }
@@ -79,7 +80,7 @@ class _WhyPlusSharezoneText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Neben einem Studium können wir, Jonas und Nils, die monatlichen Kosten von 1.000 € für Sharezone nicht selbst tragen. Daher haben wir Sharezone Plus entwickelt - der Schlüssel zur Fortführung und Werbefreiheit unserer App.',
+      context.l10n.sharezonePlusWhyCardText,
       style: Theme.of(context).textTheme.bodyMedium,
       textAlign: TextAlign.center,
     );

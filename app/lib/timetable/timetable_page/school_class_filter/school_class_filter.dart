@@ -15,6 +15,7 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'school_class_filter_view.dart';
@@ -178,7 +179,7 @@ class _SchoolClassFilterBottomBarState
           value: showAllGroups,
           child: _DesktopMenuTile(
             isSelected: !view.hasSchoolClassSelected,
-            title: "Alle Schulklassen",
+            title: context.l10n.timetableSchoolClassFilterAllClasses,
             filter: showAllGroups,
           ),
         ),
@@ -207,7 +208,11 @@ class _Text extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Text(
-        "Schulklasse: ${view.hasSchoolClassSelected ? view.currentSchoolClassName : 'Alle'}",
+        context.l10n.timetableSchoolClassFilterLabel(
+          view.hasSchoolClassSelected
+              ? (view.currentSchoolClassName ?? "")
+              : context.l10n.timetableSchoolClassFilterAllShort,
+        ),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
@@ -264,7 +269,7 @@ class _SelectionSheet extends StatelessWidget {
           children: [
             const SizedBox(height: 6),
             _SelectionSheetTile(
-              title: "Alle Schulklassen",
+              title: context.l10n.timetableSchoolClassFilterAllClasses,
               isSelected: !isASchoolClassSelected,
               filter: SchoolClassFilter.showAllGroups(),
             ),

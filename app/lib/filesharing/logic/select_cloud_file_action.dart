@@ -17,6 +17,7 @@ import 'package:sharezone/filesharing/widgets/move_file_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_item.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -56,9 +57,9 @@ Future<void> selectCloudFileAction({
         context: context,
         builder:
             (context) => OneTextFieldDialog(
-              actionName: "Umbenennen".toUpperCase(),
-              hint: "Neuer Name",
-              title: "Datei umbenennen",
+              actionName: context.l10n.commonActionRename.toUpperCase(),
+              hint: context.l10n.filesRenameDialogHint,
+              title: context.l10n.filesRenameDialogTitle,
               text: basename,
               notAllowedChars: "/",
               onTap: (newBasename) {
@@ -86,9 +87,9 @@ Future<void> selectCloudFileAction({
         context: context,
         popTwice: false,
         description: Text(
-          "Möchtest du wirklich die Datei mit dem Namen: \"${cloudFile.name}\" löschen?",
+          context.l10n.filesDeleteDialogDescription(cloudFile.name),
         ),
-        title: "Datei löschen?",
+        title: context.l10n.filesDeleteDialogTitle,
         onDelete: () {
           api.fileSharing.cloudFilesGateway.deleteFile(
             cloudFile.courseID!,
@@ -102,13 +103,13 @@ Future<void> selectCloudFileAction({
 }
 
 void _showStartedDownloadSnackBar(BuildContext context) {
-  showSnackSec(context: context, text: "Download wurde gestartet...");
+  showSnackSec(context: context, text: context.l10n.filesDownloadStarted);
 }
 
 void _showBrokenFileSnackBar(BuildContext context) {
   showSnackSec(
     context: context,
-    text: 'Die Datei ist beschädigt und kann nicht heruntergeladen werden.',
+    text: context.l10n.filesDownloadBrokenFileError,
   );
 }
 

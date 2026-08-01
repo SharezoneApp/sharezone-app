@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/logic/move_file_bloc.dart';
 import 'package:sharezone/filesharing/widgets/move_file_page_header.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/streams.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -46,7 +47,7 @@ class _MoveFilePage extends StatelessWidget {
     final bloc = BlocProvider.of<MoveFileBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Verschiebe ${bloc.cloudFile.name} nach"),
+        title: Text(context.l10n.filesMoveTo(bloc.cloudFile.name)),
         centerTitle: true,
       ),
       body: _MoveFileCurrentPath(),
@@ -110,7 +111,7 @@ class _FolderList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const FileSharingHeadline(title: "Ordner"),
+          FileSharingHeadline(title: context.l10n.fileSharingFoldersHeadline),
           WrappableList(
             minWidth: 150.0,
             maxElementsPerSection: 3,
@@ -134,12 +135,10 @@ class _EmptyFoldersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
       child: Center(
-        child: Text(
-          "Es befinden sich an diesem Ort keine weiteren Ordner... Navigiere zwischen den Ordnern über die Leiste oben.",
-        ),
+        child: Text(context.l10n.fileSharingMoveEmptyFoldersMessage),
       ),
     );
   }
@@ -187,7 +186,7 @@ class _MoveFileBottomBar extends StatelessWidget {
                 style: TextButton.styleFrom(
                   foregroundColor: Theme.of(context).colorScheme.error,
                 ),
-                child: Text("Abbrechen".toUpperCase()),
+                child: Text(context.l10n.commonActionsCancelUppercase),
                 onPressed: () => Navigator.pop(context),
               ),
               TextButton(
@@ -201,7 +200,7 @@ class _MoveFileBottomBar extends StatelessWidget {
                           Navigator.pop(context);
                         }
                         : null,
-                child: Text("Verschieben".toUpperCase()),
+                child: Text(context.l10n.filesMoveUppercase),
               ),
               const SizedBox(width: 8),
             ],

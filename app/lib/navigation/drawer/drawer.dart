@@ -15,6 +15,7 @@ import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/settings/src/subpages/about/about_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -35,7 +36,7 @@ class SharezoneDrawer extends StatelessWidget {
       key: navigationBloc.scaffoldKey,
       bloc: SharezoneDrawerController(isDesktopModus),
       child: Drawer(
-        semanticLabel: 'Navigation öffnen',
+        semanticLabel: context.l10n.drawerOpenSemanticsLabel,
         // No border
         shape: const Border(),
         child: _DrawerItems(isDesktopModus: isDesktopModus),
@@ -100,7 +101,7 @@ class _SharezoneLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: 'Über uns',
+      message: context.l10n.drawerAboutTooltip,
       child: InkWell(
         onTap: () {
           final drawerController = BlocProvider.of<SharezoneDrawerController>(
@@ -150,7 +151,7 @@ class DrawerIcon extends StatelessWidget {
     return IconButton(
       key: const ValueKey('drawer-open-icon-E2E'),
       icon: Icon(Icons.menu, color: color),
-      tooltip: "Navigation",
+      tooltip: context.l10n.drawerNavigationTooltip,
       onPressed: () {
         Scaffold.of(context).openDrawer();
         _logOpenDrawer(context);

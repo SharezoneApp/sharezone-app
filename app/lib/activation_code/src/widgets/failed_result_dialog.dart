@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/activation_code/src/models/enter_activation_code_result.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FailedEnterActivationCodeResultDialog extends StatelessWidget {
@@ -39,12 +40,11 @@ class FailedEnterActivationCodeResultDialog extends StatelessWidget {
 class _UnknownError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const StateSheetSimpleBody(
-      title: "Ein unbekannter Fehler ist aufgetreten 😭",
+    return StateSheetSimpleBody(
+      title: context.l10n.activationCodeErrorUnknownTitle,
       iconData: Icons.error,
       iconColor: Colors.red,
-      description:
-          "Dies könnte eventuell an deiner Internetverbindung liegen. Bitte überprüfe diese!",
+      description: context.l10n.activationCodeErrorUnknownDescription,
     );
   }
 }
@@ -52,12 +52,11 @@ class _UnknownError extends StatelessWidget {
 class _NoInternet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const StateSheetSimpleBody(
-      title: "Ein Fehler ist aufgetreten: Keine Internetverbindung ☠️",
+    return StateSheetSimpleBody(
+      title: context.l10n.activationCodeErrorNoInternetTitle,
       iconData: Icons.error,
       iconColor: Colors.red,
-      description:
-          "Wir konnten nicht versuchen, den Code einzulösen, da wir keine Internetverbindung herstellen konnten. Bitte überprüfe dein WLAN bzw. deine Mobilfunkdaten.",
+      description: context.l10n.activationCodeErrorNoInternetDescription,
     );
   }
 }
@@ -65,12 +64,11 @@ class _NoInternet extends StatelessWidget {
 class _NotAvailable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const StateSheetSimpleBody(
-      title: "Ein Fehler ist aufgetreten: Dieser Code ist nicht gültig 🤨",
+    return StateSheetSimpleBody(
+      title: context.l10n.activationCodeErrorInvalidTitle,
       iconData: Icons.error,
       iconColor: Colors.red,
-      description:
-          "Entweder wurde dieser Code schon aufgebracht oder er ist außerhalb des Gültigkeitszeitraumes.",
+      description: context.l10n.activationCodeErrorInvalidDescription,
     );
   }
 }
@@ -78,12 +76,11 @@ class _NotAvailable extends StatelessWidget {
 class _NotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const StateSheetSimpleBody(
-      title: "Ein Fehler ist aufgetreten: Aktivierungscode nicht gefunden ❌",
+    return StateSheetSimpleBody(
+      title: context.l10n.activationCodeErrorNotFoundTitle,
       iconData: Icons.error,
       iconColor: Colors.red,
-      description:
-          "Wir konnten den eingegeben Aktivierungscode nicht finden. Bitte überprüfe die Groß- und Kleinschreibung und ob dieser Aktivierungscode noch gültig ist.",
+      description: context.l10n.activationCodeErrorNotFoundDescription,
     );
   }
 }

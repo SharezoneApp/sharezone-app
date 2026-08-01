@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../homework_dialog/open_homework_dialog.dart';
@@ -19,7 +20,7 @@ class AddHomeworkCard extends StatelessWidget {
     return CardListTile(
       leading: const Icon(Icons.add_circle_outline),
       centerTitle: true,
-      title: const Text("Hausaufgabe eintragen"),
+      title: Text(context.l10n.homeworkAddAction),
       onTap: () => openHomeworkDialogAndShowConfirmationIfSuccessful(context),
     );
   }

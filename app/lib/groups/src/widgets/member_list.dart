@@ -12,6 +12,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -28,7 +29,7 @@ class AddMember extends StatelessWidget {
       enabled: groupInfo.sharecode == null || groupInfo.sharecode!.isEmpty,
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        title: const Text("Teilnehmer einladen"),
+        title: Text(context.l10n.groupsInviteParticipants),
         leading: CircleAvatar(
           backgroundColor: Colors.grey.shade200,
           child: Icon(Icons.person_add, color: Theme.of(context).primaryColor),
@@ -90,7 +91,7 @@ class LoadingMemberList extends StatelessWidget {
     final placeholderUser = [
       MemberData.create(
         id: "bernd77",
-        user: AppUser.create(id: "bernd77").copyWith(name: "Bernd das Brot"),
+        user: AppUser.create(id: "bernd77").copyWith(name: "Bob Bread"),
         role: MemberRole.admin,
       ),
       MemberData.create(
@@ -107,7 +108,7 @@ class LoadingMemberList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const _DividerWithText(text: "Legenden"),
+        _DividerWithText(text: context.l10n.groupsMembersLegendTitle),
         Column(
           children:
               placeholderUser
@@ -149,7 +150,7 @@ class MemberTile extends StatelessWidget {
       onTap: onTap,
       trailing:
           memberData.id.toString() == api.uID
-              ? const Chip(label: Text("Du"))
+              ? Chip(label: Text(context.l10n.groupsMemberYou))
               : withReportOption
               ? ReportIcon(
                 item: ReportItemReference.user(memberData.id.toString()),

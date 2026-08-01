@@ -17,6 +17,7 @@ import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
 import 'package:sharezone/groups/group_join/models/group_join_exception.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CourseJoinListener extends StatefulWidget {
@@ -75,8 +76,9 @@ class _CourseJoinListenerState extends State<CourseJoinListener> {
   }
 
   Future<void> joinGroup(Sharecode sharecode) async {
+    final l10n = context.l10n;
     Future.delayed(const Duration(microseconds: 200)).then((_) async {
-      showLoadingNotification("$sharecode beitreten...");
+      showLoadingNotification(l10n.courseJoinNotificationLoading(sharecode));
       final result = await widget.groupJoinFunction.runGroupJoinFunction(
         enteredValue: '$sharecode',
         version: 1,
@@ -85,34 +87,39 @@ class _CourseJoinListenerState extends State<CourseJoinListener> {
         final groupInfo = result.groupInfo;
         final groupName = groupInfo.name;
         final message = switch (groupInfo.groupType) {
-          GroupType.course =>
-            'Du bist dem Kurs "${groupName ?? "???"}" beigetreten',
-          GroupType.schoolclass =>
-            'Du bist der Klasse "${groupName ?? "???"}" beigetreten',
+          GroupType.course => l10n.courseJoinNotificationJoinedCourse(
+            groupName ?? "???",
+          ),
+          GroupType.schoolclass => l10n.courseJoinNotificationJoinedClass(
+            groupName ?? "???",
+          ),
         };
         showSuccessNotification(message);
       } else if (result is ErrorJoinResult) {
         showErrorNotification(switch (result.groupJoinException) {
-          NoInternetGroupJoinException() => 'Keine Internetverbindung',
+          NoInternetGroupJoinException() =>
+            l10n.courseJoinNotificationNoInternet,
           GroupNotPublicGroupJoinException() =>
-            'Beitreten verboten. Kontaktiere den Admin der Gruppe.',
+            l10n.courseJoinNotificationJoinForbidden,
           AlreadyMemberGroupJoinException() =>
-            'Du bist der Gruppe bereits beigetreten',
-          SharecodeNotFoundGroupJoinException() => 'Gruppe nicht gefunden',
+            l10n.courseJoinNotificationAlreadyMember,
+          SharecodeNotFoundGroupJoinException() =>
+            l10n.courseJoinNotificationGroupNotFound,
           UnknownGroupJoinException() =>
-            'Ein Fehler ist aufgetreten. Bitte kontaktiere den Support.',
+            l10n.courseJoinNotificationUnknownError,
         });
       }
     });
   }
 
   void onBeitrittsStreamError(dynamic error) {
+    final l10n = context.l10n;
     Future.delayed(const Duration(microseconds: 200)).then((_) {
       if (error is KursBereitsBeigetretenException) {
-        showErrorNotification("Du bist der Gruppe bereits beigetreten");
+        showErrorNotification(l10n.courseJoinNotificationAlreadyMember);
       } else {
         showErrorNotification(
-          "Ein Fehler ist aufgetreten: $error. Bitte kontaktiere den Support.",
+          l10n.courseJoinNotificationUnknownErrorWithReason('$error'),
         );
       }
     });

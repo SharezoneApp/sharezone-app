@@ -61,8 +61,7 @@ class _BnbTutorialState extends State<_BnbTutorial> {
                             (widget.animationController.value * 140) +
                             context.mediaQueryViewPadding.bottom);
                     return Semantics(
-                      label:
-                          'Schaubild: Wie die Navigationsleiste nach oben gezogen wird, um weitere Navigationselemente zu zeigen.',
+                      label: context.l10n.bnbTutorialSemanticsLabel,
                       child: Stack(
                         children: [
                           Container(
@@ -155,7 +154,7 @@ class _SkipTutorialButton extends StatelessWidget {
           foregroundColor: context.primaryColor,
           backgroundColor: Colors.white,
         ),
-        child: Text("Überspringen".toUpperCase()),
+        child: Text(context.l10n.commonActionsSkip.toUpperCase()),
       ),
     );
   }
@@ -171,11 +170,11 @@ class _BnBTutorialDescription extends StatelessWidget {
       child: Material(
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
-        child: const Padding(
-          padding: EdgeInsets.all(12),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
           child: Text(
-            "Ziehe die untere Navigationsleiste nach oben, um auf weitere Funktionen zuzugreifen.",
-            style: TextStyle(color: Colors.black, fontSize: 16),
+            context.l10n.bnbTutorialDescription,
+            style: const TextStyle(color: Colors.black, fontSize: 16),
             textAlign: TextAlign.center,
           ),
         ),

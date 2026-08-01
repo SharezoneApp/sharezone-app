@@ -16,6 +16,7 @@ class GradesDialogControllerFactory {
   final CrashAnalytics crashAnalytics;
   final GradesService gradesService;
   final Analytics analytics;
+  final GradesDialogControllerTranslations translations;
 
   /// Returns a stream of courses.
   ///
@@ -30,6 +31,7 @@ class GradesDialogControllerFactory {
     required this.gradesService,
     required this.coursesStream,
     required this.analytics,
+    required this.translations,
   });
 
   GradesDialogController create(GradeId? gradeId) {
@@ -38,6 +40,7 @@ class GradesDialogControllerFactory {
       crashAnalytics: crashAnalytics,
       gradesService: gradesService,
       analytics: analytics,
+      translations: translations,
       gradeId: gradeId,
     );
   }

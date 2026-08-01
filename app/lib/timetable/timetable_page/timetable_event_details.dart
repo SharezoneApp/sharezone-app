@@ -26,6 +26,7 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 import 'package:sharezone/timetable/timetable_edit/event/timetable_event_edit_page.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
 import 'package:sharezone/util/navigation_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum _EventModelSheetAction { edit, delete, report }
@@ -37,11 +38,11 @@ Future<bool?> showDeleteEventConfirmationDialog(BuildContext context) async {
     right: AdaptiveDialogAction.delete(context),
     content:
         !ThemePlatform.isCupertino
-            ? const Text("Möchtest du wirklich diesen Termin löschen?")
+            ? Text(context.l10n.timetableEventDetailsDeleteDialog)
             : null,
     title:
         ThemePlatform.isCupertino
-            ? "Möchtest du wirklich diesen Termin löschen?"
+            ? context.l10n.timetableEventDetailsDeleteDialog
             : null,
   );
 }
@@ -99,7 +100,7 @@ Future<void> openTimetableEventEditPage(
     if (!context.mounted) return;
 
     showSnackSec(
-      text: 'Termin wurde erfolgreich bearbeitet',
+      text: context.l10n.timetableEventDetailsEditedConfirmation,
       context: context,
       seconds: 2,
       behavior: SnackBarBehavior.fixed,
@@ -128,7 +129,11 @@ Future<void> _deleteEventAndShowConfirmationSnackbar(
   await waitingForPopAnimation();
   if (!context.mounted) return;
 
-  showSnackSec(text: 'Termin wurde gelöscht', context: context, seconds: 2);
+  showSnackSec(
+    text: context.l10n.timetableEventDetailsDeletedConfirmation,
+    context: context,
+    seconds: 2,
+  );
 }
 
 class _TimetableEventDetailsPage extends StatelessWidget {
@@ -160,7 +165,11 @@ class _TimetableEventDetailsPage extends StatelessWidget {
         actions: [
           ReportIcon(
             item: ReportItemReference.event(event.eventID),
-            tooltip: '${isExam ? 'Prüfung' : 'Termin'} melden',
+            tooltip: context.l10n.timetableEventDetailsReport(
+              isExam
+                  ? context.l10n.timetableFabOptionExam
+                  : context.l10n.timetableFabOptionEvent,
+            ),
           ),
           if (hasPermissionsToManageLessons) ...const [
             _EditIcon(),
@@ -189,7 +198,9 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                         fontSize: 16,
                       ),
                       children: <TextSpan>[
-                        const TextSpan(text: "Kursname: "),
+                        TextSpan(
+                          text: context.l10n.timetableLessonDetailsCourseName,
+                        ),
                         TextSpan(
                           text: courseName,
                           style: TextStyle(color: design?.color),
@@ -200,14 +211,16 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.place),
-                  title: Text("Raum: ${event.place ?? "-"}"),
+                  title: Text(
+                    context.l10n.timetableEventDetailsRoom(event.place ?? "-"),
+                  ),
                 ),
                 if (event.detail != null && event.detail != "")
                   ListTile(
                     leading: const Icon(Icons.notes),
                     title: MarkdownBody(
                       data:
-                          "${isExam ? "Themen der Prüfung" : "Details"}:\n${event.detail}",
+                          "${isExam ? context.l10n.timetableEventDetailsExamTopics : context.l10n.timetableEventDetailsLabel}:\n${event.detail}",
                       selectable: true,
                       onTapLink:
                           (text, href, _) => launchMarkdownLinkWithWarning(
@@ -292,7 +305,7 @@ class _DeleteIcon extends StatelessWidget {
     return IconButton(
       onPressed: () => Navigator.pop(context, _EventModelSheetAction.delete),
       icon: const Icon(Icons.delete),
-      tooltip: 'Löschen',
+      tooltip: context.l10n.commonActionsDelete,
     );
   }
 }
@@ -305,7 +318,7 @@ class _EditIcon extends StatelessWidget {
     return IconButton(
       onPressed: () => Navigator.pop(context, _EventModelSheetAction.edit),
       icon: const Icon(Icons.edit),
-      tooltip: 'Bearbeiten',
+      tooltip: context.l10n.commonActionsEdit,
     );
   }
 }
@@ -339,10 +352,10 @@ class _AddToMyCalendarButton extends StatelessWidget {
     showSharezonePlusFeatureInfoDialog(
       context: context,
       navigateToPlusPage: () => navigateToSharezonePlusPage(context),
-      description: const Text(
-        'Mit Sharezone Plus kannst du kinderleicht die Termine aus Sharezone in deinen lokalen Kalender (z.B. Apple oder Google Kalender) übertragen.',
+      description: Text(
+        context.l10n.timetableEventDetailsAddToCalendarPlusDescription,
       ),
-      title: const Text('Termin zum Kalender hinzufügen'),
+      title: Text(context.l10n.timetableEventDetailsAddToCalendarTitle),
     );
   }
 
@@ -372,7 +385,7 @@ class _AddToMyCalendarButton extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Text(
-                        "In Kalender eintragen".toUpperCase(),
+                        context.l10n.timetableEventDetailsAddToCalendarButton,
                         textAlign: TextAlign.center,
                       ),
                     ),

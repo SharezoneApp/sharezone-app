@@ -14,6 +14,7 @@ import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -94,7 +95,7 @@ class _AppBar extends StatelessWidget {
         CloseIconButton(color: _getIconColor(context)),
       ],
       title: Text(
-        "Stunde hinzufügen",
+        context.l10n.timetableQuickCreateTitle,
         style: Theme.of(context).textTheme.titleLarge,
       ),
     );
@@ -108,7 +109,7 @@ class _JoinGroupIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.vpn_key),
-      tooltip: 'Kurs/Klasse beitreten',
+      tooltip: context.l10n.groupsJoinTitle,
       color: _getIconColor(context),
       onPressed: () => openGroupJoinPage(context),
     );
@@ -122,7 +123,7 @@ class _CreateCourseIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.add),
-      tooltip: 'Kurs erstellen',
+      tooltip: context.l10n.courseCreateTitle,
       color: _getIconColor(context),
       onPressed: () => Navigator.pushNamed(context, CourseTemplatePage.tag),
     );
@@ -145,7 +146,7 @@ class _EmptyCourseList extends StatelessWidget {
         child: Center(
           child: PlaceholderModel(
             iconSize: const Size(175, 175),
-            title: "Du bist noch keinem Kurs, bzw. keiner Klasse beigetreten!",
+            title: context.l10n.timetableQuickCreateEmptyTitle,
             svgPath: 'assets/icons/ghost.svg',
             animateSVG: true,
             subtitle: Padding(
@@ -155,7 +156,7 @@ class _EmptyCourseList extends StatelessWidget {
                   Expanded(
                     child: CourseManagementButton(
                       iconData: Icons.add,
-                      title: "Kurs erstellen",
+                      title: context.l10n.courseCreateTitle,
                       onTap:
                           () => Navigator.pushNamed(
                             context,
@@ -167,7 +168,7 @@ class _EmptyCourseList extends StatelessWidget {
                   Expanded(
                     child: CourseManagementButton(
                       iconData: Icons.vpn_key,
-                      title: "Kurs beitreten",
+                      title: context.l10n.timetableAddJoinCourseAction,
                       onTap: () => openGroupJoinPage(context),
                     ),
                   ),

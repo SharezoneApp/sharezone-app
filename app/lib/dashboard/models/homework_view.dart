@@ -48,17 +48,17 @@ class HomeworkView {
       clock.now().day,
     );
     if (dateTime.isBefore(todayDateTimeWithoutTime)) {
-      return "Überfällig!";
+      return "Overdue!";
     } else if (dateTime.isAtSameMomentAs(todayDateTimeWithoutTime)) {
-      return "Bis heute!";
+      return "Until today!";
     } else if (dateTime.isAtSameMomentAs(
       todayDateTimeWithoutTime.add(const Duration(days: 1)),
     )) {
-      return "Bis morgen!";
+      return "Until tomorrow!";
     } else if (dateTime.isAtSameMomentAs(
       todayDateTimeWithoutTime.add(const Duration(days: 2)),
     )) {
-      return "Bis übermorgen!";
+      return "Until the day after tomorrow!";
     } else {
       return _convertDateTimeIntoFormattedString(dateTime);
     }

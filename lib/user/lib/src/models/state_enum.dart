@@ -66,7 +66,7 @@ enum StateEnum {
   zug,
   zurich;
 
-  String getDisplayName(BuildContext context) {
+  String toLocalizedString(BuildContext context) {
     return switch (this) {
       StateEnum.badenWuerttemberg => context.l10n.stateBadenWuerttemberg,
       StateEnum.bayern => context.l10n.stateBayern,
@@ -188,7 +188,7 @@ const Map<StateEnum, String> stateEnumToString = {
 enum HolidayCountry { germany, austria, switzerland }
 
 extension HolidayCountryDisplayName on HolidayCountry {
-  String getDisplayName(BuildContext context) {
+  String toLocalizedString(BuildContext context) {
     return switch (this) {
       HolidayCountry.germany => context.l10n.countryGermany,
       HolidayCountry.austria => context.l10n.countryAustria,

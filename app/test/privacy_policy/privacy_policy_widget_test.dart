@@ -17,6 +17,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/legal/privacy_policy/src/ui/ui.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'helper.dart';
 
@@ -397,6 +398,8 @@ Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit ame
 
 Widget wrapWithScaffold(Widget privacyPolicyPage) {
   return MaterialApp(
+    localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+    supportedLocales: SharezoneLocalizations.supportedLocales,
     home: AnalyticsProvider(
       analytics: Analytics(NullAnalyticsBackend()),
       child: MultiProvider(

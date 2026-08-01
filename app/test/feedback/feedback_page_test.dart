@@ -15,6 +15,7 @@ import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/cooldown_exception.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:test_randomness/test_randomness.dart' as random;
 
 import 'feedback_bloc_test.dart';
@@ -70,6 +71,8 @@ void main() {
     Future<void> pumpFeedbackPage(WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+          supportedLocales: SharezoneLocalizations.supportedLocales,
           home: Material(
             child: BlocProvider(bloc: bloc, child: const FeedbackPageBody()),
           ),

@@ -9,20 +9,16 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/weekday.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/settings/src/subpages/timetable/weekdays/enabled_weekdays_edit_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
-import 'package:sharezone/timetable/src/edit_weekday.dart';
+import 'package:sharezone/settings/src/subpages/timetable/weekdays/enabled_weekdays_edit_bloc.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 void _showConfirmSnackBarOfSavingEnabledWeekDays(BuildContext context) {
-  showSnackSec(
-    context: context,
-    text: "Die Angabe der aktivierten Wochentage wurden erfolgreich geändert.",
-  );
+  showSnackSec(context: context, text: context.l10n.weekdaysEditSaved);
 }
 
 Future<void> openWeekDaysEditPage(BuildContext context) async {
@@ -102,7 +98,10 @@ class _WeekDaysEditPageState extends State<_WeekDaysEditPage> {
         child: Scaffold(
           key: scaffoldKey,
           backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
-          appBar: AppBar(title: const Text("Schultage"), centerTitle: true),
+          appBar: AppBar(
+            title: Text(context.l10n.weekdaysEditTitle),
+            centerTitle: true,
+          ),
           body: StreamBuilder<EnabledWeekDays>(
             stream: bloc.weekDays,
             builder: (context, snapshot) {
@@ -135,7 +134,7 @@ class _EnabledWeekDaysEditFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      tooltip: 'Speichern',
+      tooltip: context.l10n.commonActionsSave,
       onPressed: () => _submit(context),
       child: const Icon(Icons.done),
     );
@@ -153,7 +152,7 @@ class _WeekDayTile extends StatelessWidget {
     final bloc = BlocProvider.of<EnabledWeekDaysEditBloc>(context);
     return CheckboxListTile(
       value: isEnabled,
-      title: Text(getWeekDayText(weekDay)),
+      title: Text(weekDay.toLocalizedString(context)),
       onChanged: (newValue) {
         if (newValue == null) return;
         bloc.changeWeekDay(weekDay, newValue);

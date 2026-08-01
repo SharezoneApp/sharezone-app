@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/models/subject_id.dart';
 import 'package:sharezone/grades/models/term_id.dart';
@@ -48,7 +49,7 @@ class TermDetailsPage extends StatelessWidget {
         final state = context.watch<TermDetailsPageController>().state;
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Halbjahresdetails'),
+            title: Text(context.l10n.gradesTermDetailsPageTitle),
             actions: const [_DeleteIconButton()],
           ),
           body: SingleChildScrollView(
@@ -80,7 +81,7 @@ class _DeleteIconButton extends StatelessWidget {
     if (!isLoaded) return const SizedBox();
 
     return IconButton(
-      tooltip: 'Halbjahr löschen',
+      tooltip: context.l10n.gradesTermDetailsDeleteTooltip,
       icon: const Icon(Icons.delete),
       onPressed: () async {
         final shouldDelete = await showDialog<bool>(
@@ -106,19 +107,17 @@ class _ConfirmDeleteDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: const Text('Halbjahr löschen'),
-        content: const Text(
-          'Möchtest du das Halbjahr inkl. aller Noten wirklich löschen?\n\nDiese Aktion kann nicht rückgängig gemacht werden.',
-        ),
+        title: Text(context.l10n.gradesTermDetailsDeleteTitle),
+        content: Text(context.l10n.gradesTermDetailsDeleteDescription),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Abbrechen'),
+            child: Text(context.l10n.commonActionsCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Löschen'),
+            child: Text(context.l10n.commonActionsDelete),
           ),
         ],
       ),
@@ -204,7 +203,7 @@ class _TermInformationCard extends StatelessWidget {
             termId: termId,
             displayName: displayName,
             avgGrade: grade,
-            title: 'Aktuelles Halbjahr',
+            title: context.l10n.gradesCreateTermCurrentTerm,
           ),
         ],
       ),
@@ -261,7 +260,7 @@ class _EditSubjectIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final termId = context.watch<TermDetailsPageController>().termId;
     return IconButton(
-      tooltip: 'Fachnote bearbeiten',
+      tooltip: context.l10n.gradesTermDetailsEditSubjectTooltip,
       onPressed: () {
         Navigator.push(
           context,

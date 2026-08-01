@@ -14,7 +14,7 @@ class _WeekTypeTab extends StatelessWidget {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
     return _TimetableAddSection(
       index: 3,
-      title: 'Wähle einen Wochentypen aus',
+      title: context.l10n.timetableAddSelectWeekTypeTitle,
       child: StreamBuilder<WeekType>(
         stream: bloc.weekType,
         builder: (context, snapshot) {

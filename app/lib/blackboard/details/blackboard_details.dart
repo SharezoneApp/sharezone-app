@@ -23,6 +23,7 @@ import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../show_delete_blackboard_item_dialog.dart';
@@ -98,7 +99,7 @@ class _BlackboardDetailsState extends State<BlackboardDetails> {
           if (!snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(
-                title: const Text("Details"),
+                title: Text(context.l10n.blackboardDetailsTitle),
                 leading: const CloseIconButton(),
               ),
               body: const Center(child: AccentColorCircularProgressIndicator()),
@@ -111,7 +112,7 @@ class _BlackboardDetailsState extends State<BlackboardDetails> {
             appBar:
                 !view.hasPhoto
                     ? AppBar(
-                      title: const Text("Details"),
+                      title: Text(context.l10n.blackboardDetailsTitle),
                       centerTitle: dimensions.isDesktopModus,
                       leading: CloseIconButton(
                         color: getAppBarIconColor(view.hasPhoto),
@@ -152,7 +153,9 @@ class _BottomBlackboardDetailsIsReadActionButton extends StatelessWidget {
         Navigator.pop(context);
       },
       title:
-          hasUserReadItem ? "Als ungelesen markieren" : "Als gelesen markieren",
+          hasUserReadItem
+              ? context.l10n.blackboardMarkAsUnread
+              : context.l10n.blackboardMarkAsRead,
     );
   }
 }
@@ -200,7 +203,7 @@ class _DeleteIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: 'Eintrag löschen',
+      tooltip: context.l10n.commonActionsDelete,
       icon: Icon(Icons.delete, color: getAppBarIconColor(view!.hasPhoto)),
       onPressed:
           () => showDeleteBlackboardItemDialog(context, view, popTwice: true),
@@ -216,7 +219,7 @@ class _EditIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: "Bearbeiten",
+      tooltip: context.l10n.commonActionsEdit,
       icon: Icon(Icons.edit, color: getAppBarIconColor(view!.hasPhoto)),
       onPressed: () => onEdit(context, view!.item),
     );
@@ -350,14 +353,20 @@ class __UserReadTileState extends State<_UserReadTile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Diese Information ist für dich als ${widget.view.isAuthor ? "Autor" : "Admin"} sichtbar.",
+                        context.l10n.blackboardReadByInfoVisibleForRole(
+                          widget.view.isAuthor
+                              ? context.l10n.blackboardReadByRoleAuthor
+                              : context.l10n.blackboardReadByRoleAdmin,
+                        ),
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 10,
                         ),
                       ),
                       Text(
-                        "Gelesen von: ${widget.view.readPercent}%",
+                        context.l10n.blackboardReadByPercent(
+                          widget.view.readPercent,
+                        ),
                         style: TextStyle(color: widget.view.readPercentColor),
                       ),
                     ],
@@ -465,7 +474,9 @@ class _AttachmentList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           DividerWithText(
-            text: 'Anhänge: ${view.attachmentIDs.length}',
+            text: context.l10n.blackboardDetailsAttachmentsCount(
+              view.attachmentIDs.length,
+            ),
             fontSize: 16,
           ),
           const SizedBox(height: 4),

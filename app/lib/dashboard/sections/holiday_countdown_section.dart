@@ -18,7 +18,7 @@ class HolidayCountdownSection extends StatelessWidget {
     return BlocProvider(
       bloc: bloc,
       child: _Section(
-        title: const Text("Ferien-Countdown"),
+        title: Text(context.l10n.dashboardHolidayCountdownTitle),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
           child: CustomCard(
@@ -53,11 +53,11 @@ class _HolidayCounter extends StatelessWidget {
       child: StreamBuilder<List<Holiday?>>(
         stream: bloc.holidays,
         builder: (context, snapshot) {
-          if (snapshot.hasError) return handleError(snapshot.error);
+          if (snapshot.hasError) return handleError(context, snapshot.error);
           if (!snapshot.hasData) {
             return const Center(child: AccentColorCircularProgressIndicator());
           }
-          if (snapshot.data!.isEmpty) return handleError(null);
+          if (snapshot.data!.isEmpty) return handleError(context, null);
           return DefaultTextStyle(
             style: DefaultTextStyle.of(context).style,
             textAlign: TextAlign.center,
@@ -68,18 +68,18 @@ class _HolidayCounter extends StatelessWidget {
     );
   }
 
-  Widget handleError(Object? error) {
+  Widget handleError(BuildContext context, Object? error) {
     if (error is UnsupportedStateException) {
-      return const Center(
+      return Center(
         child: Text(
-          "Ferien können für dein ausgewähltes Bundesland nicht angezeigt werden! 😫\nDu kannst das Bundesland in den Einstellungen ändern.",
+          context.l10n.dashboardHolidayCountdownUnsupportedStateError,
           textAlign: TextAlign.center,
         ),
       );
     }
-    return const Center(
+    return Center(
       child: Text(
-        "💣 Boooomm.... Etwas ist kaputt gegangen. Starte am besten die App einmal neu 👍",
+        context.l10n.dashboardHolidayCountdownGeneralError,
         textAlign: TextAlign.center,
       ),
     );
@@ -95,7 +95,9 @@ class _HolidayText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: _buildHolidayWidgets(holidayList, maxItems));
+    return Column(
+      children: _buildHolidayWidgets(context, holidayList, maxItems),
+    );
   }
 
   Text handleError(
@@ -108,16 +110,18 @@ class _HolidayText extends StatelessWidget {
       stackTrace: snapshot.stackTrace,
     );
     if (snapshot.error is UnsupportedStateException) {
-      return const Text(
-        "Ferien konnten für dein Bundesland nicht angezeigt werden",
+      return Text(
+        context.l10n.dashboardHolidayCountdownUnsupportedStateShortError,
       );
     }
-    return const Text(
-      "Es gab einen Fehler beim Anzeigen von den Ferien.\nFalls dieser Fehler öfters auftaucht kontaktiere uns bitte.",
-    );
+    return Text(context.l10n.dashboardHolidayCountdownDisplayError);
   }
 
-  List<Widget> _buildHolidayWidgets(List<Holiday?> holidayList, int maxItems) {
+  List<Widget> _buildHolidayWidgets(
+    BuildContext context,
+    List<Holiday?> holidayList,
+    int maxItems,
+  ) {
     List<Widget> widgetList = [];
     if (holidayList.length > maxItems) {
       holidayList = List.from(holidayList.getRange(0, maxItems));
@@ -133,20 +137,44 @@ class _HolidayText extends StatelessWidget {
         emoji = daysTillHolidayBeginn > 24 ? "😴" : "😍";
         String text =
             daysTillHolidayBeginn > 1
-                ? "In $daysTillHolidayBeginn Tagen $emoji"
-                : "Morgen 😱🎉";
-        textWidget = Text("$holidayTitle: $text");
+                ? context.l10n.dashboardHolidayCountdownInDays(
+                  daysTillHolidayBeginn,
+                  emoji,
+                )
+                : context.l10n.dashboardHolidayCountdownTomorrow;
+        textWidget = Text(
+          context.l10n.dashboardHolidayCountdownHolidayLine(text, holidayTitle),
+        );
       } else if (daysTillHolidayBeginn == 0) {
         emoji = "🎉🎉🙌";
-        textWidget = Text("$holidayTitle: JETZT, WOOOOOOO! $emoji");
+        textWidget = Text(
+          context.l10n.dashboardHolidayCountdownHolidayLine(
+            context.l10n.dashboardHolidayCountdownNow(emoji),
+            holidayTitle,
+          ),
+        );
       } else {
         int daysTillHolidayEnd = holiday.end.difference(clock.now()).inDays;
         if (daysTillHolidayEnd == 0) {
-          textWidget = Text("$holidayTitle: Letzer Tag 😱");
+          textWidget = Text(
+            context.l10n.dashboardHolidayCountdownHolidayLine(
+              context.l10n.dashboardHolidayCountdownLastDay,
+              holidayTitle,
+            ),
+          );
         } else {
           emoji = daysTillHolidayEnd > 4 ? "☺🎈" : "😔";
           textWidget = Text(
-            "$holidayTitle: Noch $daysTillHolidayEnd ${daysTillHolidayEnd > 1 ? "Tage" : "Tag"} $emoji",
+            context.l10n.dashboardHolidayCountdownHolidayLine(
+              context.l10n.dashboardHolidayCountdownRemaining(
+                daysTillHolidayEnd > 1
+                    ? context.l10n.dashboardHolidayCountdownDayUnitDays
+                    : context.l10n.dashboardHolidayCountdownDayUnitDay,
+                daysTillHolidayEnd,
+                emoji,
+              ),
+              holidayTitle,
+            ),
           );
         }
       }
@@ -187,9 +215,9 @@ class _SelectStateDialog extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const Text(
-            "Durch das Auswählen deiner Region können wir berechnen, wie lange du dich noch in der Schule quälen musst, bis endlich die Ferien sind 😉",
-            style: TextStyle(color: Colors.grey, fontSize: 12),
+          Text(
+            context.l10n.dashboardHolidayCountdownSelectStateHint,
+            style: const TextStyle(color: Colors.grey, fontSize: 12),
           ),
         ],
       ),

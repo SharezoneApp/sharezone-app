@@ -11,6 +11,7 @@ import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/models/sheet_option.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> selectFolderAction({
@@ -28,9 +29,9 @@ Future<void> selectFolderAction({
         context: context,
         builder:
             (context) => OneTextFieldDialog(
-              actionName: "Umbenennen".toUpperCase(),
-              hint: "Neuer Name",
-              title: "Ordner umbenennen",
+              actionName: context.l10n.fileSharingRenameActionUppercase,
+              hint: context.l10n.fileSharingNewNameHint,
+              title: context.l10n.fileSharingRenameFolderTitle,
               text: folder.name,
               onTap: (name) {
                 final renamedFolder = folder.copyWith(name: name);
@@ -49,9 +50,9 @@ Future<void> selectFolderAction({
         context: context,
         popTwice: false,
         description: Text(
-          "Möchtest du wirklich den Ordner mit dem Namen \"${folder.name}\" löschen?",
+          context.l10n.fileSharingDeleteFolderDescription(folder.name ?? ""),
         ),
-        title: "Ordner löschen?",
+        title: context.l10n.fileSharingDeleteFolderTitle,
         onDelete:
             () => api.fileSharing.folderGateway.deleteFolder(
               courseID!,

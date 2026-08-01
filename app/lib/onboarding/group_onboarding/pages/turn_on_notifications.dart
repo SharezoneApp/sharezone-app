@@ -15,6 +15,7 @@ import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_blo
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/bottom_bar_button.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/title.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'is_it_first_person_using_sharezone.dart';
@@ -46,9 +47,7 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GroupOnboardingTitle(
-      "Erinnerungen und Benachrichtigungen erhalten",
-    );
+    return GroupOnboardingTitle(context.l10n.onboardingNotificationsTitle);
   }
 }
 
@@ -65,9 +64,9 @@ class _Description extends StatelessWidget {
   String getText(BuildContext context) {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
     if (bloc.isStudent) {
-      return 'Wir können dich an offene Hausaufgaben erinnern 😉 Zudem kannst du eine Benachrichtigung erhalten, wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt.';
+      return context.l10n.onboardingNotificationsDescriptionStudent;
     }
-    return 'Wenn jemand einen neuen Infozettel einträgt oder dir eine Nachricht schreibt, erhältst du eine Benachrichtigung. Somit bleibst du immer auf dem aktuellen Stand 💪';
+    return context.l10n.onboardingNotificationsDescriptionGeneral;
   }
 }
 
@@ -99,19 +98,20 @@ class _NotNowButton extends StatelessWidget {
         }
       },
       style: TextButton.styleFrom(foregroundColor: Colors.grey),
-      child: const Text("Nicht jetzt"),
+      child: Text(context.l10n.commonActionsNotNow),
     );
   }
 
   Future<bool?> confirmDialog(BuildContext context) {
     return showLeftRightAdaptiveDialog<bool>(
       context: context,
-      title: 'Keine Push-Nachrichten? 🤨',
-      content: const Text(
-        "Bist du dir sicher, dass du keine Benachrichtigungen erhalten möchtest?\n\nSollte jemand einen Infozettel eintragen, einen Kommentar zu einer Hausaufgabe hinzufügen oder dir eine Nachricht schreiben, würdest du keine Push-Nachrichten erhalten.",
-      ),
+      title: context.l10n.onboardingNotificationsConfirmTitle,
+      content: Text(context.l10n.onboardingNotificationsConfirmBody),
       defaultValue: false,
-      right: const AdaptiveDialogAction(title: 'Ja', popResult: true),
+      right: AdaptiveDialogAction(
+        title: context.l10n.commonActionsYes,
+        popResult: true,
+      ),
     );
   }
 }
@@ -128,7 +128,7 @@ class _TurnOnButton extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: BottomBarButton(
-                text: 'Aktivieren',
+                text: context.l10n.onboardingNotificationsEnable,
                 onTap: () async {
                   await requestNotificationsPermission(context);
                   if (!context.mounted) return;

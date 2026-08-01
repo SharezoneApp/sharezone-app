@@ -10,6 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/groups/group_join/pages/group_join_course_selection_page.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'bloc/group_join_bloc.dart';
@@ -34,7 +35,7 @@ class GroupJoinResultDialog {
         body: SuccessfulJoinResultDialog(result: groupJoinResult),
         actions: [
           ActionItem(
-            title: "Mehr beitreten",
+            title: context.l10n.groupJoinResultJoinMoreAction,
             onSelect: () {
               groupJoinBloc.clear();
               Navigator.pop(context);
@@ -43,7 +44,7 @@ class GroupJoinResultDialog {
             },
           ),
           ActionItem(
-            title: "Fertig",
+            title: context.l10n.commonActionsDone,
             color: Theme.of(context).primaryColor,
             textColor: Colors.white,
             onSelect: () async {
@@ -68,7 +69,7 @@ class GroupJoinResultDialog {
         body: RequireCourseSelectionsJoinResultDialog(result: groupJoinResult),
         actions: [
           ActionItem(
-            title: "Kurse auswählen",
+            title: context.l10n.groupJoinResultSelectCoursesAction,
             onSelect: () {
               openGroupJoinCourseSelectionPage(context, groupJoinResult);
             },
@@ -81,7 +82,7 @@ class GroupJoinResultDialog {
         body: ErrorJoinResultDialog(errorJoinResult: groupJoinResult),
         actions: [
           ActionItem(
-            title: "Nochmal versuchen",
+            title: context.l10n.groupJoinResultRetryAction,
             onSelect: () => groupJoinBloc.retry(),
           ),
         ],

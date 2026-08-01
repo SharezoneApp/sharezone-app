@@ -14,7 +14,6 @@ export 'src/buying_failed_dialog.dart';
 export 'src/call_to_action_button.dart';
 export 'src/sharezone_plus_advantages.dart';
 export 'src/sharezone_plus_faq.dart';
-export 'src/sharezone_plus_legal_text.dart';
 export 'src/sharezone_plus_page_header.dart';
 export 'src/sharezone_plus_page_theme.dart';
 export 'src/sharezone_plus_support_note.dart';

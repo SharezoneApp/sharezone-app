@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:sharezone/dynamic_links/einkommender_link.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class DynamicLinkOverlay extends StatelessWidget {
   final Stream<EinkommenderLink> einkommendeLinks;
@@ -32,10 +33,13 @@ class DynamicLinkOverlay extends StatelessWidget {
         // https://github.com/SharezoneApp/sharezone-app/issues/659
         if (snapshot.hasData && !snapshot.data!.empty && activated == true) {
           final einkommenderLink = snapshot.data;
+          final newLinkText = context.l10n.dynamicLinksNewLinkNotification(
+            '$einkommenderLink',
+          );
           // If Notification is shown directly an Error as thrown, as it can't be displayed while this is still bulding (marked as dirty)
           Future.delayed(const Duration(seconds: 1)).then(
             (_) => showSimpleNotification(
-              Text("Neuer dynamic Link: \n$einkommenderLink"),
+              Text(newLinkText),
               autoDismiss: false,
               slideDismissDirection: DismissDirection.horizontal,
               leading: const Icon(Icons.link),
