@@ -148,10 +148,11 @@ class TermSettingsPageController extends ChangeNotifier {
   }
 
   Future<void> setSubjectWeight(SubjectId subjectId, Weight weight) async {
-    final subRef = termRef.subject(subjectId);
+    TermSubjectRef subRef = termRef.subject(subjectId);
     final isNewSubject = gradesService.getSubject(subjectId) == null;
     if (isNewSubject) {
-      subjectId = _createSubject(subRef);
+      final newSubjectId = _createSubject(subRef);
+      subRef = termRef.subject(newSubjectId);
 
       // Firestore had a soft limit of 1 write per second per document. However,
       // this limit isn't mentioned in the documentation anymore. We still keep
