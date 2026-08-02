@@ -8,6 +8,10 @@
 
 import 'dart:math';
 
+final _secureRandom = Random.secure();
+const _chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+final _charCodes = _chars.codeUnits;
+
 class Id {
   final String value;
 
@@ -21,15 +25,12 @@ class Id {
   /// Generates a new random [Id] with the given [length] using characters
   /// from a-z, A-Z and 0-9.
   static Id generate({int length = 20, Random? random}) {
-    random ??= Random();
-    const chars =
-        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    final id =
-        List.generate(
-          length,
-          (index) => chars[random!.nextInt(chars.length)],
-        ).join();
-    return Id(id);
+    final rand = random ?? _secureRandom;
+    final codes = List<int>.generate(
+      length,
+      (_) => _charCodes[rand.nextInt(_charCodes.length)],
+    );
+    return Id(String.fromCharCodes(codes));
   }
 
   @override
