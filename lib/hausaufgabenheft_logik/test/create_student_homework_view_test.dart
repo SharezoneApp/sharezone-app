@@ -111,6 +111,20 @@ void main() {
         expect(tomorrowView.colorDate, true);
       },
     );
+
+    test(
+      'date should not get colored if the homework is due in 2 days (boundary condition)',
+      () {
+        // currentDate is 2018-12-03
+        // in 2 days is 2018-12-05
+        final in2Days = createHomework(todoDate: currentDate.addDays(2));
+
+        final view = viewFactory.createFrom(in2Days);
+
+        expect(view.colorDate, false);
+      },
+    );
+
     test('date should not get colored if the homework is not overdue', () {
       var todoDate = const Date(year: 2020, month: 02, day: 01);
       final hw = createHomework(todoDate: todoDate);
