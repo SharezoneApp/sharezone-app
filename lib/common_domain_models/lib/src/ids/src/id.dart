@@ -21,7 +21,7 @@ class Id {
   /// Generates a new random [Id] with the given [length] using characters
   /// from a-z, A-Z and 0-9.
   static Id generate({int length = 20, Random? random}) {
-    random ??= Random();
+    random ??= Random.secure();
     const chars =
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final id =
