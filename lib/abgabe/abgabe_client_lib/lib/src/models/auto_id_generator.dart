@@ -16,7 +16,8 @@ class AutoIdGenerator {
   static const String alphabet =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-  static final Random _random = Random();
+  // Use Random.secure() to prevent predicting auto-generated IDs
+  static final Random _random = Random.secure();
 
   /// Automatically Generates a random new Id
   static String autoId() {
