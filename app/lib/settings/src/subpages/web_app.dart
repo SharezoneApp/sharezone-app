@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:developer';
-
 import 'package:authentification_qrcode/authentification_qrcode.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -133,11 +131,17 @@ class _ScanQrCode extends StatelessWidget {
           onTap: () async {
             final qrCode = await _scanQRCode(context);
             if (qrCode != null && context.mounted) {
+              if (qrCode.length < 10 ||
+                  qrCode.length > 40 ||
+                  !RegExp(r'^[a-zA-Z0-9\-_]+$').hasMatch(qrCode)) {
+                showSnackSec(context: context, text: 'Ungültiger QR-Code');
+                return;
+              }
+
               final hostBloc =
                   BlocProvider.of<QrSignInAuthentificationDeviceBloc>(context);
               final futureResult = hostBloc.authenticateUserViaQrCodeId(qrCode);
               showSimpleStateDialog(context, futureResult);
-              log("qrcode: $qrCode");
             }
           },
         ),
