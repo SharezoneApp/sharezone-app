@@ -100,20 +100,29 @@ class _PassedLessonFade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine the split point for the fade effect.
+    // 1.0 (top) corresponds to percentTimePassed = 0.
+    // 0.0 (bottom) corresponds to percentTimePassed = 1.
+    // So splitPoint = 1 - percentTimePassed.
+    final splitPoint = 1 - (percentTimePassed ?? 0.0);
+
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 375),
-      child: Stack(
+      child: ShaderMask(
         key: ValueKey("$lessonID;$hasAlreadyTakenPlace"),
-        children: <Widget>[
-          Opacity(opacity: 0.5, child: child),
-          ClipRRect(
-            child: Align(
-              alignment: Alignment.topCenter,
-              heightFactor: 1 - percentTimePassed!,
-              child: child,
-            ),
-          ),
-        ],
+        shaderCallback: (rect) {
+          return LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [splitPoint, splitPoint],
+            colors: [
+              Colors.white,
+              Colors.white.withValues(alpha: 0.5),
+            ],
+          ).createShader(rect);
+        },
+        blendMode: BlendMode.modulate,
+        child: child,
       ),
     );
   }
