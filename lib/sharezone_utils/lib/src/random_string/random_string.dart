@@ -8,22 +8,23 @@
 
 import 'dart:math';
 
-String randomString(int length) {
-  var rand = Random();
-  var codeUnits = List.generate(length, (index) {
-    return rand.nextInt(33) + 89;
-  });
+final _rand = Random();
 
-  return String.fromCharCodes(codeUnits);
+String randomString(int length) {
+  final buffer = StringBuffer();
+  for (var i = 0; i < length; i++) {
+    buffer.writeCharCode(_rand.nextInt(33) + 89);
+  }
+
+  return buffer.toString();
 }
 
 String randomIDString(int length) {
-  var rand = Random();
   const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  String result = "";
+  final buffer = StringBuffer();
   for (var i = 0; i < length; i++) {
-    result += chars[rand.nextInt(chars.length)];
+    buffer.write(chars[_rand.nextInt(chars.length)]);
   }
-  return result;
+  return buffer.toString();
 }
